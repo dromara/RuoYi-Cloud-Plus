@@ -1,5 +1,7 @@
 package com.ruoyi.file.config;
 
+import lombok.*;
+import lombok.experimental.Accessors;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,10 +12,13 @@ import io.minio.MinioClient;
  *
  * @author ruoyi
  */
+@Data
+@NoArgsConstructor
+@Accessors(chain = true)
 @Configuration
 @ConfigurationProperties(prefix = "minio")
-public class MinioConfig
-{
+public class MinioConfig {
+
     /**
      * 服务地址
      */
@@ -34,49 +39,8 @@ public class MinioConfig
      */
     private String bucketName;
 
-    public String getUrl()
-    {
-        return url;
-    }
-
-    public void setUrl(String url)
-    {
-        this.url = url;
-    }
-
-    public String getAccessKey()
-    {
-        return accessKey;
-    }
-
-    public void setAccessKey(String accessKey)
-    {
-        this.accessKey = accessKey;
-    }
-
-    public String getSecretKey()
-    {
-        return secretKey;
-    }
-
-    public void setSecretKey(String secretKey)
-    {
-        this.secretKey = secretKey;
-    }
-
-    public String getBucketName()
-    {
-        return bucketName;
-    }
-
-    public void setBucketName(String bucketName)
-    {
-        this.bucketName = bucketName;
-    }
-
     @Bean
-    public MinioClient getMinioClient()
-    {
+    public MinioClient getMinioClient() {
         return MinioClient.builder().endpoint(url).credentials(accessKey, secretKey).build();
     }
 }

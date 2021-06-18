@@ -19,9 +19,9 @@ public class CharsetKit
     public static final String GBK = "GBK";
 
     /** ISO-8859-1 */
-    public static final Charset CHARSET_ISO_8859_1 = Charset.forName(ISO_8859_1);
+    public static final Charset CHARSET_ISO_8859_1 = StandardCharsets.ISO_8859_1;
     /** UTF-8 */
-    public static final Charset CHARSET_UTF_8 = Charset.forName(UTF_8);
+    public static final Charset CHARSET_UTF_8 = StandardCharsets.UTF_8;
     /** GBK */
     public static final Charset CHARSET_GBK = Charset.forName(GBK);
 
