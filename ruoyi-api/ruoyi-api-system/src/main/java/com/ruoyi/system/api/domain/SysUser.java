@@ -139,9 +139,11 @@ public class SysUser extends BaseEntity {
      */
     private Long[] postIds;
 
-    public SysUser(Long userId) {
-        this.userId = userId;
-    }
+    /**
+     * 角色ID
+     */
+    private Long roleId;
+
 
     public boolean isAdmin() {
         return isAdmin(this.userId);

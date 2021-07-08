@@ -67,6 +67,32 @@ public class SysUserServiceImpl implements ISysUserService
     }
 
     /**
+     * 根据条件分页查询已分配用户角色列表
+     * 
+     * @param user 用户信息
+     * @return 用户信息集合信息
+     */
+    @Override
+    @DataScope(deptAlias = "d", userAlias = "u")
+    public List<SysUser> selectAllocatedList(SysUser user)
+    {
+        return userMapper.selectAllocatedList(user);
+    }
+
+    /**
+     * 根据条件分页查询未分配用户角色列表
+     * 
+     * @param user 用户信息
+     * @return 用户信息集合信息
+     */
+    @Override
+    @DataScope(deptAlias = "d", userAlias = "u")
+    public List<SysUser> selectUnallocatedList(SysUser user)
+    {
+        return userMapper.selectUnallocatedList(user);
+    }
+
+    /**
      * 通过用户名查询用户
      * 
      * @param userName 用户名
@@ -243,6 +269,19 @@ public class SysUserServiceImpl implements ISysUserService
     }
 
     /**
+     * 用户授权角色
+     * 
+     * @param userId 用户ID
+     * @param roleIds 角色组
+     */
+    @Override
+    public void insertUserAuth(Long userId, Long[] roleIds)
+    {
+        userRoleMapper.deleteUserRoleByUserId(userId);
+        insertUserRole(userId, roleIds);
+    }
+
+    /**
      * 修改用户状态
      * 
      * @param user 用户信息
@@ -352,6 +391,32 @@ public class SysUserServiceImpl implements ISysUserService
             if (list.size() > 0)
             {
                 userPostMapper.batchUserPost(list);
+            }
+        }
+    }
+
+    /**
+     * 新增用户角色信息
+     * 
+     * @param userId 用户ID
+     * @param roleIds 角色组
+     */
+    public void insertUserRole(Long userId, Long[] roleIds)
+    {
+        if (StringUtils.isNotNull(roleIds))
+        {
+            // 新增用户与角色管理
+            List<SysUserRole> list = new ArrayList<SysUserRole>();
+            for (Long roleId : roleIds)
+            {
+                SysUserRole ur = new SysUserRole();
+                ur.setUserId(userId);
+                ur.setRoleId(roleId);
+                list.add(ur);
+            }
+            if (list.size() > 0)
+            {
+                userRoleMapper.batchUserRole(list);
             }
         }
     }
