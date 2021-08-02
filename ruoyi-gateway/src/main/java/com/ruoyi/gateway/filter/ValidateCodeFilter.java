@@ -9,15 +9,13 @@ import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFac
 import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.core.io.buffer.DataBufferUtils;
 import org.springframework.http.server.reactive.ServerHttpRequest;
-import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Component;
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.ruoyi.common.core.utils.ServletUtils;
 import com.ruoyi.common.core.utils.StringUtils;
-import com.ruoyi.common.core.web.domain.AjaxResult;
+import com.ruoyi.gateway.config.properties.CaptchaProperties;
 import com.ruoyi.gateway.service.ValidateCodeService;
 import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
 
 /**
  * 验证码过滤器
@@ -27,10 +25,13 @@ import reactor.core.publisher.Mono;
 @Component
 public class ValidateCodeFilter extends AbstractGatewayFilterFactory<Object>
 {
-    private final static String AUTH_URL = "/auth/login";
+    private final static String[] VALIDATE_URL = new String[] { "/auth/login", "/auth/register" };
 
     @Autowired
     private ValidateCodeService validateCodeService;
+
+    @Autowired
+    private CaptchaProperties captchaProperties;
 
     private static final String CODE = "code";
 
@@ -42,8 +43,8 @@ public class ValidateCodeFilter extends AbstractGatewayFilterFactory<Object>
         return (exchange, chain) -> {
             ServerHttpRequest request = exchange.getRequest();
 
-            // 非登录请求，不处理
-            if (!StringUtils.containsIgnoreCase(request.getURI().getPath(), AUTH_URL))
+            // 非登录/注册请求或验证码关闭，不处理
+            if (!StringUtils.containsAnyIgnoreCase(request.getURI().getPath(), VALIDATE_URL) || !captchaProperties.getEnabled())
             {
                 return chain.filter(exchange);
             }
@@ -56,10 +57,7 @@ public class ValidateCodeFilter extends AbstractGatewayFilterFactory<Object>
             }
             catch (Exception e)
             {
-                ServerHttpResponse response = exchange.getResponse();
-                response.getHeaders().add("Content-Type", "application/json;charset=UTF-8");
-                return exchange.getResponse().writeWith(
-                        Mono.just(response.bufferFactory().wrap(JSON.toJSONBytes(AjaxResult.error(e.getMessage())))));
+                return ServletUtils.webFluxResponseWriter(exchange.getResponse(), e.getMessage());
             }
             return chain.filter(exchange);
         };
