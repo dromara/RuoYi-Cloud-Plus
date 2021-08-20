@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.ruoyi.common.core.constant.UserConstants;
-import com.ruoyi.common.core.exception.CustomException;
+import com.ruoyi.common.core.exception.ServiceException;
 import com.ruoyi.common.core.utils.StringUtils;
 import com.ruoyi.common.security.utils.DictUtils;
 import com.ruoyi.system.api.domain.SysDictData;
@@ -122,7 +122,7 @@ public class SysDictTypeServiceImpl implements ISysDictTypeService
             SysDictType dictType = selectDictTypeById(dictId);
             if (dictDataMapper.countDictDataByType(dictType.getDictType()) > 0)
             {
-                throw new CustomException(String.format("%1$s已分配,不能删除", dictType.getDictName()));
+                throw new ServiceException(String.format("%1$s已分配,不能删除", dictType.getDictName()));
             }
             dictTypeMapper.deleteDictTypeById(dictId);
             DictUtils.removeDictCache(dictType.getDictType());
@@ -132,6 +132,7 @@ public class SysDictTypeServiceImpl implements ISysDictTypeService
     /**
      * 加载字典缓存数据
      */
+    @Override
     public void loadingDictCache()
     {
         List<SysDictType> dictTypeList = dictTypeMapper.selectDictTypeAll();
@@ -145,6 +146,7 @@ public class SysDictTypeServiceImpl implements ISysDictTypeService
     /**
      * 清空字典缓存数据
      */
+    @Override
     public void clearDictCache()
     {
         DictUtils.clearDictCache();
@@ -153,6 +155,7 @@ public class SysDictTypeServiceImpl implements ISysDictTypeService
     /**
      * 重置字典缓存数据
      */
+    @Override
     public void resetDictCache()
     {
         clearDictCache();
