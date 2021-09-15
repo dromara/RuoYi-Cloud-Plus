@@ -9,7 +9,6 @@ import lombok.*;
 import lombok.experimental.Accessors;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
-
 import com.ruoyi.common.core.web.domain.BaseEntity;
 
 /**
@@ -62,6 +61,11 @@ public class SysMenu extends BaseEntity {
      */
     @Size(min = 0, max = 200, message = "组件路径不能超过255个字符")
     private String component;
+
+    /**
+     * 路由参数
+     */
+    private String query;
 
     /**
      * 是否为外链（0是 1否）
