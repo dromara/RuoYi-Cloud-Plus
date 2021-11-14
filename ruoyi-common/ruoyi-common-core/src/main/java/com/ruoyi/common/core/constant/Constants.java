@@ -97,10 +97,6 @@ public class Constants
      */
     public static final long CAPTCHA_EXPIRATION = 2;
 
-    /**
-     * 令牌有效期（分钟）
-     */
-    public final static long TOKEN_EXPIRE = 720;
 
     /**
      * 参数管理 cache key
@@ -116,4 +112,10 @@ public class Constants
      * 资源映射路径 前缀
      */
     public static final String RESOURCE_PREFIX = "/profile";
+
+    /**
+     * 定时任务违规的字符
+     */
+    public static final String[] JOB_ERROR_STR = { "java.net.URL", "javax.naming.InitialContext", "org.yaml.snakeyaml",
+            "org.springframework.jndi" };
 }
