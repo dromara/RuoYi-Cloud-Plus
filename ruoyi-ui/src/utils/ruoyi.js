@@ -3,8 +3,6 @@
  * Copyright (c) 2019 ruoyi
  */
 
-const baseURL = process.env.VUE_APP_BASE_API
-
 // 日期格式化
 export function parseTime(time, pattern) {
 	if (arguments.length === 0 || !time) {
@@ -87,17 +85,12 @@ export function selectDictLabels(datas, value, separator) {
 	var temp = value.split(currentSeparator);
 	Object.keys(value.split(currentSeparator)).some((val) => {
 		Object.keys(datas).some((key) => {
-			if (datas[key].dictValue == ('' + temp[val])) {
-				actions.push(datas[key].dictLabel + currentSeparator);
+			if (datas[key].value == ('' + temp[val])) {
+				actions.push(datas[key].label + currentSeparator);
 			}
 		})
 	})
 	return actions.join('').substring(0, actions.join('').length - 1);
-}
-
-// 通用下载方法
-export function download(fileName) {
-	window.location.href = baseURL + "/common/download?fileName=" + encodeURI(fileName) + "&delete=" + true;
 }
 
 // 字符串格式化(%s )
