@@ -4,6 +4,8 @@ import java.util.Collection;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.AfterThrowing;
@@ -30,12 +32,12 @@ import com.ruoyi.system.api.domain.SysOperLog;
  * 
  * @author ruoyi
  */
+@Slf4j
 @Aspect
 @Component
 public class LogAspect
 {
-    private static final Logger log = LoggerFactory.getLogger(LogAspect.class);
-    
+
     @Autowired
     private AsyncLogService asyncLogService;
 

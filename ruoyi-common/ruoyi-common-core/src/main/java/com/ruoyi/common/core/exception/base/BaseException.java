@@ -1,10 +1,15 @@
 package com.ruoyi.common.core.exception.base;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
 /**
  * 基础异常
  * 
  * @author ruoyi
  */
+@Getter
+@AllArgsConstructor
 public class BaseException extends RuntimeException
 {
     private static final long serialVersionUID = 1L;
@@ -29,14 +34,6 @@ public class BaseException extends RuntimeException
      */
     private String defaultMessage;
 
-    public BaseException(String module, String code, Object[] args, String defaultMessage)
-    {
-        this.module = module;
-        this.code = code;
-        this.args = args;
-        this.defaultMessage = defaultMessage;
-    }
-
     public BaseException(String module, String code, Object[] args)
     {
         this(module, code, args, null);
@@ -57,23 +54,4 @@ public class BaseException extends RuntimeException
         this(null, null, null, defaultMessage);
     }
 
-    public String getModule()
-    {
-        return module;
-    }
-
-    public String getCode()
-    {
-        return code;
-    }
-
-    public Object[] getArgs()
-    {
-        return args;
-    }
-
-    public String getDefaultMessage()
-    {
-        return defaultMessage;
-    }
 }

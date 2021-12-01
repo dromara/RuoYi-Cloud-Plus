@@ -22,6 +22,7 @@ import com.ruoyi.job.util.CronUtils;
  * @author ruoyi
  */
 @Data
+@EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @Accessors(chain = true)
 public class SysJob extends BaseEntity {

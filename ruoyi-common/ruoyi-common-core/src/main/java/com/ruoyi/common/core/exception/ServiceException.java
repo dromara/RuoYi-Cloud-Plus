@@ -21,8 +21,6 @@ public final class ServiceException extends RuntimeException
 
     /**
      * 错误明细，内部调试错误
-     *
-     * 和 {@link CommonResult#getDetailMessage()} 一致的设计
      */
     private String detailMessage;
 

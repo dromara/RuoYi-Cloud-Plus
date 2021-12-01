@@ -15,6 +15,7 @@ import lombok.experimental.Accessors;
  * @author ruoyi
  */
 @Data
+@EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @Accessors(chain = true)
 public class SysLogininfor extends BaseEntity {

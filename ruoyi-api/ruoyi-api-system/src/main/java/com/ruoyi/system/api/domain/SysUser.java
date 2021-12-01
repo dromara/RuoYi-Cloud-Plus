@@ -23,6 +23,7 @@ import com.ruoyi.common.core.web.domain.BaseEntity;
  * @author ruoyi
  */
 @Data
+@EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @Accessors(chain = true)
 public class SysUser extends BaseEntity {
