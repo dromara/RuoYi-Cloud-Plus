@@ -2,9 +2,7 @@ package com.ruoyi.system.api.domain;
 
 import java.util.Date;
 import java.util.List;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 
 import lombok.*;
 import lombok.experimental.Accessors;
@@ -16,6 +14,7 @@ import com.ruoyi.common.core.annotation.Excel.ColumnType;
 import com.ruoyi.common.core.annotation.Excel.Type;
 import com.ruoyi.common.core.annotation.Excels;
 import com.ruoyi.common.core.web.domain.BaseEntity;
+import com.ruoyi.common.core.xss.Xss;
 
 /**
  * 用户对象 sys_user
@@ -44,6 +43,7 @@ public class SysUser extends BaseEntity {
     /**
      * 用户账号
      */
+    @Xss(message = "用户账号不能包含脚本字符")
     @NotBlank(message = "用户账号不能为空")
     @Size(min = 0, max = 30, message = "用户账号长度不能超过30个字符")
     @Excel(name = "登录名称")
@@ -52,6 +52,7 @@ public class SysUser extends BaseEntity {
     /**
      * 用户昵称
      */
+    @Xss(message = "用户昵称不能包含脚本字符")
     @Size(min = 0, max = 30, message = "用户昵称长度不能超过30个字符")
     @Excel(name = "用户名称")
     private String nickName;

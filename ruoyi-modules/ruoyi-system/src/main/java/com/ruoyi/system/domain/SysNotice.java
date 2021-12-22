@@ -7,8 +7,8 @@ import lombok.*;
 import lombok.experimental.Accessors;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
-
 import com.ruoyi.common.core.web.domain.BaseEntity;
+import com.ruoyi.common.core.xss.Xss;
 
 /**
  * 通知公告表 sys_notice
@@ -30,6 +30,7 @@ public class SysNotice extends BaseEntity {
     /**
      * 公告标题
      */
+    @Xss(message = "公告标题不能包含脚本字符")
     @NotBlank(message = "公告标题不能为空")
     @Size(min = 0, max = 50, message = "公告标题不能超过50个字符")
     private String noticeTitle;
