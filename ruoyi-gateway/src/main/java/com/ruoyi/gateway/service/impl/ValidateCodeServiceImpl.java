@@ -1,13 +1,5 @@
 package com.ruoyi.gateway.service.impl;
 
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.util.concurrent.TimeUnit;
-import javax.annotation.Resource;
-import javax.imageio.ImageIO;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.util.FastByteArrayOutputStream;
 import com.google.code.kaptcha.Producer;
 import com.ruoyi.common.core.constant.Constants;
 import com.ruoyi.common.core.exception.CaptchaException;
@@ -15,9 +7,18 @@ import com.ruoyi.common.core.utils.IdUtils;
 import com.ruoyi.common.core.utils.StringUtils;
 import com.ruoyi.common.core.utils.sign.Base64;
 import com.ruoyi.common.core.web.domain.AjaxResult;
-import com.ruoyi.common.redis.service.RedisService;
+import com.ruoyi.common.redis.utils.RedisUtils;
 import com.ruoyi.gateway.config.properties.CaptchaProperties;
 import com.ruoyi.gateway.service.ValidateCodeService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.util.FastByteArrayOutputStream;
+
+import javax.annotation.Resource;
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 验证码实现处理
@@ -32,9 +33,6 @@ public class ValidateCodeServiceImpl implements ValidateCodeService
 
     @Resource(name = "captchaProducerMath")
     private Producer captchaProducerMath;
-
-    @Autowired
-    private RedisService redisService;
 
     @Autowired
     private CaptchaProperties captchaProperties;
@@ -75,7 +73,7 @@ public class ValidateCodeServiceImpl implements ValidateCodeService
             image = captchaProducer.createImage(capStr);
         }
 
-        redisService.setCacheObject(verifyKey, code, Constants.CAPTCHA_EXPIRATION, TimeUnit.MINUTES);
+        RedisUtils.setCacheObject(verifyKey, code, Constants.CAPTCHA_EXPIRATION, TimeUnit.MINUTES);
         // 转换流信息写出
         FastByteArrayOutputStream os = new FastByteArrayOutputStream();
         try
@@ -107,8 +105,8 @@ public class ValidateCodeServiceImpl implements ValidateCodeService
             throw new CaptchaException("验证码已失效");
         }
         String verifyKey = Constants.CAPTCHA_CODE_KEY + uuid;
-        String captcha = redisService.getCacheObject(verifyKey);
-        redisService.deleteObject(verifyKey);
+        String captcha = RedisUtils.getCacheObject(verifyKey);
+        RedisUtils.deleteObject(verifyKey);
 
         if (!code.equalsIgnoreCase(captcha))
         {

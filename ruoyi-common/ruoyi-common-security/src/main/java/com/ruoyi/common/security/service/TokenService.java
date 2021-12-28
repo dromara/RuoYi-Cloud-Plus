@@ -1,11 +1,5 @@
 package com.ruoyi.common.security.service;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
-import javax.servlet.http.HttpServletRequest;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import com.ruoyi.common.core.constant.CacheConstants;
 import com.ruoyi.common.core.constant.SecurityConstants;
 import com.ruoyi.common.core.utils.IdUtils;
@@ -13,9 +7,15 @@ import com.ruoyi.common.core.utils.JwtUtils;
 import com.ruoyi.common.core.utils.ServletUtils;
 import com.ruoyi.common.core.utils.StringUtils;
 import com.ruoyi.common.core.utils.ip.IpUtils;
-import com.ruoyi.common.redis.service.RedisService;
+import com.ruoyi.common.redis.utils.RedisUtils;
 import com.ruoyi.common.security.utils.SecurityUtils;
 import com.ruoyi.system.api.model.LoginUser;
+import org.springframework.stereotype.Component;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 /**
  * token验证处理
@@ -25,8 +25,6 @@ import com.ruoyi.system.api.model.LoginUser;
 @Component
 public class TokenService
 {
-    @Autowired
-    private RedisService redisService;
 
     protected static final long MILLIS_SECOND = 1000;
 
@@ -100,7 +98,7 @@ public class TokenService
             if (StringUtils.isNotEmpty(token))
             {
                 String userkey = JwtUtils.getUserKey(token);
-                user = redisService.getCacheObject(getTokenKey(userkey));
+                user= RedisUtils.getCacheObject(getTokenKey(userkey));
                 return user;
             }
         }
@@ -129,7 +127,7 @@ public class TokenService
         if (StringUtils.isNotEmpty(token))
         {
             String userkey = JwtUtils.getUserKey(token);
-            redisService.deleteObject(getTokenKey(userkey));
+            RedisUtils.deleteObject(getTokenKey(userkey));
         }
     }
 
@@ -159,7 +157,7 @@ public class TokenService
         loginUser.setExpireTime(loginUser.getLoginTime() + expireTime * MILLIS_MINUTE);
         // 根据uuid将loginUser缓存
         String userKey = getTokenKey(loginUser.getToken());
-        redisService.setCacheObject(userKey, loginUser, expireTime, TimeUnit.MINUTES);
+        RedisUtils.setCacheObject(userKey, loginUser, expireTime, TimeUnit.MINUTES);
     }
 
     private String getTokenKey(String token)
