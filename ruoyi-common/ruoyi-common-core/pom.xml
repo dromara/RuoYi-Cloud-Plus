@@ -81,12 +81,6 @@
             <artifactId>fastjson</artifactId>
         </dependency>
 
-        <!-- Jwt -->
-        <dependency>
-            <groupId>io.jsonwebtoken</groupId>
-            <artifactId>jjwt</artifactId>
-        </dependency>
-
         <!-- Jaxb -->
         <dependency>
             <groupId>javax.xml.bind</groupId>
