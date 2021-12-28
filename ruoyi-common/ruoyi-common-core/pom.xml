@@ -75,12 +75,6 @@
             <artifactId>jackson-datatype-jsr310</artifactId>
         </dependency>
 
-        <!-- Alibaba Fastjson -->
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>fastjson</artifactId>
-        </dependency>
-
         <!-- Jwt -->
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
