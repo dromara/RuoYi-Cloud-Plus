@@ -1,17 +1,42 @@
-## 平台简介
+## 平台简介(开发中)
+[![码云Gitee](https://gitee.com/JavaLionLi/RuoYi-Cloud-Plus/badge/star.svg?theme=blue)](https://gitee.com/JavaLionLi/RuoYi-Cloud-Plus)
+[![License](https://img.shields.io/badge/License-MIT-blue.svg)](https://gitee.com/JavaLionLi/RuoYi-Cloud-Plus/blob/master/LICENSE)
+<br>
+[![Spring Boot](https://img.shields.io/badge/Spring%20Boot-2.5-blue.svg)]()
+[![JDK-8+](https://img.shields.io/badge/JDK-8-green.svg)]()
+[![JDK-11](https://img.shields.io/badge/JDK-11-green.svg)]()
 
-若依是一套全部开源的快速开发平台，毫无保留给个人及企业免费使用。
+> RuoYi-Cloud-Plus 是重写 RuoYi-Cloud 全方位升级(不兼容原框架)
 
-* 采用前后端分离的模式，微服务版本前端(基于 [RuoYi-Vue](https://gitee.com/y_project/RuoYi-Vue))。
-* 后端采用Spring Boot、Spring Cloud & Alibaba。
-* 注册中心、配置中心选型Nacos，权限认证使用Redis。
-* 流量控制框架选型Sentinel，分布式事务选型Seata。
-* 提供了技术栈（[Vue3](https://v3.cn.vuejs.org) [Element Plus](https://element-plus.org/zh-CN) [Vite](https://cn.vitejs.dev)）版本[RuoYi-Cloud-Vue3](https://github.com/yangzongzhuan/RuoYi-Cloud-Vue3)，保持同步更新。
-* 如需不分离应用，请移步 [RuoYi](https://gitee.com/y_project/RuoYi)，如需分离应用，请移步 [RuoYi-Vue](https://gitee.com/y_project/RuoYi-Vue)
-* 阿里云折扣场：[点我进入](http://aly.ruoyi.vip)，腾讯云秒杀场：[点我进入](http://txy.ruoyi.vip)&nbsp;&nbsp;
-* 阿里云优惠券：[点我领取](https://www.aliyun.com/minisite/goods?userCode=brki8iof&share_source=copy_link)，腾讯云优惠券：[点我领取](https://cloud.tencent.com/redirect.php?redirect=1025&cps_key=198c8df2ed259157187173bc7f4f32fd&from=console)&nbsp;&nbsp;
+| 功能介绍 | 使用技术 | 文档地址 | 特性注意事项 |
+|---|---|---|---|
+| 前端开发框架 | Vue、Element UI | [Element UI官网](https://element.eleme.cn/#/zh-CN) | |
+| 后端开发框架 | SpringBoot | [SpringBoot官网](https://spring.io/projects/spring-boot/#learn) | |
+| 容器框架 | Undertow | [Undertow官网](https://undertow.io/) | 基于 XNIO 的高性能容器 |
+| 权限认证框架 | Spring Security、Jwt | [SpringSecurity官网](https://spring.io/projects/spring-security#learn) | 支持多终端认证系统 |
+| 权限认证框架 | Sa-Token、Jwt | [Sa-Token官网](https://sa-token.dev33.cn/) | 强解耦、强扩展 |
+| 关系数据库 | MySQL | [MySQL官网](https://dev.mysql.com/) | 适配 8.X 最低 5.7 |
+| 缓存数据库 | Redis | [Redis官网](https://redis.io/) | 适配 6.X 最低 4.X |
+| 数据库框架 | Mybatis-Plus | [Mybatis-Plus文档](https://baomidou.com/guide/) | 快速 CRUD 增加开发效率 |
+| 数据库框架 | p6spy | [p6spy官网](https://p6spy.readthedocs.io/) | 更强劲的 SQL 分析 |
+| 多数据源框架 | dynamic-datasource | [dynamic-ds文档](https://www.kancloud.cn/tracy5546/dynamic-datasource/content) | 支持主从与多种类数据库异构 |
+| 序列化框架 | Jackson | [Jackson官网](https://github.com/FasterXML/jackson) | 统一使用 jackson 高效可靠 |
+| Redis客户端 | Redisson | [Redisson文档](https://github.com/redisson/redisson/wiki/%E7%9B%AE%E5%BD%95) | 支持单机、集群配置 |
+| 分布式限流 | Redisson | [Redisson文档](https://github.com/redisson/redisson/wiki/%E7%9B%AE%E5%BD%95) | 全局、请求IP、集群ID 多种限流 |
+| 分布式锁 | Lock4j | [Lock4j官网](https://gitee.com/baomidou/lock4j) | 注解锁、工具锁 多种多样 |
+| 分布式幂等 | Redisson | [Lock4j文档](https://gitee.com/baomidou/lock4j) | 拦截重复提交 |
+| 分布式任务调度 | Xxl-Job | [Xxl-Job官网](https://www.xuxueli.com/xxl-job/) | 高性能 高可靠 易扩展 |
+| 文件存储 | Minio | [Minio文档](https://docs.min.io/) | 本地存储 |
+| 文件存储 | 七牛、阿里、腾讯 | [OSS使用文档](https://gitee.com/JavaLionLi/RuoYi-Vue-Plus/wikis/pages?sort_id=4359146&doc_id=1469725) | 云存储 |
+| 监控框架 | SpringBoot-Admin | [SpringBoot-Admin文档](https://codecentric.github.io/spring-boot-admin/current/) | 全方位服务监控 |
+| 校验框架 | Validation | [Validation文档](https://docs.jboss.org/hibernate/stable/validator/reference/en-US/html_single/) | 增强接口安全性、严谨性 支持国际化 |
+| Excel框架 | Alibaba EasyExcel | [EasyExcel文档](https://www.yuque.com/easyexcel/doc/easyexcel) | 性能优异 扩展性强 |
+| 文档框架 | Knife4j | [Knife4j文档](https://doc.xiaominfo.com/knife4j/documentation/) | 美化接口文档 |
+| 工具类框架 | Hutool、Lombok | [Hutool文档](https://www.hutool.cn/docs/) | 减少代码冗余 增加安全性 |
+| 代码生成器 | 适配MP、Knife4j规范化代码 | [Hutool文档](https://www.hutool.cn/docs/) | 一键生成前后端代码 |
+| 部署方式 | Docker | [Docker文档](https://docs.docker.com/) | 容器编排 一键部署业务集群 |
+| 国际化 | SpringMessage | [SpringMVC文档](https://docs.spring.io/spring-framework/docs/current/reference/html/web.html#mvc) | Spring标准国际化方案 |
 
-#### 友情链接 [若依/RuoYi-Cloud](https://gitee.com/zhangmrit/ruoyi-cloud) Ant Design版本。
 
 ## 系统模块
 
@@ -40,80 +65,87 @@ com.ruoyi
 ├──pom.xml                // 公共依赖
 ~~~
 
-## 架构图
+## 软件架构图
 
 <img src="https://oscimg.oschina.net/oscnet/up-82e9722ecb846786405a904bafcf19f73f3.png"/>
 
-## 内置功能
+## 贡献代码
 
-1.  用户管理：用户是系统操作者，该功能主要完成系统用户配置。
-2.  部门管理：配置系统组织机构（公司、部门、小组），树结构展现支持数据权限。
-3.  岗位管理：配置系统用户所属担任职务。
-4.  菜单管理：配置系统菜单，操作权限，按钮权限标识等。
-5.  角色管理：角色菜单权限分配、设置角色按机构进行数据范围权限划分。
-6.  字典管理：对系统中经常使用的一些较为固定的数据进行维护。
-7.  参数管理：对系统动态配置常用参数。
-8.  通知公告：系统通知公告信息发布维护。
-9.  操作日志：系统正常操作日志记录和查询；系统异常信息日志记录和查询。
-10. 登录日志：系统登录日志记录查询包含登录异常。
-11. 在线用户：当前系统中活跃用户状态监控。
-12. 定时任务：在线（添加、修改、删除)任务调度包含执行结果日志。
-13. 代码生成：前后端代码的生成（java、html、xml、sql）支持CRUD下载 。
-14. 系统接口：根据业务代码自动生成相关的api接口文档。
-15. 服务监控：监视当前系统CPU、内存、磁盘、堆栈等相关信息。
-16. 在线构建器：拖动表单元素生成相应的HTML代码。
-17. 连接池监视：监视当前系统数据库连接池状态，可进行分析SQL找出系统性能瓶颈。
+欢迎各路英雄豪杰 `PR` 代码 请提交到 `dev` 开发分支 统一测试发版
 
-## 在线体验
+### 其他
 
-- admin/admin123  
-- 陆陆续续收到一些打赏，为了更好的体验已用于演示服务器升级。谢谢各位小伙伴。
+* 同步升级 RuoYi-Cloud
+* 分离版分支 [RuoYi-Vue-Plus](https://gitee.com/JavaLionLi/RuoYi-Vue-Plus)
+* 单模块 fast 分支 [RuoYi-Vue-Plus-fast](https://gitee.com/JavaLionLi/RuoYi-Vue-Plus/tree/fast/)
+* satoken 分支 [RuoYi-Vue-Plus-satoken](https://gitee.com/JavaLionLi/RuoYi-Vue-Plus/tree/satoken/)
 
-演示地址：http://ruoyi.vip  
-文档地址：http://doc.ruoyi.vip
+## 捐献作者
+作者为兼职做开源,平时还需要工作,如果帮到了您可以请作者吃个盒饭  
+<img src="https://images.gitee.com/uploads/images/2021/0525/101654_451e4523_1766278.jpeg" width="300px" height="450px" />
+<img src="https://images.gitee.com/uploads/images/2021/0525/101713_3d18b119_1766278.jpeg" width="300px" height="450px" />
 
-## 演示图
+## 业务功能
 
-<table>
-    <tr>
-        <td><img src="https://oscimg.oschina.net/oscnet/cd1f90be5f2684f4560c9519c0f2a232ee8.jpg"/></td>
-        <td><img src="https://oscimg.oschina.net/oscnet/1cbcf0e6f257c7d3a063c0e3f2ff989e4b3.jpg"/></td>
-    </tr>
-    <tr>
-        <td><img src="https://oscimg.oschina.net/oscnet/up-8074972883b5ba0622e13246738ebba237a.png"/></td>
-        <td><img src="https://oscimg.oschina.net/oscnet/up-9f88719cdfca9af2e58b352a20e23d43b12.png"/></td>
-    </tr>
-    <tr>
-        <td><img src="https://oscimg.oschina.net/oscnet/up-39bf2584ec3a529b0d5a3b70d15c9b37646.png"/></td>
-        <td><img src="https://oscimg.oschina.net/oscnet/up-4148b24f58660a9dc347761e4cf6162f28f.png"/></td>
-    </tr>
-	<tr>
-        <td><img src="https://oscimg.oschina.net/oscnet/up-b2d62ceb95d2dd9b3fbe157bb70d26001e9.png"/></td>
-        <td><img src="https://oscimg.oschina.net/oscnet/up-d67451d308b7a79ad6819723396f7c3d77a.png"/></td>
-    </tr>	 
-    <tr>
-        <td><img src="https://oscimg.oschina.net/oscnet/5e8c387724954459291aafd5eb52b456f53.jpg"/></td>
-        <td><img src="https://oscimg.oschina.net/oscnet/644e78da53c2e92a95dfda4f76e6d117c4b.jpg"/></td>
-    </tr>
-	<tr>
-        <td><img src="https://oscimg.oschina.net/oscnet/up-8370a0d02977eebf6dbf854c8450293c937.png"/></td>
-        <td><img src="https://oscimg.oschina.net/oscnet/up-49003ed83f60f633e7153609a53a2b644f7.png"/></td>
-    </tr>
-	<tr>
-        <td><img src="https://oscimg.oschina.net/oscnet/up-d4fe726319ece268d4746602c39cffc0621.png"/></td>
-        <td><img src="https://oscimg.oschina.net/oscnet/up-c195234bbcd30be6927f037a6755e6ab69c.png"/></td>
-    </tr>
-	<tr>
-        <td><img src="https://oscimg.oschina.net/oscnet/up-ece3fd37a3d4bb75a3926e905a3c5629055.png"/></td>
-        <td><img src="https://oscimg.oschina.net/oscnet/up-92ffb7f3835855cff100fa0f754a6be0d99.png"/></td>
-    </tr>
-    <tr>
-        <td><img src="https://oscimg.oschina.net/oscnet/up-ff9e3066561574aca73005c5730c6a41f15.png"/></td>
-        <td><img src="https://oscimg.oschina.net/oscnet/up-5e4daac0bb59612c5038448acbcef235e3a.png"/></td>
-    </tr>
+| 功能 | 介绍 |
+|---|---|
+| 用户管理 | 用户是系统操作者，该功能主要完成系统用户配置。 |
+| 部门管理 | 配置系统组织机构（公司、部门、小组），树结构展现支持数据权限。 |
+| 岗位管理 | 配置系统用户所属担任职务。 |
+| 菜单管理 | 配置系统菜单，操作权限，按钮权限标识等。 |
+| 角色管理 | 角色菜单权限分配、设置角色按机构进行数据范围权限划分。 |
+| 字典管理 | 对系统中经常使用的一些较为固定的数据进行维护。 |
+| 参数管理 | 对系统动态配置常用参数。 |
+| 通知公告 | 系统通知公告信息发布维护。 |
+| 操作日志 | 系统正常操作日志记录和查询；系统异常信息日志记录和查询。 |
+| 登录日志 | 系统登录日志记录查询包含登录异常。 |
+| 文件管理 | 系统文件上传、下载等管理。 |
+| 定时任务 | 在线（添加、修改、删除)任务调度包含执行结果日志。 |
+| 代码生成 | 前后端代码的生成（java、html、xml、sql）支持CRUD下载 。 |
+| 系统接口 | 根据业务代码自动生成相关的api接口文档。 |
+| 服务监控 | 监视集群系统CPU、内存、磁盘、堆栈、在线日志、Spring相关配置等。 |
+| 缓存监控 | 对系统的缓存信息查询，命令统计等。 |
+| 在线构建器 | 拖动表单元素生成相应的HTML代码。 |
+| 连接池监视 | 监视当前系统数据库连接池状态，可进行分析SQL找出系统性能瓶颈。 |
+| 使用案例 | 系统的一些功能案例 |
+
+## 演示图例
+
+<table border="1" cellpadding="1" cellspacing="1" style="width:500px">
+	<tbody>
+		<tr>
+			<td><img src="https://oscimg.oschina.net/oscnet/up-972235bcbe3518dedd351ff0e2ee7d1031c.png" width="1920" /></td>
+			<td><img src="https://oscimg.oschina.net/oscnet/up-5e0097702fa91e2e36391de8127676a7fa1.png" width="1920" /></td>
+		</tr>
+		<tr>
+			<td>
+			<p><img src="https://oscimg.oschina.net/oscnet/up-e56e3828f48cd9886d88731766f06d5f3c1.png" width="1920" /></p>
+			</td>
+			<td><img src="https://oscimg.oschina.net/oscnet/up-0715990ea1a9f254ec2138fcd063c1f556a.png" width="1920" /></td>
+		</tr>
+		<tr>
+			<td><img src="https://oscimg.oschina.net/oscnet/up-eaf5417ccf921bb64abb959e3d8e290467f.png" width="1920" /></td>
+			<td><img src="https://oscimg.oschina.net/oscnet/up-fc285cf33095ebf8318de6999af0f473861.png" width="1920" /></td>
+		</tr>
+		<tr>
+			<td><img src="https://oscimg.oschina.net/oscnet/up-60c83fd8bd61c29df6dbf47c88355e9c272.png" width="1920" /></td>
+			<td><img src="https://oscimg.oschina.net/oscnet/up-7f731948c8b73c7d90f67f9e1c7a534d5c3.png" width="1920" /></td>
+		</tr>
+		<tr>
+			<td><img src="https://oscimg.oschina.net/oscnet/up-e4de89b5e2d20c52d3c3a47f9eb88eb8526.png" width="1920" /></td>
+			<td><img src="https://oscimg.oschina.net/oscnet/up-8791d823a508eb90e67c604f36f57491a67.png" width="1920" /></td>
+		</tr>
+		<tr>
+			<td><img src="https://oscimg.oschina.net/oscnet/up-4589afd99982ead331785299b894174feb6.png" width="1920" /></td>
+			<td><img src="https://oscimg.oschina.net/oscnet/up-8ea177cdacaea20995daf2f596b15232561.png" width="1920" /></td>
+		</tr>
+		<tr>
+			<td><img src="https://oscimg.oschina.net/oscnet/up-32d1d04c55c11f74c9129fbbc58399728c4.png" width="1920" /></td>
+			<td><img src="https://oscimg.oschina.net/oscnet/up-04fa118f7631b7ae6fd72299ca0a1430a63.png" width="1920" /></td>
+		</tr>
+		<tr>
+			<td><img src="https://oscimg.oschina.net/oscnet/up-fe7e85b65827802bfaadf3acd42568b58c7.png" width="1920" /></td>
+			<td><img src="https://oscimg.oschina.net/oscnet/up-eff2b02a54f8188022d8498cfe6af6fcc06.png" width="1920" /></td>
+		</tr>
+	</tbody>
 </table>
-
-
-## 若依微服务交流群
-
-QQ群： [![加入QQ群](https://img.shields.io/badge/已满-42799195-blue.svg)](https://jq.qq.com/?_wv=1027&k=yqInfq0S) [![加入QQ群](https://img.shields.io/badge/已满-170157040-blue.svg)](https://jq.qq.com/?_wv=1027&k=Oy1mb3p8) [![加入QQ群](https://img.shields.io/badge/已满-130643120-blue.svg)](https://jq.qq.com/?_wv=1027&k=rvxkJtXK) [![加入QQ群](https://img.shields.io/badge/已满-225920371-blue.svg)](https://jq.qq.com/?_wv=1027&k=0Ck3PvTe) [![加入QQ群](https://img.shields.io/badge/已满-201705537-blue.svg)](https://jq.qq.com/?_wv=1027&k=FnHHP4TT) [![加入QQ群](https://img.shields.io/badge/236543183-blue.svg)](https://jq.qq.com/?_wv=1027&k=qdT1Ojpz) 点击按钮入群。
