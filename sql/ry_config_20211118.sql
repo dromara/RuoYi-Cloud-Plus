@@ -32,15 +32,15 @@ CREATE TABLE `config_info` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='config_info';
 
 insert into config_info(id, data_id, group_id, content, md5, gmt_create, gmt_modified, src_user, src_ip, app_name, tenant_id, c_desc, c_use, effect, type, c_schema) values 
-(1,'application-dev.yml','DEFAULT_GROUP','# 将项目路径：sql/contentYml/下对应文件中内容复制到此处\n','760986157e62a0c1e0dadf9d2a6acf40','2019-11-29 16:31:20','2021-11-16 12:03:58','','0:0:0:0:0:0:0:1','','','通用配置','null','null','yaml','null'),
-(2,'ruoyi-gateway-dev.yml','DEFAULT_GROUP','# 将项目路径：sql/contentYml/下对应文件中内容复制到此处\n','2f5a6b5a4ccf20b5801c5cf842456ec6','2020-05-14 14:17:55','2021-07-30 09:07:14',NULL,'0:0:0:0:0:0:0:1','','','网关模块','null','null','yaml','null'),
-(3,'ruoyi-auth-dev.yml','DEFAULT_GROUP','# 将项目路径：sql/contentYml/下对应文件中内容复制到此处\n','b7354e1eb62c2d846d44a796d9ec6930','2020-11-20 00:00:00','2021-02-28 21:06:58',NULL,'0:0:0:0:0:0:0:1','','','认证中心','null','null','yaml','null'),
-(4,'ruoyi-monitor-dev.yml','DEFAULT_GROUP','# 将项目路径：sql/contentYml/下对应文件中内容复制到此处\n','d8997d0707a2fd5d9fc4e8409da38129','2020-11-20 00:00:00','2020-12-21 16:28:07',NULL,'0:0:0:0:0:0:0:1','','','监控中心','null','null','yaml','null'),
-(5,'ruoyi-system-dev.yml','DEFAULT_GROUP','# 将项目路径：sql/contentYml/下对应文件中内容复制到此处\n','ac8913dee679e65bb7d482df5f267d4e','2020-11-20 00:00:00','2021-01-27 10:42:25',NULL,'0:0:0:0:0:0:0:1','','','系统模块','null','null','yaml','null'),
-(6,'ruoyi-gen-dev.yml','DEFAULT_GROUP','# 将项目路径：sql/contentYml/下对应文件中内容复制到此处\n','8c79f64a4cca9b821a03dc8b27a2d8eb','2020-11-20 00:00:00','2021-01-26 10:36:45',NULL,'0:0:0:0:0:0:0:1','','','代码生成','null','null','yaml','null'),
-(7,'ruoyi-job-dev.yml','DEFAULT_GROUP','# 将项目路径：sql/contentYml/下对应文件中内容复制到此处\n','d6dfade9a2c93c463ae857cd503cb172','2020-11-20 00:00:00','2021-01-26 10:36:04',NULL,'0:0:0:0:0:0:0:1','','','定时任务','null','null','yaml','null'),
-(8,'ruoyi-file-dev.yml','DEFAULT_GROUP','# 将项目路径：sql/contentYml/下对应文件中内容复制到此处\n','5382b93f3d8059d6068c0501fdd41195','2020-11-20 00:00:00','2020-12-21 21:01:59',NULL,'0:0:0:0:0:0:0:1','','','文件服务','null','null','yaml','null'),
-(9,'sentinel-ruoyi-gateway','DEFAULT_GROUP','# 将项目路径：sql/contentYml/下对应文件中内容复制到此处\n','9f3a3069261598f74220bc47958ec252','2020-11-20 00:00:00','2020-11-20 00:00:00',NULL,'0:0:0:0:0:0:0:1','','','限流策略','null','null','json','null');
+(1,'application-dev.yml','DEFAULT_GROUP','# 将项目路径：config/下对应文件中内容复制到此处\n','760986157e62a0c1e0dadf9d2a6acf40','2019-11-29 16:31:20','2021-11-16 12:03:58','','0:0:0:0:0:0:0:1','','','通用配置','null','null','yaml','null'),
+(2,'ruoyi-gateway-dev.yml','DEFAULT_GROUP','# 将项目路径：config/下对应文件中内容复制到此处\n','2f5a6b5a4ccf20b5801c5cf842456ec6','2020-05-14 14:17:55','2021-07-30 09:07:14',NULL,'0:0:0:0:0:0:0:1','','','网关模块','null','null','yaml','null'),
+(3,'ruoyi-auth-dev.yml','DEFAULT_GROUP','# 将项目路径：config/下对应文件中内容复制到此处\n','b7354e1eb62c2d846d44a796d9ec6930','2020-11-20 00:00:00','2021-02-28 21:06:58',NULL,'0:0:0:0:0:0:0:1','','','认证中心','null','null','yaml','null'),
+(4,'ruoyi-monitor-dev.yml','DEFAULT_GROUP','# 将项目路径：config/下对应文件中内容复制到此处\n','d8997d0707a2fd5d9fc4e8409da38129','2020-11-20 00:00:00','2020-12-21 16:28:07',NULL,'0:0:0:0:0:0:0:1','','','监控中心','null','null','yaml','null'),
+(5,'ruoyi-system-dev.yml','DEFAULT_GROUP','# 将项目路径：config/下对应文件中内容复制到此处\n','ac8913dee679e65bb7d482df5f267d4e','2020-11-20 00:00:00','2021-01-27 10:42:25',NULL,'0:0:0:0:0:0:0:1','','','系统模块','null','null','yaml','null'),
+(6,'ruoyi-gen-dev.yml','DEFAULT_GROUP','# 将项目路径：config/下对应文件中内容复制到此处\n','8c79f64a4cca9b821a03dc8b27a2d8eb','2020-11-20 00:00:00','2021-01-26 10:36:45',NULL,'0:0:0:0:0:0:0:1','','','代码生成','null','null','yaml','null'),
+(7,'ruoyi-job-dev.yml','DEFAULT_GROUP','# 将项目路径：config/下对应文件中内容复制到此处\n','d6dfade9a2c93c463ae857cd503cb172','2020-11-20 00:00:00','2021-01-26 10:36:04',NULL,'0:0:0:0:0:0:0:1','','','定时任务','null','null','yaml','null'),
+(8,'ruoyi-file-dev.yml','DEFAULT_GROUP','# 将项目路径：config/下对应文件中内容复制到此处\n','5382b93f3d8059d6068c0501fdd41195','2020-11-20 00:00:00','2020-12-21 21:01:59',NULL,'0:0:0:0:0:0:0:1','','','文件服务','null','null','yaml','null'),
+(9,'sentinel-ruoyi-gateway','DEFAULT_GROUP','# 将项目路径：config/下对应文件中内容复制到此处\n','9f3a3069261598f74220bc47958ec252','2020-11-20 00:00:00','2020-11-20 00:00:00',NULL,'0:0:0:0:0:0:0:1','','','限流策略','null','null','json','null');
 
 
 /******************************************/

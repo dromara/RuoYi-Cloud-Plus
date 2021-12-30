@@ -1,4 +1,3 @@
-# 将此内容填入nacos对应的配置内容中
 spring:
   security:
     user:
