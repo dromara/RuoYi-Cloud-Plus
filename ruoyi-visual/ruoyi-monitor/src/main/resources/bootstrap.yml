@@ -15,18 +15,17 @@ spring:
 spring:
   cloud:
     nacos:
+      # nacos 服务地址
+      server-addr: @nacos.server@
       discovery:
-        # 服务注册地址
-        server-addr: @nacos.server@
         # 注册组
         group: @nacos.discovery.group@
       config:
-        # 配置中心地址
-        server-addr: @nacos.server@
         # 配置组
         group: @nacos.config.group@
         # 配置文件格式
         file-extension: yml
         # 共享配置
         shared-configs:
+          - application.${spring.cloud.nacos.config.file-extension}
           - application-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
