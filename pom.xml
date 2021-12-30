@@ -41,6 +41,7 @@
         <transmittable-thread-local.version>2.12.2</transmittable-thread-local.version>
         <hutool.version>5.7.16</hutool.version>
         <redisson.version>3.16.7</redisson.version>
+        <lock4j.version>2.2.1</lock4j.version>
     </properties>
 
     <profiles>
@@ -223,6 +224,12 @@
                 <groupId>org.redisson</groupId>
                 <artifactId>redisson-spring-boot-starter</artifactId>
                 <version>${redisson.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>lock4j-redisson-spring-boot-starter</artifactId>
+                <version>${lock4j.version}</version>
             </dependency>
 
             <!-- 核心模块 -->
