@@ -5,19 +5,18 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import cn.hutool.json.JSON;
+import com.ruoyi.common.core.utils.JsonUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Aspect;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.multipart.MultipartFile;
-import com.alibaba.fastjson.JSON;
 import com.ruoyi.common.core.utils.ServletUtils;
 import com.ruoyi.common.core.utils.StringUtils;
 import com.ruoyi.common.core.utils.ip.IpUtils;
@@ -130,7 +129,7 @@ public class LogAspect
         // 是否需要保存response，参数和值
         if (log.isSaveResponseData() && StringUtils.isNotNull(jsonResult))
         {
-            operLog.setJsonResult(StringUtils.substring(JSON.toJSONString(jsonResult), 0, 2000));
+            operLog.setJsonResult(StringUtils.substring(JsonUtils.toJsonString(jsonResult), 0, 2000));
         }
     }
 
@@ -155,7 +154,7 @@ public class LogAspect
      */
     private String argsArrayToString(Object[] paramsArray)
     {
-        String params = "";
+        StringBuilder params = new StringBuilder();
         if (paramsArray != null && paramsArray.length > 0)
         {
             for (Object o : paramsArray)
@@ -164,8 +163,7 @@ public class LogAspect
                 {
                     try
                     {
-                        Object jsonObj = JSON.toJSON(o);
-                        params += jsonObj.toString() + " ";
+                        params.append(JsonUtils.toJsonString(o)).append(" ");
                     }
                     catch (Exception e)
                     {
@@ -173,7 +171,7 @@ public class LogAspect
                 }
             }
         }
-        return params.trim();
+        return params.toString().trim();
     }
 
     /**
