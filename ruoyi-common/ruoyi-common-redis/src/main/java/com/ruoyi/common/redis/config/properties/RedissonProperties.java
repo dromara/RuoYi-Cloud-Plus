@@ -16,7 +16,6 @@ import java.util.List;
  * @author Lion Li
  */
 @Data
-@Component
 @ConfigurationProperties(prefix = "redisson")
 public class RedissonProperties {
 

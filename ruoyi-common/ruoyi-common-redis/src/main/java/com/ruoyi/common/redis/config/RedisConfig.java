@@ -13,6 +13,7 @@ import org.redisson.spring.cache.RedissonSpringCacheManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CachingConfigurerSupport;
 import org.springframework.cache.annotation.EnableCaching;
@@ -31,6 +32,7 @@ import java.util.stream.Collectors;
  * @author Lion Li
  */
 @Slf4j
+@EnableConfigurationProperties(RedissonProperties.class)
 @Configuration
 @EnableCaching
 public class RedisConfig extends CachingConfigurerSupport {
