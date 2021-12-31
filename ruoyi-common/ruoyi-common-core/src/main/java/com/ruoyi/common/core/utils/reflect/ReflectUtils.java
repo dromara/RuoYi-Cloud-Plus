@@ -1,19 +1,16 @@
 package com.ruoyi.common.core.utils.reflect;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
-import java.util.Date;
+import cn.hutool.core.util.ReflectUtil;
+import com.ruoyi.common.core.text.Convert;
+import com.ruoyi.common.core.utils.DateUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
 import org.apache.poi.ss.usermodel.DateUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.ruoyi.common.core.text.Convert;
-import com.ruoyi.common.core.utils.DateUtils;
+
+import java.lang.reflect.*;
+import java.util.Date;
 
 /**
  * 反射工具类. 提供调用getter/setter方法, 访问私有变量, 调用私有方法, 获取泛型类型Class, 被AOP过的真实类等工具函数.
@@ -21,7 +18,7 @@ import com.ruoyi.common.core.utils.DateUtils;
  * @author ruoyi
  */
 @SuppressWarnings("rawtypes")
-public class ReflectUtils
+public class ReflectUtils extends ReflectUtil
 {
     private static final String SETTER_PREFIX = "set";
 
@@ -67,52 +64,6 @@ public class ReflectUtils
                 String setterMethodName = SETTER_PREFIX + StringUtils.capitalize(names[i]);
                 invokeMethodByName(object, setterMethodName, new Object[] { value });
             }
-        }
-    }
-
-    /**
-     * 直接读取对象属性值, 无视private/protected修饰符, 不经过getter函数.
-     */
-    @SuppressWarnings("unchecked")
-    public static <E> E getFieldValue(final Object obj, final String fieldName)
-    {
-        Field field = getAccessibleField(obj, fieldName);
-        if (field == null)
-        {
-            logger.debug("在 [" + obj.getClass() + "] 中，没有找到 [" + fieldName + "] 字段 ");
-            return null;
-        }
-        E result = null;
-        try
-        {
-            result = (E) field.get(obj);
-        }
-        catch (IllegalAccessException e)
-        {
-            logger.error("不可能抛出的异常{}", e.getMessage());
-        }
-        return result;
-    }
-
-    /**
-     * 直接设置对象属性值, 无视private/protected修饰符, 不经过setter函数.
-     */
-    public static <E> void setFieldValue(final Object obj, final String fieldName, final E value)
-    {
-        Field field = getAccessibleField(obj, fieldName);
-        if (field == null)
-        {
-            // throw new IllegalArgumentException("在 [" + obj.getClass() + "] 中，没有找到 [" + fieldName + "] 字段 ");
-            logger.debug("在 [" + obj.getClass() + "] 中，没有找到 [" + fieldName + "] 字段 ");
-            return;
-        }
-        try
-        {
-            field.set(obj, value);
-        }
-        catch (IllegalAccessException e)
-        {
-            logger.error("不可能抛出的异常: {}", e.getMessage());
         }
     }
 
