@@ -8,10 +8,10 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 	
-    <artifactId>ruoyi-visual-monitor</artifactId>
+    <artifactId>ruoyi-monitor</artifactId>
 
     <description>
-        ruoyi-visual-monitor监控中心
+        ruoyi-monitor监控中心
     </description>
 
     <dependencies>

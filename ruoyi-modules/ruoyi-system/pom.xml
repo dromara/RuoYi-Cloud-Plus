@@ -9,10 +9,10 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 	
-    <artifactId>ruoyi-modules-system</artifactId>
+    <artifactId>ruoyi-system</artifactId>
 
     <description>
-        ruoyi-modules-system系统模块
+        ruoyi-system系统模块
     </description>
 	
     <dependencies>
