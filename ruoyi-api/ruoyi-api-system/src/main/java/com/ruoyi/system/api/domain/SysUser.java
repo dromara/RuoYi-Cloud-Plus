@@ -1,13 +1,5 @@
 package com.ruoyi.system.api.domain;
 
-import java.util.Date;
-import java.util.List;
-import javax.validation.constraints.*;
-
-import lombok.*;
-import lombok.experimental.Accessors;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ruoyi.common.core.annotation.Excel;
 import com.ruoyi.common.core.annotation.Excel.ColumnType;
@@ -15,6 +7,16 @@ import com.ruoyi.common.core.annotation.Excel.Type;
 import com.ruoyi.common.core.annotation.Excels;
 import com.ruoyi.common.core.web.domain.BaseEntity;
 import com.ruoyi.common.core.xss.Xss;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
+
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+import java.util.Date;
+import java.util.List;
 
 /**
  * 用户对象 sys_user
@@ -26,7 +28,6 @@ import com.ruoyi.common.core.xss.Xss;
 @NoArgsConstructor
 @Accessors(chain = true)
 public class SysUser extends BaseEntity {
-    private static final long serialVersionUID = 1L;
 
     /**
      * 用户ID
@@ -89,7 +90,9 @@ public class SysUser extends BaseEntity {
     @JsonProperty
     private String password;
 
-    /** 帐号状态（0正常 1停用） */
+    /**
+     * 帐号状态（0正常 1停用）
+     */
     @Excel(name = "帐号状态", readConverterExp = "0=正常,1=停用")
     private String status;
 

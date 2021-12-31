@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import com.ruoyi.common.core.jackson.BigNumberSerializer;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration;
@@ -22,8 +23,11 @@ import java.time.format.DateTimeFormatter;
 import java.util.TimeZone;
 
 /**
- * JacksonConfig
+ * jackson 配置
+ *
+ * @author Lion Li
  */
+@Slf4j
 @Configuration
 @ConditionalOnClass(ObjectMapper.class)
 @AutoConfigureBefore(JacksonAutoConfiguration.class)
@@ -44,7 +48,7 @@ public class JacksonConfig {
         simpleModule.addDeserializer(LocalDateTime.class, new LocalDateTimeDeserializer(formatter));
         objectMapper.registerModule(simpleModule);
         objectMapper.setTimeZone(TimeZone.getDefault());
-
+        log.info("初始化 jackson 配置");
         return objectMapper;
     }
 

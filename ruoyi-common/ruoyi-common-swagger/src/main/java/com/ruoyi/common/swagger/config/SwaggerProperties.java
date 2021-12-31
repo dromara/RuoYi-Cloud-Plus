@@ -1,12 +1,13 @@
 package com.ruoyi.common.swagger.config;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import lombok.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @NoArgsConstructor

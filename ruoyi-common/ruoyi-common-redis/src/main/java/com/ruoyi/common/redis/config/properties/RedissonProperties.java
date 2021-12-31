@@ -6,7 +6,6 @@ import org.redisson.config.ReadMode;
 import org.redisson.config.SubscriptionMode;
 import org.redisson.config.TransportMode;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
 

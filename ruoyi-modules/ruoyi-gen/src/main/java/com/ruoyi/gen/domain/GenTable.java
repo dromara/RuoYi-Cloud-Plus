@@ -1,15 +1,17 @@
 package com.ruoyi.gen.domain;
 
-import java.util.List;
-import javax.validation.Valid;
-import javax.validation.constraints.NotBlank;
-
-import lombok.*;
-import lombok.experimental.Accessors;
-import org.apache.commons.lang3.ArrayUtils;
 import com.ruoyi.common.core.constant.GenConstants;
 import com.ruoyi.common.core.utils.StringUtils;
 import com.ruoyi.common.core.web.domain.BaseEntity;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
+import org.apache.commons.lang3.ArrayUtils;
+
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
+import java.util.List;
 
 /**
  * 业务表 gen_table
@@ -21,7 +23,6 @@ import com.ruoyi.common.core.web.domain.BaseEntity;
 @NoArgsConstructor
 @Accessors(chain = true)
 public class GenTable extends BaseEntity {
-    private static final long serialVersionUID = 1L;
 
     /**
      * 编号

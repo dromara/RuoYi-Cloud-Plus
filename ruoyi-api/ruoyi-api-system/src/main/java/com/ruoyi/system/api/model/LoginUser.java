@@ -1,11 +1,12 @@
 package com.ruoyi.system.api.model;
 
+import com.ruoyi.system.api.domain.SysUser;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
+
 import java.io.Serializable;
 import java.util.Set;
-
-import com.ruoyi.system.api.domain.SysUser;
-import lombok.*;
-import lombok.experimental.Accessors;
 
 /**
  * 用户信息

@@ -2,24 +2,23 @@ package com.ruoyi.common.core.constant;
 
 /**
  * Token的Key常量
- * 
- * @author ruoyi
+ *
+ * @author Lion Li
  */
-public class TokenConstants
-{
+public interface TokenConstants {
     /**
      * 令牌自定义标识
      */
-    public static final String AUTHENTICATION = "Authorization";
+    String AUTHENTICATION = "Authorization";
 
     /**
      * 令牌前缀
      */
-    public static final String PREFIX = "Bearer ";
+    String PREFIX = "Bearer ";
 
     /**
      * 令牌秘钥
      */
-    public final static String SECRET = "abcdefghijklmnopqrstuvwxyz";
+    String SECRET = "abcdefghijklmnopqrstuvwxyz";
 
 }

@@ -10,33 +10,29 @@ import java.util.List;
 
 /**
  * 字典工具类
- * 
+ *
  * @author ruoyi
  */
-public class DictUtils
-{
+public class DictUtils {
     /**
      * 设置字典缓存
-     * 
-     * @param key 参数键
+     *
+     * @param key       参数键
      * @param dictDatas 字典数据列表
      */
-    public static void setDictCache(String key, List<SysDictData> dictDatas)
-    {
+    public static void setDictCache(String key, List<SysDictData> dictDatas) {
         RedisUtils.setCacheObject(getCacheKey(key), dictDatas);
     }
 
     /**
      * 获取字典缓存
-     * 
+     *
      * @param key 参数键
      * @return dictDatas 字典数据列表
      */
-    public static List<SysDictData> getDictCache(String key)
-    {
+    public static List<SysDictData> getDictCache(String key) {
         Object cacheObj = RedisUtils.getCacheObject(getCacheKey(key));
-        if (StringUtils.isNotNull(cacheObj))
-        {
+        if (StringUtils.isNotNull(cacheObj)) {
             List<SysDictData> dictDatas = StringUtils.cast(cacheObj);
             return dictDatas;
         }
@@ -45,31 +41,28 @@ public class DictUtils
 
     /**
      * 删除指定字典缓存
-     * 
+     *
      * @param key 字典键
      */
-    public static void removeDictCache(String key)
-    {
+    public static void removeDictCache(String key) {
         RedisUtils.deleteObject(getCacheKey(key));
     }
 
     /**
      * 清空字典缓存
      */
-    public static void clearDictCache()
-    {
+    public static void clearDictCache() {
         Collection<String> keys = RedisUtils.keys(Constants.SYS_DICT_KEY + "*");
         RedisUtils.deleteObject(keys);
     }
 
     /**
      * 设置cache key
-     * 
+     *
      * @param configKey 参数键
      * @return 缓存键key
      */
-    public static String getCacheKey(String configKey)
-    {
+    public static String getCacheKey(String configKey) {
         return Constants.SYS_DICT_KEY + configKey;
     }
 }

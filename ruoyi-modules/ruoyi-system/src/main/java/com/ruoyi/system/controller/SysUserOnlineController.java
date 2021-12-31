@@ -12,6 +12,7 @@ import com.ruoyi.common.security.annotation.RequiresPermissions;
 import com.ruoyi.system.api.model.LoginUser;
 import com.ruoyi.system.domain.SysUserOnline;
 import com.ruoyi.system.service.ISysUserOnlineService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,48 +23,36 @@ import java.util.List;
 
 /**
  * 在线用户监控
- * 
+ *
  * @author ruoyi
  */
+@RequiredArgsConstructor(onConstructor_ = @Autowired)
 @RestController
 @RequestMapping("/online")
-public class SysUserOnlineController extends BaseController
-{
-    @Autowired
-    private ISysUserOnlineService userOnlineService;
+public class SysUserOnlineController extends BaseController {
+
+    private final ISysUserOnlineService userOnlineService;
 
     @RequiresPermissions("monitor:online:list")
     @GetMapping("/list")
-    public TableDataInfo list(String ipaddr, String userName)
-    {
+    public TableDataInfo list(String ipaddr, String userName) {
         Collection<String> keys = RedisUtils.keys(CacheConstants.LOGIN_TOKEN_KEY + "*");
         List<SysUserOnline> userOnlineList = new ArrayList<SysUserOnline>();
-        for (String key : keys)
-        {
+        for (String key : keys) {
             LoginUser user = RedisUtils.getCacheObject(key);
-            if (StringUtils.isNotEmpty(ipaddr) && StringUtils.isNotEmpty(userName))
-            {
-                if (StringUtils.equals(ipaddr, user.getIpaddr()) && StringUtils.equals(userName, user.getUsername()))
-                {
+            if (StringUtils.isNotEmpty(ipaddr) && StringUtils.isNotEmpty(userName)) {
+                if (StringUtils.equals(ipaddr, user.getIpaddr()) && StringUtils.equals(userName, user.getUsername())) {
                     userOnlineList.add(userOnlineService.selectOnlineByInfo(ipaddr, userName, user));
                 }
-            }
-            else if (StringUtils.isNotEmpty(ipaddr))
-            {
-                if (StringUtils.equals(ipaddr, user.getIpaddr()))
-                {
+            } else if (StringUtils.isNotEmpty(ipaddr)) {
+                if (StringUtils.equals(ipaddr, user.getIpaddr())) {
                     userOnlineList.add(userOnlineService.selectOnlineByIpaddr(ipaddr, user));
                 }
-            }
-            else if (StringUtils.isNotEmpty(userName))
-            {
-                if (StringUtils.equals(userName, user.getUsername()))
-                {
+            } else if (StringUtils.isNotEmpty(userName)) {
+                if (StringUtils.equals(userName, user.getUsername())) {
                     userOnlineList.add(userOnlineService.selectOnlineByUserName(userName, user));
                 }
-            }
-            else
-            {
+            } else {
                 userOnlineList.add(userOnlineService.loginUserToUserOnline(user));
             }
         }
@@ -78,8 +67,7 @@ public class SysUserOnlineController extends BaseController
     @RequiresPermissions("monitor:online:forceLogout")
     @Log(title = "在线用户", businessType = BusinessType.FORCE)
     @DeleteMapping("/{tokenId}")
-    public AjaxResult forceLogout(@PathVariable String tokenId)
-    {
+    public AjaxResult forceLogout(@PathVariable String tokenId) {
         RedisUtils.deleteObject(CacheConstants.LOGIN_TOKEN_KEY + tokenId);
         return AjaxResult.success();
     }

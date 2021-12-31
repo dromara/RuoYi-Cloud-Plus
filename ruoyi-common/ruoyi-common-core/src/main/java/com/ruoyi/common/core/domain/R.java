@@ -1,10 +1,11 @@
 package com.ruoyi.common.core.domain;
 
-import java.io.Serializable;
-
 import com.ruoyi.common.core.constant.Constants;
-import lombok.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
+
+import java.io.Serializable;
 
 /**
  * 响应信息主体

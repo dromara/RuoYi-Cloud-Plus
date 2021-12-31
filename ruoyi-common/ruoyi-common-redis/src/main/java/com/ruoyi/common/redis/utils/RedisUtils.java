@@ -130,7 +130,7 @@ public class RedisUtils {
 
     /**
      * 注册对象监听器
-     *
+     * <p>
      * key 监听器需开启 `notify-keyspace-events` 等 redis 相关配置
      *
      * @param key      缓存的键值
@@ -223,7 +223,7 @@ public class RedisUtils {
 
     /**
      * 注册List监听器
-     *
+     * <p>
      * key 监听器需开启 `notify-keyspace-events` 等 redis 相关配置
      *
      * @param key      缓存的键值
@@ -259,7 +259,7 @@ public class RedisUtils {
 
     /**
      * 注册Set监听器
-     *
+     * <p>
      * key 监听器需开启 `notify-keyspace-events` 等 redis 相关配置
      *
      * @param key      缓存的键值
@@ -296,7 +296,7 @@ public class RedisUtils {
 
     /**
      * 注册Map监听器
-     *
+     * <p>
      * key 监听器需开启 `notify-keyspace-events` 等 redis 相关配置
      *
      * @param key      缓存的键值
@@ -379,16 +379,12 @@ public class RedisUtils {
 
     /**
      * 检查redis中是否存在key
+     *
      * @param key 键
-     * @return
      */
-    public static Boolean hasKey(String key){
-        RKeys rKeys= CLIENT.getKeys();
-        if(rKeys.countExists(key)>0){
-            return true;
-        }else {
-            return false;
-        }
+    public static Boolean hasKey(String key) {
+        RKeys rKeys = CLIENT.getKeys();
+        return rKeys.countExists(key) > 0;
     }
 
 }

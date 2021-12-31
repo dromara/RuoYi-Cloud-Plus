@@ -9,15 +9,14 @@ import org.springframework.context.annotation.Configuration;
 
 /**
  * 验证码配置
- * 
+ *
  * @author ruoyi
  */
 @Data
 @Configuration
 @RefreshScope
 @ConfigurationProperties(prefix = "security.captcha")
-public class CaptchaProperties
-{
+public class CaptchaProperties {
     /**
      * 验证码类型
      */

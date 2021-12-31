@@ -3,9 +3,9 @@ package com.ruoyi.gateway.service.impl;
 import cn.hutool.captcha.AbstractCaptcha;
 import cn.hutool.captcha.generator.CodeGenerator;
 import cn.hutool.core.convert.Convert;
+import cn.hutool.core.util.IdUtil;
 import com.ruoyi.common.core.constant.Constants;
 import com.ruoyi.common.core.exception.CaptchaException;
-import com.ruoyi.common.core.utils.IdUtils;
 import com.ruoyi.common.core.utils.SpringUtils;
 import com.ruoyi.common.core.utils.StringUtils;
 import com.ruoyi.common.core.utils.reflect.ReflectUtils;
@@ -26,8 +26,7 @@ import java.util.concurrent.TimeUnit;
  * @author ruoyi
  */
 @Service
-public class ValidateCodeServiceImpl implements ValidateCodeService
-{
+public class ValidateCodeServiceImpl implements ValidateCodeService {
     @Autowired
     private CaptchaProperties captchaProperties;
 
@@ -35,18 +34,16 @@ public class ValidateCodeServiceImpl implements ValidateCodeService
      * 生成验证码
      */
     @Override
-    public AjaxResult createCapcha() throws IOException, CaptchaException
-    {
+    public AjaxResult createCapcha() throws IOException, CaptchaException {
         AjaxResult ajax = AjaxResult.success();
         boolean captchaOnOff = captchaProperties.getEnabled();
         ajax.put("captchaOnOff", captchaOnOff);
-        if (!captchaOnOff)
-        {
+        if (!captchaOnOff) {
             return ajax;
         }
 
         // 保存验证码信息
-        String uuid = IdUtils.simpleUUID();
+        String uuid = IdUtil.simpleUUID();
         String verifyKey = Constants.CAPTCHA_CODE_KEY + uuid;
         // 生成验证码
         CaptchaType captchaType = captchaProperties.getType();
@@ -84,22 +81,18 @@ public class ValidateCodeServiceImpl implements ValidateCodeService
      * 校验验证码
      */
     @Override
-    public void checkCapcha(String code, String uuid) throws CaptchaException
-    {
-        if (StringUtils.isEmpty(code))
-        {
+    public void checkCapcha(String code, String uuid) throws CaptchaException {
+        if (StringUtils.isEmpty(code)) {
             throw new CaptchaException("验证码不能为空");
         }
-        if (StringUtils.isEmpty(uuid))
-        {
+        if (StringUtils.isEmpty(uuid)) {
             throw new CaptchaException("验证码已失效");
         }
         String verifyKey = Constants.CAPTCHA_CODE_KEY + uuid;
         String captcha = RedisUtils.getCacheObject(verifyKey);
         RedisUtils.deleteObject(verifyKey);
 
-        if (!code.equalsIgnoreCase(captcha))
-        {
+        if (!code.equalsIgnoreCase(captcha)) {
             throw new CaptchaException("验证码错误");
         }
     }

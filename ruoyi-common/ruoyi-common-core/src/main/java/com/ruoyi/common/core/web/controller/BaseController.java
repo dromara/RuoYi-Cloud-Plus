@@ -1,44 +1,34 @@
 package com.ruoyi.common.core.web.controller;
 
-import java.beans.PropertyEditorSupport;
-import java.util.Date;
-import java.util.List;
-
-import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
 import com.github.pagehelper.PageInfo;
 import com.ruoyi.common.core.constant.HttpStatus;
-import com.ruoyi.common.core.utils.DateUtils;
 import com.ruoyi.common.core.utils.PageUtils;
 import com.ruoyi.common.core.web.domain.AjaxResult;
 import com.ruoyi.common.core.web.page.TableDataInfo;
+import lombok.extern.slf4j.Slf4j;
+
+import java.util.List;
 
 /**
  * web层通用数据处理
- * 
+ *
  * @author ruoyi
  */
 @Slf4j
-public class BaseController
-{
+public class BaseController {
 
     /**
      * 设置请求分页数据
      */
-    protected void startPage()
-    {
+    protected void startPage() {
         PageUtils.startPage();
     }
 
     /**
      * 响应请求分页数据
      */
-    @SuppressWarnings({ "rawtypes", "unchecked" })
-    protected TableDataInfo getDataTable(List<?> list)
-    {
+    @SuppressWarnings({"rawtypes", "unchecked"})
+    protected TableDataInfo getDataTable(List<?> list) {
         TableDataInfo rspData = new TableDataInfo();
         rspData.setCode(HttpStatus.SUCCESS);
         rspData.setRows(list);
@@ -49,55 +39,49 @@ public class BaseController
 
     /**
      * 响应返回结果
-     * 
+     *
      * @param rows 影响行数
      * @return 操作结果
      */
-    protected AjaxResult toAjax(int rows)
-    {
+    protected AjaxResult toAjax(int rows) {
         return rows > 0 ? AjaxResult.success() : AjaxResult.error();
     }
 
     /**
      * 响应返回结果
-     * 
+     *
      * @param result 结果
      * @return 操作结果
      */
-    protected AjaxResult toAjax(boolean result)
-    {
+    protected AjaxResult toAjax(boolean result) {
         return result ? success() : error();
     }
 
     /**
      * 返回成功
      */
-    public AjaxResult success()
-    {
+    public AjaxResult success() {
         return AjaxResult.success();
     }
 
     /**
      * 返回失败消息
      */
-    public AjaxResult error()
-    {
+    public AjaxResult error() {
         return AjaxResult.error();
     }
 
     /**
      * 返回成功消息
      */
-    public AjaxResult success(String message)
-    {
+    public AjaxResult success(String message) {
         return AjaxResult.success(message);
     }
 
     /**
      * 返回失败消息
      */
-    public AjaxResult error(String message)
-    {
+    public AjaxResult error(String message) {
         return AjaxResult.error(message);
     }
 }

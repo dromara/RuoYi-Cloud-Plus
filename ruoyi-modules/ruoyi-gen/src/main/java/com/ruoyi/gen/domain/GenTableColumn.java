@@ -1,11 +1,13 @@
 package com.ruoyi.gen.domain;
 
-import javax.validation.constraints.NotBlank;
-
 import com.ruoyi.common.core.utils.StringUtils;
 import com.ruoyi.common.core.web.domain.BaseEntity;
-import lombok.*;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
+
+import javax.validation.constraints.NotBlank;
 
 /**
  * 代码生成业务字段表 gen_table_column
@@ -17,7 +19,6 @@ import lombok.experimental.Accessors;
 @NoArgsConstructor
 @Accessors(chain = true)
 public class GenTableColumn extends BaseEntity {
-    private static final long serialVersionUID = 1L;
 
     /**
      * 编号
