@@ -1,5 +1,36 @@
 # redis 单机配置(单机与集群只能开启一个另一个需要注释掉)
 spring:
+  datasource:
+    system-master:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://localhost:3306/ry-cloud?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
+      username: root
+      password: password
+    gen:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://localhost:3306/ry-cloud?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
+      username: root
+      password: password
+
+    # 多数据源配置
+    dynamic:
+      druid:
+        initial-size: 5
+        min-idle: 5
+        maxActive: 20
+        maxWait: 60000
+        timeBetweenEvictionRunsMillis: 60000
+        minEvictableIdleTimeMillis: 300000
+        validationQuery: SELECT 1 FROM DUAL
+        testWhileIdle: true
+        testOnBorrow: false
+        testOnReturn: false
+        poolPreparedStatements: true
+        maxPoolPreparedStatementPerConnectionSize: 20
+        filters: stat,slf4j
+        connectionProperties: druid.stat.mergeSql\=true;druid.stat.slowSqlMillis\=5000
+#      seata: true    # 开启seata代理，开启后默认每个数据源都代理，如果某个不需要代理可单独关闭
+
   redis:
     # 地址
     host: localhost
@@ -46,3 +77,51 @@ redisson:
     subscriptionsPerConnection: 5
     # DNS监测时间间隔，单位：毫秒
     dnsMonitoringInterval: 5000
+
+# seata配置
+seata:
+  # 默认关闭，如需启用spring.datasource.dynami.seata需要同时开启
+  enabled: false
+  # Seata 应用编号，默认为 ${spring.application.name}
+  application-id: ${spring.application.name}
+  # Seata 事务组编号，用于 TC 集群名
+  tx-service-group: ${spring.application.name}-group
+  # 关闭自动代理
+  enable-auto-data-source-proxy: false
+  # 服务配置项
+  service:
+    # 虚拟组和分组的映射
+    vgroup-mapping:
+      ruoyi-system-group: default
+  config:
+    type: nacos
+    nacos:
+      serverAddr: ${spring.cloud.nacos.server-addr}
+      group: SEATA_GROUP
+      namespace:
+  registry:
+    type: nacos
+    nacos:
+      application: seata-server
+      server-addr: ${spring.cloud.nacos.server-addr}
+      namespace:
+
+# 本地文件上传
+file:
+  domain: http://127.0.0.1:9300
+  path: D:/ruoyi/uploadPath
+  prefix: /statics
+
+# FastDFS配置
+fdfs:
+  domain: http://8.129.231.12
+  soTimeout: 3000
+  connectTimeout: 2000
+  trackerList: 8.129.231.12:22122
+
+# Minio配置
+minio:
+  url: http://8.129.231.12:9000
+  accessKey: minioadmin
+  secretKey: minioadmin
+  bucketName: test

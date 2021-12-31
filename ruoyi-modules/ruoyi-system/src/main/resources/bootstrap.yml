@@ -11,6 +11,12 @@ spring:
     # 环境配置
     active: @profiles.active@
 
+# swagger配置
+swagger:
+  title: 系统模块接口文档
+  license: ${swagger.license}
+  licenseUrl: ${swagger.licenseUrl}
+
 --- # nacos 配置
 spring:
   cloud:
@@ -29,3 +35,21 @@ spring:
         shared-configs:
           - application.${spring.cloud.nacos.config.file-extension}
           - application-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
+
+--- # 数据源
+spring:
+  datasource:
+    dynamic:
+      datasource:
+        # 主库数据源
+        master:
+          driver-class-name: ${spring.datasource.system-master.driver-class-name}
+          url: ${spring.datasource.system-master.url}
+          username: ${spring.datasource.system-master.username}
+          password: ${spring.datasource.system-master.password}
+        # 从库数据源
+#        slave:
+#          username:
+#          password:
+#          url:
+#          driver-class-name:

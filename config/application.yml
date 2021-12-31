@@ -13,6 +13,80 @@ spring:
     deserialization:
       # 允许对象忽略json中不存在的属性
       fail_on_unknown_properties: false
+  cloud:
+    # 网关配置
+    gateway:
+      discovery:
+        locator:
+          lowerCaseServiceId: true
+          enabled: true
+      routes:
+        # 认证中心
+        - id: ruoyi-auth
+          uri: lb://ruoyi-auth
+          predicates:
+            - Path=/auth/**
+          filters:
+            # 验证码处理
+            - CacheRequestFilter
+            - ValidateCodeFilter
+            - StripPrefix=1
+        # 代码生成
+        - id: ruoyi-gen
+          uri: lb://ruoyi-gen
+          predicates:
+            - Path=/code/**
+          filters:
+            - StripPrefix=1
+        # 定时任务
+        - id: ruoyi-job
+          uri: lb://ruoyi-job
+          predicates:
+            - Path=/schedule/**
+          filters:
+            - StripPrefix=1
+        # 系统模块
+        - id: ruoyi-system
+          uri: lb://ruoyi-system
+          predicates:
+            - Path=/system/**
+          filters:
+            - StripPrefix=1
+        # 文件服务
+        - id: ruoyi-file
+          uri: lb://ruoyi-file
+          predicates:
+            - Path=/file/**
+          filters:
+            - StripPrefix=1
+
+# 安全配置
+security:
+  # 验证码
+  captcha:
+    # 是否开启验证码
+    enabled: true
+    # 验证码类型 math 数组计算 char 字符验证
+    type: MATH
+    # line 线段干扰 circle 圆圈干扰 shear 扭曲干扰
+    category: CIRCLE
+    # 数字验证码位数
+    numberLength: 1
+    # 字符验证码长度
+    charLength: 4
+  # 防止XSS攻击
+  xss:
+    enabled: true
+    excludeUrls:
+      - /system/notice
+  # 不校验白名单
+  ignore:
+    whites:
+      - /auth/logout
+      - /auth/login
+      - /auth/register
+      - /*/v2/api-docs
+      - /csrf
 
 # feign 配置
 feign:
@@ -59,4 +133,14 @@ lock4j:
   # 分布式锁的超时时间，默认为 30 毫秒
   expire: 30000
 
+# mybatis配置
+mybatis:
+  # 搜索指定包别名
+  typeAliasesPackage: com.ruoyi.**.domain
+  # 配置mapper的扫描，找到所有的mapper.xml映射文件
+  mapperLocations: classpath:mapper/**/*.xml
 
+# swagger配置
+swagger:
+  license: Powered By ruoyi
+  licenseUrl: https://ruoyi.vip

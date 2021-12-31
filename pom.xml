@@ -52,7 +52,7 @@
                 <nacos.server>127.0.0.1:8848</nacos.server>
                 <nacos.discovery.group>DEFAULT_GROUP</nacos.discovery.group>
                 <nacos.config.group>DEFAULT_GROUP</nacos.config.group>
-                <sentinel.server>127.0.0.1:8718</sentinel.server>
+                <sentinel.server>60.205.227.68:8718</sentinel.server>
             </properties>
             <activation>
                 <!-- 默认环境 -->

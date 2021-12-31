@@ -11,6 +11,12 @@ spring:
     # 环境配置
     active: @profiles.active@
 
+# swagger配置
+swagger:
+  title: 代码生成接口文档
+  license: ${swagger.license}
+  licenseUrl: ${swagger.licenseUrl}
+
 --- # nacos 配置
 spring:
   cloud:
@@ -29,3 +35,32 @@ spring:
         shared-configs:
           - application.${spring.cloud.nacos.config.file-extension}
           - application-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
+
+--- # 数据源
+spring:
+  datasource:
+    dynamic:
+      datasource:
+        # 主库数据源
+        master:
+          driver-class-name: ${spring.datasource.gen.driver-class-name}
+          url: ${spring.datasource.gen.url}
+          username: ${spring.datasource.gen.username}
+          password: ${spring.datasource.gen.password}
+        # 从库数据源
+#        slave:
+#          username:
+#          password:
+#          url:
+#          driver-class-name:
+
+--- # 代码生成
+gen:
+  # 作者
+  author: ruoyi
+  # 默认生成包路径 system 需改成自己的模块名称 如 system monitor tool
+  packageName: com.ruoyi.system
+  # 自动去除表前缀，默认是false
+  autoRemovePre: false
+  # 表前缀（生成类名不会包含表前缀，多个用逗号分隔）
+  tablePrefix: sys_
