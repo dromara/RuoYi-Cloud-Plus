@@ -273,6 +273,13 @@
                 <version>${ruoyi.version}</version>
             </dependency>
 
+            <!-- web服务 -->
+            <dependency>
+                <groupId>com.ruoyi</groupId>
+                <artifactId>ruoyi-common-web</artifactId>
+                <version>${ruoyi.version}</version>
+            </dependency>
+
             <!-- 系统接口 -->
             <dependency>
                 <groupId>com.ruoyi</groupId>

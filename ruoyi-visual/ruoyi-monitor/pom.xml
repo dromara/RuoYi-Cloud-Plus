@@ -41,10 +41,9 @@
             <artifactId>spring-cloud-starter-alibaba-sentinel</artifactId>
         </dependency>
 		
-        <!-- SpringBoot Web -->
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
+            <groupId>com.ruoyi</groupId>
+            <artifactId>ruoyi-common-web</artifactId>
         </dependency>
 		
         <!-- Spring Security -->
