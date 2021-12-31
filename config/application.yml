@@ -129,6 +129,13 @@ management:
     web:
       exposure:
         include: '*'
+  endpoint:
+    logfile:
+      external-file: ./logs/${spring.application.name}/console.log
+
+# 日志配置
+logging:
+  config: classpath:logback.xml
 
 # redisson 缓存配置
 redisson:
