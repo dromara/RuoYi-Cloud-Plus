@@ -1,7 +1,6 @@
 package com.ruoyi.system.controller;
 
 import com.ruoyi.common.core.constant.UserConstants;
-import com.ruoyi.common.core.domain.R;
 import com.ruoyi.common.core.utils.StringUtils;
 import com.ruoyi.common.core.web.controller.BaseController;
 import com.ruoyi.common.core.web.domain.AjaxResult;
@@ -15,6 +14,7 @@ import com.ruoyi.system.api.domain.SysUser;
 import com.ruoyi.system.api.model.LoginUser;
 import com.ruoyi.system.service.ISysUserService;
 import lombok.RequiredArgsConstructor;
+import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -33,7 +33,9 @@ public class SysProfileController extends BaseController {
 
     private final ISysUserService userService;
     private final TokenService tokenService;
-    private final RemoteFileService remoteFileService;
+
+    @DubboReference
+    private RemoteFileService remoteFileService;
 
     /**
      * 个人信息
@@ -111,11 +113,11 @@ public class SysProfileController extends BaseController {
     public AjaxResult avatar(@RequestParam("avatarfile") MultipartFile file) throws IOException {
         if (!file.isEmpty()) {
             LoginUser loginUser = SecurityUtils.getLoginUser();
-            R<SysFile> fileResult = remoteFileService.upload(file);
-            if (StringUtils.isNull(fileResult) || StringUtils.isNull(fileResult.getData())) {
+            SysFile sysFile = remoteFileService.upload(file);
+            if (StringUtils.isNull(sysFile)) {
                 return AjaxResult.error("文件服务异常，请联系管理员");
             }
-            String url = fileResult.getData().getUrl();
+            String url = sysFile.getUrl();
             if (userService.updateUserAvatar(loginUser.getUsername(), url)) {
                 AjaxResult ajax = AjaxResult.success();
                 ajax.put("imgUrl", url);

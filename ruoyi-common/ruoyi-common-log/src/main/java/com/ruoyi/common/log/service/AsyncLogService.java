@@ -3,8 +3,7 @@ package com.ruoyi.common.log.service;
 import com.ruoyi.common.core.constant.SecurityConstants;
 import com.ruoyi.system.api.RemoteLogService;
 import com.ruoyi.system.api.domain.SysOperLog;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
@@ -13,11 +12,11 @@ import org.springframework.stereotype.Service;
  *
  * @author ruoyi
  */
-@RequiredArgsConstructor(onConstructor_ = @Autowired)
 @Service
 public class AsyncLogService {
 
-    private final RemoteLogService remoteLogService;
+    @DubboReference
+    private RemoteLogService remoteLogService;
 
     /**
      * 保存系统日志记录

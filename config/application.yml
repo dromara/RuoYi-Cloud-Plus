@@ -14,6 +14,26 @@ server:
       # 阻塞任务线程池, 当执行类似servlet请求阻塞操作, undertow会从这个线程池中取得线程,它的值设置取决于系统的负载
       worker: 256
 
+dubbo:
+  application:
+    logger: slf4j
+  protocol:
+    # 使用dubbo协议通信
+    name: dubbo
+    # dubbo 协议端口(-1表示自增端口,从20880开始)
+    port: -1
+  # 挂载到 Spring Cloud 注册中心
+  registry:
+    address: nacos://${spring.cloud.nacos.server-addr}
+    group: DUBBO_GROUP
+  consumer:
+    check: false
+  scan:
+    base-packages: com.ruoyi
+  cloud:
+    # 规避警告 无其他作用 后续升级3.X删除
+    subscribed-services: ${dubbo.application.name}
+
 spring:
   main:
     allow-bean-definition-overriding: true
@@ -135,6 +155,10 @@ management:
 
 # 日志配置
 logging:
+  level:
+    org.springframework: warn
+    org.apache.dubbo: warn
+    com.alibaba.nacos: warn
   config: classpath:logback.xml
 
 # redisson 缓存配置

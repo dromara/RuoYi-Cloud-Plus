@@ -1,6 +1,7 @@
 package com.ruoyi.file;
 
 import com.ruoyi.common.swagger.annotation.EnableCustomSwagger2;
+import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
@@ -10,6 +11,7 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
  *
  * @author ruoyi
  */
+@EnableDubbo
 @EnableCustomSwagger2
 @SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
 public class RuoYiFileApplication {

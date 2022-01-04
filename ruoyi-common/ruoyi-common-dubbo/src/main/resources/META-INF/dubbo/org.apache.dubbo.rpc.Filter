@@ -1,0 +1,1 @@
+dubboRequestFilter=com.ruoyi.common.dubbo.filter.DubboRequestFilter

@@ -3,7 +3,6 @@ package com.ruoyi.auth.service;
 import com.ruoyi.common.core.constant.Constants;
 import com.ruoyi.common.core.constant.SecurityConstants;
 import com.ruoyi.common.core.constant.UserConstants;
-import com.ruoyi.common.core.domain.R;
 import com.ruoyi.common.core.enums.UserStatus;
 import com.ruoyi.common.core.exception.ServiceException;
 import com.ruoyi.common.core.utils.ServletUtils;
@@ -15,9 +14,7 @@ import com.ruoyi.system.api.RemoteUserService;
 import com.ruoyi.system.api.domain.SysLogininfor;
 import com.ruoyi.system.api.domain.SysUser;
 import com.ruoyi.system.api.model.LoginUser;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.stereotype.Service;
 
 /**
@@ -25,12 +22,13 @@ import org.springframework.stereotype.Service;
  *
  * @author ruoyi
  */
-@RequiredArgsConstructor(onConstructor_ = @Autowired)
 @Service
 public class SysLoginService {
 
-    private final RemoteLogService remoteLogService;
-    private final RemoteUserService remoteUserService;
+    @DubboReference
+    private RemoteLogService remoteLogService;
+    @DubboReference
+    private RemoteUserService remoteUserService;
 
     /**
      * 登录
@@ -54,18 +52,13 @@ public class SysLoginService {
             throw new ServiceException("用户名不在指定范围");
         }
         // 查询用户信息
-        R<LoginUser> userResult = remoteUserService.getUserInfo(username, SecurityConstants.INNER);
+        LoginUser userInfo = remoteUserService.getUserInfo(username, SecurityConstants.INNER);
 
-        if (R.FAIL == userResult.getCode()) {
-            throw new ServiceException(userResult.getMsg());
-        }
-
-        if (StringUtils.isNull(userResult) || StringUtils.isNull(userResult.getData())) {
+        if (StringUtils.isNull(userInfo)) {
             recordLogininfor(username, Constants.LOGIN_FAIL, "登录用户不存在");
             throw new ServiceException("登录用户：" + username + " 不存在");
         }
-        LoginUser userInfo = userResult.getData();
-        SysUser user = userResult.getData().getSysUser();
+        SysUser user = userInfo.getSysUser();
         if (UserStatus.DELETED.getCode().equals(user.getDelFlag())) {
             recordLogininfor(username, Constants.LOGIN_FAIL, "对不起，您的账号已被删除");
             throw new ServiceException("对不起，您的账号：" + username + " 已被删除");
@@ -108,11 +101,8 @@ public class SysLoginService {
         sysUser.setUserName(username);
         sysUser.setNickName(username);
         sysUser.setPassword(SecurityUtils.encryptPassword(password));
-        R<?> registerResult = remoteUserService.registerUserInfo(sysUser, SecurityConstants.INNER);
+        remoteUserService.registerUserInfo(sysUser, SecurityConstants.INNER);
 
-        if (R.FAIL == registerResult.getCode()) {
-            throw new ServiceException(registerResult.getMsg());
-        }
         recordLogininfor(username, Constants.REGISTER, "注册成功");
     }
 

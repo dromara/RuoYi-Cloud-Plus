@@ -41,6 +41,7 @@
         <hutool.version>5.7.16</hutool.version>
         <redisson.version>3.16.7</redisson.version>
         <lock4j.version>2.2.1</lock4j.version>
+        <dubbo.version>3.0.4</dubbo.version>
     </properties>
 
     <profiles>
@@ -277,6 +278,12 @@
             <dependency>
                 <groupId>com.ruoyi</groupId>
                 <artifactId>ruoyi-common-web</artifactId>
+                <version>${ruoyi.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.ruoyi</groupId>
+                <artifactId>ruoyi-common-dubbo</artifactId>
                 <version>${ruoyi.version}</version>
             </dependency>
 
