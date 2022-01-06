@@ -294,6 +294,13 @@
                 <version>${ruoyi.version}</version>
             </dependency>
 
+            <!-- 文件服务接口 -->
+            <dependency>
+                <groupId>com.ruoyi</groupId>
+                <artifactId>ruoyi-api-file</artifactId>
+                <version>${ruoyi.version}</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 

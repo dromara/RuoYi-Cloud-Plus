@@ -54,10 +54,9 @@
             <version>${minio.version}</version>
         </dependency>
         
-        <!-- RuoYi Api System -->
         <dependency>
             <groupId>com.ruoyi</groupId>
-            <artifactId>ruoyi-api-system</artifactId>
+            <artifactId>ruoyi-api-file</artifactId>
         </dependency>
         
         <!-- RuoYi Common Swagger -->

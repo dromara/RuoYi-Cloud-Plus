@@ -2,8 +2,8 @@ package com.ruoyi.file.controller;
 
 import com.ruoyi.common.core.domain.R;
 import com.ruoyi.common.core.utils.file.FileUtils;
+import com.ruoyi.file.api.domain.SysFile;
 import com.ruoyi.file.service.ISysFileService;
-import com.ruoyi.system.api.domain.SysFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -2,9 +2,9 @@ package com.ruoyi.file.dubbo;
 
 import com.ruoyi.common.core.exception.ServiceException;
 import com.ruoyi.common.core.utils.file.FileUtils;
+import com.ruoyi.file.api.RemoteFileService;
+import com.ruoyi.file.api.domain.SysFile;
 import com.ruoyi.file.service.ISysFileService;
-import com.ruoyi.system.api.RemoteFileService;
-import com.ruoyi.system.api.domain.SysFile;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -89,6 +89,11 @@
             <artifactId>ruoyi-common-datasource</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.ruoyi</groupId>
+            <artifactId>ruoyi-common-dubbo</artifactId>
+        </dependency>
+
     </dependencies>
 
     <build>

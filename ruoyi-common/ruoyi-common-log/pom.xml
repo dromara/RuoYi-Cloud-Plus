@@ -26,6 +26,7 @@
         <dependency>
             <groupId>com.ruoyi</groupId>
             <artifactId>ruoyi-common-dubbo</artifactId>
+            <scope>provided</scope>
         </dependency>
         
     </dependencies>

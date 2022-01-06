@@ -88,6 +88,17 @@
             <artifactId>ruoyi-common-dubbo</artifactId>
         </dependency>
 
+        <!-- RuoYi Api System -->
+        <dependency>
+            <groupId>com.ruoyi</groupId>
+            <artifactId>ruoyi-api-system</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.ruoyi</groupId>
+            <artifactId>ruoyi-api-file</artifactId>
+        </dependency>
+
     </dependencies>
 
     <build>
