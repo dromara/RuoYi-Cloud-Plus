@@ -27,11 +27,13 @@ dubbo:
     address: nacos://${spring.cloud.nacos.server-addr}
     group: DUBBO_GROUP
   consumer:
+    cache: true
+    validation: true
+    timeout: 3000
     check: false
   scan:
-    base-packages: com.ruoyi
+    base-packages: com.ruoyi.**.dubbo
   cloud:
-    # 规避警告 无其他作用 后续升级3.X删除
     subscribed-services: ${dubbo.application.name}
 
 spring:
@@ -123,25 +125,6 @@ security:
       - /auth/register
       - /*/v2/api-docs
       - /csrf
-
-# feign 配置
-feign:
-  sentinel:
-    enabled: true
-  okhttp:
-    enabled: true
-  httpclient:
-    enabled: false
-  client:
-    config:
-      default:
-        connectTimeout: 10000
-        readTimeout: 10000
-  compression:
-    request:
-      enabled: true
-    response:
-      enabled: true
 
 # 暴露监控端点
 management:

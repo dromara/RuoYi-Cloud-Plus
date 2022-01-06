@@ -1,6 +1,6 @@
 package com.ruoyi.gateway.filter;
 
-import com.alibaba.fastjson.JSONObject;
+import com.ruoyi.common.core.utils.JsonUtils;
 import com.ruoyi.common.core.utils.ServletUtils;
 import com.ruoyi.common.core.utils.StringUtils;
 import com.ruoyi.gateway.config.properties.CaptchaProperties;
@@ -16,6 +16,7 @@ import reactor.core.publisher.Flux;
 
 import java.nio.CharBuffer;
 import java.nio.charset.StandardCharsets;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
 
 /**
@@ -49,8 +50,8 @@ public class ValidateCodeFilter extends AbstractGatewayFilterFactory<Object> {
 
             try {
                 String rspStr = resolveBodyFromRequest(request);
-                JSONObject obj = JSONObject.parseObject(rspStr);
-                validateCodeService.checkCapcha(obj.getString(CODE), obj.getString(UUID));
+                Map<String, String> obj = JsonUtils.parseMap(rspStr);
+                validateCodeService.checkCapcha(obj.get(CODE), obj.get(UUID));
             } catch (Exception e) {
                 return ServletUtils.webFluxResponseWriter(exchange.getResponse(), e.getMessage());
             }
