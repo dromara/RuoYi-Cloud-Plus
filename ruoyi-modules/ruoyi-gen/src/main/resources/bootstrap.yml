@@ -17,6 +17,12 @@ swagger:
   license: ${swagger.license}
   licenseUrl: ${swagger.licenseUrl}
 
+--- # dubbo 订阅配置
+dubbo:
+  cloud:
+    # 需要远程调用的服务 多个用逗号分割
+    subscribed-services: ruoyi-system
+
 --- # nacos 配置
 spring:
   cloud:

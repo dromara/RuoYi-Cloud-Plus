@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class AsyncLogService {
 
-    @DubboReference(async = true)
+    @DubboReference
     private RemoteLogService remoteLogService;
 
     /**

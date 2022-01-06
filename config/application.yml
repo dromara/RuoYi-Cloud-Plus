@@ -22,19 +22,27 @@ dubbo:
     name: dubbo
     # dubbo 协议端口(-1表示自增端口,从20880开始)
     port: -1
-  # 挂载到 Spring Cloud 注册中心
+  # 注册中心配置
   registry:
     address: nacos://${spring.cloud.nacos.server-addr}
     group: DUBBO_GROUP
+  # 消费者相关配置
   consumer:
+    # 结果缓存(LRU算法)
     cache: true
+    # 支持校验注解
     validation: true
+    # 超时时间
     timeout: 3000
+    # 初始化检查
     check: false
   scan:
+    # 接口实现类扫描
     base-packages: com.ruoyi.**.dubbo
-  cloud:
-    subscribed-services: ${dubbo.application.name}
+  # 自定义配置
+  custom:
+    # 全局请求log
+    request-log: true
 
 spring:
   main:

@@ -24,10 +24,10 @@
         </dependency>
 
         <dependency>
-            <groupId>com.ruoyi</groupId>
-            <artifactId>ruoyi-common-dubbo</artifactId>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-dubbo</artifactId>
             <scope>provided</scope>
         </dependency>
-        
+
     </dependencies>
 </project>
