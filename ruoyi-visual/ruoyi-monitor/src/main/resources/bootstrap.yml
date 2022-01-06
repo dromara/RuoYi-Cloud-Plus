@@ -27,8 +27,10 @@ spring:
         file-extension: yml
         # 共享配置
         shared-configs:
-          - application.${spring.cloud.nacos.config.file-extension}
-          - application-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
+          - data-id: application.${spring.cloud.nacos.config.file-extension}
+            refresh: true
+          - data-id: application-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
+            refresh: true
 
 --- # 监控中心配置
 spring:
