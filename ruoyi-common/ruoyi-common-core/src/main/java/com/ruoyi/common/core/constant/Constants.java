@@ -19,12 +19,17 @@ public interface Constants {
     /**
      * RMI 远程方法调用
      */
-    String LOOKUP_RMI = "rmi://";
+    String LOOKUP_RMI = "rmi:";
 
     /**
      * LDAP 远程方法调用
      */
-    String LOOKUP_LDAP = "ldap://";
+    String LOOKUP_LDAP = "ldap:";
+
+    /**
+     * LDAPS 远程方法调用
+     */
+    String LOOKUP_LDAPS = "ldaps:";
 
     /**
      * http请求
