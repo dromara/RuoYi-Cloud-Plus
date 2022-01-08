@@ -9,6 +9,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <modules>
+        <module>ruoyi-api-bom</module>
         <module>ruoyi-api-system</module>
         <module>ruoyi-api-file</module>
     </modules>
