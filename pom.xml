@@ -190,13 +190,6 @@
                 <version>${swagger.core.version}</version>
             </dependency>
 
-            <!-- 验证码 -->
-            <dependency>
-                <groupId>com.github.penggle</groupId>
-                <artifactId>kaptcha</artifactId>
-                <version>${kaptcha.version}</version>
-            </dependency>
-
             <!-- pagehelper 分页插件 -->
             <dependency>
                 <groupId>com.github.pagehelper</groupId>
