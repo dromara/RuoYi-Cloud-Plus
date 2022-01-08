@@ -31,3 +31,14 @@ spring:
             refresh: true
           - data-id: application-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
             refresh: true
+
+--- # 监控中心配置
+spring:
+  security:
+    user:
+      name: ${monitor.user.name}
+      password: ${monitor.user.password}
+  boot:
+    admin:
+      ui:
+        title: ${monitor.ui.title}

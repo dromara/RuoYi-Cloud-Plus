@@ -106,6 +106,14 @@ seata:
       server-addr: ${spring.cloud.nacos.server-addr}
       namespace:
 
+# 监控中心配置
+monitor:
+  user:
+    name: ruoyi
+    password: 123456
+  ui:
+    title: RuoYi-Cloud-Plus服务监控中心
+
 # 本地文件上传
 file:
   domain: http://127.0.0.1:9300
