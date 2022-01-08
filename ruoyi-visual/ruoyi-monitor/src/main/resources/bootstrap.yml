@@ -25,20 +25,3 @@ spring:
         group: @nacos.config.group@
         # 配置文件格式
         file-extension: yml
-        # 共享配置
-        shared-configs:
-          - data-id: application.${spring.cloud.nacos.config.file-extension}
-            refresh: true
-          - data-id: application-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
-            refresh: true
-
---- # 监控中心配置
-spring:
-  security:
-    user:
-      name: ruoyi
-      password: 123456
-  boot:
-    admin:
-      ui:
-        title: 若依服务状态监控

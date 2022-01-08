@@ -1,0 +1,10 @@
+# 监控中心配置
+spring:
+  security:
+    user:
+      name: ruoyi
+      password: 123456
+  boot:
+    admin:
+      ui:
+        title: RuoYi-Cloud-Plus服务监控中心
