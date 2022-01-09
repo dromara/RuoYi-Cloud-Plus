@@ -1,0 +1,7 @@
+# 监控中心配置
+monitor:
+  user:
+    name: ruoyi
+    password: 123456
+  ui:
+    title: RuoYi-Cloud-Plus服务监控中心

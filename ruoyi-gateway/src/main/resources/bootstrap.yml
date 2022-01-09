@@ -11,12 +11,6 @@ spring:
     # 环境配置
     active: @profiles.active@
 
---- # dubbo 订阅配置
-dubbo:
-  cloud:
-    # 需要远程调用的服务 多个用逗号分割
-    subscribed-services: ruoyi-auth,ruoyi-system
-
 --- # nacos 配置
 spring:
   cloud:
@@ -26,33 +20,14 @@ spring:
       discovery:
         # 注册组
         group: @nacos.discovery.group@
+        namespace: ${spring.profiles.active}
       config:
         # 配置组
         group: @nacos.config.group@
+        namespace: ${spring.profiles.active}
         # 配置文件格式
         file-extension: yml
         # 共享配置
         shared-configs:
           - data-id: application.${spring.cloud.nacos.config.file-extension}
             refresh: true
-          - data-id: application-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
-            refresh: true
-
---- # sentinel 配置
-spring:
-  cloud:
-    sentinel:
-      # 取消控制台懒加载
-      eager: true
-      transport:
-        # 控制台地址
-        dashboard: @sentinel.server@
-      # nacos配置持久化
-      datasource:
-        ds1:
-          nacos:
-            server-addr: ${spring.cloud.nacos.server-addr}
-            dataId: sentinel-${spring.application.name}
-            groupId: ${spring.cloud.nacos.config.group}
-            data-type: json
-            rule-type: flow

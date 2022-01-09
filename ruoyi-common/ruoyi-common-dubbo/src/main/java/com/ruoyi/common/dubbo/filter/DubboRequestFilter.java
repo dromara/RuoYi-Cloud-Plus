@@ -29,8 +29,8 @@ public class DubboRequestFilter implements Filter {
         if (RpcContext.getContext().isConsumerSide()) {
             client = CommonConstants.CONSUMER;
         }
-        String baselog = "Client[" + client + "],InterfaceName=[" + invocation.getInvoker().getInterface().getName() + "],MethodName=[" + invocation.getMethodName() + "]";
-        log.info("DUBBO - 服务调用: {},Parameter=[{}]", baselog, invocation.getArguments());
+        String baselog = "Client[" + client + "],InterfaceName=[" + invocation.getInvoker().getInterface().getSimpleName() + "],MethodName=[" + invocation.getMethodName() + "]";
+        log.info("DUBBO - 服务调用: {},Parameter={}", baselog, invocation.getArguments());
 
         long startTime = System.currentTimeMillis();
         // 执行接口调用逻辑
@@ -39,9 +39,9 @@ public class DubboRequestFilter implements Filter {
         long elapsed = System.currentTimeMillis() - startTime;
         // 如果发生异常 则打印异常日志
         if (result.hasException() && invoker.getInterface().equals(GenericService.class)) {
-            log.error("DUBBO - 服务异常: {},Exception=[{}]", baselog, result.getException());
+            log.error("DUBBO - 服务异常: {},Exception={}", baselog, result.getException());
         } else {
-            log.info("DUBBO - 服务响应: {},SpendTime=[{}ms],Response=[{}]", baselog, elapsed, JsonUtils.toJsonString(new Object[]{result.getValue()}));
+            log.info("DUBBO - 服务响应: {},SpendTime=[{}ms],Response={}", baselog, elapsed, JsonUtils.toJsonString(new Object[]{result.getValue()}));
         }
         return result;
     }
