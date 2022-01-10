@@ -23,8 +23,8 @@
 | 缓存数据库        | Redis                    | [Redis官网](https://redis.io/)                                                                      | 适配 6.X 最低 5.X                |
 | 分布式注册中心      | Alibaba Nacos            | [Alibaba Nacos文档](https://nacos.io/zh-cn/docs/quick-start.html)                                   | 采用2.X 基于GRPC通信高性能            |
 | 分布式配置中心      | Alibaba Nacos            | [Alibaba Nacos文档](https://nacos.io/zh-cn/docs/quick-start.html)                                   | 采用2.X 基于GRPC通信高性能            |
-| 服务网关         | SpringCloud Gateway      | [SpringCloud Gateway文档](https://spring.io/projects/spring-cloud-gateway)                          | 无侵入、高扩展 支持 四种模式              |
-| 负载均衡         | SpringCloud Loadbalancer | [SpringCloud Loadbalancer文档](https://spring.io/guides/gs/spring-cloud-loadbalancer/)              | 无侵入、高扩展 支持 四种模式              |
+| 服务网关         | SpringCloud Gateway      | [SpringCloud Gateway文档](https://spring.io/projects/spring-cloud-gateway)                          | 响应式高性能网关                     |
+| 负载均衡         | SpringCloud Loadbalancer | [SpringCloud Loadbalancer文档](https://spring.io/guides/gs/spring-cloud-loadbalancer/)              | 负载均衡处理                       |
 | RPC远程调用      | Apache Dubbo             | [Apache Dubbo官网](https://dubbo.apache.org/zh/)                                                    | 原生态使用体验、高性能                  |
 | 分布式限流熔断      | Alibaba Sentinel         | [Alibaba Sentinel文档](https://sentinelguard.io/zh-cn/)                                             | 无侵入、高扩展                      |
 | 分布式事务        | Alibaba Seata            | [Alibaba Seata文档](http://seata.io/zh-cn/)                                                         | 无侵入、高扩展 支持 四种模式              |
