@@ -10,6 +10,7 @@
 
     <modules>
         <module>ruoyi-monitor</module>
+        <module>ruoyi-xxl-job-admin</module>
     </modules>
 
     <artifactId>ruoyi-visual</artifactId>

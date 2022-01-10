@@ -18,6 +18,7 @@
         <module>ruoyi-common-datascope</module>
 		<module>ruoyi-common-datasource</module>
         <module>ruoyi-common-web</module>
+        <module>ruoyi-common-job</module>
         <module>ruoyi-common-dubbo</module>
     </modules>
 

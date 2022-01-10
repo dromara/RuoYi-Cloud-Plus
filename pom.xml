@@ -43,6 +43,13 @@
         <lock4j.version>2.2.1</lock4j.version>
         <dubbo.version>2.7.15</dubbo.version>
         <spring.context.support.version>1.0.11</spring.context.support.version>
+        <xxl-job.version>2.3.0</xxl-job.version>
+
+        <!-- docker 配置 -->
+        <docker.registry.url>localhost</docker.registry.url>
+        <docker.registry.host>http://${docker.registry.url}:2375</docker.registry.host>
+        <docker.namespace>ruoyi</docker.namespace>
+        <docker.plugin.version>1.2.2</docker.plugin.version>
     </properties>
 
     <profiles>
@@ -255,6 +262,13 @@
                 <groupId>com.baomidou</groupId>
                 <artifactId>lock4j-redisson-spring-boot-starter</artifactId>
                 <version>${lock4j.version}</version>
+            </dependency>
+
+            <!-- xxl-job-core -->
+            <dependency>
+                <groupId>com.xuxueli</groupId>
+                <artifactId>xxl-job-core</artifactId>
+                <version>${xxl-job.version}</version>
             </dependency>
 
         </dependencies>

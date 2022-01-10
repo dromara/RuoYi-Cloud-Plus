@@ -1,0 +1,49 @@
+# Tomcat
+server:
+  port: 9900
+
+# Spring
+spring: 
+  application:
+    # 应用名称
+    name: ruoyi-xxl-job-admin
+  profiles:
+    # 环境配置
+    active: @profiles.active@
+  mvc:
+    servlet:
+      load-on-startup: 0
+    static-path-pattern: /static/**
+  web:
+    resources:
+      static-locations: classpath:/static/
+  freemarker:
+    charset: UTF-8
+    request-context-attribute: request
+    settings:
+      number_format: 0.##########
+    suffix: .ftl
+    templateLoaderPath: classpath:/templates/
+
+--- # nacos 配置
+spring:
+  cloud:
+    nacos:
+      # nacos 服务地址
+      server-addr: @nacos.server@
+      discovery:
+        # 注册组
+        group: @nacos.discovery.group@
+        namespace: ${spring.profiles.active}
+      config:
+        # 配置组
+        group: @nacos.config.group@
+        namespace: ${spring.profiles.active}
+        # 配置文件格式
+        file-extension: yml
+        # 共享配置
+        shared-configs:
+          - data-id: application.${spring.cloud.nacos.config.file-extension}
+            refresh: true
+          - data-id: datasource.${spring.cloud.nacos.config.file-extension}
+            refresh: true
