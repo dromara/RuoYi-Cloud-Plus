@@ -1,4 +1,5 @@
 ## 平台简介(开发中)
+
 [![码云Gitee](https://gitee.com/JavaLionLi/RuoYi-Cloud-Plus/badge/star.svg?theme=blue)](https://gitee.com/JavaLionLi/RuoYi-Cloud-Plus)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](https://gitee.com/JavaLionLi/RuoYi-Cloud-Plus/blob/master/LICENSE)
 <br>
@@ -6,64 +7,53 @@
 [![JDK-8+](https://img.shields.io/badge/JDK-8-green.svg)]()
 [![JDK-11](https://img.shields.io/badge/JDK-11-green.svg)]()
 
-> RuoYi-Cloud-Plus 是重写 RuoYi-Cloud 全方位升级(不兼容原框架)
+> RuoYi-Cloud-Plus `微服务通用权限管理系统` 重写 RuoYi-Cloud 全方位升级(不兼容原框架)
 
-| 功能介绍 | 使用技术 | 文档地址 | 特性注意事项 |
-|---|---|---|---|
-| 前端开发框架 | Vue、Element UI | [Element UI官网](https://element.eleme.cn/#/zh-CN) | |
-| 后端开发框架 | SpringBoot | [SpringBoot官网](https://spring.io/projects/spring-boot/#learn) | |
-| 容器框架 | Undertow | [Undertow官网](https://undertow.io/) | 基于 XNIO 的高性能容器 |
-| 权限认证框架 | Spring Security、Jwt | [SpringSecurity官网](https://spring.io/projects/spring-security#learn) | 支持多终端认证系统 |
-| 权限认证框架 | Sa-Token、Jwt | [Sa-Token官网](https://sa-token.dev33.cn/) | 强解耦、强扩展 |
-| 关系数据库 | MySQL | [MySQL官网](https://dev.mysql.com/) | 适配 8.X 最低 5.7 |
-| 缓存数据库 | Redis | [Redis官网](https://redis.io/) | 适配 6.X 最低 4.X |
-| 数据库框架 | Mybatis-Plus | [Mybatis-Plus文档](https://baomidou.com/guide/) | 快速 CRUD 增加开发效率 |
-| 数据库框架 | p6spy | [p6spy官网](https://p6spy.readthedocs.io/) | 更强劲的 SQL 分析 |
-| 多数据源框架 | dynamic-datasource | [dynamic-ds文档](https://www.kancloud.cn/tracy5546/dynamic-datasource/content) | 支持主从与多种类数据库异构 |
-| 序列化框架 | Jackson | [Jackson官网](https://github.com/FasterXML/jackson) | 统一使用 jackson 高效可靠 |
-| Redis客户端 | Redisson | [Redisson文档](https://github.com/redisson/redisson/wiki/%E7%9B%AE%E5%BD%95) | 支持单机、集群配置 |
-| 分布式限流 | Redisson | [Redisson文档](https://github.com/redisson/redisson/wiki/%E7%9B%AE%E5%BD%95) | 全局、请求IP、集群ID 多种限流 |
-| 分布式锁 | Lock4j | [Lock4j官网](https://gitee.com/baomidou/lock4j) | 注解锁、工具锁 多种多样 |
-| 分布式幂等 | Redisson | [Lock4j文档](https://gitee.com/baomidou/lock4j) | 拦截重复提交 |
-| 分布式任务调度 | Xxl-Job | [Xxl-Job官网](https://www.xuxueli.com/xxl-job/) | 高性能 高可靠 易扩展 |
-| 文件存储 | Minio | [Minio文档](https://docs.min.io/) | 本地存储 |
-| 文件存储 | 七牛、阿里、腾讯 | [OSS使用文档](https://gitee.com/JavaLionLi/RuoYi-Vue-Plus/wikis/pages?sort_id=4359146&doc_id=1469725) | 云存储 |
-| 监控框架 | SpringBoot-Admin | [SpringBoot-Admin文档](https://codecentric.github.io/spring-boot-admin/current/) | 全方位服务监控 |
-| 校验框架 | Validation | [Validation文档](https://docs.jboss.org/hibernate/stable/validator/reference/en-US/html_single/) | 增强接口安全性、严谨性 支持国际化 |
-| Excel框架 | Alibaba EasyExcel | [EasyExcel文档](https://www.yuque.com/easyexcel/doc/easyexcel) | 性能优异 扩展性强 |
-| 文档框架 | Knife4j | [Knife4j文档](https://doc.xiaominfo.com/knife4j/documentation/) | 美化接口文档 |
-| 工具类框架 | Hutool、Lombok | [Hutool文档](https://www.hutool.cn/docs/) | 减少代码冗余 增加安全性 |
-| 代码生成器 | 适配MP、Knife4j规范化代码 | [Hutool文档](https://www.hutool.cn/docs/) | 一键生成前后端代码 |
-| 部署方式 | Docker | [Docker文档](https://docs.docker.com/) | 容器编排 一键部署业务集群 |
-| 国际化 | SpringMessage | [SpringMVC文档](https://docs.spring.io/spring-framework/docs/current/reference/html/web.html#mvc) | Spring标准国际化方案 |
-
-
-## 系统模块
-
-~~~
-com.ruoyi     
-├── ruoyi-ui              // 前端框架 [80]
-├── ruoyi-gateway         // 网关模块 [8080]
-├── ruoyi-auth            // 认证中心 [9200]
-├── ruoyi-api             // 接口模块
-│       └── ruoyi-api-system                          // 系统接口
-├── ruoyi-common          // 通用模块
-│       └── ruoyi-common-core                         // 核心模块
-│       └── ruoyi-common-datascope                    // 权限范围
-│       └── ruoyi-common-datasource                   // 多数据源
-│       └── ruoyi-common-log                          // 日志记录
-│       └── ruoyi-common-redis                        // 缓存服务
-│       └── ruoyi-common-security                     // 安全模块
-│       └── ruoyi-common-swagger                      // 系统接口
-├── ruoyi-modules         // 业务模块
-│       └── ruoyi-system                              // 系统模块 [9201]
-│       └── ruoyi-gen                                 // 代码生成 [9202]
-│       └── ruoyi-job                                 // 定时任务 [9203]
-│       └── ruoyi-file                                // 文件服务 [9300]
-├── ruoyi-visual          // 图形化管理模块
-│       └── ruoyi-visual-monitor                      // 监控中心 [9100]
-├──pom.xml                // 公共依赖
-~~~
+| 功能介绍         | 使用技术                     | 文档地址                                                                                              | 特性注意事项                       |
+|--------------|--------------------------|---------------------------------------------------------------------------------------------------|------------------------------|
+| 微服务权限管理系统    | RuoYi-Cloud-Plus         | [RuoYi-Cloud-Plus官网](https://gitee.com/JavaLionLi/RuoYi-Cloud-Plus)                               | 重写 RuoYi-Cloud 全方位升级(不兼容原框架) |
+| 分布式集群分支      | RuoYi-Vue-Plus           | [RuoYi-Vue-Plus官网](https://gitee.com/JavaLionLi/RuoYi-Vue-Plus)                                   | 重写 RuoYi-Vue (不兼容原框架)        |
+| 前端开发框架       | Vue、Element UI           | [Element UI官网](https://element.eleme.cn/#/zh-CN)                                                  |                              |
+| 后端开发框架       | SpringBoot               | [SpringBoot官网](https://spring.io/projects/spring-boot/#learn)                                     |                              |
+| 微服务开发框架      | SpringCloud              | [SpringCloud官网](https://spring.io/projects/spring-cloud)                                          |                              |
+| 微服务开发框架      | SpringCloudAlibaba       | [SpringCloudAlibaba官网](https://spring.io/projects/spring-cloud-alibaba)                           |                              |
+| 容器框架         | Undertow                 | [Undertow官网](https://undertow.io/)                                                                | 基于 XNIO 的高性能容器               |
+| 权限认证框架(未完成)  | Sa-Token、Jwt             | [Sa-Token官网](https://sa-token.dev33.cn/)                                                          | 强解耦、强扩展                      |
+| 关系数据库        | MySQL                    | [MySQL官网](https://dev.mysql.com/)                                                                 | 适配 8.X 最低 5.7                |
+| 缓存数据库        | Redis                    | [Redis官网](https://redis.io/)                                                                      | 适配 6.X 最低 5.X                |
+| 分布式注册中心      | Alibaba Nacos            | [Alibaba Nacos文档](https://nacos.io/zh-cn/docs/quick-start.html)                                   | 采用2.X 基于GRPC通信高性能            |
+| 分布式配置中心      | Alibaba Nacos            | [Alibaba Nacos文档](https://nacos.io/zh-cn/docs/quick-start.html)                                   | 采用2.X 基于GRPC通信高性能            |
+| 服务网关         | SpringCloud Gateway      | [SpringCloud Gateway文档](https://spring.io/projects/spring-cloud-gateway)                          | 无侵入、高扩展 支持 四种模式              |
+| 负载均衡         | SpringCloud Loadbalancer | [SpringCloud Loadbalancer文档](https://spring.io/guides/gs/spring-cloud-loadbalancer/)              | 无侵入、高扩展 支持 四种模式              |
+| RPC远程调用      | Apache Dubbo             | [Apache Dubbo官网](https://dubbo.apache.org/zh/)                                                    | 原生态使用体验、高性能                  |
+| 分布式限流熔断      | Alibaba Sentinel         | [Alibaba Sentinel文档](https://sentinelguard.io/zh-cn/)                                             | 无侵入、高扩展                      |
+| 分布式事务        | Alibaba Seata            | [Alibaba Seata文档](http://seata.io/zh-cn/)                                                         | 无侵入、高扩展 支持 四种模式              |
+| 分布式消息队列(未完成) | SpringCloud Stream       | [SpringCloud Stream文档](https://spring.io/projects/spring-cloud-stream)                            | 门面框架兼容各种MQ集成                 |
+| 分布式消息队列(未完成) | Apache Kafka             | [Apache Kafka文档](https://kafka.apache.org/)                                                       | 高性能高速度                       |
+| 分布式消息队列(未完成) | Apache RocketMQ          | [Apache RocketMQ文档](http://rocketmq.apache.org/)                                                  | 高可用功能多样                      |
+| 分布式消息队列(未完成) | RabbitMQ                 | [RabbitMQ文档](https://www.rabbitmq.com/)                                                           | 支持各种扩展插件功能多样性                |
+| 分布式搜索引擎(未完成) | ElasticSearch            | [ElasticSearch官网](https://www.elastic.co/cn/elasticsearch/)                                       | 业界知名                         |
+| 分布式链路追踪(未完成) | Apache SkyWalking        | [Apache SkyWalking文档](https://skywalking.apache.org/docs/)                                        | 链路追踪、网格分析、度量聚合、可视化           |
+| 分布式日志中心(未完成) | ELK                      | [ElasticSearch官网](https://www.elastic.co/cn/elasticsearch/)                                       | ELK业界成熟解决方案                  |
+| 分布式锁         | Lock4j                   | [Lock4j官网](https://gitee.com/baomidou/lock4j)                                                     | 注解锁、工具锁 多种多样                 |
+| 分布式幂等        | Redisson                 | [Lock4j文档](https://gitee.com/baomidou/lock4j)                                                     | 拦截重复提交                       |
+| 分布式任务调度      | Xxl-Job                  | [Xxl-Job官网](https://www.xuxueli.com/xxl-job/)                                                     | 高性能 高可靠 易扩展                  |
+| 分布式文件存储(未完成) | Minio                    | [Minio文档](https://docs.min.io/)                                                                   | 本地存储                         |
+| 分布式云存储(未完成)  | 七牛、阿里、腾讯                 | [OSS使用文档](https://gitee.com/JavaLionLi/RuoYi-Vue-Plus/wikis/pages?sort_id=4359146&doc_id=1469725) | 云存储                          |
+| 分布式监控(未完成)   | Prometheus、Grafana       | [Prometheus文档](https://prometheus.io/docs/introduction/overview/)                                 | 全方位性能监控                      |
+| 服务监控         | SpringBoot-Admin         | [SpringBoot-Admin文档](https://codecentric.github.io/spring-boot-admin/current/)                    | 全方位服务监控                      |
+| 数据库框架(未完成)   | Mybatis-Plus             | [Mybatis-Plus文档](https://baomidou.com/guide/)                                                     | 快速 CRUD 增加开发效率               |
+| 数据库框架(未完成)   | P6spy                    | [p6spy官网](https://p6spy.readthedocs.io/)                                                          | 更强劲的 SQL 分析                  |
+| 多数据源框架       | Dynamic-Datasource       | [dynamic-ds文档](https://www.kancloud.cn/tracy5546/dynamic-datasource/content)                      | 支持主从与多种类数据库异构                |
+| 序列化框架        | Jackson                  | [Jackson官网](https://github.com/FasterXML/jackson)                                                 | 统一使用 jackson 高效可靠            |
+| Redis客户端     | Redisson                 | [Redisson文档](https://github.com/redisson/redisson/wiki/%E7%9B%AE%E5%BD%95)                        | 支持单机、集群配置                    |
+| 校验框架(待优化)    | Validation               | [Validation文档](https://docs.jboss.org/hibernate/stable/validator/reference/en-US/html_single/)    | 增强接口安全性、严谨性 支持国际化            |
+| Excel框架(未完成) | Alibaba EasyExcel        | [EasyExcel文档](https://www.yuque.com/easyexcel/doc/easyexcel)                                      | 性能优异 扩展性强                    |
+| 文档框架(未完成)    | Knife4j                  | [Knife4j文档](https://doc.xiaominfo.com/knife4j/documentation/)                                     | 美化接口文档                       |
+| 工具类框架        | Hutool、Lombok            | [Hutool文档](https://www.hutool.cn/docs/)                                                           | 减少代码冗余 增加安全性                 |
+| 代码生成器(未完成)   | 适配MP、Knife4j规范化代码        | [Hutool文档](https://www.hutool.cn/docs/)                                                           | 一键生成前后端代码                    |
+| 部署方式(未完成)    | Docker                   | [Docker文档](https://docs.docker.com/)                                                              | 容器编排 一键部署业务集群                |
+| 国际化(未完成)     | SpringMessage            | [SpringMVC文档](https://docs.spring.io/spring-framework/docs/current/reference/html/web.html#mvc)   | Spring标准国际化方案                |
 
 ## 软件架构图
 
@@ -81,6 +71,7 @@ com.ruoyi
 * satoken 分支 [RuoYi-Vue-Plus-satoken](https://gitee.com/JavaLionLi/RuoYi-Vue-Plus/tree/satoken/)
 
 ## 捐献作者
+
 作者为兼职做开源,平时还需要工作,如果帮到了您可以请作者吃个盒饭  
 <img src="https://images.gitee.com/uploads/images/2021/0525/101654_451e4523_1766278.jpeg" width="300px" height="450px" />
 <img src="https://images.gitee.com/uploads/images/2021/0525/101713_3d18b119_1766278.jpeg" width="300px" height="450px" />
