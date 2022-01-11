@@ -1,7 +1,6 @@
 package com.ruoyi.system.controller;
 
 import com.ruoyi.common.core.constant.UserConstants;
-import com.ruoyi.common.core.domain.R;
 import com.ruoyi.common.core.utils.StringUtils;
 import com.ruoyi.common.core.utils.poi.ExcelUtil;
 import com.ruoyi.common.core.web.controller.BaseController;
@@ -9,12 +8,10 @@ import com.ruoyi.common.core.web.domain.AjaxResult;
 import com.ruoyi.common.core.web.page.TableDataInfo;
 import com.ruoyi.common.log.annotation.Log;
 import com.ruoyi.common.log.enums.BusinessType;
-import com.ruoyi.common.security.annotation.InnerAuth;
 import com.ruoyi.common.security.annotation.RequiresPermissions;
 import com.ruoyi.common.security.utils.SecurityUtils;
 import com.ruoyi.system.api.domain.SysRole;
 import com.ruoyi.system.api.domain.SysUser;
-import com.ruoyi.system.api.model.LoginUser;
 import com.ruoyi.system.service.*;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.ArrayUtils;
@@ -80,43 +77,6 @@ public class SysUserController extends BaseController {
     public void importTemplate(HttpServletResponse response) throws IOException {
         ExcelUtil<SysUser> util = new ExcelUtil<SysUser>(SysUser.class);
         util.importTemplateExcel(response, "用户数据");
-    }
-
-    /**
-     * 获取当前用户信息
-     */
-    @InnerAuth
-    @GetMapping("/info/{username}")
-    public R<LoginUser> info(@PathVariable("username") String username) {
-        SysUser sysUser = userService.selectUserByUserName(username);
-        if (StringUtils.isNull(sysUser)) {
-            return R.fail("用户名或密码错误");
-        }
-        // 角色集合
-        Set<String> roles = permissionService.getRolePermission(sysUser.getUserId());
-        // 权限集合
-        Set<String> permissions = permissionService.getMenuPermission(sysUser.getUserId());
-        LoginUser sysUserVo = new LoginUser();
-        sysUserVo.setSysUser(sysUser);
-        sysUserVo.setRoles(roles);
-        sysUserVo.setPermissions(permissions);
-        return R.ok(sysUserVo);
-    }
-
-    /**
-     * 注册用户信息
-     */
-    @InnerAuth
-    @PostMapping("/register")
-    public R<Boolean> register(@RequestBody SysUser sysUser) {
-        String username = sysUser.getUserName();
-        if (!("true".equals(configService.selectConfigByKey("sys.account.registerUser")))) {
-            return R.fail("当前系统没有开启注册功能！");
-        }
-        if (UserConstants.NOT_UNIQUE.equals(userService.checkUserNameUnique(username))) {
-            return R.fail("保存用户'" + username + "'失败，注册账号已存在");
-        }
-        return R.ok(userService.registerUser(sysUser));
     }
 
     /**

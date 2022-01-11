@@ -1,10 +1,10 @@
 package com.ruoyi.gateway.filter;
 
 import com.ruoyi.common.core.utils.JsonUtils;
-import com.ruoyi.common.core.utils.ServletUtils;
 import com.ruoyi.common.core.utils.StringUtils;
 import com.ruoyi.gateway.config.properties.CaptchaProperties;
 import com.ruoyi.gateway.service.ValidateCodeService;
+import com.ruoyi.gateway.utils.WebFluxUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
@@ -53,7 +53,7 @@ public class ValidateCodeFilter extends AbstractGatewayFilterFactory<Object> {
                 Map<String, String> obj = JsonUtils.parseMap(rspStr);
                 validateCodeService.checkCapcha(obj.get(CODE), obj.get(UUID));
             } catch (Exception e) {
-                return ServletUtils.webFluxResponseWriter(exchange.getResponse(), e.getMessage());
+                return WebFluxUtils.webFluxResponseWriter(exchange.getResponse(), e.getMessage());
             }
             return chain.filter(exchange);
         };

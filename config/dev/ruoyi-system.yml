@@ -40,7 +40,7 @@ xxl:
     executor:
       # 执行器AppName：执行器心跳注册分组依据；为空则关闭自动注册
       appname: ${spring.application.name}-executor
-      # 执行器端口号 执行器从19201开始往后写
+      # 执行器端口号 执行器从19901开始往后写
       port: 9901
       # 执行器注册：默认IP:PORT
       address:
