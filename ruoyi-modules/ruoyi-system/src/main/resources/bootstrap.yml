@@ -3,7 +3,7 @@ server:
   port: 9201
 
 # Spring
-spring: 
+spring:
   application:
     # 应用名称
     name: ruoyi-system

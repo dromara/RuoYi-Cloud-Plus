@@ -75,9 +75,9 @@
           <div class="body">
             <p>
               <i class="el-icon-s-promotion"></i> 官网：<el-link
-                href="http://www.ruoyi.vip"
+                href="https://gitee.com/JavaLionLi/RuoYi-Cloud-Plus"
                 target="_blank"
-                >http://www.ruoyi.vip</el-link
+                >https://gitee.com/JavaLionLi/RuoYi-Cloud-Plus</el-link
               >
             </p>
           </div>

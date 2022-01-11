@@ -23,7 +23,6 @@
         <alibaba.nacos.version>2.0.3</alibaba.nacos.version>
         <spring-boot-admin.version>2.5.4</spring-boot-admin.version>
         <spring-boot.mybatis>2.2.0</spring-boot.mybatis>
-        <swagger.fox.version>3.0.0</swagger.fox.version>
         <swagger.core.version>1.6.2</swagger.core.version>
         <tobato.version>1.27.2</tobato.version>
         <kaptcha.version>2.3.2</kaptcha.version>
@@ -44,6 +43,8 @@
         <dubbo.version>2.7.15</dubbo.version>
         <spring.context.support.version>1.0.11</spring.context.support.version>
         <xxl-job.version>2.3.0</xxl-job.version>
+        <knife4j-aggregation.version>2.0.9</knife4j-aggregation.version>
+        <knife4j.version>3.0.3</knife4j.version>
 
         <!-- docker 配置 -->
         <docker.registry.url>localhost</docker.registry.url>
@@ -186,11 +187,6 @@
             <!-- Swagger 依赖配置 -->
             <dependency>
                 <groupId>io.swagger</groupId>
-                <artifactId>swagger-models</artifactId>
-                <version>${swagger.core.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.swagger</groupId>
                 <artifactId>swagger-annotations</artifactId>
                 <version>${swagger.core.version}</version>
             </dependency>
@@ -231,9 +227,9 @@
             </dependency>
 
             <!-- Collection 增强Java集合框架 -->
-            <dependency> 
-                <groupId>commons-collections</groupId> 
-                <artifactId>commons-collections</artifactId> 
+            <dependency>
+                <groupId>commons-collections</groupId>
+                <artifactId>commons-collections</artifactId>
                 <version>${commons-collections.version}</version>
             </dependency>
 
@@ -269,6 +265,12 @@
                 <groupId>com.xuxueli</groupId>
                 <artifactId>xxl-job-core</artifactId>
                 <version>${xxl-job.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.github.xiaoymin</groupId>
+                <artifactId>knife4j-micro-spring-boot-starter</artifactId>
+                <version>${knife4j.version}</version>
             </dependency>
 
         </dependencies>

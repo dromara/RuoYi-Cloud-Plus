@@ -6,10 +6,10 @@
 
 <script>
 export default {
-  name: 'RuoYiDoc',
+  name: 'RuoYi-Cloud-Plus-Wiki',
   data() {
     return {
-      url: 'http://doc.ruoyi.vip/ruoyi-cloud'
+      url: 'https://gitee.com/JavaLionLi/RuoYi-Cloud-Plus/wikis'
     }
   },
   methods: {

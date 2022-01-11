@@ -6,10 +6,10 @@
 
 <script>
 export default {
-  name: 'RuoYiGit',
+  name: 'RuoYi-Cloud-Plus-Git',
   data() {
     return {
-      url: 'https://gitee.com/y_project/RuoYi-Cloud'
+      url: 'https://gitee.com/JavaLionLi/RuoYi-Cloud-Plus'
     }
   },
   methods: {

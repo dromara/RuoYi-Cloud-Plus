@@ -3,7 +3,7 @@ server:
   port: 9202
 
 # Spring
-spring: 
+spring:
   application:
     # 应用名称
     name: ruoyi-gen

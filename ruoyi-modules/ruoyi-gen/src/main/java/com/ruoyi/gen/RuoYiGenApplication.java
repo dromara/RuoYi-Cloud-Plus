@@ -1,7 +1,6 @@
 package com.ruoyi.gen;
 
 import com.ruoyi.common.security.annotation.EnableCustomConfig;
-import com.ruoyi.common.swagger.annotation.EnableCustomSwagger2;
 import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -12,7 +11,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @author ruoyi
  */
 @EnableCustomConfig
-@EnableCustomSwagger2
 @EnableDubbo
 @SpringBootApplication
 public class RuoYiGenApplication {

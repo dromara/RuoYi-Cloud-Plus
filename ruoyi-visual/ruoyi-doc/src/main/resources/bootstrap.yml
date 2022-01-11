@@ -6,7 +6,7 @@ server:
 spring:
   application:
     # 应用名称
-    name: ruoyi-file
+    name: ruoyi-doc
   profiles:
     # 环境配置
     active: @profiles.active@

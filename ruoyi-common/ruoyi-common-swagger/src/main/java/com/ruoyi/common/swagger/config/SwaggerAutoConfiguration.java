@@ -1,8 +1,9 @@
 package com.ruoyi.common.swagger.config;
 
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import com.github.xiaoymin.knife4j.spring.annotations.EnableKnife4j;
+import com.ruoyi.common.swagger.config.properties.SwaggerProperties;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.ApiInfoBuilder;
@@ -13,18 +14,23 @@ import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spi.service.contexts.SecurityContext;
 import springfox.documentation.spring.web.plugins.ApiSelectorBuilder;
 import springfox.documentation.spring.web.plugins.Docket;
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Predicate;
 
+/**
+ * Swagger 文档配置
+ *
+ * @author Lion Li
+ */
 @Configuration
-@EnableSwagger2
-@EnableAutoConfiguration
+@EnableKnife4j
+@EnableConfigurationProperties(SwaggerProperties.class)
 @ConditionalOnProperty(name = "swagger.enabled", matchIfMissing = true)
 public class SwaggerAutoConfiguration {
+
     /**
      * 默认的排除路径，排除Spring Boot默认的错误处理路径和端点
      */
@@ -33,19 +39,13 @@ public class SwaggerAutoConfiguration {
     private static final String BASE_PATH = "/**";
 
     @Bean
-    @ConditionalOnMissingBean
-    public SwaggerProperties swaggerProperties() {
-        return new SwaggerProperties();
-    }
-
-    @Bean
     public Docket api(SwaggerProperties swaggerProperties) {
         // base-path处理
         if (swaggerProperties.getBasePath().isEmpty()) {
             swaggerProperties.getBasePath().add(BASE_PATH);
         }
         // noinspection unchecked
-        List<Predicate<String>> basePath = new ArrayList<Predicate<String>>();
+        List<Predicate<String>> basePath = new ArrayList<>();
         swaggerProperties.getBasePath().forEach(path -> basePath.add(PathSelectors.ant(path)));
 
         // exclude-path处理
@@ -56,21 +56,26 @@ public class SwaggerAutoConfiguration {
         List<Predicate<String>> excludePath = new ArrayList<>();
         swaggerProperties.getExcludePath().forEach(path -> excludePath.add(PathSelectors.ant(path)));
 
-        ApiSelectorBuilder builder = new Docket(DocumentationType.SWAGGER_2).host(swaggerProperties.getHost())
-                .apiInfo(apiInfo(swaggerProperties)).select()
-                .apis(RequestHandlerSelectors.basePackage(swaggerProperties.getBasePackage()));
+        ApiSelectorBuilder builder = new Docket(DocumentationType.OAS_30)
+            .host(swaggerProperties.getHost())
+            .apiInfo(apiInfo(swaggerProperties))
+            .select()
+            .apis(RequestHandlerSelectors.basePackage(swaggerProperties.getBasePackage()));
 
         swaggerProperties.getBasePath().forEach(p -> builder.paths(PathSelectors.ant(p)));
         swaggerProperties.getExcludePath().forEach(p -> builder.paths(PathSelectors.ant(p).negate()));
 
-        return builder.build().securitySchemes(securitySchemes()).securityContexts(securityContexts()).pathMapping("/");
+        return builder.build()
+            .securitySchemes(securitySchemes())
+            .securityContexts(securityContexts())
+            .pathMapping("/");
     }
 
     /**
      * 安全模式，这里指定token通过Authorization头请求头传递
      */
     private List<SecurityScheme> securitySchemes() {
-        List<SecurityScheme> apiKeyList = new ArrayList<SecurityScheme>();
+        List<SecurityScheme> apiKeyList = new ArrayList<>();
         apiKeyList.add(new ApiKey("Authorization", "Authorization", "header"));
         return apiKeyList;
     }
@@ -81,17 +86,15 @@ public class SwaggerAutoConfiguration {
     private List<SecurityContext> securityContexts() {
         List<SecurityContext> securityContexts = new ArrayList<>();
         securityContexts.add(
-                SecurityContext.builder()
-                        .securityReferences(defaultAuth())
-                        .operationSelector(o -> o.requestMappingPattern().matches("/.*"))
-                        .build());
+            SecurityContext.builder()
+                .securityReferences(defaultAuth())
+                .operationSelector(o -> o.requestMappingPattern().matches("/.*"))
+                .build());
         return securityContexts;
     }
 
     /**
      * 默认的全局鉴权策略
-     *
-     * @return
      */
     private List<SecurityReference> defaultAuth() {
         AuthorizationScope authorizationScope = new AuthorizationScope("global", "accessEverything");
@@ -104,13 +107,13 @@ public class SwaggerAutoConfiguration {
 
     private ApiInfo apiInfo(SwaggerProperties swaggerProperties) {
         return new ApiInfoBuilder()
-                .title(swaggerProperties.getTitle())
-                .description(swaggerProperties.getDescription())
-                .license(swaggerProperties.getLicense())
-                .licenseUrl(swaggerProperties.getLicenseUrl())
-                .termsOfServiceUrl(swaggerProperties.getTermsOfServiceUrl())
-                .contact(new Contact(swaggerProperties.getContact().getName(), swaggerProperties.getContact().getUrl(), swaggerProperties.getContact().getEmail()))
-                .version(swaggerProperties.getVersion())
-                .build();
+            .title(swaggerProperties.getTitle())
+            .description(swaggerProperties.getDescription())
+            .license(swaggerProperties.getLicense())
+            .licenseUrl(swaggerProperties.getLicenseUrl())
+            .termsOfServiceUrl(swaggerProperties.getTermsOfServiceUrl())
+            .contact(new Contact(swaggerProperties.getContact().getName(), swaggerProperties.getContact().getUrl(), swaggerProperties.getContact().getEmail()))
+            .version(swaggerProperties.getVersion())
+            .build();
     }
 }

@@ -1,0 +1,23 @@
+server:
+  port: 18000
+
+# knife4j聚合配置
+knife4j:
+  enableAggregation: true
+  # cloud模式
+  cloud:
+    # 是否启用
+    enable: true
+    # 网关地址
+    gatewayUri: 127.0.0.1:8080
+    # 需要聚合的服务集合
+    routes:
+      - name: 系统服务
+        uri: ${knife4j.cloud.gatewayUri}
+        location: /system/v2/api-docs
+      - name: 代码生成
+        uri: ${knife4j.cloud.gatewayUri}
+        location: /code/v2/api-docs
+      - name: 文件服务
+        uri: ${knife4j.cloud.gatewayUri}
+        location: /file/v2/api-docs

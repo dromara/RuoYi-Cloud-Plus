@@ -90,7 +90,7 @@ redisson:
   # 单节点配置
   singleServerConfig:
     # 客户端名称
-    clientName: ${ruoyi.name}
+    clientName: ${spring.application.name}
     # 最小空闲连接数
     connectionMinimumIdleSize: 32
     # 连接池大小
@@ -158,8 +158,40 @@ mybatis:
 
 # swagger配置
 swagger:
-  license: Powered By ruoyi
-  licenseUrl: https://ruoyi.vip
+  # 是否开启swagger
+  enabled: true
+  # 标题
+  title: '标题：RuoYi-Cloud-Plus微服务权限管理系统_接口文档'
+  # 描述
+  description: '描述：微服务权限管理系统, 具体包括XXX,XXX模块...'
+  # 版本
+  version: '版本号：系统版本...'
+  # 作者信息
+  contact:
+    name: Lion Li
+    email: crazylionli@163.com
+    url: https://gitee.com/JavaLionLi/RuoYi-Cloud-Plus
+
+knife4j:
+  # 是否开启Knife4j增强模式
+  enable: true
+  # 是否开启生产环境保护策略
+  production: true
+  # 登录认证
+  basic:
+    enable: true
+    username: ruoyi
+    password: 123456
+  # 前端Ui的个性化配置属性
+  setting:
+    # 默认语言
+    language: zh-CN
+    # 是否显示Footer
+    enableFooter: true
+    # 是否开启动态参数调试功能
+    enableDynamicParameter: true
+    # 是否在每个Debug调试栏后显示刷新变量按钮
+    enableReloadCacheParameter: true
 
 # seata配置
 seata:

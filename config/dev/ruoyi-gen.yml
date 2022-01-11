@@ -4,10 +4,6 @@ dubbo:
     # 需要远程调用的服务 多个用逗号分割
     subscribed-services: ruoyi-system
 
-# swagger配置
-swagger:
-  title: 代码生成接口文档
-
 spring:
   datasource:
     dynamic:

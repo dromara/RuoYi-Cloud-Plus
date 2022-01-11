@@ -11,6 +11,7 @@
     <modules>
         <module>ruoyi-monitor</module>
         <module>ruoyi-xxl-job-admin</module>
+        <module>ruoyi-doc</module>
     </modules>
 
     <artifactId>ruoyi-visual</artifactId>

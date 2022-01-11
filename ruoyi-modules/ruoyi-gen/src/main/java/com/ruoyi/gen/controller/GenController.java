@@ -11,6 +11,7 @@ import com.ruoyi.gen.domain.GenTable;
 import com.ruoyi.gen.domain.GenTableColumn;
 import com.ruoyi.gen.service.IGenTableColumnService;
 import com.ruoyi.gen.service.IGenTableService;
+import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,7 @@ import java.util.Map;
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
 @RequestMapping("/gen")
 @RestController
+@Api(tags = "代码生成")
 public class GenController extends BaseController {
 
     private final IGenTableService genTableService;

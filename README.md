@@ -49,7 +49,7 @@
 | Redis客户端     | Redisson                 | [Redisson文档](https://github.com/redisson/redisson/wiki/%E7%9B%AE%E5%BD%95)                        | 支持单机、集群配置                    |
 | 校验框架(待优化)    | Validation               | [Validation文档](https://docs.jboss.org/hibernate/stable/validator/reference/en-US/html_single/)    | 增强接口安全性、严谨性 支持国际化            |
 | Excel框架(未完成) | Alibaba EasyExcel        | [EasyExcel文档](https://www.yuque.com/easyexcel/doc/easyexcel)                                      | 性能优异 扩展性强                    |
-| 文档框架(未完成)    | Knife4j                  | [Knife4j文档](https://doc.xiaominfo.com/knife4j/documentation/)                                     | 美化接口文档                       |
+| 文档框架         | Knife4j                  | [Knife4j文档](https://doc.xiaominfo.com/knife4j/documentation/)                                     | 美化接口文档                       |
 | 工具类框架        | Hutool、Lombok            | [Hutool文档](https://www.hutool.cn/docs/)                                                           | 减少代码冗余 增加安全性                 |
 | 代码生成器(未完成)   | 适配MP、Knife4j规范化代码        | [Hutool文档](https://www.hutool.cn/docs/)                                                           | 一键生成前后端代码                    |
 | 部署方式(未完成)    | Docker                   | [Docker文档](https://docs.docker.com/)                                                              | 容器编排 一键部署业务集群                |
