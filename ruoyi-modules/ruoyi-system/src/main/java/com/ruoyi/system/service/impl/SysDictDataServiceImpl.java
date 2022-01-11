@@ -1,6 +1,8 @@
 package com.ruoyi.system.service.impl;
 
-import com.ruoyi.common.security.utils.DictUtils;
+import cn.hutool.core.collection.CollUtil;
+import com.ruoyi.common.core.utils.StringUtils;
+import com.ruoyi.common.dict.utils.DictUtils;
 import com.ruoyi.system.api.domain.SysDictData;
 import com.ruoyi.system.mapper.SysDictDataMapper;
 import com.ruoyi.system.service.ISysDictDataService;
@@ -42,6 +44,26 @@ public class SysDictDataServiceImpl implements ISysDictDataService {
     @Override
     public String selectDictLabel(String dictType, String dictValue) {
         return dictDataMapper.selectDictLabel(dictType, dictValue);
+    }
+
+    /**
+     * 根据字典类型查询字典数据
+     *
+     * @param dictType 字典类型
+     * @return 字典数据集合信息
+     */
+    @Override
+    public List<SysDictData> selectDictDataByType(String dictType) {
+        List<SysDictData> dictDatas = DictUtils.getDictCache(dictType);
+        if (StringUtils.isNotEmpty(dictDatas)) {
+            return dictDatas;
+        }
+        dictDatas = dictDataMapper.selectDictDataByType(dictType);
+        if (CollUtil.isNotEmpty(dictDatas)) {
+            DictUtils.setDictCache(dictType, dictDatas);
+            return dictDatas;
+        }
+        return null;
     }
 
     /**

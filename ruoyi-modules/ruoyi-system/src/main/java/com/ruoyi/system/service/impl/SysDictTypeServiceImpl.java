@@ -3,7 +3,7 @@ package com.ruoyi.system.service.impl;
 import com.ruoyi.common.core.constant.UserConstants;
 import com.ruoyi.common.core.exception.ServiceException;
 import com.ruoyi.common.core.utils.StringUtils;
-import com.ruoyi.common.security.utils.DictUtils;
+import com.ruoyi.common.dict.utils.DictUtils;
 import com.ruoyi.system.api.domain.SysDictData;
 import com.ruoyi.system.api.domain.SysDictType;
 import com.ruoyi.system.mapper.SysDictDataMapper;

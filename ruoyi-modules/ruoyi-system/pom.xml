@@ -71,6 +71,11 @@
             <groupId>com.ruoyi</groupId>
             <artifactId>ruoyi-common-log</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>com.ruoyi</groupId>
+            <artifactId>ruoyi-common-dict</artifactId>
+        </dependency>
         
         <!-- RuoYi Common Swagger -->
         <dependency>

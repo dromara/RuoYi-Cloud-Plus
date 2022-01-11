@@ -28,6 +28,14 @@ public interface ISysDictDataService {
     String selectDictLabel(String dictType, String dictValue);
 
     /**
+     * 根据字典类型查询字典数据
+     *
+     * @param dictType 字典类型
+     * @return 字典数据集合信息
+     */
+    List<SysDictData> selectDictDataByType(String dictType);
+
+    /**
      * 根据字典数据ID查询信息
      *
      * @param dictCode 字典数据ID
