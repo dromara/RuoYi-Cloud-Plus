@@ -7,39 +7,39 @@
         <version>0.3.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    
+
     <artifactId>ruoyi-auth</artifactId>
-	
+
     <description>
         ruoyi-auth认证授权中心
     </description>
-    
+
     <dependencies>
-        
+
         <!-- SpringCloud Alibaba Nacos -->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
         </dependency>
-        
+
         <!-- SpringCloud Alibaba Nacos Config -->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
         </dependency>
-        
+
         <!-- SpringCloud Alibaba Sentinel -->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-sentinel</artifactId>
         </dependency>
-        
+
         <!-- SpringBoot Actuator -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
-		
+
         <!-- RuoYi Common Security-->
         <dependency>
             <groupId>com.ruoyi</groupId>
@@ -55,9 +55,15 @@
             <groupId>com.ruoyi</groupId>
             <artifactId>ruoyi-common-dubbo</artifactId>
         </dependency>
-        
+
+        <!-- 自定义负载均衡(多团队开发使用) -->
+<!--        <dependency>-->
+<!--            <groupId>com.ruoyi</groupId>-->
+<!--            <artifactId>ruoyi-common-loadbalancer</artifactId>-->
+<!--        </dependency>-->
+
     </dependencies>
-	
+
     <build>
         <finalName>${project.artifactId}</finalName>
         <plugins>
@@ -75,5 +81,5 @@
             </plugin>
         </plugins>
     </build>
-   
+
 </project>
