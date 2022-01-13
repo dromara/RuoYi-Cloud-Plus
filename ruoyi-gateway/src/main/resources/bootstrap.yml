@@ -3,7 +3,7 @@ server:
   port: 8080
 
 # Spring
-spring: 
+spring:
   application:
     # 应用名称
     name: ruoyi-gateway

@@ -48,7 +48,12 @@ dubbo:
 
 spring:
   main:
+    allow-circular-references: true
     allow-bean-definition-overriding: true
+  mvc:
+    pathmatch:
+      # 适配 boot 2.6 路由与 springfox 兼容
+      matching-strategy: ANT_PATH_MATCHER
   #jackson配置
   jackson:
     # 日期格式化
@@ -64,6 +69,9 @@ spring:
   cloud:
     # sentinel 配置
     sentinel:
+      filter:
+        # sentinel 在 springboot 2.6.x 不兼容问题的处理
+        enabled: false
       # 取消控制台懒加载
       eager: true
       transport:
