@@ -4,6 +4,9 @@ server:
 
 # Spring
 spring:
+  main:
+    # 此配置禁止放入 nacos 优先级不够
+    allow-circular-references: true
   application:
     # 应用名称
     name: ruoyi-gateway
