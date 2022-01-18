@@ -31,6 +31,9 @@ public class RemoteFileServiceImpl implements RemoteFileService {
      */
     @Override
     public SysFile upload(String name, String originalFilename, String contentType, byte[] file) {
+        // todo 临时用于测试 seata
+        // throw new ServiceException("上传文件失败");
+
         MultipartFile multipartFile = getMultipartFile(name, originalFilename, contentType, file);
         try {
             // 上传并返回访问地址

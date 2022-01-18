@@ -210,20 +210,17 @@ seata:
   application-id: ${spring.application.name}
   # Seata 事务组编号，用于 TC 集群名
   tx-service-group: ${spring.application.name}-group
-  # 服务配置项
-  service:
-    # 虚拟组和分组的映射
-    vgroup-mapping:
-      ${spring.application.name}: default
   config:
     type: nacos
     nacos:
-      serverAddr: ${spring.cloud.nacos.server-addr}
-      group: SEATA_GROUP
-      namespace:
+      server-addr: ${spring.cloud.nacos.server-addr}
+      group: ${spring.cloud.nacos.config.group}
+      namespace: ${spring.profiles.active}
+      data-id: seata-server.properties
   registry:
     type: nacos
     nacos:
       application: seata-server
       server-addr: ${spring.cloud.nacos.server-addr}
-      namespace:
+      group: ${spring.cloud.nacos.discovery.group}
+      namespace: ${spring.profiles.active}

@@ -108,9 +108,13 @@ public class SysProfileController extends BaseController {
     /**
      * 头像上传
      */
+    // @GlobalTransactional(rollbackFor = Exception.class)
     @Log(title = "用户头像", businessType = BusinessType.UPDATE)
     @PostMapping("/avatar")
     public AjaxResult avatar(@RequestParam("avatarfile") MultipartFile file) throws IOException {
+        // todo 临时用于测试 seata
+        // userService.insertUser(new SysUser().setUserName("test").setNickName("test"));
+
         if (!file.isEmpty()) {
             LoginUser loginUser = SecurityUtils.getLoginUser();
             SysFile sysFile = remoteFileService.upload(file.getName(), file.getOriginalFilename(), file.getContentType(), file.getBytes());

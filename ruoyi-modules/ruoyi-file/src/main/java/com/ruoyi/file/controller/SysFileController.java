@@ -5,9 +5,8 @@ import com.ruoyi.common.core.utils.file.FileUtils;
 import com.ruoyi.file.api.domain.SysFile;
 import com.ruoyi.file.service.ISysFileService;
 import io.swagger.annotations.Api;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -18,12 +17,12 @@ import org.springframework.web.multipart.MultipartFile;
  * @author ruoyi
  */
 @Api(tags = "文件处理")
+@Slf4j
+@RequiredArgsConstructor
 @RestController
 public class SysFileController {
-    private static final Logger log = LoggerFactory.getLogger(SysFileController.class);
 
-    @Autowired
-    private ISysFileService sysFileService;
+    private final ISysFileService sysFileService;
 
     /**
      * 文件上传请求

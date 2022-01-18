@@ -17,12 +17,11 @@ spring:
           username: ${datasource.system-master.username}
           password: ${datasource.system-master.password}
         # 从库数据源
-        slave:
-          lazy: true
-          driver-class-name:
-          url:
-          username:
-          password:
+        # slave:
+        #  driver-class-name:
+        #  url:
+        #  username:
+        #  password:
 
 xxl:
   job:
