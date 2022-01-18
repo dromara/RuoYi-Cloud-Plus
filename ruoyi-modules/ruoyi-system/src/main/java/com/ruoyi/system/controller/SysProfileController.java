@@ -113,7 +113,7 @@ public class SysProfileController extends BaseController {
     public AjaxResult avatar(@RequestParam("avatarfile") MultipartFile file) throws IOException {
         if (!file.isEmpty()) {
             LoginUser loginUser = SecurityUtils.getLoginUser();
-            SysFile sysFile = remoteFileService.upload(file);
+            SysFile sysFile = remoteFileService.upload(file.getName(), file.getOriginalFilename(), file.getContentType(), file.getBytes());
             if (StringUtils.isNull(sysFile)) {
                 return AjaxResult.error("文件服务异常，请联系管理员");
             }

@@ -4,6 +4,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
+import java.io.Serializable;
+
 /**
  * 文件信息
  *
@@ -12,7 +14,10 @@ import lombok.experimental.Accessors;
 @Data
 @NoArgsConstructor
 @Accessors(chain = true)
-public class SysFile {
+public class SysFile implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
     /**
      * 文件名称
      */

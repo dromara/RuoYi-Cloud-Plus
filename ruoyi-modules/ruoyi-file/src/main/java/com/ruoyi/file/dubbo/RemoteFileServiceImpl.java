@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.*;
+
 /**
  * 文件请求处理
  *
@@ -28,10 +30,11 @@ public class RemoteFileServiceImpl implements RemoteFileService {
      * 文件上传请求
      */
     @Override
-    public SysFile upload(MultipartFile file) {
+    public SysFile upload(String name, String originalFilename, String contentType, byte[] file) {
+        MultipartFile multipartFile = getMultipartFile(name, originalFilename, contentType, file);
         try {
             // 上传并返回访问地址
-            String url = sysFileService.uploadFile(file);
+            String url = sysFileService.uploadFile(multipartFile);
             SysFile sysFile = new SysFile();
             sysFile.setName(FileUtils.getName(url));
             sysFile.setUrl(url);
@@ -40,5 +43,57 @@ public class RemoteFileServiceImpl implements RemoteFileService {
             log.error("上传文件失败", e);
             throw new ServiceException("上传文件失败");
         }
+    }
+
+    private MultipartFile getMultipartFile(String name, String originalFilename, String contentType, byte[] file) {
+        return new MultipartFile() {
+            @Override
+            public String getName() {
+                return name;
+            }
+
+            @Override
+            public String getOriginalFilename() {
+                return originalFilename;
+            }
+
+            @Override
+            public String getContentType() {
+                return contentType;
+            }
+
+            @Override
+            public boolean isEmpty() {
+                return getSize() == 0;
+            }
+
+            @Override
+            public long getSize() {
+                return file.length;
+            }
+
+            @Override
+            public byte[] getBytes() throws IOException {
+                return file;
+            }
+
+            @Override
+            public InputStream getInputStream() throws IOException {
+                return new ByteArrayInputStream(file);
+            }
+
+            @Override
+            public void transferTo(File dest) throws IOException, IllegalStateException {
+                OutputStream outputStream = null;
+                try {
+                    outputStream = new FileOutputStream(dest);
+                    outputStream.write(file);
+                } finally {
+                    if (outputStream != null) {
+                        outputStream.close();
+                    }
+                }
+            }
+        };
     }
 }

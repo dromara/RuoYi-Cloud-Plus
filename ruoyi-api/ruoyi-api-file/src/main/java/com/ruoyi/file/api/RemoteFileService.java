@@ -1,7 +1,6 @@
 package com.ruoyi.file.api;
 
 import com.ruoyi.file.api.domain.SysFile;
-import org.springframework.web.multipart.MultipartFile;
 
 /**
  * 文件服务
@@ -16,5 +15,5 @@ public interface RemoteFileService {
      * @param file 文件信息
      * @return 结果
      */
-    SysFile upload(MultipartFile file);
+    SysFile upload(String name, String originalFilename, String contentType, byte[] file);
 }
