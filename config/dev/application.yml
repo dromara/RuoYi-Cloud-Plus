@@ -45,6 +45,8 @@ dubbo:
   custom:
     # 全局请求log
     request-log: true
+    # info 基础信息 param 参数信息 full 全部
+    log-level: info
 
 spring:
   main:

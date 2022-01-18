@@ -1,5 +1,6 @@
 package com.ruoyi.common.dubbo.properties;
 
+import com.ruoyi.common.dubbo.enumd.RequestLogEnum;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
@@ -17,4 +18,7 @@ import org.springframework.stereotype.Component;
 public class DubboCustomProperties {
 
     private Boolean requestLog;
+
+    private RequestLogEnum logLevel;
+
 }

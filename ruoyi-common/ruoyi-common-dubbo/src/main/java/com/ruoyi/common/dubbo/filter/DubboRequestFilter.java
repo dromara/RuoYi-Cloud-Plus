@@ -2,6 +2,7 @@ package com.ruoyi.common.dubbo.filter;
 
 import com.ruoyi.common.core.utils.JsonUtils;
 import com.ruoyi.common.core.utils.SpringUtils;
+import com.ruoyi.common.dubbo.enumd.RequestLogEnum;
 import com.ruoyi.common.dubbo.properties.DubboCustomProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.common.constants.CommonConstants;
@@ -30,7 +31,11 @@ public class DubboRequestFilter implements Filter {
             client = CommonConstants.CONSUMER;
         }
         String baselog = "Client[" + client + "],InterfaceName=[" + invocation.getInvoker().getInterface().getSimpleName() + "],MethodName=[" + invocation.getMethodName() + "]";
-        log.info("DUBBO - 服务调用: {},Parameter={}", baselog, invocation.getArguments());
+        if (properties.getLogLevel() == RequestLogEnum.INFO) {
+            log.info("DUBBO - 服务调用: {}", baselog);
+        } else {
+            log.info("DUBBO - 服务调用: {},Parameter={}", baselog, invocation.getArguments());
+        }
 
         long startTime = System.currentTimeMillis();
         // 执行接口调用逻辑
@@ -41,7 +46,11 @@ public class DubboRequestFilter implements Filter {
         if (result.hasException() && invoker.getInterface().equals(GenericService.class)) {
             log.error("DUBBO - 服务异常: {},Exception={}", baselog, result.getException());
         } else {
-            log.info("DUBBO - 服务响应: {},SpendTime=[{}ms],Response={}", baselog, elapsed, JsonUtils.toJsonString(new Object[]{result.getValue()}));
+            if (properties.getLogLevel() == RequestLogEnum.INFO) {
+                log.info("DUBBO - 服务响应: {},SpendTime=[{}ms]", baselog, elapsed);
+            } else if (properties.getLogLevel() == RequestLogEnum.FULL) {
+                log.info("DUBBO - 服务响应: {},SpendTime=[{}ms],Response={}", baselog, elapsed, JsonUtils.toJsonString(new Object[]{result.getValue()}));
+            }
         }
         return result;
     }
