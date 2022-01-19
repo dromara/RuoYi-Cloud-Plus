@@ -1,9 +1,3 @@
-# dubbo 订阅配置
-dubbo:
-  cloud:
-    # 需要远程调用的服务 多个用逗号分割
-    subscribed-services: ruoyi-auth,ruoyi-system
-
 # 安全配置
 security:
   # 验证码
@@ -89,5 +83,6 @@ spring:
             server-addr: ${spring.cloud.nacos.server-addr}
             dataId: sentinel-${spring.application.name}
             groupId: ${spring.cloud.nacos.config.group}
+            namespace: ${spring.profiles.active}
             data-type: json
             rule-type: flow

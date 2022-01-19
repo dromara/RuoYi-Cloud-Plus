@@ -87,6 +87,11 @@
             <artifactId>ruoyi-common-dubbo</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.ruoyi</groupId>
+            <artifactId>ruoyi-common-seata</artifactId>
+        </dependency>
+
     </dependencies>
 
     <build>

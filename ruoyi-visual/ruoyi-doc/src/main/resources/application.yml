@@ -1,6 +1,3 @@
-server:
-  port: 18000
-
 # knife4j聚合配置
 knife4j:
   enableAggregation: true

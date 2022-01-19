@@ -185,7 +185,7 @@ knife4j:
   # 是否开启Knife4j增强模式
   enable: true
   # 是否开启生产环境保护策略
-  production: true
+  production: false
   # 登录认证
   basic:
     enable: true
