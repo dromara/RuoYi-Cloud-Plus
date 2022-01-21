@@ -1,4 +1,4 @@
-package com.ruoyi.common.dict.service;
+package com.ruoyi.common.core.service;
 
 /**
  * 字典服务服务

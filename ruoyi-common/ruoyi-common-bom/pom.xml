@@ -64,6 +64,13 @@
                 <version>${project.version}</version>
             </dependency>
 
+            <!-- excel -->
+            <dependency>
+                <groupId>com.ruoyi</groupId>
+                <artifactId>ruoyi-common-excel</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
             <!-- 缓存服务 -->
             <dependency>
                 <groupId>com.ruoyi</groupId>

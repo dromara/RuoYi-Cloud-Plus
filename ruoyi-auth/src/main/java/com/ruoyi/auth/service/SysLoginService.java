@@ -1,5 +1,6 @@
 package com.ruoyi.auth.service;
 
+import cn.hutool.core.util.ObjectUtil;
 import com.ruoyi.common.core.constant.Constants;
 import com.ruoyi.common.core.constant.SecurityConstants;
 import com.ruoyi.common.core.constant.UserConstants;
@@ -7,7 +8,6 @@ import com.ruoyi.common.core.enums.UserStatus;
 import com.ruoyi.common.core.exception.ServiceException;
 import com.ruoyi.common.core.utils.ServletUtils;
 import com.ruoyi.common.core.utils.StringUtils;
-import com.ruoyi.common.core.utils.ip.IpUtils;
 import com.ruoyi.common.security.utils.SecurityUtils;
 import com.ruoyi.system.api.RemoteLogService;
 import com.ruoyi.system.api.RemoteUserService;
@@ -54,7 +54,7 @@ public class SysLoginService {
         // 查询用户信息
         LoginUser userInfo = remoteUserService.getUserInfo(username, SecurityConstants.INNER);
 
-        if (StringUtils.isNull(userInfo)) {
+        if (ObjectUtil.isNull(userInfo)) {
             recordLogininfor(username, Constants.LOGIN_FAIL, "登录用户不存在");
             throw new ServiceException("登录用户：" + username + " 不存在");
         }
@@ -117,7 +117,7 @@ public class SysLoginService {
     public void recordLogininfor(String username, String status, String message) {
         SysLogininfor logininfor = new SysLogininfor();
         logininfor.setUserName(username);
-        logininfor.setIpaddr(IpUtils.getIpAddr(ServletUtils.getRequest()));
+        logininfor.setIpaddr(ServletUtils.getClientIP());
         logininfor.setMsg(message);
         // 日志状态
         if (StringUtils.equalsAny(status, Constants.LOGIN_SUCCESS, Constants.LOGOUT, Constants.REGISTER)) {

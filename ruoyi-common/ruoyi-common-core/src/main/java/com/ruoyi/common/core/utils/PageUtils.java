@@ -1,5 +1,6 @@
 package com.ruoyi.common.core.utils;
 
+import cn.hutool.core.util.ObjectUtil;
 import com.github.pagehelper.PageHelper;
 import com.ruoyi.common.core.utils.sql.SqlUtil;
 import com.ruoyi.common.core.web.page.PageDomain;
@@ -18,7 +19,7 @@ public class PageUtils extends PageHelper {
         PageDomain pageDomain = TableSupport.buildPageRequest();
         Integer pageNum = pageDomain.getPageNum();
         Integer pageSize = pageDomain.getPageSize();
-        if (StringUtils.isNotNull(pageNum) && StringUtils.isNotNull(pageSize)) {
+        if (ObjectUtil.isNotNull(pageNum) && ObjectUtil.isNotNull(pageSize)) {
             String orderBy = SqlUtil.escapeOrderBySql(pageDomain.getOrderBy());
             Boolean reasonable = pageDomain.getReasonable();
             PageHelper.startPage(pageNum, pageSize, orderBy).setReasonable(reasonable);

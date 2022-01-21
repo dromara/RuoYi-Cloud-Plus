@@ -1,5 +1,6 @@
 package com.ruoyi.system.controller;
 
+import cn.hutool.core.util.ObjectUtil;
 import com.ruoyi.common.core.constant.UserConstants;
 import com.ruoyi.common.core.utils.StringUtils;
 import com.ruoyi.common.core.web.controller.BaseController;
@@ -118,7 +119,7 @@ public class SysProfileController extends BaseController {
         if (!file.isEmpty()) {
             LoginUser loginUser = SecurityUtils.getLoginUser();
             SysFile sysFile = remoteFileService.upload(file.getName(), file.getOriginalFilename(), file.getContentType(), file.getBytes());
-            if (StringUtils.isNull(sysFile)) {
+            if (ObjectUtil.isNull(sysFile)) {
                 return AjaxResult.error("文件服务异常，请联系管理员");
             }
             String url = sysFile.getUrl();

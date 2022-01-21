@@ -1,8 +1,8 @@
 package com.ruoyi.system.dubbo;
 
+import cn.hutool.core.util.ObjectUtil;
 import com.ruoyi.common.core.constant.UserConstants;
 import com.ruoyi.common.core.exception.ServiceException;
-import com.ruoyi.common.core.utils.StringUtils;
 import com.ruoyi.system.api.RemoteUserService;
 import com.ruoyi.system.api.domain.SysUser;
 import com.ruoyi.system.api.model.LoginUser;
@@ -33,7 +33,7 @@ public class RemoteUserServiceImpl implements RemoteUserService {
     @Override
     public LoginUser getUserInfo(String username, String source) {
         SysUser sysUser = userService.selectUserByUserName(username);
-        if (StringUtils.isNull(sysUser)) {
+        if (ObjectUtil.isNull(sysUser)) {
             throw new ServiceException("用户名或密码错误");
         }
         // 角色集合

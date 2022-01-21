@@ -1,9 +1,9 @@
 package com.ruoyi.common.log.aspect;
 
+import cn.hutool.core.util.ObjectUtil;
 import com.ruoyi.common.core.utils.JsonUtils;
 import com.ruoyi.common.core.utils.ServletUtils;
 import com.ruoyi.common.core.utils.StringUtils;
-import com.ruoyi.common.core.utils.ip.IpUtils;
 import com.ruoyi.common.log.annotation.Log;
 import com.ruoyi.common.log.enums.BusinessStatus;
 import com.ruoyi.common.log.service.AsyncLogService;
@@ -65,8 +65,7 @@ public class LogAspect {
             SysOperLog operLog = new SysOperLog();
             operLog.setStatus(BusinessStatus.SUCCESS.ordinal());
             // 请求的地址
-            String ip = IpUtils.getIpAddr(ServletUtils.getRequest());
-            operLog.setOperIp(ip);
+            operLog.setOperIp(ServletUtils.getClientIP());
             operLog.setOperUrl(ServletUtils.getRequest().getRequestURI());
             String username = SecurityUtils.getUsername();
             if (StringUtils.isNotBlank(username)) {
@@ -115,7 +114,7 @@ public class LogAspect {
             setRequestValue(joinPoint, operLog);
         }
         // 是否需要保存response，参数和值
-        if (log.isSaveResponseData() && StringUtils.isNotNull(jsonResult)) {
+        if (log.isSaveResponseData() && ObjectUtil.isNotNull(jsonResult)) {
             operLog.setJsonResult(StringUtils.substring(JsonUtils.toJsonString(jsonResult), 0, 2000));
         }
     }
@@ -141,7 +140,7 @@ public class LogAspect {
         StringBuilder params = new StringBuilder();
         if (paramsArray != null && paramsArray.length > 0) {
             for (Object o : paramsArray) {
-                if (StringUtils.isNotNull(o) && !isFilterObject(o)) {
+                if (ObjectUtil.isNotNull(o) && !isFilterObject(o)) {
                     try {
                         params.append(JsonUtils.toJsonString(o)).append(" ");
                     } catch (Exception e) {

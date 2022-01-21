@@ -7,7 +7,7 @@
         <version>0.3.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    
+
     <artifactId>ruoyi-common-security</artifactId>
 
     <description>
@@ -26,6 +26,7 @@
         <dependency>
             <groupId>com.ruoyi</groupId>
             <artifactId>ruoyi-api-system</artifactId>
+            <version>${project.version}</version>
         </dependency>
 
         <!-- RuoYi Common Redis-->

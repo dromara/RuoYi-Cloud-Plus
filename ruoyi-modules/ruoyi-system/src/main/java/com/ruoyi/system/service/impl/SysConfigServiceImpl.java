@@ -1,6 +1,7 @@
 package com.ruoyi.system.service.impl;
 
 import cn.hutool.core.convert.Convert;
+import cn.hutool.core.util.ObjectUtil;
 import com.ruoyi.common.core.constant.Constants;
 import com.ruoyi.common.core.constant.UserConstants;
 import com.ruoyi.common.core.exception.ServiceException;
@@ -64,7 +65,7 @@ public class SysConfigServiceImpl implements ISysConfigService {
         SysConfig config = new SysConfig();
         config.setConfigKey(configKey);
         SysConfig retConfig = configMapper.selectConfig(config);
-        if (StringUtils.isNotNull(retConfig)) {
+        if (ObjectUtil.isNotNull(retConfig)) {
             RedisUtils.setCacheObject(getCacheKey(configKey), retConfig.getConfigValue());
             return retConfig.getConfigValue();
         }
@@ -167,9 +168,9 @@ public class SysConfigServiceImpl implements ISysConfigService {
      */
     @Override
     public String checkConfigKeyUnique(SysConfig config) {
-        Long configId = StringUtils.isNull(config.getConfigId()) ? -1L : config.getConfigId();
+        Long configId = ObjectUtil.isNull(config.getConfigId()) ? -1L : config.getConfigId();
         SysConfig info = configMapper.checkConfigKeyUnique(config.getConfigKey());
-        if (StringUtils.isNotNull(info) && info.getConfigId().longValue() != configId.longValue()) {
+        if (ObjectUtil.isNotNull(info) && info.getConfigId().longValue() != configId.longValue()) {
             return UserConstants.NOT_UNIQUE;
         }
         return UserConstants.UNIQUE;

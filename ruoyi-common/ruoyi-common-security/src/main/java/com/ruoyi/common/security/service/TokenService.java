@@ -1,12 +1,12 @@
 package com.ruoyi.common.security.service;
 
 import cn.hutool.core.util.IdUtil;
+import cn.hutool.core.util.ObjectUtil;
 import com.ruoyi.common.core.constant.CacheConstants;
 import com.ruoyi.common.core.constant.SecurityConstants;
 import com.ruoyi.common.core.utils.JwtUtils;
 import com.ruoyi.common.core.utils.ServletUtils;
 import com.ruoyi.common.core.utils.StringUtils;
-import com.ruoyi.common.core.utils.ip.IpUtils;
 import com.ruoyi.common.redis.utils.RedisUtils;
 import com.ruoyi.common.security.utils.SecurityUtils;
 import com.ruoyi.system.api.model.LoginUser;
@@ -45,7 +45,7 @@ public class TokenService {
         loginUser.setToken(token);
         loginUser.setUserid(userId);
         loginUser.setUsername(userName);
-        loginUser.setIpaddr(IpUtils.getIpAddr(ServletUtils.getRequest()));
+        loginUser.setIpaddr(ServletUtils.getClientIP());
         refreshToken(loginUser);
 
         // Jwt存储信息
@@ -103,7 +103,7 @@ public class TokenService {
      * 设置用户身份信息
      */
     public void setLoginUser(LoginUser loginUser) {
-        if (StringUtils.isNotNull(loginUser) && StringUtils.isNotEmpty(loginUser.getToken())) {
+        if (ObjectUtil.isNotNull(loginUser) && StringUtils.isNotEmpty(loginUser.getToken())) {
             refreshToken(loginUser);
         }
     }

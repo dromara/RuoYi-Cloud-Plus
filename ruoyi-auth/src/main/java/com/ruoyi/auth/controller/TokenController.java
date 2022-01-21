@@ -1,5 +1,6 @@
 package com.ruoyi.auth.controller;
 
+import cn.hutool.core.util.ObjectUtil;
 import com.ruoyi.auth.form.LoginBody;
 import com.ruoyi.auth.form.RegisterBody;
 import com.ruoyi.auth.service.SysLoginService;
@@ -55,7 +56,7 @@ public class TokenController {
     @PostMapping("refresh")
     public R<?> refresh(HttpServletRequest request) {
         LoginUser loginUser = tokenService.getLoginUser(request);
-        if (StringUtils.isNotNull(loginUser)) {
+        if (ObjectUtil.isNotNull(loginUser)) {
             // 刷新令牌有效期
             tokenService.refreshToken(loginUser);
             return R.ok();

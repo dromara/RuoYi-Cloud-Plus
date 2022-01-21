@@ -1,10 +1,10 @@
 package com.ruoyi.system.controller;
 
 import com.ruoyi.common.core.constant.UserConstants;
-import com.ruoyi.common.core.utils.poi.ExcelUtil;
 import com.ruoyi.common.core.web.controller.BaseController;
 import com.ruoyi.common.core.web.domain.AjaxResult;
 import com.ruoyi.common.core.web.page.TableDataInfo;
+import com.ruoyi.common.excel.utils.ExcelUtil;
 import com.ruoyi.common.log.annotation.Log;
 import com.ruoyi.common.log.enums.BusinessType;
 import com.ruoyi.common.security.annotation.RequiresPermissions;
@@ -44,8 +44,7 @@ public class SysDictTypeController extends BaseController {
     @PostMapping("/export")
     public void export(HttpServletResponse response, SysDictType dictType) {
         List<SysDictType> list = dictTypeService.selectDictTypeList(dictType);
-        ExcelUtil<SysDictType> util = new ExcelUtil<SysDictType>(SysDictType.class);
-        util.exportExcel(response, list, "字典类型");
+        ExcelUtil.exportExcel(list, "字典类型", SysDictType.class, response);
     }
 
     /**

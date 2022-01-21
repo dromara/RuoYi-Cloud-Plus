@@ -1,10 +1,10 @@
 package com.ruoyi.system.controller;
 
 import com.ruoyi.common.core.constant.UserConstants;
-import com.ruoyi.common.core.utils.poi.ExcelUtil;
 import com.ruoyi.common.core.web.controller.BaseController;
 import com.ruoyi.common.core.web.domain.AjaxResult;
 import com.ruoyi.common.core.web.page.TableDataInfo;
+import com.ruoyi.common.excel.utils.ExcelUtil;
 import com.ruoyi.common.log.annotation.Log;
 import com.ruoyi.common.log.enums.BusinessType;
 import com.ruoyi.common.security.annotation.RequiresPermissions;
@@ -48,8 +48,7 @@ public class SysRoleController extends BaseController {
     @PostMapping("/export")
     public void export(HttpServletResponse response, SysRole role) {
         List<SysRole> list = roleService.selectRoleList(role);
-        ExcelUtil<SysRole> util = new ExcelUtil<SysRole>(SysRole.class);
-        util.exportExcel(response, list, "角色数据");
+        ExcelUtil.exportExcel(list, "角色数据", SysRole.class, response);
     }
 
     /**

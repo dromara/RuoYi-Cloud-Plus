@@ -12,6 +12,7 @@
         <module>ruoyi-common-bom</module>
         <module>ruoyi-common-log</module>
         <module>ruoyi-common-dict</module>
+        <module>ruoyi-common-excel</module>
         <module>ruoyi-common-core</module>
         <module>ruoyi-common-redis</module>
         <module>ruoyi-common-swagger</module>

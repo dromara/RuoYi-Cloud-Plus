@@ -1,8 +1,8 @@
 package com.ruoyi.system.service;
 
+import cn.hutool.core.lang.tree.Tree;
 import com.ruoyi.system.domain.SysMenu;
 import com.ruoyi.system.domain.vo.RouterVo;
-import com.ruoyi.system.domain.vo.TreeSelect;
 
 import java.util.List;
 import java.util.Set;
@@ -63,20 +63,12 @@ public interface ISysMenuService {
     List<RouterVo> buildMenus(List<SysMenu> menus);
 
     /**
-     * 构建前端所需要树结构
-     *
-     * @param menus 菜单列表
-     * @return 树结构列表
-     */
-    List<SysMenu> buildMenuTree(List<SysMenu> menus);
-
-    /**
      * 构建前端所需要下拉树结构
      *
      * @param menus 菜单列表
      * @return 下拉树结构列表
      */
-    List<TreeSelect> buildMenuTreeSelect(List<SysMenu> menus);
+    List<Tree<Long>> buildMenuTreeSelect(List<SysMenu> menus);
 
     /**
      * 根据菜单ID查询信息

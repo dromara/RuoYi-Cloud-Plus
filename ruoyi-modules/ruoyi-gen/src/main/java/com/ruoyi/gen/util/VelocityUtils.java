@@ -1,5 +1,7 @@
 package com.ruoyi.gen.util;
 
+import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.util.ObjectUtil;
 import com.ruoyi.common.core.constant.GenConstants;
 import com.ruoyi.common.core.utils.DateUtils;
 import com.ruoyi.common.core.utils.JsonUtils;
@@ -209,7 +211,7 @@ public class VelocityUtils {
         List<GenTableColumn> columns = genTable.getColumns();
         GenTable subGenTable = genTable.getSubTable();
         HashSet<String> importList = new HashSet<String>();
-        if (StringUtils.isNotNull(subGenTable)) {
+        if (ObjectUtil.isNotNull(subGenTable)) {
             importList.add("java.util.List");
         }
         for (GenTableColumn column : columns) {
@@ -259,7 +261,7 @@ public class VelocityUtils {
      * @return 上级菜单ID字段
      */
     public static String getParentMenuId(Map<String, String> paramsObj) {
-        if (StringUtils.isNotEmpty(paramsObj) && paramsObj.containsKey(GenConstants.PARENT_MENU_ID)
+        if (CollUtil.isNotEmpty(paramsObj) && paramsObj.containsKey(GenConstants.PARENT_MENU_ID)
                 && StringUtils.isNotEmpty(paramsObj.get(GenConstants.PARENT_MENU_ID))) {
             return paramsObj.get(GenConstants.PARENT_MENU_ID);
         }

@@ -1,5 +1,7 @@
 package com.ruoyi.system.service.impl;
 
+import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.util.ObjectUtil;
 import com.ruoyi.common.core.constant.UserConstants;
 import com.ruoyi.common.core.exception.ServiceException;
 import com.ruoyi.common.core.utils.StringUtils;
@@ -70,11 +72,11 @@ public class SysDictTypeServiceImpl implements ISysDictTypeService {
     @Override
     public List<SysDictData> selectDictDataByType(String dictType) {
         List<SysDictData> dictDatas = DictUtils.getDictCache(dictType);
-        if (StringUtils.isNotEmpty(dictDatas)) {
+        if (CollUtil.isNotEmpty(dictDatas)) {
             return dictDatas;
         }
         dictDatas = dictDataMapper.selectDictDataByType(dictType);
-        if (StringUtils.isNotEmpty(dictDatas)) {
+        if (CollUtil.isNotEmpty(dictDatas)) {
             DictUtils.setDictCache(dictType, dictDatas);
             return dictDatas;
         }
@@ -193,9 +195,9 @@ public class SysDictTypeServiceImpl implements ISysDictTypeService {
      */
     @Override
     public String checkDictTypeUnique(SysDictType dict) {
-        Long dictId = StringUtils.isNull(dict.getDictId()) ? -1L : dict.getDictId();
+        Long dictId = ObjectUtil.isNull(dict.getDictId()) ? -1L : dict.getDictId();
         SysDictType dictType = dictTypeMapper.checkDictTypeUnique(dict.getDictType());
-        if (StringUtils.isNotNull(dictType) && dictType.getDictId().longValue() != dictId.longValue()) {
+        if (ObjectUtil.isNotNull(dictType) && dictType.getDictId().longValue() != dictId.longValue()) {
             return UserConstants.NOT_UNIQUE;
         }
         return UserConstants.UNIQUE;

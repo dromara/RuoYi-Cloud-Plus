@@ -1,7 +1,7 @@
 package com.ruoyi.common.dict.utils;
 
+import cn.hutool.core.util.ObjectUtil;
 import com.ruoyi.common.core.constant.Constants;
-import com.ruoyi.common.core.utils.StringUtils;
 import com.ruoyi.common.redis.utils.RedisUtils;
 import com.ruoyi.system.api.domain.SysDictData;
 
@@ -32,7 +32,7 @@ public class DictUtils {
      */
     public static List<SysDictData> getDictCache(String key) {
         List<SysDictData> dictDatas = RedisUtils.getCacheObject(getCacheKey(key));
-        if (StringUtils.isNotNull(dictDatas)) {
+        if (ObjectUtil.isNotNull(dictDatas)) {
             return dictDatas;
         }
         return null;

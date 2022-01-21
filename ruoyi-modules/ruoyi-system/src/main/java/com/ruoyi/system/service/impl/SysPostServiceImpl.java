@@ -1,8 +1,8 @@
 package com.ruoyi.system.service.impl;
 
+import cn.hutool.core.util.ObjectUtil;
 import com.ruoyi.common.core.constant.UserConstants;
 import com.ruoyi.common.core.exception.ServiceException;
-import com.ruoyi.common.core.utils.StringUtils;
 import com.ruoyi.system.domain.SysPost;
 import com.ruoyi.system.mapper.SysPostMapper;
 import com.ruoyi.system.mapper.SysUserPostMapper;
@@ -76,9 +76,9 @@ public class SysPostServiceImpl implements ISysPostService {
      */
     @Override
     public String checkPostNameUnique(SysPost post) {
-        Long postId = StringUtils.isNull(post.getPostId()) ? -1L : post.getPostId();
+        Long postId = ObjectUtil.isNull(post.getPostId()) ? -1L : post.getPostId();
         SysPost info = postMapper.checkPostNameUnique(post.getPostName());
-        if (StringUtils.isNotNull(info) && info.getPostId().longValue() != postId.longValue()) {
+        if (ObjectUtil.isNotNull(info) && info.getPostId().longValue() != postId.longValue()) {
             return UserConstants.NOT_UNIQUE;
         }
         return UserConstants.UNIQUE;
@@ -92,9 +92,9 @@ public class SysPostServiceImpl implements ISysPostService {
      */
     @Override
     public String checkPostCodeUnique(SysPost post) {
-        Long postId = StringUtils.isNull(post.getPostId()) ? -1L : post.getPostId();
+        Long postId = ObjectUtil.isNull(post.getPostId()) ? -1L : post.getPostId();
         SysPost info = postMapper.checkPostCodeUnique(post.getPostCode());
-        if (StringUtils.isNotNull(info) && info.getPostId().longValue() != postId.longValue()) {
+        if (ObjectUtil.isNotNull(info) && info.getPostId().longValue() != postId.longValue()) {
             return UserConstants.NOT_UNIQUE;
         }
         return UserConstants.UNIQUE;

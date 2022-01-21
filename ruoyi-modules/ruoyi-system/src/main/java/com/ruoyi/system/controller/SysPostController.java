@@ -1,10 +1,10 @@
 package com.ruoyi.system.controller;
 
 import com.ruoyi.common.core.constant.UserConstants;
-import com.ruoyi.common.core.utils.poi.ExcelUtil;
 import com.ruoyi.common.core.web.controller.BaseController;
 import com.ruoyi.common.core.web.domain.AjaxResult;
 import com.ruoyi.common.core.web.page.TableDataInfo;
+import com.ruoyi.common.excel.utils.ExcelUtil;
 import com.ruoyi.common.log.annotation.Log;
 import com.ruoyi.common.log.enums.BusinessType;
 import com.ruoyi.common.security.annotation.RequiresPermissions;
@@ -47,8 +47,7 @@ public class SysPostController extends BaseController {
     @PostMapping("/export")
     public void export(HttpServletResponse response, SysPost post) {
         List<SysPost> list = postService.selectPostList(post);
-        ExcelUtil<SysPost> util = new ExcelUtil<SysPost>(SysPost.class);
-        util.exportExcel(response, list, "岗位数据");
+        ExcelUtil.exportExcel(list, "岗位数据", SysPost.class, response);
     }
 
     /**

@@ -1,60 +1,79 @@
 package com.ruoyi.system.api.domain;
 
-import com.ruoyi.common.core.annotation.Excel;
-import com.ruoyi.common.core.annotation.Excel.ColumnType;
-import com.ruoyi.common.core.web.domain.BaseEntity;
+import com.alibaba.excel.annotation.ExcelIgnoreUnannotated;
+import com.alibaba.excel.annotation.ExcelProperty;
+import com.ruoyi.common.excel.annotation.ExcelDictFormat;
+import com.ruoyi.common.excel.convert.ExcelDictConvert;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
+import java.io.Serializable;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 系统访问记录表 sys_logininfor
  *
- * @author ruoyi
+ * @author Lion Li
  */
+
 @Data
-@EqualsAndHashCode(callSuper = true)
-@NoArgsConstructor
 @Accessors(chain = true)
-public class SysLogininfor extends BaseEntity {
+@ExcelIgnoreUnannotated
+@ApiModel("系统访问记录业务对象")
+public class SysLogininfor implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     /**
      * ID
      */
-    @Excel(name = "序号", cellType = ColumnType.NUMERIC)
+    @ApiModelProperty(value = "访问ID")
+    @ExcelProperty(value = "序号")
     private Long infoId;
 
     /**
      * 用户账号
      */
-    @Excel(name = "用户账号")
+    @ApiModelProperty(value = "用户账号")
+    @ExcelProperty(value = "用户账号")
     private String userName;
 
     /**
      * 状态 0成功 1失败
      */
-    @Excel(name = "状态", readConverterExp = "0=成功,1=失败")
+    @ApiModelProperty(value = "状态 0成功 1失败")
+    @ExcelProperty(value = "状态", converter = ExcelDictConvert.class)
+    @ExcelDictFormat(dictType = "sys_common_status")
     private String status;
 
     /**
      * 地址
      */
-    @Excel(name = "地址")
+    @ApiModelProperty(value = "地址")
+    @ExcelProperty(value = "地址")
     private String ipaddr;
 
     /**
      * 描述
      */
-    @Excel(name = "描述")
+    @ApiModelProperty(value = "描述")
+    @ExcelProperty(value = "描述")
     private String msg;
 
     /**
      * 访问时间
      */
-    @Excel(name = "访问时间", width = 30, dateFormat = "yyyy-MM-dd HH:mm:ss")
+    @ApiModelProperty(value = "访问时间")
+    @ExcelProperty(value = "访问时间")
     private Date accessTime;
+
+    /**
+     * 请求参数
+     */
+    @ApiModelProperty(value = "请求参数")
+    private Map<String, Object> params = new HashMap<>();
 
 }

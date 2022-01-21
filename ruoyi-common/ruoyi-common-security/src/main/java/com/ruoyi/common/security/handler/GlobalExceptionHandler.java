@@ -1,12 +1,12 @@
 package com.ruoyi.common.security.handler;
 
+import cn.hutool.core.util.ObjectUtil;
 import com.ruoyi.common.core.constant.HttpStatus;
 import com.ruoyi.common.core.exception.DemoModeException;
 import com.ruoyi.common.core.exception.InnerAuthException;
 import com.ruoyi.common.core.exception.ServiceException;
 import com.ruoyi.common.core.exception.auth.NotPermissionException;
 import com.ruoyi.common.core.exception.auth.NotRoleException;
-import com.ruoyi.common.core.utils.StringUtils;
 import com.ruoyi.common.core.web.domain.AjaxResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.BindException;
@@ -64,7 +64,7 @@ public class GlobalExceptionHandler {
     public AjaxResult handleServiceException(ServiceException e, HttpServletRequest request) {
         log.error(e.getMessage(), e);
         Integer code = e.getCode();
-        return StringUtils.isNotNull(code) ? AjaxResult.error(code, e.getMessage()) : AjaxResult.error(e.getMessage());
+        return ObjectUtil.isNotNull(code) ? AjaxResult.error(code, e.getMessage()) : AjaxResult.error(e.getMessage());
     }
 
     /**

@@ -1,6 +1,7 @@
 package com.ruoyi.common.core.utils;
 
 import cn.hutool.core.util.ArrayUtil;
+import cn.hutool.core.util.ObjectUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -23,7 +24,7 @@ public class JsonUtils {
     private static ObjectMapper objectMapper = SpringUtils.getBean(ObjectMapper.class);
 
     public static String toJsonString(Object object) {
-        if (StringUtils.isNull(object)) {
+        if (ObjectUtil.isNull(object)) {
             return null;
         }
         try {

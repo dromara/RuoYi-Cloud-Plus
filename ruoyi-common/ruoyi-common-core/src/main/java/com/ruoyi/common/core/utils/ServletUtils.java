@@ -1,7 +1,12 @@
 package com.ruoyi.common.core.utils;
 
 import cn.hutool.core.convert.Convert;
+import cn.hutool.extra.servlet.ServletUtil;
+import cn.hutool.http.HttpStatus;
 import com.ruoyi.common.core.constant.Constants;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -13,6 +18,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.Enumeration;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -22,7 +28,9 @@ import java.util.Map;
  *
  * @author ruoyi
  */
-public class ServletUtils {
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+public class ServletUtils extends ServletUtil {
+
     /**
      * 获取String参数
      */
@@ -133,9 +141,9 @@ public class ServletUtils {
      */
     public static String renderString(HttpServletResponse response, String string) {
         try {
-            response.setStatus(200);
-            response.setContentType("application/json");
-            response.setCharacterEncoding("utf-8");
+            response.setStatus(HttpStatus.HTTP_OK);
+            response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+            response.setCharacterEncoding(StandardCharsets.UTF_8.toString());
             response.getWriter().print(string);
         } catch (IOException e) {
             e.printStackTrace();
@@ -149,6 +157,7 @@ public class ServletUtils {
      * @param request
      */
     public static boolean isAjaxRequest(HttpServletRequest request) {
+
         String accept = request.getHeader("accept");
         if (accept != null && accept.indexOf("application/json") != -1) {
             return true;
@@ -160,15 +169,19 @@ public class ServletUtils {
         }
 
         String uri = request.getRequestURI();
-        if (StringUtils.inStringIgnoreCase(uri, ".json", ".xml")) {
+        if (StringUtils.equalsAnyIgnoreCase(uri, ".json", ".xml")) {
             return true;
         }
 
         String ajax = request.getParameter("__ajax");
-        if (StringUtils.inStringIgnoreCase(ajax, "json", "xml")) {
+        if (StringUtils.equalsAnyIgnoreCase(ajax, "json", "xml")) {
             return true;
         }
         return false;
+    }
+
+    public static String getClientIP() {
+        return getClientIP(getRequest());
     }
 
     /**

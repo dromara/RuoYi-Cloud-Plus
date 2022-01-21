@@ -1,6 +1,6 @@
 package com.ruoyi.common.dict.service.impl;
 
-import com.ruoyi.common.dict.service.DictService;
+import com.ruoyi.common.core.service.DictService;
 import com.ruoyi.system.api.RemoteDictService;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.stereotype.Service;

@@ -1,16 +1,19 @@
 package com.ruoyi.system.service.impl;
 
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.convert.Convert;
+import cn.hutool.core.lang.tree.Tree;
+import cn.hutool.core.util.ObjectUtil;
 import com.ruoyi.common.core.constant.UserConstants;
 import com.ruoyi.common.core.exception.ServiceException;
 import com.ruoyi.common.core.utils.SpringUtils;
 import com.ruoyi.common.core.utils.StringUtils;
+import com.ruoyi.common.core.utils.TreeBuildUtils;
 import com.ruoyi.common.datascope.annotation.DataScope;
 import com.ruoyi.common.security.utils.SecurityUtils;
 import com.ruoyi.system.api.domain.SysDept;
 import com.ruoyi.system.api.domain.SysRole;
 import com.ruoyi.system.api.domain.SysUser;
-import com.ruoyi.system.domain.vo.TreeSelect;
 import com.ruoyi.system.mapper.SysDeptMapper;
 import com.ruoyi.system.mapper.SysRoleMapper;
 import com.ruoyi.system.service.ISysDeptService;
@@ -21,7 +24,6 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * 部门管理 服务实现
@@ -81,9 +83,16 @@ public class SysDeptServiceImpl implements ISysDeptService {
      * @return 下拉树结构列表
      */
     @Override
-    public List<TreeSelect> buildDeptTreeSelect(List<SysDept> depts) {
-        List<SysDept> deptTrees = buildDeptTree(depts);
-        return deptTrees.stream().map(TreeSelect::new).collect(Collectors.toList());
+    public List<Tree<Long>> buildDeptTreeSelect(List<SysDept> depts) {
+        if (CollUtil.isEmpty(depts)) {
+            return CollUtil.newArrayList();
+        }
+        Long parentId = depts.get(0).getParentId();
+        return TreeBuildUtils.build(depts, parentId, (dept, tree) ->
+            tree.setId(dept.getDeptId())
+                .setParentId(dept.getParentId())
+                .setName(dept.getDeptName())
+                .setWeight(dept.getOrderNum()));
     }
 
     /**
@@ -152,9 +161,9 @@ public class SysDeptServiceImpl implements ISysDeptService {
      */
     @Override
     public String checkDeptNameUnique(SysDept dept) {
-        Long deptId = StringUtils.isNull(dept.getDeptId()) ? -1L : dept.getDeptId();
+        Long deptId = ObjectUtil.isNull(dept.getDeptId()) ? -1L : dept.getDeptId();
         SysDept info = deptMapper.checkDeptNameUnique(dept.getDeptName(), dept.getParentId());
-        if (StringUtils.isNotNull(info) && info.getDeptId().longValue() != deptId.longValue()) {
+        if (ObjectUtil.isNotNull(info) && info.getDeptId().longValue() != deptId.longValue()) {
             return UserConstants.NOT_UNIQUE;
         }
         return UserConstants.UNIQUE;
@@ -171,7 +180,7 @@ public class SysDeptServiceImpl implements ISysDeptService {
             SysDept dept = new SysDept();
             dept.setDeptId(deptId);
             List<SysDept> depts = SpringUtils.getAopProxy(this).selectDeptList(dept);
-            if (StringUtils.isEmpty(depts)) {
+            if (CollUtil.isEmpty(depts)) {
                 throw new ServiceException("没有权限访问部门数据！");
             }
         }
@@ -204,7 +213,7 @@ public class SysDeptServiceImpl implements ISysDeptService {
     public int updateDept(SysDept dept) {
         SysDept newParentDept = deptMapper.selectDeptById(dept.getParentId());
         SysDept oldDept = deptMapper.selectDeptById(dept.getDeptId());
-        if (StringUtils.isNotNull(newParentDept) && StringUtils.isNotNull(oldDept)) {
+        if (ObjectUtil.isNotNull(newParentDept) && ObjectUtil.isNotNull(oldDept)) {
             String newAncestors = newParentDept.getAncestors() + "," + newParentDept.getDeptId();
             String oldAncestors = oldDept.getAncestors();
             dept.setAncestors(newAncestors);
@@ -277,10 +286,8 @@ public class SysDeptServiceImpl implements ISysDeptService {
      */
     private List<SysDept> getChildList(List<SysDept> list, SysDept t) {
         List<SysDept> tlist = new ArrayList<SysDept>();
-        Iterator<SysDept> it = list.iterator();
-        while (it.hasNext()) {
-            SysDept n = (SysDept) it.next();
-            if (StringUtils.isNotNull(n.getParentId()) && n.getParentId().longValue() == t.getDeptId().longValue()) {
+        for (SysDept n : list) {
+            if (ObjectUtil.isNotNull(n.getParentId()) && n.getParentId().longValue() == t.getDeptId().longValue()) {
                 tlist.add(n);
             }
         }

@@ -1,5 +1,6 @@
 package com.ruoyi.system.service.impl;
 
+import cn.hutool.core.util.ObjectUtil;
 import com.ruoyi.common.core.utils.StringUtils;
 import com.ruoyi.system.api.model.LoginUser;
 import com.ruoyi.system.domain.SysUserOnline;
@@ -67,7 +68,7 @@ public class SysUserOnlineServiceImpl implements ISysUserOnlineService {
      */
     @Override
     public SysUserOnline loginUserToUserOnline(LoginUser user) {
-        if (StringUtils.isNull(user)) {
+        if (ObjectUtil.isNull(user)) {
             return null;
         }
         SysUserOnline sysUserOnline = new SysUserOnline();

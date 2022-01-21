@@ -1,17 +1,24 @@
 package com.ruoyi.system.controller;
 
+import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.util.ObjectUtil;
 import com.ruoyi.common.core.constant.UserConstants;
 import com.ruoyi.common.core.utils.StringUtils;
-import com.ruoyi.common.core.utils.poi.ExcelUtil;
 import com.ruoyi.common.core.web.controller.BaseController;
 import com.ruoyi.common.core.web.domain.AjaxResult;
 import com.ruoyi.common.core.web.page.TableDataInfo;
+import com.ruoyi.common.excel.core.ExcelResult;
+import com.ruoyi.common.excel.utils.ExcelUtil;
 import com.ruoyi.common.log.annotation.Log;
 import com.ruoyi.common.log.enums.BusinessType;
 import com.ruoyi.common.security.annotation.RequiresPermissions;
 import com.ruoyi.common.security.utils.SecurityUtils;
+import com.ruoyi.system.api.domain.SysDept;
 import com.ruoyi.system.api.domain.SysRole;
 import com.ruoyi.system.api.domain.SysUser;
+import com.ruoyi.system.domain.vo.SysUserExportVo;
+import com.ruoyi.system.domain.vo.SysUserImportVo;
+import com.ruoyi.system.listener.SysUserImportListener;
 import com.ruoyi.system.service.*;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.ArrayUtils;
@@ -22,6 +29,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -58,25 +66,29 @@ public class SysUserController extends BaseController {
     @PostMapping("/export")
     public void export(HttpServletResponse response, SysUser user) {
         List<SysUser> list = userService.selectUserList(user);
-        ExcelUtil<SysUser> util = new ExcelUtil<SysUser>(SysUser.class);
-        util.exportExcel(response, list, "用户数据");
+        List<SysUserExportVo> listVo = BeanUtil.copyToList(list, SysUserExportVo.class);
+        for (int i = 0; i < list.size(); i++) {
+            SysDept dept = list.get(i).getDept();
+            SysUserExportVo vo = listVo.get(i);
+            if (ObjectUtil.isNotEmpty(dept)) {
+                vo.setDeptName(dept.getDeptName());
+                vo.setLeader(dept.getLeader());
+            }
+        }
+        ExcelUtil.exportExcel(listVo, "用户数据", SysUserExportVo.class, response);
     }
 
     @Log(title = "用户管理", businessType = BusinessType.IMPORT)
     @RequiresPermissions("system:user:import")
     @PostMapping("/importData")
     public AjaxResult importData(MultipartFile file, boolean updateSupport) throws Exception {
-        ExcelUtil<SysUser> util = new ExcelUtil<SysUser>(SysUser.class);
-        List<SysUser> userList = util.importExcel(file.getInputStream());
-        String operName = SecurityUtils.getUsername();
-        String message = userService.importUser(userList, updateSupport, operName);
-        return AjaxResult.success(message);
+        ExcelResult<SysUserImportVo> result = ExcelUtil.importExcel(file.getInputStream(), SysUserImportVo.class, new SysUserImportListener(updateSupport));
+        return AjaxResult.success(result.getAnalysis());
     }
 
     @PostMapping("/importTemplate")
     public void importTemplate(HttpServletResponse response) throws IOException {
-        ExcelUtil<SysUser> util = new ExcelUtil<SysUser>(SysUser.class);
-        util.importTemplateExcel(response, "用户数据");
+        ExcelUtil.exportExcel(new ArrayList<>(), "用户数据", SysUserImportVo.class, response);
     }
 
     /**
@@ -109,7 +121,7 @@ public class SysUserController extends BaseController {
         List<SysRole> roles = roleService.selectRoleAll();
         ajax.put("roles", SysUser.isAdmin(userId) ? roles : roles.stream().filter(r -> !r.isAdmin()).collect(Collectors.toList()));
         ajax.put("posts", postService.selectPostAll());
-        if (StringUtils.isNotNull(userId)) {
+        if (ObjectUtil.isNotNull(userId)) {
             SysUser sysUser = userService.selectUserById(userId);
             ajax.put(AjaxResult.DATA_TAG, sysUser);
             ajax.put("postIds", postService.selectPostListByUserId(userId));

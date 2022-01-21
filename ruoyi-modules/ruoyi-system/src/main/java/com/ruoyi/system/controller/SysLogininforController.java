@@ -1,9 +1,9 @@
 package com.ruoyi.system.controller;
 
-import com.ruoyi.common.core.utils.poi.ExcelUtil;
 import com.ruoyi.common.core.web.controller.BaseController;
 import com.ruoyi.common.core.web.domain.AjaxResult;
 import com.ruoyi.common.core.web.page.TableDataInfo;
+import com.ruoyi.common.excel.utils.ExcelUtil;
 import com.ruoyi.common.log.annotation.Log;
 import com.ruoyi.common.log.enums.BusinessType;
 import com.ruoyi.common.security.annotation.InnerAuth;
@@ -42,8 +42,7 @@ public class SysLogininforController extends BaseController {
     @PostMapping("/export")
     public void export(HttpServletResponse response, SysLogininfor logininfor) {
         List<SysLogininfor> list = logininforService.selectLogininforList(logininfor);
-        ExcelUtil<SysLogininfor> util = new ExcelUtil<SysLogininfor>(SysLogininfor.class);
-        util.exportExcel(response, list, "登录日志");
+        ExcelUtil.exportExcel(list, "登录日志", SysLogininfor.class, response);
     }
 
     @RequiresPermissions("system:logininfor:remove")

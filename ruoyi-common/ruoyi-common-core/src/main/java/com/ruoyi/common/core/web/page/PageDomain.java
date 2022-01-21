@@ -1,5 +1,6 @@
 package com.ruoyi.common.core.web.page;
 
+import cn.hutool.core.util.ObjectUtil;
 import com.ruoyi.common.core.utils.StringUtils;
 import lombok.Data;
 
@@ -55,7 +56,7 @@ public class PageDomain {
     }
 
     public Boolean getReasonable() {
-        if (StringUtils.isNull(reasonable)) {
+        if (ObjectUtil.isNull(reasonable)) {
             return Boolean.TRUE;
         }
         return reasonable;

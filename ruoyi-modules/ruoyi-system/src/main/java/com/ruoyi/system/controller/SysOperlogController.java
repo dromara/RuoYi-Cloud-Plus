@@ -1,9 +1,9 @@
 package com.ruoyi.system.controller;
 
-import com.ruoyi.common.core.utils.poi.ExcelUtil;
 import com.ruoyi.common.core.web.controller.BaseController;
 import com.ruoyi.common.core.web.domain.AjaxResult;
 import com.ruoyi.common.core.web.page.TableDataInfo;
+import com.ruoyi.common.excel.utils.ExcelUtil;
 import com.ruoyi.common.log.annotation.Log;
 import com.ruoyi.common.log.enums.BusinessType;
 import com.ruoyi.common.security.annotation.InnerAuth;
@@ -41,8 +41,7 @@ public class SysOperlogController extends BaseController {
     @PostMapping("/export")
     public void export(HttpServletResponse response, SysOperLog operLog) {
         List<SysOperLog> list = operLogService.selectOperLogList(operLog);
-        ExcelUtil<SysOperLog> util = new ExcelUtil<SysOperLog>(SysOperLog.class);
-        util.exportExcel(response, list, "操作日志");
+        ExcelUtil.exportExcel(list, "操作日志", SysOperLog.class, response);
     }
 
     @Log(title = "操作日志", businessType = BusinessType.DELETE)

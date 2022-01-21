@@ -1,5 +1,6 @@
 package com.ruoyi.common.security.interceptor;
 
+import cn.hutool.core.util.ObjectUtil;
 import com.ruoyi.common.core.constant.SecurityConstants;
 import com.ruoyi.common.core.context.SecurityContextHolder;
 import com.ruoyi.common.core.utils.ServletUtils;
@@ -33,7 +34,7 @@ public class HeaderInterceptor implements AsyncHandlerInterceptor {
         String token = SecurityUtils.getToken();
         if (StringUtils.isNotEmpty(token)) {
             LoginUser loginUser = AuthUtil.getLoginUser(token);
-            if (StringUtils.isNotNull(loginUser)) {
+            if (ObjectUtil.isNotNull(loginUser)) {
                 AuthUtil.verifyLoginUserExpire(loginUser);
                 SecurityContextHolder.set(SecurityConstants.LOGIN_USER, loginUser);
             }

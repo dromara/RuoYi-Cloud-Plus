@@ -1,5 +1,6 @@
 package com.ruoyi.common.core.web.domain;
 
+import cn.hutool.core.util.ObjectUtil;
 import com.ruoyi.common.core.constant.HttpStatus;
 import com.ruoyi.common.core.utils.StringUtils;
 
@@ -55,7 +56,7 @@ public class AjaxResult extends HashMap<String, Object> {
     public AjaxResult(int code, String msg, Object data) {
         super.put(CODE_TAG, code);
         super.put(MSG_TAG, msg);
-        if (StringUtils.isNotNull(data)) {
+        if (ObjectUtil.isNotNull(data)) {
             super.put(DATA_TAG, data);
         }
     }

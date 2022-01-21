@@ -1,7 +1,7 @@
 package com.ruoyi.system.service;
 
+import cn.hutool.core.lang.tree.Tree;
 import com.ruoyi.system.api.domain.SysDept;
-import com.ruoyi.system.domain.vo.TreeSelect;
 
 import java.util.List;
 
@@ -33,7 +33,7 @@ public interface ISysDeptService {
      * @param depts 部门列表
      * @return 下拉树结构列表
      */
-    List<TreeSelect> buildDeptTreeSelect(List<SysDept> depts);
+    List<Tree<Long>> buildDeptTreeSelect(List<SysDept> depts);
 
     /**
      * 根据角色ID查询部门树信息

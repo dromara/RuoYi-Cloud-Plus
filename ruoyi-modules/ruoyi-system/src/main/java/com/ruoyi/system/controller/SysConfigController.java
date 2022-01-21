@@ -1,10 +1,10 @@
 package com.ruoyi.system.controller;
 
 import com.ruoyi.common.core.constant.UserConstants;
-import com.ruoyi.common.core.utils.poi.ExcelUtil;
 import com.ruoyi.common.core.web.controller.BaseController;
 import com.ruoyi.common.core.web.domain.AjaxResult;
 import com.ruoyi.common.core.web.page.TableDataInfo;
+import com.ruoyi.common.excel.utils.ExcelUtil;
 import com.ruoyi.common.log.annotation.Log;
 import com.ruoyi.common.log.enums.BusinessType;
 import com.ruoyi.common.security.annotation.RequiresPermissions;
@@ -47,8 +47,7 @@ public class SysConfigController extends BaseController {
     @PostMapping("/export")
     public void export(HttpServletResponse response, SysConfig config) {
         List<SysConfig> list = configService.selectConfigList(config);
-        ExcelUtil<SysConfig> util = new ExcelUtil<SysConfig>(SysConfig.class);
-        util.exportExcel(response, list, "参数数据");
+        ExcelUtil.exportExcel(list, "参数数据", SysConfig.class, response);
     }
 
     /**

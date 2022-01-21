@@ -1,10 +1,10 @@
 package com.ruoyi.system.controller;
 
-import com.ruoyi.common.core.utils.StringUtils;
-import com.ruoyi.common.core.utils.poi.ExcelUtil;
+import cn.hutool.core.util.ObjectUtil;
 import com.ruoyi.common.core.web.controller.BaseController;
 import com.ruoyi.common.core.web.domain.AjaxResult;
 import com.ruoyi.common.core.web.page.TableDataInfo;
+import com.ruoyi.common.excel.utils.ExcelUtil;
 import com.ruoyi.common.log.annotation.Log;
 import com.ruoyi.common.log.enums.BusinessType;
 import com.ruoyi.common.security.annotation.RequiresPermissions;
@@ -47,8 +47,7 @@ public class SysDictDataController extends BaseController {
     @PostMapping("/export")
     public void export(HttpServletResponse response, SysDictData dictData) {
         List<SysDictData> list = dictDataService.selectDictDataList(dictData);
-        ExcelUtil<SysDictData> util = new ExcelUtil<SysDictData>(SysDictData.class);
-        util.exportExcel(response, list, "字典数据");
+        ExcelUtil.exportExcel(list, "字典数据", SysDictData.class, response);
     }
 
     /**
@@ -66,7 +65,7 @@ public class SysDictDataController extends BaseController {
     @GetMapping(value = "/type/{dictType}")
     public AjaxResult dictType(@PathVariable String dictType) {
         List<SysDictData> data = dictTypeService.selectDictDataByType(dictType);
-        if (StringUtils.isNull(data)) {
+        if (ObjectUtil.isNull(data)) {
             data = new ArrayList<SysDictData>();
         }
         return AjaxResult.success(data);

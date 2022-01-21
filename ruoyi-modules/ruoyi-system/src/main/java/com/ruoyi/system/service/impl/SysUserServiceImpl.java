@@ -1,10 +1,11 @@
 package com.ruoyi.system.service.impl;
 
+import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.util.ObjectUtil;
 import com.ruoyi.common.core.constant.UserConstants;
 import com.ruoyi.common.core.exception.ServiceException;
 import com.ruoyi.common.core.utils.SpringUtils;
 import com.ruoyi.common.core.utils.StringUtils;
-import com.ruoyi.common.core.utils.bean.BeanValidators;
 import com.ruoyi.common.datascope.annotation.DataScope;
 import com.ruoyi.common.security.utils.SecurityUtils;
 import com.ruoyi.system.api.domain.SysRole;
@@ -156,9 +157,9 @@ public class SysUserServiceImpl implements ISysUserService {
      */
     @Override
     public String checkPhoneUnique(SysUser user) {
-        Long userId = StringUtils.isNull(user.getUserId()) ? -1L : user.getUserId();
+        Long userId = ObjectUtil.isNull(user.getUserId()) ? -1L : user.getUserId();
         SysUser info = userMapper.checkPhoneUnique(user.getPhonenumber());
-        if (StringUtils.isNotNull(info) && info.getUserId().longValue() != userId.longValue()) {
+        if (ObjectUtil.isNotNull(info) && info.getUserId().longValue() != userId.longValue()) {
             return UserConstants.NOT_UNIQUE;
         }
         return UserConstants.UNIQUE;
@@ -172,9 +173,9 @@ public class SysUserServiceImpl implements ISysUserService {
      */
     @Override
     public String checkEmailUnique(SysUser user) {
-        Long userId = StringUtils.isNull(user.getUserId()) ? -1L : user.getUserId();
+        Long userId = ObjectUtil.isNull(user.getUserId()) ? -1L : user.getUserId();
         SysUser info = userMapper.checkEmailUnique(user.getEmail());
-        if (StringUtils.isNotNull(info) && info.getUserId().longValue() != userId.longValue()) {
+        if (ObjectUtil.isNotNull(info) && info.getUserId().longValue() != userId.longValue()) {
             return UserConstants.NOT_UNIQUE;
         }
         return UserConstants.UNIQUE;
@@ -187,7 +188,7 @@ public class SysUserServiceImpl implements ISysUserService {
      */
     @Override
     public void checkUserAllowed(SysUser user) {
-        if (StringUtils.isNotNull(user.getUserId()) && user.isAdmin()) {
+        if (ObjectUtil.isNotNull(user.getUserId()) && user.isAdmin()) {
             throw new ServiceException("不允许操作超级管理员用户");
         }
     }
@@ -203,7 +204,7 @@ public class SysUserServiceImpl implements ISysUserService {
             SysUser user = new SysUser();
             user.setUserId(userId);
             List<SysUser> users = SpringUtils.getAopProxy(this).selectUserList(user);
-            if (StringUtils.isEmpty(users)) {
+            if (CollUtil.isEmpty(users)) {
                 throw new ServiceException("没有权限访问用户数据！");
             }
         }
@@ -336,7 +337,7 @@ public class SysUserServiceImpl implements ISysUserService {
      */
     public void insertUserRole(SysUser user) {
         Long[] roles = user.getRoleIds();
-        if (StringUtils.isNotNull(roles)) {
+        if (ObjectUtil.isNotNull(roles)) {
             // 新增用户与角色管理
             List<SysUserRole> list = new ArrayList<SysUserRole>();
             for (Long roleId : roles) {
@@ -358,7 +359,7 @@ public class SysUserServiceImpl implements ISysUserService {
      */
     public void insertUserPost(SysUser user) {
         Long[] posts = user.getPostIds();
-        if (StringUtils.isNotNull(posts)) {
+        if (ObjectUtil.isNotNull(posts)) {
             // 新增用户与岗位管理
             List<SysUserPost> list = new ArrayList<SysUserPost>();
             for (Long postId : posts) {
@@ -380,7 +381,7 @@ public class SysUserServiceImpl implements ISysUserService {
      * @param roleIds 角色组
      */
     public void insertUserRole(Long userId, Long[] roleIds) {
-        if (StringUtils.isNotNull(roleIds)) {
+        if (ObjectUtil.isNotNull(roleIds)) {
             // 新增用户与角色管理
             List<SysUserRole> list = new ArrayList<SysUserRole>();
             for (Long roleId : roleIds) {
@@ -428,61 +429,6 @@ public class SysUserServiceImpl implements ISysUserService {
         // 删除用户与岗位关联
         userPostMapper.deleteUserPost(userIds);
         return userMapper.deleteUserByIds(userIds);
-    }
-
-    /**
-     * 导入用户数据
-     *
-     * @param userList        用户数据列表
-     * @param isUpdateSupport 是否更新支持，如果已存在，则进行更新数据
-     * @param operName        操作用户
-     * @return 结果
-     */
-    @Override
-    public String importUser(List<SysUser> userList, Boolean isUpdateSupport, String operName) {
-        if (StringUtils.isNull(userList) || userList.size() == 0) {
-            throw new ServiceException("导入用户数据不能为空！");
-        }
-        int successNum = 0;
-        int failureNum = 0;
-        StringBuilder successMsg = new StringBuilder();
-        StringBuilder failureMsg = new StringBuilder();
-        String password = configService.selectConfigByKey("sys.user.initPassword");
-        for (SysUser user : userList) {
-            try {
-                // 验证是否存在这个用户
-                SysUser u = userMapper.selectUserByUserName(user.getUserName());
-                if (StringUtils.isNull(u)) {
-                    BeanValidators.validateWithException(validator, user);
-                    user.setPassword(SecurityUtils.encryptPassword(password));
-                    user.setCreateBy(operName);
-                    this.insertUser(user);
-                    successNum++;
-                    successMsg.append("<br/>" + successNum + "、账号 " + user.getUserName() + " 导入成功");
-                } else if (isUpdateSupport) {
-                    BeanValidators.validateWithException(validator, user);
-                    user.setUpdateBy(operName);
-                    this.updateUser(user);
-                    successNum++;
-                    successMsg.append("<br/>" + successNum + "、账号 " + user.getUserName() + " 更新成功");
-                } else {
-                    failureNum++;
-                    failureMsg.append("<br/>" + failureNum + "、账号 " + user.getUserName() + " 已存在");
-                }
-            } catch (Exception e) {
-                failureNum++;
-                String msg = "<br/>" + failureNum + "、账号 " + user.getUserName() + " 导入失败：";
-                failureMsg.append(msg + e.getMessage());
-                log.error(msg, e);
-            }
-        }
-        if (failureNum > 0) {
-            failureMsg.insert(0, "很抱歉，导入失败！共 " + failureNum + " 条数据格式不正确，错误如下：");
-            throw new ServiceException(failureMsg.toString());
-        } else {
-            successMsg.insert(0, "恭喜您，数据已全部导入成功！共 " + successNum + " 条，数据如下：");
-        }
-        return successMsg.toString();
     }
 
 }

@@ -1,5 +1,7 @@
 package com.ruoyi.gen.service;
 
+import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.util.ObjectUtil;
 import com.ruoyi.common.core.constant.Constants;
 import com.ruoyi.common.core.constant.GenConstants;
 import com.ruoyi.common.core.exception.ServiceException;
@@ -261,7 +263,7 @@ public class GenTableServiceImpl implements IGenTableService {
         Map<String, GenTableColumn> tableColumnMap = tableColumns.stream().collect(Collectors.toMap(GenTableColumn::getColumnName, Function.identity()));
 
         List<GenTableColumn> dbTableColumns = genTableColumnMapper.selectDbTableColumnsByName(tableName);
-        if (StringUtils.isEmpty(dbTableColumns)) {
+        if (CollUtil.isEmpty(dbTableColumns)) {
             throw new ServiceException("同步数据失败，原表结构不存在");
         }
         List<String> dbTableColumnNames = dbTableColumns.stream().map(GenTableColumn::getColumnName).collect(Collectors.toList());
@@ -282,7 +284,7 @@ public class GenTableServiceImpl implements IGenTableService {
         });
 
         List<GenTableColumn> delColumns = tableColumns.stream().filter(column -> !dbTableColumnNames.contains(column.getColumnName())).collect(Collectors.toList());
-        if (StringUtils.isNotEmpty(delColumns)) {
+        if (CollUtil.isNotEmpty(delColumns)) {
             genTableColumnMapper.deleteGenTableColumns(delColumns);
         }
     }
@@ -377,7 +379,7 @@ public class GenTableServiceImpl implements IGenTableService {
                 break;
             }
         }
-        if (StringUtils.isNull(table.getPkColumn())) {
+        if (ObjectUtil.isNull(table.getPkColumn())) {
             table.setPkColumn(table.getColumns().get(0));
         }
         if (GenConstants.TPL_SUB.equals(table.getTplCategory())) {
@@ -387,7 +389,7 @@ public class GenTableServiceImpl implements IGenTableService {
                     break;
                 }
             }
-            if (StringUtils.isNull(table.getSubTable().getPkColumn())) {
+            if (ObjectUtil.isNull(table.getSubTable().getPkColumn())) {
                 table.getSubTable().setPkColumn(table.getSubTable().getColumns().get(0));
             }
         }
@@ -412,7 +414,7 @@ public class GenTableServiceImpl implements IGenTableService {
      */
     public void setTableFromOptions(GenTable genTable) {
         Map<String, String> paramsObj = JsonUtils.parseMap(genTable.getOptions());
-        if (StringUtils.isNotNull(paramsObj)) {
+        if (ObjectUtil.isNotNull(paramsObj)) {
             String treeCode = paramsObj.get(GenConstants.TREE_CODE);
             String treeParentCode = paramsObj.get(GenConstants.TREE_PARENT_CODE);
             String treeName = paramsObj.get(GenConstants.TREE_NAME);

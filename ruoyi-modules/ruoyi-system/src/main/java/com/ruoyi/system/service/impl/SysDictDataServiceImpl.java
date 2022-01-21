@@ -1,7 +1,6 @@
 package com.ruoyi.system.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
-import com.ruoyi.common.core.utils.StringUtils;
 import com.ruoyi.common.dict.utils.DictUtils;
 import com.ruoyi.system.api.domain.SysDictData;
 import com.ruoyi.system.mapper.SysDictDataMapper;
@@ -55,7 +54,7 @@ public class SysDictDataServiceImpl implements ISysDictDataService {
     @Override
     public List<SysDictData> selectDictDataByType(String dictType) {
         List<SysDictData> dictDatas = DictUtils.getDictCache(dictType);
-        if (StringUtils.isNotEmpty(dictDatas)) {
+        if (CollUtil.isNotEmpty(dictDatas)) {
             return dictDatas;
         }
         dictDatas = dictDataMapper.selectDictDataByType(dictType);
