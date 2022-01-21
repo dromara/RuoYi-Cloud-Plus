@@ -4,10 +4,10 @@
     <parent>
         <groupId>com.ruoyi</groupId>
         <artifactId>ruoyi-visual</artifactId>
-        <version>0.3.0</version>
+        <version>0.4.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-	
+
     <artifactId>ruoyi-monitor</artifactId>
 
     <description>
@@ -15,20 +15,20 @@
     </description>
 
     <dependencies>
-        
+
         <!-- SpringBoot Admin -->
         <dependency>
             <groupId>de.codecentric</groupId>
             <artifactId>spring-boot-admin-starter-server</artifactId>
             <version>${spring-boot-admin.version}</version>
         </dependency>
-		
+
         <!-- SpringCloud Alibaba Nacos -->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
         </dependency>
-		
+
         <!-- SpringCloud Alibaba Nacos Config -->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
@@ -40,12 +40,12 @@
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-sentinel</artifactId>
         </dependency>
-		
+
         <dependency>
             <groupId>com.ruoyi</groupId>
             <artifactId>ruoyi-common-web</artifactId>
         </dependency>
-		
+
         <!-- Spring Security -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -56,7 +56,7 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
         </dependency>
-		
+
     </dependencies>
 
     <build>
@@ -76,5 +76,5 @@
             </plugin>
         </plugins>
     </build>
-   
+
 </project>

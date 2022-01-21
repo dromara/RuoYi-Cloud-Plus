@@ -6,14 +6,14 @@
 
     <groupId>com.ruoyi</groupId>
     <artifactId>ruoyi-cloud-plus</artifactId>
-    <version>0.3.0</version>
+    <version>0.4.0</version>
 
     <name>RuoYi-Cloud-Plus</name>
     <url>https://gitee.com/JavaLionLi/RuoYi-Cloud-Plus</url>
     <description>RuoYi-Cloud-Plus微服务系统</description>
 
     <properties>
-        <ruoyi.version>0.3.0</ruoyi.version>
+        <ruoyi.version>0.4.0</ruoyi.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
