@@ -25,7 +25,6 @@
         <spring-boot.mybatis>2.2.0</spring-boot.mybatis>
         <swagger.core.version>1.6.2</swagger.core.version>
         <tobato.version>1.27.2</tobato.version>
-        <kaptcha.version>2.3.2</kaptcha.version>
         <pagehelper.boot.version>1.4.1</pagehelper.boot.version>
         <druid.version>1.2.8</druid.version>
         <dynamic-ds.version>3.5.0</dynamic-ds.version>
@@ -38,8 +37,8 @@
         <cglib.version>3.3.0</cglib.version>
         <commons-collections.version>3.2.2</commons-collections.version>
         <transmittable-thread-local.version>2.12.2</transmittable-thread-local.version>
-        <hutool.version>5.7.18</hutool.version>
-        <redisson.version>3.16.7</redisson.version>
+        <hutool.version>5.7.20</hutool.version>
+        <redisson.version>3.16.8</redisson.version>
         <lock4j.version>2.2.1</lock4j.version>
         <dubbo.version>2.7.15</dubbo.version>
         <seata.version>1.4.2</seata.version>
