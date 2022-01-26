@@ -2,6 +2,8 @@ package com.ruoyi.system.domain;
 
 import com.alibaba.excel.annotation.ExcelIgnoreUnannotated;
 import com.alibaba.excel.annotation.ExcelProperty;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.ruoyi.common.core.web.domain.BaseEntity;
 import com.ruoyi.common.excel.annotation.ExcelDictFormat;
 import com.ruoyi.common.excel.convert.ExcelDictConvert;
@@ -9,7 +11,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.experimental.Accessors;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -22,6 +24,8 @@ import javax.validation.constraints.Size;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
+@NoArgsConstructor
+@TableName("sys_config")
 @ExcelIgnoreUnannotated
 @ApiModel("参数配置业务对象")
 public class SysConfig extends BaseEntity {
@@ -31,6 +35,7 @@ public class SysConfig extends BaseEntity {
      */
     @ApiModelProperty(value = "参数主键")
     @ExcelProperty(value = "参数主键")
+    @TableId(value = "config_id")
     private Long configId;
 
     /**

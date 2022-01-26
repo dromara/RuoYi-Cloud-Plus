@@ -4,16 +4,15 @@ import com.ruoyi.common.core.constant.CacheConstants;
 import com.ruoyi.common.core.utils.StringUtils;
 import com.ruoyi.common.core.web.controller.BaseController;
 import com.ruoyi.common.core.web.domain.AjaxResult;
-import com.ruoyi.common.core.web.page.TableDataInfo;
 import com.ruoyi.common.log.annotation.Log;
 import com.ruoyi.common.log.enums.BusinessType;
+import com.ruoyi.common.mybatis.core.page.TableDataInfo;
 import com.ruoyi.common.redis.utils.RedisUtils;
 import com.ruoyi.common.security.annotation.RequiresPermissions;
 import com.ruoyi.system.api.model.LoginUser;
 import com.ruoyi.system.domain.SysUserOnline;
 import com.ruoyi.system.service.ISysUserOnlineService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -26,7 +25,7 @@ import java.util.List;
  *
  * @author ruoyi
  */
-@RequiredArgsConstructor(onConstructor_ = @Autowired)
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/online")
 public class SysUserOnlineController extends BaseController {
@@ -35,7 +34,7 @@ public class SysUserOnlineController extends BaseController {
 
     @RequiresPermissions("monitor:online:list")
     @GetMapping("/list")
-    public TableDataInfo list(String ipaddr, String userName) {
+    public TableDataInfo<SysUserOnline> list(String ipaddr, String userName) {
         Collection<String> keys = RedisUtils.keys(CacheConstants.LOGIN_TOKEN_KEY + "*");
         List<SysUserOnline> userOnlineList = new ArrayList<SysUserOnline>();
         for (String key : keys) {
@@ -58,7 +57,7 @@ public class SysUserOnlineController extends BaseController {
         }
         Collections.reverse(userOnlineList);
         userOnlineList.removeAll(Collections.singleton(null));
-        return getDataTable(userOnlineList);
+        return TableDataInfo.build(userOnlineList);
     }
 
     /**

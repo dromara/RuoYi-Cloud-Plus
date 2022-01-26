@@ -1,5 +1,6 @@
 package com.ruoyi.system.controller;
 
+import cn.hutool.core.util.ArrayUtil;
 import com.ruoyi.common.core.constant.UserConstants;
 import com.ruoyi.common.core.utils.StringUtils;
 import com.ruoyi.common.core.web.controller.BaseController;
@@ -11,12 +12,9 @@ import com.ruoyi.common.security.utils.SecurityUtils;
 import com.ruoyi.system.api.domain.SysDept;
 import com.ruoyi.system.service.ISysDeptService;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.lang3.ArrayUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -24,7 +22,7 @@ import java.util.List;
  *
  * @author ruoyi
  */
-@RequiredArgsConstructor(onConstructor_ = @Autowired)
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/dept")
 public class SysDeptController extends BaseController {
@@ -48,14 +46,8 @@ public class SysDeptController extends BaseController {
     @GetMapping("/list/exclude/{deptId}")
     public AjaxResult excludeChild(@PathVariable(value = "deptId", required = false) Long deptId) {
         List<SysDept> depts = deptService.selectDeptList(new SysDept());
-        Iterator<SysDept> it = depts.iterator();
-        while (it.hasNext()) {
-            SysDept d = (SysDept) it.next();
-            if (d.getDeptId().intValue() == deptId
-                    || ArrayUtils.contains(StringUtils.split(d.getAncestors(), ","), deptId + "")) {
-                it.remove();
-            }
-        }
+        depts.removeIf(d -> d.getDeptId().equals(deptId)
+            || ArrayUtil.contains(StringUtils.split(d.getAncestors(), ","), deptId + ""));
         return AjaxResult.success(depts);
     }
 

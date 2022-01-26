@@ -25,7 +25,7 @@ import javax.servlet.http.HttpServletRequest;
  *
  * @author ruoyi
  */
-@RequiredArgsConstructor(onConstructor_ = @Autowired)
+@RequiredArgsConstructor
 @RestController
 public class TokenController {
 

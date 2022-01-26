@@ -1,5 +1,7 @@
 package com.ruoyi.system.service;
 
+import com.ruoyi.common.mybatis.core.page.PageQuery;
+import com.ruoyi.common.mybatis.core.page.TableDataInfo;
 import com.ruoyi.system.api.domain.SysRole;
 import com.ruoyi.system.domain.SysUserRole;
 
@@ -12,6 +14,8 @@ import java.util.Set;
  * @author ruoyi
  */
 public interface ISysRoleService {
+    TableDataInfo<SysRole> selectPageRoleList(SysRole role, PageQuery pageQuery);
+
     /**
      * 根据条件分页查询角色数据
      *
@@ -95,7 +99,7 @@ public interface ISysRoleService {
      * @param roleId 角色ID
      * @return 结果
      */
-    int countUserRoleByRoleId(Long roleId);
+    long countUserRoleByRoleId(Long roleId);
 
     /**
      * 新增保存角色信息

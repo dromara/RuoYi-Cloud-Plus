@@ -1,11 +1,13 @@
 package com.ruoyi.gen.controller;
 
 import cn.hutool.core.convert.Convert;
+import cn.hutool.core.io.IoUtil;
 import com.ruoyi.common.core.web.controller.BaseController;
 import com.ruoyi.common.core.web.domain.AjaxResult;
-import com.ruoyi.common.core.web.page.TableDataInfo;
 import com.ruoyi.common.log.annotation.Log;
 import com.ruoyi.common.log.enums.BusinessType;
+import com.ruoyi.common.mybatis.core.page.PageQuery;
+import com.ruoyi.common.mybatis.core.page.TableDataInfo;
 import com.ruoyi.common.security.annotation.RequiresPermissions;
 import com.ruoyi.gen.domain.GenTable;
 import com.ruoyi.gen.domain.GenTableColumn;
@@ -13,8 +15,6 @@ import com.ruoyi.gen.service.IGenTableColumnService;
 import com.ruoyi.gen.service.IGenTableService;
 import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.io.IOUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,7 +29,7 @@ import java.util.Map;
  *
  * @author ruoyi
  */
-@RequiredArgsConstructor(onConstructor_ = @Autowired)
+@RequiredArgsConstructor
 @RequestMapping("/gen")
 @RestController
 @Api(tags = "代码生成")
@@ -43,10 +43,8 @@ public class GenController extends BaseController {
      */
     @RequiresPermissions("tool:gen:list")
     @GetMapping("/list")
-    public TableDataInfo genList(GenTable genTable) {
-        startPage();
-        List<GenTable> list = genTableService.selectGenTableList(genTable);
-        return getDataTable(list);
+    public TableDataInfo<GenTable> genList(GenTable genTable, PageQuery pageQuery) {
+        return genTableService.selectPageGenTableList(genTable, pageQuery);
     }
 
     /**
@@ -70,18 +68,16 @@ public class GenController extends BaseController {
      */
     @RequiresPermissions("tool:gen:list")
     @GetMapping("/db/list")
-    public TableDataInfo dataList(GenTable genTable) {
-        startPage();
-        List<GenTable> list = genTableService.selectDbTableList(genTable);
-        return getDataTable(list);
+    public TableDataInfo<GenTable> dataList(GenTable genTable, PageQuery pageQuery) {
+        return genTableService.selectPageDbTableList(genTable, pageQuery);
     }
 
     /**
      * 查询数据表字段列表
      */
     @GetMapping(value = "/column/{talbleId}")
-    public TableDataInfo columnList(Long tableId) {
-        TableDataInfo dataInfo = new TableDataInfo();
+    public TableDataInfo<GenTableColumn> columnList(Long tableId) {
+        TableDataInfo<GenTableColumn> dataInfo = new TableDataInfo<>();
         List<GenTableColumn> list = genTableColumnService.selectGenTableColumnListByTableId(tableId);
         dataInfo.setRows(list);
         dataInfo.setTotal(list.size());
@@ -185,9 +181,11 @@ public class GenController extends BaseController {
      */
     private void genCode(HttpServletResponse response, byte[] data) throws IOException {
         response.reset();
+        response.addHeader("Access-Control-Allow-Origin", "*");
+        response.addHeader("Access-Control-Expose-Headers", "Content-Disposition");
         response.setHeader("Content-Disposition", "attachment; filename=\"ruoyi.zip\"");
         response.addHeader("Content-Length", "" + data.length);
         response.setContentType("application/octet-stream; charset=UTF-8");
-        IOUtils.write(data, response.getOutputStream());
+        IoUtil.write(response.getOutputStream(), false, data);
     }
 }

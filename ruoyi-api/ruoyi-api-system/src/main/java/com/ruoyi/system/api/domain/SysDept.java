@@ -1,11 +1,14 @@
 package com.ruoyi.system.api.domain;
 
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableLogic;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.ruoyi.common.core.web.domain.TreeEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.experimental.Accessors;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -20,6 +23,8 @@ import javax.validation.constraints.Size;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
+@NoArgsConstructor
+@TableName("sys_dept")
 @ApiModel("部门业务对象")
 public class SysDept extends TreeEntity {
     private static final long serialVersionUID = 1L;
@@ -28,6 +33,7 @@ public class SysDept extends TreeEntity {
      * 部门ID
      */
     @ApiModelProperty(value = "部门id")
+    @TableId(value = "dept_id")
     private Long deptId;
 
     /**
@@ -76,6 +82,7 @@ public class SysDept extends TreeEntity {
      * 删除标志（0代表存在 2代表删除）
      */
     @ApiModelProperty(value = "删除标志（0代表存在 2代表删除）")
+    @TableLogic
     private String delFlag;
 
     /**

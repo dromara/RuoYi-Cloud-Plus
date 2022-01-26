@@ -1,5 +1,7 @@
 package com.ruoyi.system.service;
 
+import com.ruoyi.common.mybatis.core.page.PageQuery;
+import com.ruoyi.common.mybatis.core.page.TableDataInfo;
 import com.ruoyi.system.api.domain.SysDictData;
 import com.ruoyi.system.api.domain.SysDictType;
 
@@ -11,6 +13,8 @@ import java.util.List;
  * @author ruoyi
  */
 public interface ISysDictTypeService {
+    TableDataInfo<SysDictType> selectPageDictTypeList(SysDictType dictType, PageQuery pageQuery);
+
     /**
      * 根据条件分页查询字典类型
      *

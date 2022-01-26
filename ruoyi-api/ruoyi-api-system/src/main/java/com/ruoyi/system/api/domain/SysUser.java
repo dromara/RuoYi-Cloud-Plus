@@ -1,5 +1,6 @@
 package com.ruoyi.system.api.domain;
 
+import com.baomidou.mybatisplus.annotation.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ruoyi.common.core.web.domain.BaseEntity;
@@ -9,7 +10,6 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import lombok.experimental.Accessors;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -26,6 +26,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
+@TableName("sys_user")
 @ApiModel("用户信息业务对象")
 public class SysUser extends BaseEntity {
 
@@ -33,6 +34,7 @@ public class SysUser extends BaseEntity {
      * 用户ID
      */
     @ApiModelProperty(value = "用户ID")
+    @TableId(value = "user_id")
     private Long userId;
 
     /**
@@ -94,6 +96,11 @@ public class SysUser extends BaseEntity {
      * 密码
      */
     @ApiModelProperty(value = "密码")
+    @TableField(
+        insertStrategy = FieldStrategy.NOT_EMPTY,
+        updateStrategy = FieldStrategy.NOT_EMPTY,
+        whereStrategy = FieldStrategy.NOT_EMPTY
+    )
     private String password;
 
     @JsonIgnore
@@ -112,6 +119,7 @@ public class SysUser extends BaseEntity {
      * 删除标志（0代表存在 2代表删除）
      */
     @ApiModelProperty(value = "删除标志（0代表存在 2代表删除）")
+    @TableLogic
     private String delFlag;
 
     /**
@@ -136,30 +144,35 @@ public class SysUser extends BaseEntity {
      * 部门对象
      */
     @ApiModelProperty(value = "部门对象")
+    @TableField(exist = false)
     private SysDept dept;
 
     /**
      * 角色对象
      */
     @ApiModelProperty(value = "角色对象")
+    @TableField(exist = false)
     private List<SysRole> roles;
 
     /**
      * 角色组
      */
     @ApiModelProperty(value = "角色组")
+    @TableField(exist = false)
     private Long[] roleIds;
 
     /**
      * 岗位组
      */
     @ApiModelProperty(value = "岗位组")
+    @TableField(exist = false)
     private Long[] postIds;
 
     /**
      * 数据权限 当前角色ID
      */
     @ApiModelProperty(value = "角色ID")
+    @TableField(exist = false)
     private Long roleId;
 
     public SysUser(Long userId) {

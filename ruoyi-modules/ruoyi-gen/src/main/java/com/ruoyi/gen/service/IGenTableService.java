@@ -1,5 +1,7 @@
 package com.ruoyi.gen.service;
 
+import com.ruoyi.common.mybatis.core.page.PageQuery;
+import com.ruoyi.common.mybatis.core.page.TableDataInfo;
 import com.ruoyi.gen.domain.GenTable;
 
 import java.util.List;
@@ -11,6 +13,11 @@ import java.util.Map;
  * @author ruoyi
  */
 public interface IGenTableService {
+
+    TableDataInfo<GenTable> selectPageGenTableList(GenTable genTable, PageQuery pageQuery);
+
+    TableDataInfo<GenTable> selectPageDbTableList(GenTable genTable, PageQuery pageQuery);
+
     /**
      * 查询业务列表
      *

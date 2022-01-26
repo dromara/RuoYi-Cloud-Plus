@@ -1,12 +1,17 @@
 package com.ruoyi.system.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.ruoyi.common.core.utils.StringUtils;
+import com.ruoyi.common.mybatis.core.page.PageQuery;
+import com.ruoyi.common.mybatis.core.page.TableDataInfo;
 import com.ruoyi.system.domain.SysNotice;
 import com.ruoyi.system.mapper.SysNoticeMapper;
 import com.ruoyi.system.service.ISysNoticeService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -14,11 +19,21 @@ import java.util.List;
  *
  * @author ruoyi
  */
-@RequiredArgsConstructor(onConstructor_ = @Autowired)
+@RequiredArgsConstructor
 @Service
 public class SysNoticeServiceImpl implements ISysNoticeService {
 
-    private final SysNoticeMapper noticeMapper;
+    private final SysNoticeMapper baseMapper;
+
+    @Override
+    public TableDataInfo<SysNotice> selectPageNoticeList(SysNotice notice, PageQuery pageQuery) {
+        LambdaQueryWrapper<SysNotice> lqw = new LambdaQueryWrapper<SysNotice>()
+            .like(StringUtils.isNotBlank(notice.getNoticeTitle()), SysNotice::getNoticeTitle, notice.getNoticeTitle())
+            .eq(StringUtils.isNotBlank(notice.getNoticeType()), SysNotice::getNoticeType, notice.getNoticeType())
+            .like(StringUtils.isNotBlank(notice.getCreateBy()), SysNotice::getCreateBy, notice.getCreateBy());
+        Page<SysNotice> page = baseMapper.selectPage(pageQuery.build(), lqw);
+        return TableDataInfo.build(page);
+    }
 
     /**
      * 查询公告信息
@@ -28,7 +43,7 @@ public class SysNoticeServiceImpl implements ISysNoticeService {
      */
     @Override
     public SysNotice selectNoticeById(Long noticeId) {
-        return noticeMapper.selectNoticeById(noticeId);
+        return baseMapper.selectById(noticeId);
     }
 
     /**
@@ -39,7 +54,10 @@ public class SysNoticeServiceImpl implements ISysNoticeService {
      */
     @Override
     public List<SysNotice> selectNoticeList(SysNotice notice) {
-        return noticeMapper.selectNoticeList(notice);
+        return baseMapper.selectList(new LambdaQueryWrapper<SysNotice>()
+            .like(StringUtils.isNotBlank(notice.getNoticeTitle()), SysNotice::getNoticeTitle, notice.getNoticeTitle())
+            .eq(StringUtils.isNotBlank(notice.getNoticeType()), SysNotice::getNoticeType, notice.getNoticeType())
+            .like(StringUtils.isNotBlank(notice.getCreateBy()), SysNotice::getCreateBy, notice.getCreateBy()));
     }
 
     /**
@@ -50,7 +68,7 @@ public class SysNoticeServiceImpl implements ISysNoticeService {
      */
     @Override
     public int insertNotice(SysNotice notice) {
-        return noticeMapper.insertNotice(notice);
+        return baseMapper.insert(notice);
     }
 
     /**
@@ -61,7 +79,7 @@ public class SysNoticeServiceImpl implements ISysNoticeService {
      */
     @Override
     public int updateNotice(SysNotice notice) {
-        return noticeMapper.updateNotice(notice);
+        return baseMapper.updateById(notice);
     }
 
     /**
@@ -72,7 +90,7 @@ public class SysNoticeServiceImpl implements ISysNoticeService {
      */
     @Override
     public int deleteNoticeById(Long noticeId) {
-        return noticeMapper.deleteNoticeById(noticeId);
+        return baseMapper.deleteById(noticeId);
     }
 
     /**
@@ -83,6 +101,6 @@ public class SysNoticeServiceImpl implements ISysNoticeService {
      */
     @Override
     public int deleteNoticeByIds(Long[] noticeIds) {
-        return noticeMapper.deleteNoticeByIds(noticeIds);
+        return baseMapper.deleteBatchIds(Arrays.asList(noticeIds));
     }
 }

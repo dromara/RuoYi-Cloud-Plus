@@ -14,17 +14,15 @@ public interface RemoteLogService {
      * 保存系统日志
      *
      * @param sysOperLog 日志实体
-     * @param source     请求来源
      * @return 结果
      */
-    Boolean saveLog(SysOperLog sysOperLog, String source);
+    Boolean saveLog(SysOperLog sysOperLog);
 
     /**
      * 保存访问记录
      *
      * @param sysLogininfor 访问实体
-     * @param source        请求来源
      * @return 结果
      */
-    Boolean saveLogininfor(SysLogininfor sysLogininfor, String source);
+    Boolean saveLogininfor(SysLogininfor sysLogininfor);
 }

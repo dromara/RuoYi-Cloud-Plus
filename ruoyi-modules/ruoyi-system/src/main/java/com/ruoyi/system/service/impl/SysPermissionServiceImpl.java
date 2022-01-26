@@ -5,13 +5,12 @@ import com.ruoyi.system.service.ISysMenuService;
 import com.ruoyi.system.service.ISysPermissionService;
 import com.ruoyi.system.service.ISysRoleService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
 import java.util.Set;
 
-@RequiredArgsConstructor(onConstructor_ = @Autowired)
+@RequiredArgsConstructor
 @Service
 public class SysPermissionServiceImpl implements ISysPermissionService {
 

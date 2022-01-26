@@ -6,11 +6,12 @@ import com.ruoyi.common.core.constant.UserConstants;
 import com.ruoyi.common.core.utils.StringUtils;
 import com.ruoyi.common.core.web.controller.BaseController;
 import com.ruoyi.common.core.web.domain.AjaxResult;
-import com.ruoyi.common.core.web.page.TableDataInfo;
 import com.ruoyi.common.excel.core.ExcelResult;
 import com.ruoyi.common.excel.utils.ExcelUtil;
 import com.ruoyi.common.log.annotation.Log;
 import com.ruoyi.common.log.enums.BusinessType;
+import com.ruoyi.common.mybatis.core.page.PageQuery;
+import com.ruoyi.common.mybatis.core.page.TableDataInfo;
 import com.ruoyi.common.security.annotation.RequiresPermissions;
 import com.ruoyi.common.security.utils.SecurityUtils;
 import com.ruoyi.system.api.domain.SysDept;
@@ -19,10 +20,12 @@ import com.ruoyi.system.api.domain.SysUser;
 import com.ruoyi.system.domain.vo.SysUserExportVo;
 import com.ruoyi.system.domain.vo.SysUserImportVo;
 import com.ruoyi.system.listener.SysUserImportListener;
-import com.ruoyi.system.service.*;
+import com.ruoyi.system.service.ISysPermissionService;
+import com.ruoyi.system.service.ISysPostService;
+import com.ruoyi.system.service.ISysRoleService;
+import com.ruoyi.system.service.ISysUserService;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.ArrayUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -39,7 +42,7 @@ import java.util.stream.Collectors;
  *
  * @author ruoyi
  */
-@RequiredArgsConstructor(onConstructor_ = @Autowired)
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/user")
 public class SysUserController extends BaseController {
@@ -48,17 +51,14 @@ public class SysUserController extends BaseController {
     private final ISysRoleService roleService;
     private final ISysPostService postService;
     private final ISysPermissionService permissionService;
-    private final ISysConfigService configService;
 
     /**
      * 获取用户列表
      */
     @RequiresPermissions("system:user:list")
     @GetMapping("/list")
-    public TableDataInfo list(SysUser user) {
-        startPage();
-        List<SysUser> list = userService.selectUserList(user);
-        return getDataTable(list);
+    public TableDataInfo<SysUser> list(SysUser user, PageQuery pageQuery) {
+        return userService.selectPageUserList(user, pageQuery);
     }
 
     @Log(title = "用户管理", businessType = BusinessType.EXPORT)

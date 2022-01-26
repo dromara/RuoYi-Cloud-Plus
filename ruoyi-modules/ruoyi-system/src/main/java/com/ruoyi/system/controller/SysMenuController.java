@@ -11,7 +11,6 @@ import com.ruoyi.common.security.utils.SecurityUtils;
 import com.ruoyi.system.domain.SysMenu;
 import com.ruoyi.system.service.ISysMenuService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,7 +21,7 @@ import java.util.List;
  *
  * @author ruoyi
  */
-@RequiredArgsConstructor(onConstructor_ = @Autowired)
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/menu")
 public class SysMenuController extends BaseController {

@@ -2,6 +2,9 @@ package com.ruoyi.system.domain;
 
 import com.alibaba.excel.annotation.ExcelIgnoreUnannotated;
 import com.alibaba.excel.annotation.ExcelProperty;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.ruoyi.common.core.web.domain.BaseEntity;
 import com.ruoyi.common.excel.annotation.ExcelDictFormat;
 import com.ruoyi.common.excel.convert.ExcelDictConvert;
@@ -9,7 +12,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.experimental.Accessors;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -22,6 +25,8 @@ import javax.validation.constraints.Size;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
+@NoArgsConstructor
+@TableName("sys_post")
 @ExcelIgnoreUnannotated
 @ApiModel("岗位信息业务对象")
 public class SysPost extends BaseEntity {
@@ -31,6 +36,7 @@ public class SysPost extends BaseEntity {
      */
     @ApiModelProperty(value = "岗位序号")
     @ExcelProperty(value = "岗位序号")
+    @TableId(value = "post_id")
     private Long postId;
 
     /**
@@ -77,6 +83,7 @@ public class SysPost extends BaseEntity {
      * 用户是否存在此岗位标识 默认不存在
      */
     @ApiModelProperty(value = "用户是否存在此岗位标识 默认不存在")
+    @TableField(exist = false)
     private boolean flag = false;
 
 }

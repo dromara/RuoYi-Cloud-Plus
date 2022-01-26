@@ -1,5 +1,6 @@
 package com.ruoyi.common.core.web.domain;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -23,6 +24,7 @@ public class TreeEntity extends BaseEntity {
     /**
      * 父菜单名称
      */
+    @TableField(exist = false)
     @ApiModelProperty(value = "父菜单名称")
     private String parentName;
 
@@ -35,6 +37,7 @@ public class TreeEntity extends BaseEntity {
     /**
      * 子部门
      */
+    @TableField(exist = false)
     @ApiModelProperty(value = "子部门")
     private List<?> children = new ArrayList<>();
 

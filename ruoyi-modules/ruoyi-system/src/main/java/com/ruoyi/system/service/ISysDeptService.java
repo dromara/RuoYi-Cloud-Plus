@@ -20,14 +20,6 @@ public interface ISysDeptService {
     List<SysDept> selectDeptList(SysDept dept);
 
     /**
-     * 构建前端所需要树结构
-     *
-     * @param depts 部门列表
-     * @return 树结构列表
-     */
-    List<SysDept> buildDeptTree(List<SysDept> depts);
-
-    /**
      * 构建前端所需要下拉树结构
      *
      * @param depts 部门列表
@@ -57,7 +49,7 @@ public interface ISysDeptService {
      * @param deptId 部门ID
      * @return 子部门数
      */
-    int selectNormalChildrenDeptById(Long deptId);
+    long selectNormalChildrenDeptById(Long deptId);
 
     /**
      * 是否存在部门子节点

@@ -1,5 +1,7 @@
 package com.ruoyi.system.service;
 
+import com.ruoyi.common.mybatis.core.page.PageQuery;
+import com.ruoyi.common.mybatis.core.page.TableDataInfo;
 import com.ruoyi.system.api.domain.SysDictData;
 
 import java.util.List;
@@ -10,6 +12,9 @@ import java.util.List;
  * @author ruoyi
  */
 public interface ISysDictDataService {
+
+    TableDataInfo<SysDictData> selectPageDictDataList(SysDictData dictData, PageQuery pageQuery);
+
     /**
      * 根据条件分页查询字典数据
      *
@@ -26,14 +31,6 @@ public interface ISysDictDataService {
      * @return 字典标签
      */
     String selectDictLabel(String dictType, String dictValue);
-
-    /**
-     * 根据字典类型查询字典数据
-     *
-     * @param dictType 字典类型
-     * @return 字典数据集合信息
-     */
-    List<SysDictData> selectDictDataByType(String dictType);
 
     /**
      * 根据字典数据ID查询信息

@@ -158,12 +158,61 @@ logging:
     com.alibaba.nacos: warn
   config: classpath:logback.xml
 
-# mybatis配置
-mybatis:
-  # 搜索指定包别名
+# MyBatisPlus配置
+# https://baomidou.com/config/
+mybatis-plus:
+  # 不支持多包, 如有需要可在注解配置 或 提升扫包等级
+  # 例如 com.**.**.mapper
+  mapperPackage: com.ruoyi.**.mapper
+  # 对应的 XML 文件位置
+  mapperLocations: classpath*:mapper/**/*Mapper.xml
+  # 实体扫描，多个package用逗号或者分号分隔
   typeAliasesPackage: com.ruoyi.**.domain
-  # 配置mapper的扫描，找到所有的mapper.xml映射文件
-  mapperLocations: classpath:mapper/**/*.xml
+  # 启动时是否检查 MyBatis XML 文件的存在，默认不检查
+  checkConfigLocation: false
+  # 通过该属性可指定 MyBatis 的执行器，MyBatis 的执行器总共有三种：
+  # SIMPLE：每个语句创建新的预处理器 REUSE：会复用预处理器 BATCH：批量执行所有的更新
+  executorType: SIMPLE
+  configuration:
+    # 自动驼峰命名规则（camel case）映射
+    mapUnderscoreToCamelCase: true
+    # 当设置为 true 的时候，懒加载的对象可能被任何懒属性全部加载，否则，每个属性都按需加载。需要和 lazyLoadingEnabled 一起使用。
+    aggressiveLazyLoading: true
+    # MyBatis 自动映射策略
+    # NONE：不启用 PARTIAL：只对非嵌套 resultMap 自动映射 FULL：对所有 resultMap 自动映射
+    autoMappingBehavior: PARTIAL
+    # MyBatis 自动映射时未知列或未知属性处理策
+    # NONE：不做处理 WARNING：打印相关警告 FAILING：抛出异常和详细信息
+    autoMappingUnknownColumnBehavior: NONE
+    # Mybatis一级缓存，默认为 SESSION
+    # SESSION session级别缓存 STATEMENT 关闭一级缓存
+    localCacheScope: SESSION
+    # 开启Mybatis二级缓存，默认为 true
+    cacheEnabled: false
+    # 更详细的日志输出 会有性能损耗 org.apache.ibatis.logging.stdout.StdOutImpl
+    # 关闭日志记录 (可单纯使用 p6spy 分析) org.apache.ibatis.logging.nologging.NoLoggingImpl
+    # 默认日志输出 org.apache.ibatis.logging.slf4j.Slf4jImpl
+    logImpl: org.apache.ibatis.logging.nologging.NoLoggingImpl
+  global-config:
+    # 是否打印 Logo banner
+    banner: true
+    # 是否初始化 SqlRunner
+    enableSqlRunner: false
+    dbConfig:
+      # 主键类型
+      # AUTO 自增 NONE 空 INPUT 用户输入 ASSIGN_ID 雪花 ASSIGN_UUID 唯一 UUID
+      idType: AUTO
+      # 表名是否使用驼峰转下划线命名,只对表名生效
+      tableUnderline: true
+      # 大写命名,对表名和字段名均生效
+      capitalMode: false
+      # 逻辑已删除值
+      logicDeleteValue: 2
+      # 逻辑未删除值
+      logicNotDeleteValue: 0
+      insertStrategy: NOT_NULL
+      updateStrategy: NOT_NULL
+      where-strategy: NOT_NULL
 
 # swagger配置
 swagger:

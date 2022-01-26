@@ -17,9 +17,9 @@
         <module>ruoyi-common-redis</module>
         <module>ruoyi-common-swagger</module>
         <module>ruoyi-common-security</module>
-        <module>ruoyi-common-datascope</module>
         <module>ruoyi-common-datasource</module>
         <module>ruoyi-common-web</module>
+        <module>ruoyi-common-mybatis</module>
         <module>ruoyi-common-job</module>
         <module>ruoyi-common-dubbo</module>
         <module>ruoyi-common-seata</module>

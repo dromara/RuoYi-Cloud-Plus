@@ -1,13 +1,7 @@
 package com.ruoyi.common.core.web.controller;
 
-import com.github.pagehelper.PageInfo;
-import com.ruoyi.common.core.constant.HttpStatus;
-import com.ruoyi.common.core.utils.PageUtils;
 import com.ruoyi.common.core.web.domain.AjaxResult;
-import com.ruoyi.common.core.web.page.TableDataInfo;
 import lombok.extern.slf4j.Slf4j;
-
-import java.util.List;
 
 /**
  * web层通用数据处理
@@ -16,26 +10,6 @@ import java.util.List;
  */
 @Slf4j
 public class BaseController {
-
-    /**
-     * 设置请求分页数据
-     */
-    protected void startPage() {
-        PageUtils.startPage();
-    }
-
-    /**
-     * 响应请求分页数据
-     */
-    @SuppressWarnings({"rawtypes", "unchecked"})
-    protected TableDataInfo getDataTable(List<?> list) {
-        TableDataInfo rspData = new TableDataInfo();
-        rspData.setCode(HttpStatus.SUCCESS);
-        rspData.setRows(list);
-        rspData.setMsg("查询成功");
-        rspData.setTotal(new PageInfo(list).getTotal());
-        return rspData;
-    }
 
     /**
      * 响应返回结果

@@ -1,11 +1,14 @@
 package com.ruoyi.system.domain;
 
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.ruoyi.common.core.web.domain.TreeEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.experimental.Accessors;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -19,6 +22,8 @@ import javax.validation.constraints.Size;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
+@NoArgsConstructor
+@TableName("sys_menu")
 @ApiModel("菜单权限业务对象")
 public class SysMenu extends TreeEntity {
 
@@ -26,6 +31,7 @@ public class SysMenu extends TreeEntity {
      * 菜单ID
      */
     @ApiModelProperty(value = "菜单ID")
+    @TableId(value = "menu_id")
     private Long menuId;
 
     /**
@@ -61,6 +67,7 @@ public class SysMenu extends TreeEntity {
      * 路由参数
      */
     @ApiModelProperty(value = "路由参数")
+    @TableField("`query`")
     private String query;
 
     /**

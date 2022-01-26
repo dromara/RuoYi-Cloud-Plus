@@ -1,12 +1,13 @@
 package com.ruoyi.gen.domain;
 
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.ruoyi.common.core.constant.GenConstants;
 import com.ruoyi.common.core.utils.StringUtils;
 import com.ruoyi.common.core.web.domain.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.experimental.Accessors;
 import org.apache.commons.lang3.ArrayUtils;
 
 import javax.validation.Valid;
@@ -16,16 +17,18 @@ import java.util.List;
 /**
  * 业务表 gen_table
  *
- * @author ruoyi
+ * @author Lion Li
  */
+
 @Data
 @EqualsAndHashCode(callSuper = true)
-@NoArgsConstructor
+@TableName("gen_table")
 public class GenTable extends BaseEntity {
 
     /**
      * 编号
      */
+    @TableId(value = "table_id")
     private Long tableId;
 
     /**
@@ -104,17 +107,20 @@ public class GenTable extends BaseEntity {
     /**
      * 主键信息
      */
+    @TableField(exist = false)
     private GenTableColumn pkColumn;
 
     /**
      * 子表信息
      */
+    @TableField(exist = false)
     private GenTable subTable;
 
     /**
      * 表列信息
      */
     @Valid
+    @TableField(exist = false)
     private List<GenTableColumn> columns;
 
     /**
@@ -123,28 +129,38 @@ public class GenTable extends BaseEntity {
     private String options;
 
     /**
+     * 备注
+     */
+    private String remark;
+
+    /**
      * 树编码字段
      */
+    @TableField(exist = false)
     private String treeCode;
 
     /**
      * 树父编码字段
      */
+    @TableField(exist = false)
     private String treeParentCode;
 
     /**
      * 树名称字段
      */
+    @TableField(exist = false)
     private String treeName;
 
     /**
      * 上级菜单ID字段
      */
+    @TableField(exist = false)
     private String parentMenuId;
 
     /**
      * 上级菜单名称字段
      */
+    @TableField(exist = false)
     private String parentMenuName;
 
     public boolean isSub() {
@@ -178,7 +194,7 @@ public class GenTable extends BaseEntity {
     public static boolean isSuperColumn(String tplCategory, String javaField) {
         if (isTree(tplCategory)) {
             return StringUtils.equalsAnyIgnoreCase(javaField,
-                    ArrayUtils.addAll(GenConstants.TREE_ENTITY, GenConstants.BASE_ENTITY));
+                ArrayUtils.addAll(GenConstants.TREE_ENTITY, GenConstants.BASE_ENTITY));
         }
         return StringUtils.equalsAnyIgnoreCase(javaField, GenConstants.BASE_ENTITY);
     }

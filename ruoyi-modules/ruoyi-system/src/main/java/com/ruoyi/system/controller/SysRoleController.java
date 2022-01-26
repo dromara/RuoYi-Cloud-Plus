@@ -3,10 +3,11 @@ package com.ruoyi.system.controller;
 import com.ruoyi.common.core.constant.UserConstants;
 import com.ruoyi.common.core.web.controller.BaseController;
 import com.ruoyi.common.core.web.domain.AjaxResult;
-import com.ruoyi.common.core.web.page.TableDataInfo;
 import com.ruoyi.common.excel.utils.ExcelUtil;
 import com.ruoyi.common.log.annotation.Log;
 import com.ruoyi.common.log.enums.BusinessType;
+import com.ruoyi.common.mybatis.core.page.PageQuery;
+import com.ruoyi.common.mybatis.core.page.TableDataInfo;
 import com.ruoyi.common.security.annotation.RequiresPermissions;
 import com.ruoyi.common.security.utils.SecurityUtils;
 import com.ruoyi.system.api.domain.SysRole;
@@ -15,7 +16,6 @@ import com.ruoyi.system.domain.SysUserRole;
 import com.ruoyi.system.service.ISysRoleService;
 import com.ruoyi.system.service.ISysUserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,7 +27,7 @@ import java.util.List;
  *
  * @author ruoyi
  */
-@RequiredArgsConstructor(onConstructor_ = @Autowired)
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/role")
 public class SysRoleController extends BaseController {
@@ -37,10 +37,8 @@ public class SysRoleController extends BaseController {
 
     @RequiresPermissions("system:role:list")
     @GetMapping("/list")
-    public TableDataInfo list(SysRole role) {
-        startPage();
-        List<SysRole> list = roleService.selectRoleList(role);
-        return getDataTable(list);
+    public TableDataInfo<SysRole> list(SysRole role, PageQuery pageQuery) {
+        return roleService.selectPageRoleList(role, pageQuery);
     }
 
     @Log(title = "角色管理", businessType = BusinessType.EXPORT)
@@ -142,10 +140,8 @@ public class SysRoleController extends BaseController {
      */
     @RequiresPermissions("system:role:list")
     @GetMapping("/authUser/allocatedList")
-    public TableDataInfo allocatedList(SysUser user) {
-        startPage();
-        List<SysUser> list = userService.selectAllocatedList(user);
-        return getDataTable(list);
+    public TableDataInfo<SysUser> allocatedList(SysUser user, PageQuery pageQuery) {
+        return userService.selectAllocatedList(user, pageQuery);
     }
 
     /**
@@ -153,10 +149,8 @@ public class SysRoleController extends BaseController {
      */
     @RequiresPermissions("system:role:list")
     @GetMapping("/authUser/unallocatedList")
-    public TableDataInfo unallocatedList(SysUser user) {
-        startPage();
-        List<SysUser> list = userService.selectUnallocatedList(user);
-        return getDataTable(list);
+    public TableDataInfo<SysUser> unallocatedList(SysUser user, PageQuery pageQuery) {
+        return userService.selectUnallocatedList(user, pageQuery);
     }
 
     /**

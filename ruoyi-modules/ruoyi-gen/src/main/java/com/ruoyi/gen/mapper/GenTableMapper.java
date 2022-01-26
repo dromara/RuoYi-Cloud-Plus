@@ -1,15 +1,25 @@
 package com.ruoyi.gen.mapper;
 
+import com.baomidou.mybatisplus.annotation.InterceptorIgnore;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.ruoyi.common.mybatis.core.mapper.BaseMapperPlus;
 import com.ruoyi.gen.domain.GenTable;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
 /**
  * 业务 数据层
  *
- * @author ruoyi
+ * @author Lion Li
  */
-public interface GenTableMapper {
+@InterceptorIgnore(dataPermission = "true")
+public interface GenTableMapper extends BaseMapperPlus<GenTableMapper, GenTable, GenTable> {
+
+    Page<GenTable> selectPageGenTableList(@Param("page") Page<GenTable> page, @Param("genTable") GenTable genTable);
+
+    Page<GenTable> selectPageDbTableList(@Param("page") Page<GenTable> page, @Param("genTable") GenTable genTable);
+
     /**
      * 查询业务列表
      *
@@ -57,27 +67,4 @@ public interface GenTableMapper {
      */
     GenTable selectGenTableByName(String tableName);
 
-    /**
-     * 新增业务
-     *
-     * @param genTable 业务信息
-     * @return 结果
-     */
-    int insertGenTable(GenTable genTable);
-
-    /**
-     * 修改业务
-     *
-     * @param genTable 业务信息
-     * @return 结果
-     */
-    int updateGenTable(GenTable genTable);
-
-    /**
-     * 批量删除业务
-     *
-     * @param ids 需要删除的数据ID
-     * @return 结果
-     */
-    int deleteGenTableByIds(Long[] ids);
 }

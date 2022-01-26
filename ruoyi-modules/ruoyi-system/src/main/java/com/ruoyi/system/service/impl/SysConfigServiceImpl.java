@@ -2,32 +2,37 @@ package com.ruoyi.system.service.impl;
 
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.ObjectUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ruoyi.common.core.constant.Constants;
 import com.ruoyi.common.core.constant.UserConstants;
 import com.ruoyi.common.core.exception.ServiceException;
 import com.ruoyi.common.core.utils.StringUtils;
+import com.ruoyi.common.mybatis.core.page.PageQuery;
+import com.ruoyi.common.mybatis.core.page.TableDataInfo;
 import com.ruoyi.common.redis.utils.RedisUtils;
 import com.ruoyi.system.domain.SysConfig;
 import com.ruoyi.system.mapper.SysConfigMapper;
 import com.ruoyi.system.service.ISysConfigService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 参数配置 服务层实现
  *
- * @author ruoyi
+ * @author Lion Li
  */
-@RequiredArgsConstructor(onConstructor_ = @Autowired)
+@RequiredArgsConstructor
 @Service
 public class SysConfigServiceImpl implements ISysConfigService {
 
-    private final SysConfigMapper configMapper;
+    private final SysConfigMapper baseMapper;
 
     /**
      * 项目启动时，初始化参数到缓存
@@ -35,6 +40,19 @@ public class SysConfigServiceImpl implements ISysConfigService {
     @PostConstruct
     public void init() {
         loadingConfigCache();
+    }
+
+    @Override
+    public TableDataInfo<SysConfig> selectPageConfigList(SysConfig config, PageQuery pageQuery) {
+        Map<String, Object> params = config.getParams();
+        LambdaQueryWrapper<SysConfig> lqw = new LambdaQueryWrapper<SysConfig>()
+            .like(StringUtils.isNotBlank(config.getConfigName()), SysConfig::getConfigName, config.getConfigName())
+            .eq(StringUtils.isNotBlank(config.getConfigType()), SysConfig::getConfigType, config.getConfigType())
+            .like(StringUtils.isNotBlank(config.getConfigKey()), SysConfig::getConfigKey, config.getConfigKey())
+            .between(params.get("beginTime") != null && params.get("endTime") != null,
+                SysConfig::getCreateTime, params.get("beginTime"), params.get("endTime"));
+        Page<SysConfig> page = baseMapper.selectPage(pageQuery.build(), lqw);
+        return TableDataInfo.build(page);
     }
 
     /**
@@ -45,9 +63,7 @@ public class SysConfigServiceImpl implements ISysConfigService {
      */
     @Override
     public SysConfig selectConfigById(Long configId) {
-        SysConfig config = new SysConfig();
-        config.setConfigId(configId);
-        return configMapper.selectConfig(config);
+        return baseMapper.selectById(configId);
     }
 
     /**
@@ -62,9 +78,8 @@ public class SysConfigServiceImpl implements ISysConfigService {
         if (StringUtils.isNotEmpty(configValue)) {
             return configValue;
         }
-        SysConfig config = new SysConfig();
-        config.setConfigKey(configKey);
-        SysConfig retConfig = configMapper.selectConfig(config);
+        SysConfig retConfig = baseMapper.selectOne(new LambdaQueryWrapper<SysConfig>()
+            .eq(SysConfig::getConfigKey, configKey));
         if (ObjectUtil.isNotNull(retConfig)) {
             RedisUtils.setCacheObject(getCacheKey(configKey), retConfig.getConfigValue());
             return retConfig.getConfigValue();
@@ -80,7 +95,14 @@ public class SysConfigServiceImpl implements ISysConfigService {
      */
     @Override
     public List<SysConfig> selectConfigList(SysConfig config) {
-        return configMapper.selectConfigList(config);
+        Map<String, Object> params = config.getParams();
+        LambdaQueryWrapper<SysConfig> lqw = new LambdaQueryWrapper<SysConfig>()
+            .like(StringUtils.isNotBlank(config.getConfigName()), SysConfig::getConfigName, config.getConfigName())
+            .eq(StringUtils.isNotBlank(config.getConfigType()), SysConfig::getConfigType, config.getConfigType())
+            .like(StringUtils.isNotBlank(config.getConfigKey()), SysConfig::getConfigKey, config.getConfigKey())
+            .between(params.get("beginTime") != null && params.get("endTime") != null,
+                SysConfig::getCreateTime, params.get("beginTime"), params.get("endTime"));
+        return baseMapper.selectList(lqw);
     }
 
     /**
@@ -91,7 +113,7 @@ public class SysConfigServiceImpl implements ISysConfigService {
      */
     @Override
     public int insertConfig(SysConfig config) {
-        int row = configMapper.insertConfig(config);
+        int row = baseMapper.insert(config);
         if (row > 0) {
             RedisUtils.setCacheObject(getCacheKey(config.getConfigKey()), config.getConfigValue());
         }
@@ -106,7 +128,7 @@ public class SysConfigServiceImpl implements ISysConfigService {
      */
     @Override
     public int updateConfig(SysConfig config) {
-        int row = configMapper.updateConfig(config);
+        int row = baseMapper.updateById(config);
         if (row > 0) {
             RedisUtils.setCacheObject(getCacheKey(config.getConfigKey()), config.getConfigValue());
         }
@@ -126,9 +148,9 @@ public class SysConfigServiceImpl implements ISysConfigService {
             if (StringUtils.equals(UserConstants.YES, config.getConfigType())) {
                 throw new ServiceException(String.format("内置参数【%1$s】不能删除 ", config.getConfigKey()));
             }
-            configMapper.deleteConfigById(configId);
             RedisUtils.deleteObject(getCacheKey(config.getConfigKey()));
         }
+        baseMapper.deleteBatchIds(Arrays.asList(configIds));
     }
 
     /**
@@ -136,7 +158,7 @@ public class SysConfigServiceImpl implements ISysConfigService {
      */
     @Override
     public void loadingConfigCache() {
-        List<SysConfig> configsList = configMapper.selectConfigList(new SysConfig());
+        List<SysConfig> configsList = selectConfigList(new SysConfig());
         for (SysConfig config : configsList) {
             RedisUtils.setCacheObject(getCacheKey(config.getConfigKey()), config.getConfigValue());
         }
@@ -169,7 +191,7 @@ public class SysConfigServiceImpl implements ISysConfigService {
     @Override
     public String checkConfigKeyUnique(SysConfig config) {
         Long configId = ObjectUtil.isNull(config.getConfigId()) ? -1L : config.getConfigId();
-        SysConfig info = configMapper.checkConfigKeyUnique(config.getConfigKey());
+        SysConfig info = baseMapper.selectOne(new LambdaQueryWrapper<SysConfig>().eq(SysConfig::getConfigKey, config.getConfigKey()));
         if (ObjectUtil.isNotNull(info) && info.getConfigId().longValue() != configId.longValue()) {
             return UserConstants.NOT_UNIQUE;
         }

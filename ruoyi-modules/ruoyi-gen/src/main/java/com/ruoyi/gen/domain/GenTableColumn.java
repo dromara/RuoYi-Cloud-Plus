@@ -1,27 +1,31 @@
 package com.ruoyi.gen.domain;
 
+import com.baomidou.mybatisplus.annotation.FieldStrategy;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.ruoyi.common.core.utils.StringUtils;
 import com.ruoyi.common.core.web.domain.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.experimental.Accessors;
 
 import javax.validation.constraints.NotBlank;
 
 /**
  * 代码生成业务字段表 gen_table_column
  *
- * @author ruoyi
+ * @author Lion Li
  */
+
 @Data
 @EqualsAndHashCode(callSuper = true)
-@NoArgsConstructor
+@TableName("gen_table_column")
 public class GenTableColumn extends BaseEntity {
 
     /**
      * 编号
      */
+    @TableId(value = "column_id")
     private Long columnId;
 
     /**
@@ -37,6 +41,7 @@ public class GenTableColumn extends BaseEntity {
     /**
      * 列描述
      */
+    @TableField(updateStrategy = FieldStrategy.IGNORED)
     private String columnComment;
 
     /**
@@ -58,36 +63,43 @@ public class GenTableColumn extends BaseEntity {
     /**
      * 是否主键（1是）
      */
+    @TableField(updateStrategy = FieldStrategy.IGNORED)
     private String isPk;
 
     /**
      * 是否自增（1是）
      */
+    @TableField(updateStrategy = FieldStrategy.IGNORED)
     private String isIncrement;
 
     /**
      * 是否必填（1是）
      */
+    @TableField(updateStrategy = FieldStrategy.IGNORED)
     private String isRequired;
 
     /**
      * 是否为插入字段（1是）
      */
+    @TableField(updateStrategy = FieldStrategy.IGNORED)
     private String isInsert;
 
     /**
      * 是否编辑字段（1是）
      */
+    @TableField(updateStrategy = FieldStrategy.IGNORED)
     private String isEdit;
 
     /**
      * 是否列表字段（1是）
      */
+    @TableField(updateStrategy = FieldStrategy.IGNORED)
     private String isList;
 
     /**
      * 是否查询字段（1是）
      */
+    @TableField(updateStrategy = FieldStrategy.IGNORED)
     private String isQuery;
 
     /**
@@ -111,7 +123,7 @@ public class GenTableColumn extends BaseEntity {
     private Integer sort;
 
     public String getCapJavaField() {
-        return StringUtils.capitalize(javaField);
+        return StringUtils.uncapitalize(javaField);
     }
 
     public boolean isPk() {
@@ -176,10 +188,10 @@ public class GenTableColumn extends BaseEntity {
 
     public static boolean isSuperColumn(String javaField) {
         return StringUtils.equalsAnyIgnoreCase(javaField,
-                // BaseEntity
-                "createBy", "createTime", "updateBy", "updateTime", "remark",
-                // TreeEntity
-                "parentName", "parentId", "orderNum", "ancestors");
+            // BaseEntity
+            "createBy", "createTime", "updateBy", "updateTime",
+            // TreeEntity
+            "parentName", "parentId");
     }
 
     public boolean isUsableColumn() {

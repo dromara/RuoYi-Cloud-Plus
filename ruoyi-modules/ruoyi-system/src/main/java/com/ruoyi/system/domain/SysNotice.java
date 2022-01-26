@@ -1,11 +1,13 @@
 package com.ruoyi.system.domain;
 
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.ruoyi.common.core.web.domain.BaseEntity;
 import com.ruoyi.common.core.xss.Xss;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.experimental.Accessors;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -18,12 +20,15 @@ import javax.validation.constraints.Size;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
+@NoArgsConstructor
+@TableName("sys_notice")
 public class SysNotice extends BaseEntity {
 
     /**
      * 公告ID
      */
     @ApiModelProperty(value = "公告ID")
+    @TableId(value = "notice_id")
     private Long noticeId;
 
     /**

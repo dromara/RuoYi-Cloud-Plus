@@ -2,12 +2,15 @@ package com.ruoyi.system.api.domain;
 
 import com.alibaba.excel.annotation.ExcelIgnoreUnannotated;
 import com.alibaba.excel.annotation.ExcelProperty;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.ruoyi.common.excel.annotation.ExcelDictFormat;
 import com.ruoyi.common.excel.convert.ExcelDictConvert;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import lombok.experimental.Accessors;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -21,6 +24,8 @@ import java.util.Map;
  */
 
 @Data
+@NoArgsConstructor
+@TableName("sys_logininfor")
 @ExcelIgnoreUnannotated
 @ApiModel("系统访问记录业务对象")
 public class SysLogininfor implements Serializable {
@@ -31,6 +36,7 @@ public class SysLogininfor implements Serializable {
      */
     @ApiModelProperty(value = "访问ID")
     @ExcelProperty(value = "序号")
+    @TableId(value = "info_id")
     private Long infoId;
 
     /**
@@ -73,6 +79,7 @@ public class SysLogininfor implements Serializable {
      * 请求参数
      */
     @ApiModelProperty(value = "请求参数")
+    @TableField(exist = false)
     private Map<String, Object> params = new HashMap<>();
 
 }

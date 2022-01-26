@@ -25,7 +25,8 @@
         <spring-boot.mybatis>2.2.0</spring-boot.mybatis>
         <swagger.core.version>1.6.2</swagger.core.version>
         <tobato.version>1.27.2</tobato.version>
-        <pagehelper.boot.version>1.4.1</pagehelper.boot.version>
+        <mybatis-plus.version>3.5.1</mybatis-plus.version>
+        <p6spy.version>3.9.1</p6spy.version>
         <druid.version>1.2.8</druid.version>
         <dynamic-ds.version>3.5.0</dynamic-ds.version>
         <commons.io.version>2.11.0</commons.io.version>
@@ -197,11 +198,22 @@
                 <version>${swagger.core.version}</version>
             </dependency>
 
-            <!-- pagehelper 分页插件 -->
             <dependency>
-                <groupId>com.github.pagehelper</groupId>
-                <artifactId>pagehelper-spring-boot-starter</artifactId>
-                <version>${pagehelper.boot.version}</version>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-boot-starter</artifactId>
+                <version>${mybatis-plus.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-annotation</artifactId>
+                <version>${mybatis-plus.version}</version>
+            </dependency>
+            <!-- sql性能分析插件 -->
+            <dependency>
+                <groupId>p6spy</groupId>
+                <artifactId>p6spy</artifactId>
+                <version>${p6spy.version}</version>
             </dependency>
 
             <!-- io常用工具类 -->

@@ -4,10 +4,9 @@ import cn.hutool.core.collection.CollUtil;
 import com.ruoyi.common.core.utils.StringUtils;
 import com.ruoyi.system.api.RemoteDictService;
 import com.ruoyi.system.api.domain.SysDictData;
-import com.ruoyi.system.service.ISysDictDataService;
+import com.ruoyi.system.service.ISysDictTypeService;
 import lombok.RequiredArgsConstructor;
 import org.apache.dubbo.config.annotation.DubboService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,18 +16,18 @@ import java.util.List;
  *
  * @author Lion Li
  */
-@RequiredArgsConstructor(onConstructor_ = @Autowired)
+@RequiredArgsConstructor
 @Service
 @DubboService
 public class RemoteDictServiceImpl implements RemoteDictService {
 
-    private final ISysDictDataService sysDictDataService;
+    private final ISysDictTypeService sysDictTypeService;
 
 
     @Override
     public String getDictLabel(String dictType, String dictValue, String separator) {
         StringBuilder propertyString = new StringBuilder();
-        List<SysDictData> datas = sysDictDataService.selectDictDataByType(dictType);
+        List<SysDictData> datas = sysDictTypeService.selectDictDataByType(dictType);
 
         if (StringUtils.containsAny(dictValue, separator) && CollUtil.isNotEmpty(datas)) {
             for (SysDictData dict : datas) {
@@ -52,7 +51,7 @@ public class RemoteDictServiceImpl implements RemoteDictService {
     @Override
     public String getDictValue(String dictType, String dictLabel, String separator) {
         StringBuilder propertyString = new StringBuilder();
-        List<SysDictData> datas = sysDictDataService.selectDictDataByType(dictType);
+        List<SysDictData> datas = sysDictTypeService.selectDictDataByType(dictType);
 
         if (StringUtils.containsAny(dictLabel, separator) && CollUtil.isNotEmpty(datas)) {
             for (SysDictData dict : datas) {

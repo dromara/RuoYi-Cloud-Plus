@@ -1,5 +1,7 @@
 package com.ruoyi.system.service;
 
+import com.ruoyi.common.mybatis.core.page.PageQuery;
+import com.ruoyi.common.mybatis.core.page.TableDataInfo;
 import com.ruoyi.system.domain.SysConfig;
 
 import java.util.List;
@@ -10,6 +12,9 @@ import java.util.List;
  * @author ruoyi
  */
 public interface ISysConfigService {
+
+    TableDataInfo<SysConfig> selectPageConfigList(SysConfig config, PageQuery pageQuery);
+
     /**
      * 查询参数配置信息
      *

@@ -7,7 +7,6 @@ import com.ruoyi.system.service.ISysLogininforService;
 import com.ruoyi.system.service.ISysOperLogService;
 import lombok.RequiredArgsConstructor;
 import org.apache.dubbo.config.annotation.DubboService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -15,7 +14,7 @@ import org.springframework.stereotype.Service;
  *
  * @author Lion Li
  */
-@RequiredArgsConstructor(onConstructor_ = @Autowired)
+@RequiredArgsConstructor
 @Service
 @DubboService
 public class RemoteLogServiceImpl implements RemoteLogService {
@@ -24,12 +23,12 @@ public class RemoteLogServiceImpl implements RemoteLogService {
     private final ISysLogininforService logininforService;
 
     @Override
-    public Boolean saveLog(SysOperLog sysOperLog, String source){
+    public Boolean saveLog(SysOperLog sysOperLog) {
         return operLogService.insertOperlog(sysOperLog) > 0;
     }
 
     @Override
-    public Boolean saveLogininfor(SysLogininfor sysLogininfor, String source){
+    public Boolean saveLogininfor(SysLogininfor sysLogininfor) {
         return logininforService.insertLogininfor(sysLogininfor) > 0;
     }
 }

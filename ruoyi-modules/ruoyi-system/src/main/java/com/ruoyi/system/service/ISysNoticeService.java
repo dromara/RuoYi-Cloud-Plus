@@ -1,5 +1,7 @@
 package com.ruoyi.system.service;
 
+import com.ruoyi.common.mybatis.core.page.PageQuery;
+import com.ruoyi.common.mybatis.core.page.TableDataInfo;
 import com.ruoyi.system.domain.SysNotice;
 
 import java.util.List;
@@ -10,6 +12,8 @@ import java.util.List;
  * @author ruoyi
  */
 public interface ISysNoticeService {
+    TableDataInfo<SysNotice> selectPageNoticeList(SysNotice notice, PageQuery pageQuery);
+
     /**
      * 查询公告信息
      *

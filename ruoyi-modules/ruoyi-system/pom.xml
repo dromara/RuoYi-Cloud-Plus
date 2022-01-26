@@ -53,12 +53,6 @@
             <artifactId>ruoyi-common-datasource</artifactId>
         </dependency>
 
-        <!-- RuoYi Common DataScope -->
-        <dependency>
-            <groupId>com.ruoyi</groupId>
-            <artifactId>ruoyi-common-datascope</artifactId>
-        </dependency>
-
         <!-- RuoYi Common Log -->
         <dependency>
             <groupId>com.ruoyi</groupId>
@@ -79,6 +73,11 @@
         <dependency>
             <groupId>com.ruoyi</groupId>
             <artifactId>ruoyi-common-web</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.ruoyi</groupId>
+            <artifactId>ruoyi-common-mybatis</artifactId>
         </dependency>
 
         <dependency>

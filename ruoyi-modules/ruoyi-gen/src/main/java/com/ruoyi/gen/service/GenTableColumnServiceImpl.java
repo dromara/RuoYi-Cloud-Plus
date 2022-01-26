@@ -1,12 +1,13 @@
 package com.ruoyi.gen.service;
 
 import cn.hutool.core.convert.Convert;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.ruoyi.gen.domain.GenTableColumn;
 import com.ruoyi.gen.mapper.GenTableColumnMapper;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -14,11 +15,11 @@ import java.util.List;
  *
  * @author ruoyi
  */
-@RequiredArgsConstructor(onConstructor_ = @Autowired)
+@RequiredArgsConstructor
 @Service
 public class GenTableColumnServiceImpl implements IGenTableColumnService {
 
-    private final GenTableColumnMapper genTableColumnMapper;
+    private final GenTableColumnMapper baseMapper;
 
     /**
      * 查询业务字段列表
@@ -28,7 +29,9 @@ public class GenTableColumnServiceImpl implements IGenTableColumnService {
      */
     @Override
     public List<GenTableColumn> selectGenTableColumnListByTableId(Long tableId) {
-        return genTableColumnMapper.selectGenTableColumnListByTableId(tableId);
+        return baseMapper.selectList(new LambdaQueryWrapper<GenTableColumn>()
+            .eq(GenTableColumn::getTableId, tableId)
+            .orderByAsc(GenTableColumn::getSort));
     }
 
     /**
@@ -39,7 +42,7 @@ public class GenTableColumnServiceImpl implements IGenTableColumnService {
      */
     @Override
     public int insertGenTableColumn(GenTableColumn genTableColumn) {
-        return genTableColumnMapper.insertGenTableColumn(genTableColumn);
+        return baseMapper.insert(genTableColumn);
     }
 
     /**
@@ -50,7 +53,7 @@ public class GenTableColumnServiceImpl implements IGenTableColumnService {
      */
     @Override
     public int updateGenTableColumn(GenTableColumn genTableColumn) {
-        return genTableColumnMapper.updateGenTableColumn(genTableColumn);
+        return baseMapper.updateById(genTableColumn);
     }
 
     /**
@@ -61,6 +64,6 @@ public class GenTableColumnServiceImpl implements IGenTableColumnService {
      */
     @Override
     public int deleteGenTableColumnByIds(String ids) {
-        return genTableColumnMapper.deleteGenTableColumnByIds(Convert.toLongArray(ids));
+        return baseMapper.deleteBatchIds(Arrays.asList(Convert.toLongArray(ids)));
     }
 }

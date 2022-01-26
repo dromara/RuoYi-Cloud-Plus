@@ -11,7 +11,6 @@ import com.ruoyi.system.service.ISysPermissionService;
 import com.ruoyi.system.service.ISysUserService;
 import lombok.RequiredArgsConstructor;
 import org.apache.dubbo.config.annotation.DubboService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;
@@ -21,7 +20,7 @@ import java.util.Set;
  *
  * @author Lion Li
  */
-@RequiredArgsConstructor(onConstructor_ = @Autowired)
+@RequiredArgsConstructor
 @Service
 @DubboService
 public class RemoteUserServiceImpl implements RemoteUserService {
@@ -31,7 +30,7 @@ public class RemoteUserServiceImpl implements RemoteUserService {
     private final ISysConfigService configService;
 
     @Override
-    public LoginUser getUserInfo(String username, String source) {
+    public LoginUser getUserInfo(String username) {
         SysUser sysUser = userService.selectUserByUserName(username);
         if (ObjectUtil.isNull(sysUser)) {
             throw new ServiceException("用户名或密码错误");
@@ -48,7 +47,7 @@ public class RemoteUserServiceImpl implements RemoteUserService {
     }
 
     @Override
-    public Boolean registerUserInfo(SysUser sysUser, String source) {
+    public Boolean registerUserInfo(SysUser sysUser) {
         String username = sysUser.getUserName();
         if (!("true".equals(configService.selectConfigByKey("sys.account.registerUser")))) {
             throw new ServiceException("当前系统没有开启注册功能");

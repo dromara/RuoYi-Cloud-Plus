@@ -1,5 +1,6 @@
 package com.ruoyi.system.mapper;
 
+import com.ruoyi.common.mybatis.core.mapper.BaseMapperPlus;
 import com.ruoyi.system.domain.SysRoleMenu;
 
 import java.util.List;
@@ -7,9 +8,10 @@ import java.util.List;
 /**
  * 角色与菜单关联表 数据层
  *
- * @author ruoyi
+ * @author Lion Li
  */
-public interface SysRoleMenuMapper {
+public interface SysRoleMenuMapper extends BaseMapperPlus<SysRoleMenuMapper, SysRoleMenu, SysRoleMenu> {
+
     /**
      * 查询菜单使用数量
      *

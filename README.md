@@ -45,8 +45,8 @@
 | 分布式云存储(未完成)  | 七牛、阿里、腾讯                 | [OSS使用文档](https://gitee.com/JavaLionLi/RuoYi-Vue-Plus/wikis/pages?sort_id=4359146&doc_id=1469725) | 云存储                          |
 | 分布式监控(未完成)   | Prometheus、Grafana       | [Prometheus文档](https://prometheus.io/docs/introduction/overview/)                                 | 全方位性能监控                      |
 | 服务监控         | SpringBoot-Admin         | [SpringBoot-Admin文档](https://codecentric.github.io/spring-boot-admin/current/)                    | 全方位服务监控                      |
-| 数据库框架(未完成)   | Mybatis-Plus             | [Mybatis-Plus文档](https://baomidou.com/guide/)                                                     | 快速 CRUD 增加开发效率               |
-| 数据库框架(未完成)   | P6spy                    | [p6spy官网](https://p6spy.readthedocs.io/)                                                          | 更强劲的 SQL 分析                  |
+| 数据库框架        | Mybatis-Plus             | [Mybatis-Plus文档](https://baomidou.com/guide/)                                                     | 快速 CRUD 增加开发效率               |
+| 数据库框架        | P6spy                    | [p6spy官网](https://p6spy.readthedocs.io/)                                                          | 更强劲的 SQL 分析                  |
 | 多数据源框架       | Dynamic-Datasource       | [dynamic-ds文档](https://www.kancloud.cn/tracy5546/dynamic-datasource/content)                      | 支持主从与多种类数据库异构                |
 | 序列化框架        | Jackson                  | [Jackson官网](https://github.com/FasterXML/jackson)                                                 | 统一使用 jackson 高效可靠            |
 | Redis客户端     | Redisson                 | [Redisson文档](https://github.com/redisson/redisson/wiki/%E7%9B%AE%E5%BD%95)                        | 支持单机、集群配置                    |

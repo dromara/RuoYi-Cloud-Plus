@@ -1,5 +1,6 @@
 package com.ruoyi.system.mapper;
 
+import com.ruoyi.common.mybatis.core.mapper.BaseMapperPlus;
 import com.ruoyi.system.domain.SysRoleDept;
 
 import java.util.List;
@@ -7,9 +8,10 @@ import java.util.List;
 /**
  * 角色与部门关联表 数据层
  *
- * @author ruoyi
+ * @author Lion Li
  */
-public interface SysRoleDeptMapper {
+public interface SysRoleDeptMapper extends BaseMapperPlus<SysRoleDeptMapper, SysRoleDept, SysRoleDept> {
+
     /**
      * 通过角色ID删除角色和部门关联
      *

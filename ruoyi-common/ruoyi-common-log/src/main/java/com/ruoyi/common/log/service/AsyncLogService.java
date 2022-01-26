@@ -1,6 +1,5 @@
 package com.ruoyi.common.log.service;
 
-import com.ruoyi.common.core.constant.SecurityConstants;
 import com.ruoyi.system.api.RemoteLogService;
 import com.ruoyi.system.api.domain.SysOperLog;
 import org.apache.dubbo.config.annotation.DubboReference;
@@ -23,6 +22,6 @@ public class AsyncLogService {
      */
     @Async
     public void saveSysLog(SysOperLog sysOperLog) {
-        remoteLogService.saveLog(sysOperLog, SecurityConstants.INNER);
+        remoteLogService.saveLog(sysOperLog);
     }
 }

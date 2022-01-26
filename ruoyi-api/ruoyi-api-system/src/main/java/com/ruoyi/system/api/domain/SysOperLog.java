@@ -2,12 +2,15 @@ package com.ruoyi.system.api.domain;
 
 import com.alibaba.excel.annotation.ExcelIgnoreUnannotated;
 import com.alibaba.excel.annotation.ExcelProperty;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.ruoyi.common.excel.annotation.ExcelDictFormat;
 import com.ruoyi.common.excel.convert.ExcelDictConvert;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import lombok.experimental.Accessors;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -21,6 +24,8 @@ import java.util.Map;
  */
 
 @Data
+@NoArgsConstructor
+@TableName("sys_oper_log")
 @ExcelIgnoreUnannotated
 @ApiModel("操作日志记录业务对象")
 public class SysOperLog implements Serializable {
@@ -32,6 +37,7 @@ public class SysOperLog implements Serializable {
      */
     @ApiModelProperty(value = "日志主键")
     @ExcelProperty(value = "日志主键")
+    @TableId(value = "oper_id")
     private Long operId;
 
     /**
@@ -53,6 +59,7 @@ public class SysOperLog implements Serializable {
      * 业务类型数组
      */
     @ApiModelProperty(value = "业务类型数组")
+    @TableField(exist = false)
     private Integer[] businessTypes;
 
     /**
@@ -145,6 +152,7 @@ public class SysOperLog implements Serializable {
      * 请求参数
      */
     @ApiModelProperty(value = "请求参数")
+    @TableField(exist = false)
     private Map<String, Object> params = new HashMap<>();
 
 }

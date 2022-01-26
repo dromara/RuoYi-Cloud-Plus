@@ -14,17 +14,15 @@ public interface RemoteUserService {
      * 通过用户名查询用户信息
      *
      * @param username 用户名
-     * @param source   请求来源
      * @return 结果
      */
-    LoginUser getUserInfo(String username, String source);
+    LoginUser getUserInfo(String username);
 
     /**
      * 注册用户信息
      *
      * @param sysUser 用户信息
-     * @param source  请求来源
      * @return 结果
      */
-    Boolean registerUserInfo(SysUser sysUser, String source);
+    Boolean registerUserInfo(SysUser sysUser);
 }

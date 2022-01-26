@@ -1,5 +1,7 @@
 package com.ruoyi.gen.mapper;
 
+import com.baomidou.mybatisplus.annotation.InterceptorIgnore;
+import com.ruoyi.common.mybatis.core.mapper.BaseMapperPlus;
 import com.ruoyi.gen.domain.GenTableColumn;
 
 import java.util.List;
@@ -7,9 +9,10 @@ import java.util.List;
 /**
  * 业务字段 数据层
  *
- * @author ruoyi
+ * @author Lion Li
  */
-public interface GenTableColumnMapper {
+@InterceptorIgnore(dataPermission = "true")
+public interface GenTableColumnMapper extends BaseMapperPlus<GenTableColumnMapper, GenTableColumn, GenTableColumn> {
     /**
      * 根据表名称查询列信息
      *
@@ -18,43 +21,4 @@ public interface GenTableColumnMapper {
      */
     List<GenTableColumn> selectDbTableColumnsByName(String tableName);
 
-    /**
-     * 查询业务字段列表
-     *
-     * @param tableId 业务字段编号
-     * @return 业务字段集合
-     */
-    List<GenTableColumn> selectGenTableColumnListByTableId(Long tableId);
-
-    /**
-     * 新增业务字段
-     *
-     * @param genTableColumn 业务字段信息
-     * @return 结果
-     */
-    int insertGenTableColumn(GenTableColumn genTableColumn);
-
-    /**
-     * 修改业务字段
-     *
-     * @param genTableColumn 业务字段信息
-     * @return 结果
-     */
-    int updateGenTableColumn(GenTableColumn genTableColumn);
-
-    /**
-     * 删除业务字段
-     *
-     * @param genTableColumns 列数据
-     * @return 结果
-     */
-    int deleteGenTableColumns(List<GenTableColumn> genTableColumns);
-
-    /**
-     * 批量删除业务字段
-     *
-     * @param ids 需要删除的数据ID
-     * @return 结果
-     */
-    int deleteGenTableColumnByIds(Long[] ids);
 }

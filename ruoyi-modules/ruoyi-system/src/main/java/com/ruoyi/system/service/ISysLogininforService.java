@@ -1,5 +1,7 @@
 package com.ruoyi.system.service;
 
+import com.ruoyi.common.mybatis.core.page.PageQuery;
+import com.ruoyi.common.mybatis.core.page.TableDataInfo;
 import com.ruoyi.system.api.domain.SysLogininfor;
 
 import java.util.List;
@@ -10,6 +12,9 @@ import java.util.List;
  * @author ruoyi
  */
 public interface ISysLogininforService {
+
+    TableDataInfo<SysLogininfor> selectPageLogininforList(SysLogininfor logininfor, PageQuery pageQuery);
+
     /**
      * 新增系统登录日志
      *

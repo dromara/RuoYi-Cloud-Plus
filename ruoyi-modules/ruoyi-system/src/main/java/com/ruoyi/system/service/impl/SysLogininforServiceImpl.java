@@ -1,24 +1,48 @@
 package com.ruoyi.system.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.ruoyi.common.core.utils.StringUtils;
+import com.ruoyi.common.mybatis.core.page.PageQuery;
+import com.ruoyi.common.mybatis.core.page.TableDataInfo;
 import com.ruoyi.system.api.domain.SysLogininfor;
 import com.ruoyi.system.mapper.SysLogininforMapper;
 import com.ruoyi.system.service.ISysLogininforService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 系统访问日志情况信息 服务层处理
  *
  * @author ruoyi
  */
-@RequiredArgsConstructor(onConstructor_ = @Autowired)
+@RequiredArgsConstructor
 @Service
 public class SysLogininforServiceImpl implements ISysLogininforService {
 
-    private final SysLogininforMapper logininforMapper;
+    private final SysLogininforMapper baseMapper;
+
+    @Override
+    public TableDataInfo<SysLogininfor> selectPageLogininforList(SysLogininfor logininfor, PageQuery pageQuery) {
+        Map<String, Object> params = logininfor.getParams();
+        LambdaQueryWrapper<SysLogininfor> lqw = new LambdaQueryWrapper<SysLogininfor>()
+            .like(StringUtils.isNotBlank(logininfor.getIpaddr()), SysLogininfor::getIpaddr, logininfor.getIpaddr())
+            .eq(StringUtils.isNotBlank(logininfor.getStatus()), SysLogininfor::getStatus, logininfor.getStatus())
+            .like(StringUtils.isNotBlank(logininfor.getUserName()), SysLogininfor::getUserName, logininfor.getUserName())
+            .between(params.get("beginTime") != null && params.get("endTime") != null,
+                SysLogininfor::getAccessTime, params.get("beginTime"), params.get("endTime"));
+        if (StringUtils.isBlank(pageQuery.getOrderByColumn())) {
+            pageQuery.setOrderByColumn("info_id");
+            pageQuery.setIsAsc("desc");
+        }
+        Page<SysLogininfor> page = baseMapper.selectPage(pageQuery.build(), lqw);
+        return TableDataInfo.build(page);
+    }
 
     /**
      * 新增系统登录日志
@@ -27,7 +51,8 @@ public class SysLogininforServiceImpl implements ISysLogininforService {
      */
     @Override
     public int insertLogininfor(SysLogininfor logininfor) {
-        return logininforMapper.insertLogininfor(logininfor);
+        logininfor.setAccessTime(new Date());
+        return baseMapper.insert(logininfor);
     }
 
     /**
@@ -38,7 +63,14 @@ public class SysLogininforServiceImpl implements ISysLogininforService {
      */
     @Override
     public List<SysLogininfor> selectLogininforList(SysLogininfor logininfor) {
-        return logininforMapper.selectLogininforList(logininfor);
+        Map<String, Object> params = logininfor.getParams();
+        return baseMapper.selectList(new LambdaQueryWrapper<SysLogininfor>()
+            .like(StringUtils.isNotBlank(logininfor.getIpaddr()), SysLogininfor::getIpaddr, logininfor.getIpaddr())
+            .eq(StringUtils.isNotBlank(logininfor.getStatus()), SysLogininfor::getStatus, logininfor.getStatus())
+            .like(StringUtils.isNotBlank(logininfor.getUserName()), SysLogininfor::getUserName, logininfor.getUserName())
+            .between(params.get("beginTime") != null && params.get("endTime") != null,
+                SysLogininfor::getAccessTime, params.get("beginTime"), params.get("endTime"))
+            .orderByDesc(SysLogininfor::getInfoId));
     }
 
     /**
@@ -49,7 +81,7 @@ public class SysLogininforServiceImpl implements ISysLogininforService {
      */
     @Override
     public int deleteLogininforByIds(Long[] infoIds) {
-        return logininforMapper.deleteLogininforByIds(infoIds);
+        return baseMapper.deleteBatchIds(Arrays.asList(infoIds));
     }
 
     /**
@@ -57,6 +89,6 @@ public class SysLogininforServiceImpl implements ISysLogininforService {
      */
     @Override
     public void cleanLogininfor() {
-        logininforMapper.cleanLogininfor();
+        baseMapper.delete(new LambdaQueryWrapper<>());
     }
 }

@@ -1,5 +1,7 @@
 package com.ruoyi.system.service;
 
+import com.ruoyi.common.mybatis.core.page.PageQuery;
+import com.ruoyi.common.mybatis.core.page.TableDataInfo;
 import com.ruoyi.system.domain.SysPost;
 
 import java.util.List;
@@ -10,6 +12,8 @@ import java.util.List;
  * @author ruoyi
  */
 public interface ISysPostService {
+    TableDataInfo<SysPost> selectPagePostList(SysPost post, PageQuery pageQuery);
+
     /**
      * 查询岗位信息集合
      *
@@ -63,7 +67,7 @@ public interface ISysPostService {
      * @param postId 岗位ID
      * @return 结果
      */
-    int countUserPostById(Long postId);
+    long countUserPostById(Long postId);
 
     /**
      * 删除岗位信息

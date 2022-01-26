@@ -9,19 +9,28 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>ruoyi-common-datascope</artifactId>
+    <artifactId>ruoyi-common-mybatis</artifactId>
 
     <description>
-        ruoyi-common-datascope权限范围
+        ruoyi-common-mybatis 数据库服务
     </description>
 
-    <dependencies>
-
-        <!-- RuoYi Common Security -->
+	<dependencies>
         <dependency>
             <groupId>com.ruoyi</groupId>
             <artifactId>ruoyi-common-security</artifactId>
+            <scope>provided</scope>
         </dependency>
 
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-boot-starter</artifactId>
+        </dependency>
+
+        <!-- sql性能分析插件 -->
+        <dependency>
+            <groupId>p6spy</groupId>
+            <artifactId>p6spy</artifactId>
+        </dependency>
     </dependencies>
 </project>

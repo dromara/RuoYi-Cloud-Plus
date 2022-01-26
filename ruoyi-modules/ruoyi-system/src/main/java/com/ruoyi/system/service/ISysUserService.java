@@ -1,5 +1,7 @@
 package com.ruoyi.system.service;
 
+import com.ruoyi.common.mybatis.core.page.PageQuery;
+import com.ruoyi.common.mybatis.core.page.TableDataInfo;
 import com.ruoyi.system.api.domain.SysUser;
 
 import java.util.List;
@@ -10,6 +12,8 @@ import java.util.List;
  * @author ruoyi
  */
 public interface ISysUserService {
+    TableDataInfo<SysUser> selectPageUserList(SysUser user, PageQuery pageQuery);
+
     /**
      * 根据条件分页查询用户列表
      *
@@ -24,7 +28,7 @@ public interface ISysUserService {
      * @param user 用户信息
      * @return 用户信息集合信息
      */
-    List<SysUser> selectAllocatedList(SysUser user);
+    TableDataInfo<SysUser> selectAllocatedList(SysUser user, PageQuery pageQuery);
 
     /**
      * 根据条件分页查询未分配用户角色列表
@@ -32,7 +36,7 @@ public interface ISysUserService {
      * @param user 用户信息
      * @return 用户信息集合信息
      */
-    List<SysUser> selectUnallocatedList(SysUser user);
+    TableDataInfo<SysUser> selectUnallocatedList(SysUser user, PageQuery pageQuery);
 
     /**
      * 通过用户名查询用户

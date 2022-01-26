@@ -3,6 +3,7 @@ package com.ruoyi.system.service.impl;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.lang.tree.Tree;
 import cn.hutool.core.util.ObjectUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.ruoyi.common.core.constant.Constants;
 import com.ruoyi.common.core.constant.UserConstants;
 import com.ruoyi.common.core.utils.StringUtils;
@@ -11,6 +12,7 @@ import com.ruoyi.common.security.utils.SecurityUtils;
 import com.ruoyi.system.api.domain.SysRole;
 import com.ruoyi.system.api.domain.SysUser;
 import com.ruoyi.system.domain.SysMenu;
+import com.ruoyi.system.domain.SysRoleMenu;
 import com.ruoyi.system.domain.vo.MetaVo;
 import com.ruoyi.system.domain.vo.RouterVo;
 import com.ruoyi.system.mapper.SysMenuMapper;
@@ -18,7 +20,6 @@ import com.ruoyi.system.mapper.SysRoleMapper;
 import com.ruoyi.system.mapper.SysRoleMenuMapper;
 import com.ruoyi.system.service.ISysMenuService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -28,11 +29,11 @@ import java.util.*;
  *
  * @author ruoyi
  */
-@RequiredArgsConstructor(onConstructor_ = @Autowired)
+@RequiredArgsConstructor
 @Service
 public class SysMenuServiceImpl implements ISysMenuService {
 
-    private final SysMenuMapper menuMapper;
+    private final SysMenuMapper baseMapper;
     private final SysRoleMapper roleMapper;
     private final SysRoleMenuMapper roleMenuMapper;
 
@@ -58,10 +59,15 @@ public class SysMenuServiceImpl implements ISysMenuService {
         List<SysMenu> menuList = null;
         // 管理员显示所有菜单信息
         if (SysUser.isAdmin(userId)) {
-            menuList = menuMapper.selectMenuList(menu);
+            menuList = baseMapper.selectList(new LambdaQueryWrapper<SysMenu>()
+                .like(StringUtils.isNotBlank(menu.getMenuName()), SysMenu::getMenuName, menu.getMenuName())
+                .eq(StringUtils.isNotBlank(menu.getVisible()), SysMenu::getVisible, menu.getVisible())
+                .eq(StringUtils.isNotBlank(menu.getStatus()), SysMenu::getStatus, menu.getStatus())
+                .orderByAsc(SysMenu::getParentId)
+                .orderByAsc(SysMenu::getOrderNum));
         } else {
             menu.getParams().put("userId", userId);
-            menuList = menuMapper.selectMenuListByUserId(menu);
+            menuList = baseMapper.selectMenuListByUserId(menu);
         }
         return menuList;
     }
@@ -74,7 +80,7 @@ public class SysMenuServiceImpl implements ISysMenuService {
      */
     @Override
     public Set<String> selectMenuPermsByUserId(Long userId) {
-        List<String> perms = menuMapper.selectMenuPermsByUserId(userId);
+        List<String> perms = baseMapper.selectMenuPermsByUserId(userId);
         Set<String> permsSet = new HashSet<>();
         for (String perm : perms) {
             if (StringUtils.isNotEmpty(perm)) {
@@ -94,9 +100,9 @@ public class SysMenuServiceImpl implements ISysMenuService {
     public List<SysMenu> selectMenuTreeByUserId(Long userId) {
         List<SysMenu> menus = null;
         if (SecurityUtils.isAdmin(userId)) {
-            menus = menuMapper.selectMenuTreeAll();
+            menus = baseMapper.selectMenuTreeAll();
         } else {
-            menus = menuMapper.selectMenuTreeByUserId(userId);
+            menus = baseMapper.selectMenuTreeByUserId(userId);
         }
         return getChildPerms(menus, 0);
     }
@@ -109,8 +115,8 @@ public class SysMenuServiceImpl implements ISysMenuService {
      */
     @Override
     public List<Long> selectMenuListByRoleId(Long roleId) {
-        SysRole role = roleMapper.selectRoleById(roleId);
-        return menuMapper.selectMenuListByRoleId(roleId, role.isMenuCheckStrictly());
+        SysRole role = roleMapper.selectById(roleId);
+        return baseMapper.selectMenuListByRoleId(roleId, role.isMenuCheckStrictly());
     }
 
     /**
@@ -191,7 +197,7 @@ public class SysMenuServiceImpl implements ISysMenuService {
      */
     @Override
     public SysMenu selectMenuById(Long menuId) {
-        return menuMapper.selectMenuById(menuId);
+        return baseMapper.selectById(menuId);
     }
 
     /**
@@ -202,8 +208,7 @@ public class SysMenuServiceImpl implements ISysMenuService {
      */
     @Override
     public boolean hasChildByMenuId(Long menuId) {
-        int result = menuMapper.hasChildByMenuId(menuId);
-        return result > 0 ? true : false;
+        return baseMapper.exists(new LambdaQueryWrapper<SysMenu>().eq(SysMenu::getParentId, menuId));
     }
 
     /**
@@ -214,8 +219,7 @@ public class SysMenuServiceImpl implements ISysMenuService {
      */
     @Override
     public boolean checkMenuExistRole(Long menuId) {
-        int result = roleMenuMapper.checkMenuExistRole(menuId);
-        return result > 0 ? true : false;
+        return roleMenuMapper.exists(new LambdaQueryWrapper<SysRoleMenu>().eq(SysRoleMenu::getMenuId, menuId));
     }
 
     /**
@@ -226,7 +230,7 @@ public class SysMenuServiceImpl implements ISysMenuService {
      */
     @Override
     public int insertMenu(SysMenu menu) {
-        return menuMapper.insertMenu(menu);
+        return baseMapper.insert(menu);
     }
 
     /**
@@ -237,7 +241,7 @@ public class SysMenuServiceImpl implements ISysMenuService {
      */
     @Override
     public int updateMenu(SysMenu menu) {
-        return menuMapper.updateMenu(menu);
+        return baseMapper.updateById(menu);
     }
 
     /**
@@ -248,8 +252,9 @@ public class SysMenuServiceImpl implements ISysMenuService {
      */
     @Override
     public int deleteMenuById(Long menuId) {
-        return menuMapper.deleteMenuById(menuId);
+        return baseMapper.deleteById(menuId);
     }
+
 
     /**
      * 校验菜单名称是否唯一
@@ -259,9 +264,11 @@ public class SysMenuServiceImpl implements ISysMenuService {
      */
     @Override
     public String checkMenuNameUnique(SysMenu menu) {
-        Long menuId = ObjectUtil.isNull(menu.getMenuId()) ? -1L : menu.getMenuId();
-        SysMenu info = menuMapper.checkMenuNameUnique(menu.getMenuName(), menu.getParentId());
-        if (ObjectUtil.isNotNull(info) && info.getMenuId().longValue() != menuId.longValue()) {
+        boolean exist = baseMapper.exists(new LambdaQueryWrapper<SysMenu>()
+            .eq(SysMenu::getMenuName, menu.getMenuName())
+            .eq(SysMenu::getParentId, menu.getParentId())
+            .ne(ObjectUtil.isNotNull(menu.getMenuId()), SysMenu::getMenuId, menu.getMenuId()));
+        if (exist) {
             return UserConstants.NOT_UNIQUE;
         }
         return UserConstants.UNIQUE;

@@ -2,7 +2,6 @@ package com.ruoyi.auth.service;
 
 import cn.hutool.core.util.ObjectUtil;
 import com.ruoyi.common.core.constant.Constants;
-import com.ruoyi.common.core.constant.SecurityConstants;
 import com.ruoyi.common.core.constant.UserConstants;
 import com.ruoyi.common.core.enums.UserStatus;
 import com.ruoyi.common.core.exception.ServiceException;
@@ -52,7 +51,7 @@ public class SysLoginService {
             throw new ServiceException("用户名不在指定范围");
         }
         // 查询用户信息
-        LoginUser userInfo = remoteUserService.getUserInfo(username, SecurityConstants.INNER);
+        LoginUser userInfo = remoteUserService.getUserInfo(username);
 
         if (ObjectUtil.isNull(userInfo)) {
             recordLogininfor(username, Constants.LOGIN_FAIL, "登录用户不存在");
@@ -101,7 +100,7 @@ public class SysLoginService {
         sysUser.setUserName(username);
         sysUser.setNickName(username);
         sysUser.setPassword(SecurityUtils.encryptPassword(password));
-        remoteUserService.registerUserInfo(sysUser, SecurityConstants.INNER);
+        remoteUserService.registerUserInfo(sysUser);
 
         recordLogininfor(username, Constants.REGISTER, "注册成功");
     }
@@ -125,6 +124,6 @@ public class SysLoginService {
         } else if (Constants.LOGIN_FAIL.equals(status)) {
             logininfor.setStatus("1");
         }
-        remoteLogService.saveLogininfor(logininfor, SecurityConstants.INNER);
+        remoteLogService.saveLogininfor(logininfor);
     }
 }

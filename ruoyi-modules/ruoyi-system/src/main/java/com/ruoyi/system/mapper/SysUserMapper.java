@@ -1,5 +1,9 @@
 package com.ruoyi.system.mapper;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.ruoyi.common.mybatis.annotation.DataColumn;
+import com.ruoyi.common.mybatis.annotation.DataPermission;
+import com.ruoyi.common.mybatis.core.mapper.BaseMapperPlus;
 import com.ruoyi.system.api.domain.SysUser;
 import org.apache.ibatis.annotations.Param;
 
@@ -8,15 +12,26 @@ import java.util.List;
 /**
  * 用户表 数据层
  *
- * @author ruoyi
+ * @author Lion Li
  */
-public interface SysUserMapper {
+public interface SysUserMapper extends BaseMapperPlus<SysUserMapper, SysUser, SysUser> {
+
+    @DataPermission({
+        @DataColumn(key = "deptName", value = "d.dept_id"),
+        @DataColumn(key = "userName", value = "u.user_id")
+    })
+    Page<SysUser> selectPageUserList(@Param("page") Page<SysUser> page, @Param("user") SysUser user);
+
     /**
      * 根据条件分页查询用户列表
      *
      * @param sysUser 用户信息
      * @return 用户信息集合信息
      */
+    @DataPermission({
+        @DataColumn(key = "deptName", value = "d.dept_id"),
+        @DataColumn(key = "userName", value = "u.user_id")
+    })
     List<SysUser> selectUserList(SysUser sysUser);
 
     /**
@@ -25,7 +40,11 @@ public interface SysUserMapper {
      * @param user 用户信息
      * @return 用户信息集合信息
      */
-    List<SysUser> selectAllocatedList(SysUser user);
+    @DataPermission({
+        @DataColumn(key = "deptName", value = "d.dept_id"),
+        @DataColumn(key = "userName", value = "u.user_id")
+    })
+    Page<SysUser> selectAllocatedList(@Param("page") Page<SysUser> page, @Param("user") SysUser user);
 
     /**
      * 根据条件分页查询未分配用户角色列表
@@ -33,7 +52,11 @@ public interface SysUserMapper {
      * @param user 用户信息
      * @return 用户信息集合信息
      */
-    List<SysUser> selectUnallocatedList(SysUser user);
+    @DataPermission({
+        @DataColumn(key = "deptName", value = "d.dept_id"),
+        @DataColumn(key = "userName", value = "u.user_id")
+    })
+    Page<SysUser> selectUnallocatedList(@Param("page") Page<SysUser> page, @Param("user") SysUser user);
 
     /**
      * 通过用户名查询用户
@@ -51,77 +74,4 @@ public interface SysUserMapper {
      */
     SysUser selectUserById(Long userId);
 
-    /**
-     * 新增用户信息
-     *
-     * @param user 用户信息
-     * @return 结果
-     */
-    int insertUser(SysUser user);
-
-    /**
-     * 修改用户信息
-     *
-     * @param user 用户信息
-     * @return 结果
-     */
-    int updateUser(SysUser user);
-
-    /**
-     * 修改用户头像
-     *
-     * @param userName 用户名
-     * @param avatar   头像地址
-     * @return 结果
-     */
-    int updateUserAvatar(@Param("userName") String userName, @Param("avatar") String avatar);
-
-    /**
-     * 重置用户密码
-     *
-     * @param userName 用户名
-     * @param password 密码
-     * @return 结果
-     */
-    int resetUserPwd(@Param("userName") String userName, @Param("password") String password);
-
-    /**
-     * 通过用户ID删除用户
-     *
-     * @param userId 用户ID
-     * @return 结果
-     */
-    int deleteUserById(Long userId);
-
-    /**
-     * 批量删除用户信息
-     *
-     * @param userIds 需要删除的用户ID
-     * @return 结果
-     */
-    int deleteUserByIds(Long[] userIds);
-
-    /**
-     * 校验用户名称是否唯一
-     *
-     * @param userName 用户名称
-     * @return 结果
-     */
-    int checkUserNameUnique(String userName);
-
-    /**
-     * 校验手机号码是否唯一
-     *
-     * @param phonenumber 手机号码
-     * @return 结果
-     */
-    SysUser checkPhoneUnique(String phonenumber);
-
-    /**
-     * 校验email是否唯一
-     *
-     * @param email 用户邮箱
-     * @return 结果
-     */
-    SysUser checkEmailUnique(String email);
 }

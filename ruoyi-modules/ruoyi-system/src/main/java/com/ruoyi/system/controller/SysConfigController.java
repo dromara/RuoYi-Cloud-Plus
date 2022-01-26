@@ -3,16 +3,16 @@ package com.ruoyi.system.controller;
 import com.ruoyi.common.core.constant.UserConstants;
 import com.ruoyi.common.core.web.controller.BaseController;
 import com.ruoyi.common.core.web.domain.AjaxResult;
-import com.ruoyi.common.core.web.page.TableDataInfo;
 import com.ruoyi.common.excel.utils.ExcelUtil;
 import com.ruoyi.common.log.annotation.Log;
 import com.ruoyi.common.log.enums.BusinessType;
+import com.ruoyi.common.mybatis.core.page.PageQuery;
+import com.ruoyi.common.mybatis.core.page.TableDataInfo;
 import com.ruoyi.common.security.annotation.RequiresPermissions;
 import com.ruoyi.common.security.utils.SecurityUtils;
 import com.ruoyi.system.domain.SysConfig;
 import com.ruoyi.system.service.ISysConfigService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,7 +24,7 @@ import java.util.List;
  *
  * @author ruoyi
  */
-@RequiredArgsConstructor(onConstructor_ = @Autowired)
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/config")
 public class SysConfigController extends BaseController {
@@ -36,10 +36,8 @@ public class SysConfigController extends BaseController {
      */
     @RequiresPermissions("system:config:list")
     @GetMapping("/list")
-    public TableDataInfo list(SysConfig config) {
-        startPage();
-        List<SysConfig> list = configService.selectConfigList(config);
-        return getDataTable(list);
+    public TableDataInfo<SysConfig> list(SysConfig config, PageQuery pageQuery) {
+        return configService.selectPageConfigList(config, pageQuery);
     }
 
     @Log(title = "参数管理", businessType = BusinessType.EXPORT)

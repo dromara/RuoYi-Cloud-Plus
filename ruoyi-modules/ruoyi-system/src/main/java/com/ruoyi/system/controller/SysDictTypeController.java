@@ -3,16 +3,16 @@ package com.ruoyi.system.controller;
 import com.ruoyi.common.core.constant.UserConstants;
 import com.ruoyi.common.core.web.controller.BaseController;
 import com.ruoyi.common.core.web.domain.AjaxResult;
-import com.ruoyi.common.core.web.page.TableDataInfo;
 import com.ruoyi.common.excel.utils.ExcelUtil;
 import com.ruoyi.common.log.annotation.Log;
 import com.ruoyi.common.log.enums.BusinessType;
+import com.ruoyi.common.mybatis.core.page.PageQuery;
+import com.ruoyi.common.mybatis.core.page.TableDataInfo;
 import com.ruoyi.common.security.annotation.RequiresPermissions;
 import com.ruoyi.common.security.utils.SecurityUtils;
 import com.ruoyi.system.api.domain.SysDictType;
 import com.ruoyi.system.service.ISysDictTypeService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,7 +24,7 @@ import java.util.List;
  *
  * @author ruoyi
  */
-@RequiredArgsConstructor(onConstructor_ = @Autowired)
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/dict/type")
 public class SysDictTypeController extends BaseController {
@@ -33,10 +33,8 @@ public class SysDictTypeController extends BaseController {
 
     @RequiresPermissions("system:dict:list")
     @GetMapping("/list")
-    public TableDataInfo list(SysDictType dictType) {
-        startPage();
-        List<SysDictType> list = dictTypeService.selectDictTypeList(dictType);
-        return getDataTable(list);
+    public TableDataInfo<SysDictType> list(SysDictType dictType, PageQuery pageQuery) {
+        return dictTypeService.selectPageDictTypeList(dictType, pageQuery);
     }
 
     @Log(title = "字典类型", businessType = BusinessType.EXPORT)

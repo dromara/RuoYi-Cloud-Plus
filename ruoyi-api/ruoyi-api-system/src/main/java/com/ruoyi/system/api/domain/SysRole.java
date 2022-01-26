@@ -2,6 +2,10 @@ package com.ruoyi.system.api.domain;
 
 import com.alibaba.excel.annotation.ExcelIgnoreUnannotated;
 import com.alibaba.excel.annotation.ExcelProperty;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableLogic;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.ruoyi.common.core.web.domain.BaseEntity;
 import com.ruoyi.common.excel.annotation.ExcelDictFormat;
 import com.ruoyi.common.excel.convert.ExcelDictConvert;
@@ -9,7 +13,6 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import lombok.experimental.Accessors;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -23,6 +26,7 @@ import javax.validation.constraints.Size;
 @Data
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
+@TableName("sys_role")
 @ExcelIgnoreUnannotated
 public class SysRole extends BaseEntity {
 
@@ -31,6 +35,7 @@ public class SysRole extends BaseEntity {
      */
     @ApiModelProperty(value = "角色ID")
     @ExcelProperty(value = "角色序号")
+    @TableId(value = "role_id")
     private Long roleId;
 
     /**
@@ -91,6 +96,7 @@ public class SysRole extends BaseEntity {
      * 删除标志（0代表存在 2代表删除）
      */
     @ApiModelProperty(value = "删除标志（0代表存在 2代表删除）")
+    @TableLogic
     private String delFlag;
 
     /**
@@ -103,18 +109,21 @@ public class SysRole extends BaseEntity {
      * 用户是否存在此角色标识 默认不存在
      */
     @ApiModelProperty(value = "用户是否存在此角色标识 默认不存在")
+    @TableField(exist = false)
     private boolean flag = false;
 
     /**
      * 菜单组
      */
     @ApiModelProperty(value = "菜单组")
+    @TableField(exist = false)
     private Long[] menuIds;
 
     /**
      * 部门组（数据权限）
      */
     @ApiModelProperty(value = "部门组（数据权限）")
+    @TableField(exist = false)
     private Long[] deptIds;
 
     public SysRole(Long roleId) {
