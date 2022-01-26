@@ -12,7 +12,6 @@ import lombok.experimental.Accessors;
  */
 
 @Data
-@Accessors(chain = true)
 @ApiModel("用户和角色关联")
 public class SysUserRole {
 

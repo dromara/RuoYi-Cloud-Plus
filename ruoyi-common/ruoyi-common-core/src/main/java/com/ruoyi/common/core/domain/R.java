@@ -3,7 +3,6 @@ package com.ruoyi.common.core.domain;
 import com.ruoyi.common.core.constant.Constants;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 
@@ -14,7 +13,6 @@ import java.io.Serializable;
  */
 @Data
 @NoArgsConstructor
-@Accessors(chain = true)
 public class R<T> implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -67,7 +65,11 @@ public class R<T> implements Serializable {
     }
 
     private static <T> R<T> restResult(T data, int code, String msg) {
-        return new R<T>().setCode(code).setData(data).setMsg(msg);
+        R<T> r = new R<>();
+        r.setCode(code);
+        r.setData(data);
+        r.setMsg(msg);
+        return r;
     }
 
 }

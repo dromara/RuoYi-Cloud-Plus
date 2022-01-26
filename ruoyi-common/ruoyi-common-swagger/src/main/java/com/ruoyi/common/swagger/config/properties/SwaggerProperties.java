@@ -84,7 +84,6 @@ public class SwaggerProperties {
 
     @Data
     @NoArgsConstructor
-    @Accessors(chain = true)
     public static class Contact {
 
         /**
@@ -104,7 +103,6 @@ public class SwaggerProperties {
 
     @Data
     @NoArgsConstructor
-    @Accessors(chain = true)
     public static class Authorization {
 
         /**
@@ -128,7 +126,6 @@ public class SwaggerProperties {
 
     @Data
     @NoArgsConstructor
-    @Accessors(chain = true)
     public static class AuthorizationScope {
 
         /**

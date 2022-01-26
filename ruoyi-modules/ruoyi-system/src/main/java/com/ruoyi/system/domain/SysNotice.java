@@ -18,7 +18,6 @@ import javax.validation.constraints.Size;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@Accessors(chain = true)
 public class SysNotice extends BaseEntity {
 
     /**

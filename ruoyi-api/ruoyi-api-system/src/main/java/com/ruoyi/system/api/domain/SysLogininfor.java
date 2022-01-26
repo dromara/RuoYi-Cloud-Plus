@@ -21,7 +21,6 @@ import java.util.Map;
  */
 
 @Data
-@Accessors(chain = true)
 @ExcelIgnoreUnannotated
 @ApiModel("系统访问记录业务对象")
 public class SysLogininfor implements Serializable {

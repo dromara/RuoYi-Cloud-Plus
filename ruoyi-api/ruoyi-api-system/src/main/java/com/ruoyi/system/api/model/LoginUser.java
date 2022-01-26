@@ -15,7 +15,6 @@ import java.util.Set;
  */
 @Data
 @NoArgsConstructor
-@Accessors(chain = true)
 public class LoginUser implements Serializable {
     private static final long serialVersionUID = 1L;
 

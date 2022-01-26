@@ -12,7 +12,6 @@ import lombok.experimental.Accessors;
  */
 
 @Data
-@Accessors(chain = true)
 @ApiModel("当前在线会话业务对象")
 public class SysUserOnline {
 

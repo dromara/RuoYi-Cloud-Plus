@@ -23,7 +23,6 @@ import javax.validation.constraints.Size;
 @Data
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-@Accessors(chain = true)
 @ExcelIgnoreUnannotated
 public class SysRole extends BaseEntity {
 

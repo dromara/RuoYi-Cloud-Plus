@@ -18,7 +18,6 @@ import java.util.Date;
 
 @Data
 @NoArgsConstructor
-@Accessors(chain = true)
 public class SysUserExportVo implements Serializable {
     private static final long serialVersionUID = 1L;
 

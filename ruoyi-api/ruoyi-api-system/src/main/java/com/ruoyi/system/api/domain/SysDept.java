@@ -20,7 +20,6 @@ import javax.validation.constraints.Size;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-@Accessors(chain = true)
 @ApiModel("部门业务对象")
 public class SysDept extends TreeEntity {
     private static final long serialVersionUID = 1L;

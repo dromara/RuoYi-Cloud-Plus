@@ -10,7 +10,6 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.experimental.Accessors;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -23,7 +22,6 @@ import javax.validation.constraints.Size;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-@Accessors(chain = true)
 @ExcelIgnoreUnannotated
 @ApiModel("字典数据业务对象")
 public class SysDictData extends BaseEntity {

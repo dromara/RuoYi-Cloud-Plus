@@ -22,7 +22,6 @@ import javax.validation.constraints.Size;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-@Accessors(chain = true)
 @ExcelIgnoreUnannotated
 @ApiModel("岗位信息业务对象")
 public class SysPost extends BaseEntity {

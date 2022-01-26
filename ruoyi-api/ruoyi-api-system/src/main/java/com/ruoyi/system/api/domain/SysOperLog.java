@@ -21,7 +21,6 @@ import java.util.Map;
  */
 
 @Data
-@Accessors(chain = true)
 @ExcelIgnoreUnannotated
 @ApiModel("操作日志记录业务对象")
 public class SysOperLog implements Serializable {

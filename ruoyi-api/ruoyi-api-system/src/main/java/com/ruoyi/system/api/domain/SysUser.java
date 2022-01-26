@@ -26,7 +26,6 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-@Accessors(chain = true)
 @ApiModel("用户信息业务对象")
 public class SysUser extends BaseEntity {
 

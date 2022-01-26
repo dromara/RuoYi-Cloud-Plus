@@ -15,7 +15,6 @@ import org.springframework.context.annotation.Configuration;
  */
 @Data
 @NoArgsConstructor
-@Accessors(chain = true)
 @Configuration
 @ConfigurationProperties(prefix = "minio")
 public class MinioConfig {

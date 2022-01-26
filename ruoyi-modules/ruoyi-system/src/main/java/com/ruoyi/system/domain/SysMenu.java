@@ -19,7 +19,6 @@ import javax.validation.constraints.Size;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-@Accessors(chain = true)
 @ApiModel("菜单权限业务对象")
 public class SysMenu extends TreeEntity {
 

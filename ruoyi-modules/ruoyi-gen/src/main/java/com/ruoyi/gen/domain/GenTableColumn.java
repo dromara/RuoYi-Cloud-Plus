@@ -17,7 +17,6 @@ import javax.validation.constraints.NotBlank;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
-@Accessors(chain = true)
 public class GenTableColumn extends BaseEntity {
 
     /**

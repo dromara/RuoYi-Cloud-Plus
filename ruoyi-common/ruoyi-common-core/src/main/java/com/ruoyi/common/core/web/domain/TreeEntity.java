@@ -16,7 +16,6 @@ import java.util.List;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-@Accessors(chain = true)
 public class TreeEntity extends BaseEntity {
 
     private static final long serialVersionUID = 1L;

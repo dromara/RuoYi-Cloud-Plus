@@ -17,7 +17,6 @@ import java.util.List;
  */
 @Data
 @NoArgsConstructor
-@Accessors(chain = true)
 @Configuration
 @RefreshScope
 @ConfigurationProperties(prefix = "security.ignore")

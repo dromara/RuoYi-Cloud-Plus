@@ -14,7 +14,6 @@ import java.util.List;
  */
 @Data
 @NoArgsConstructor
-@Accessors(chain = true)
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class RouterVo {
 

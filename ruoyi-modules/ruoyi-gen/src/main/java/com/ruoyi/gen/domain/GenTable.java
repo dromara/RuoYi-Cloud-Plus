@@ -21,7 +21,6 @@ import java.util.List;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
-@Accessors(chain = true)
 public class GenTable extends BaseEntity {
 
     /**

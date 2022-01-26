@@ -12,7 +12,6 @@ import lombok.experimental.Accessors;
  */
 
 @Data
-@Accessors(chain = true)
 @ApiModel("角色和菜单关联")
 public class SysRoleMenu {
 

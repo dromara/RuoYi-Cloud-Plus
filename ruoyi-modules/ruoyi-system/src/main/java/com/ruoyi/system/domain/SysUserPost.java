@@ -12,7 +12,6 @@ import lombok.experimental.Accessors;
  */
 
 @Data
-@Accessors(chain = true)
 @ApiModel("用户和岗位关联")
 public class SysUserPost {
 

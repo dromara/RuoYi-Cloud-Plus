@@ -22,7 +22,6 @@ import javax.validation.constraints.Size;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-@Accessors(chain = true)
 @ExcelIgnoreUnannotated
 @ApiModel("参数配置业务对象")
 public class SysConfig extends BaseEntity {
