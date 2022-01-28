@@ -21,7 +21,7 @@
 | 微服务开发框架      | SpringCloud              | [SpringCloud官网](https://spring.io/projects/spring-cloud)                                          |                              |
 | 微服务开发框架      | SpringCloudAlibaba       | [SpringCloudAlibaba官网](https://spring.io/projects/spring-cloud-alibaba)                           |                              |
 | 容器框架         | Undertow                 | [Undertow官网](https://undertow.io/)                                                                | 基于 XNIO 的高性能容器               |
-| 权限认证框架(未完成)  | Sa-Token、Jwt             | [Sa-Token官网](https://sa-token.dev33.cn/)                                                          | 强解耦、强扩展                      |
+| 权限认证框架       | Sa-Token、Jwt             | [Sa-Token官网](https://sa-token.dev33.cn/)                                                          | 强解耦、强扩展                      |
 | 关系数据库        | MySQL                    | [MySQL官网](https://dev.mysql.com/)                                                                 | 适配 8.X 最低 5.7                |
 | 缓存数据库        | Redis                    | [Redis官网](https://redis.io/)                                                                      | 适配 6.X 最低 5.X                |
 | 分布式注册中心      | Alibaba Nacos            | [Alibaba Nacos文档](https://nacos.io/zh-cn/docs/quick-start.html)                                   | 采用2.X 基于GRPC通信高性能            |
