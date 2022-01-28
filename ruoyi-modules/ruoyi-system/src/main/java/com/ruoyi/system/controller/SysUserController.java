@@ -1,5 +1,6 @@
 package com.ruoyi.system.controller;
 
+import cn.dev33.satoken.annotation.SaCheckPermission;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.ObjectUtil;
 import com.ruoyi.common.core.constant.UserConstants;
@@ -12,7 +13,7 @@ import com.ruoyi.common.log.annotation.Log;
 import com.ruoyi.common.log.enums.BusinessType;
 import com.ruoyi.common.mybatis.core.page.PageQuery;
 import com.ruoyi.common.mybatis.core.page.TableDataInfo;
-import com.ruoyi.common.security.annotation.RequiresPermissions;
+import com.ruoyi.common.satoken.utils.LoginHelper;
 import com.ruoyi.common.security.utils.SecurityUtils;
 import com.ruoyi.system.api.domain.SysDept;
 import com.ruoyi.system.api.domain.SysRole;
@@ -55,14 +56,14 @@ public class SysUserController extends BaseController {
     /**
      * 获取用户列表
      */
-    @RequiresPermissions("system:user:list")
+    @SaCheckPermission("system:user:list")
     @GetMapping("/list")
     public TableDataInfo<SysUser> list(SysUser user, PageQuery pageQuery) {
         return userService.selectPageUserList(user, pageQuery);
     }
 
     @Log(title = "用户管理", businessType = BusinessType.EXPORT)
-    @RequiresPermissions("system:user:export")
+    @SaCheckPermission("system:user:export")
     @PostMapping("/export")
     public void export(HttpServletResponse response, SysUser user) {
         List<SysUser> list = userService.selectUserList(user);
@@ -79,7 +80,7 @@ public class SysUserController extends BaseController {
     }
 
     @Log(title = "用户管理", businessType = BusinessType.IMPORT)
-    @RequiresPermissions("system:user:import")
+    @SaCheckPermission("system:user:import")
     @PostMapping("/importData")
     public AjaxResult importData(MultipartFile file, boolean updateSupport) throws Exception {
         ExcelResult<SysUserImportVo> result = ExcelUtil.importExcel(file.getInputStream(), SysUserImportVo.class, new SysUserImportListener(updateSupport));
@@ -98,7 +99,8 @@ public class SysUserController extends BaseController {
      */
     @GetMapping("getInfo")
     public AjaxResult getInfo() {
-        Long userId = SecurityUtils.getUserId();
+        //Long userId = SecurityUtils.getUserId();
+        Long userId = LoginHelper.getUserId();
         // 角色集合
         Set<String> roles = permissionService.getRolePermission(userId);
         // 权限集合
@@ -113,7 +115,7 @@ public class SysUserController extends BaseController {
     /**
      * 根据用户编号获取详细信息
      */
-    @RequiresPermissions("system:user:query")
+    @SaCheckPermission("system:user:query")
     @GetMapping(value = {"/", "/{userId}"})
     public AjaxResult getInfo(@PathVariable(value = "userId", required = false) Long userId) {
         userService.checkUserDataScope(userId);
@@ -133,7 +135,7 @@ public class SysUserController extends BaseController {
     /**
      * 新增用户
      */
-    @RequiresPermissions("system:user:add")
+    @SaCheckPermission("system:user:add")
     @Log(title = "用户管理", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@Validated @RequestBody SysUser user) {
@@ -146,7 +148,7 @@ public class SysUserController extends BaseController {
                 && UserConstants.NOT_UNIQUE.equals(userService.checkEmailUnique(user))) {
             return AjaxResult.error("新增用户'" + user.getUserName() + "'失败，邮箱账号已存在");
         }
-        user.setCreateBy(SecurityUtils.getUsername());
+        user.setCreateBy(LoginHelper.getUsername());
         user.setPassword(SecurityUtils.encryptPassword(user.getPassword()));
         return toAjax(userService.insertUser(user));
     }
@@ -154,7 +156,7 @@ public class SysUserController extends BaseController {
     /**
      * 修改用户
      */
-    @RequiresPermissions("system:user:edit")
+    @SaCheckPermission("system:user:edit")
     @Log(title = "用户管理", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@Validated @RequestBody SysUser user) {
@@ -166,18 +168,18 @@ public class SysUserController extends BaseController {
                 && UserConstants.NOT_UNIQUE.equals(userService.checkEmailUnique(user))) {
             return AjaxResult.error("修改用户'" + user.getUserName() + "'失败，邮箱账号已存在");
         }
-        user.setUpdateBy(SecurityUtils.getUsername());
+        user.setUpdateBy(LoginHelper.getUsername());
         return toAjax(userService.updateUser(user));
     }
 
     /**
      * 删除用户
      */
-    @RequiresPermissions("system:user:remove")
+    @SaCheckPermission("system:user:remove")
     @Log(title = "用户管理", businessType = BusinessType.DELETE)
     @DeleteMapping("/{userIds}")
     public AjaxResult remove(@PathVariable Long[] userIds) {
-        if (ArrayUtils.contains(userIds, SecurityUtils.getUserId())) {
+        if (ArrayUtils.contains(userIds, LoginHelper.getUserId())) {
             return AjaxResult.error("当前用户不能删除");
         }
         return toAjax(userService.deleteUserByIds(userIds));
@@ -186,32 +188,32 @@ public class SysUserController extends BaseController {
     /**
      * 重置密码
      */
-    @RequiresPermissions("system:user:edit")
+    @SaCheckPermission("system:user:edit")
     @Log(title = "用户管理", businessType = BusinessType.UPDATE)
     @PutMapping("/resetPwd")
     public AjaxResult resetPwd(@RequestBody SysUser user) {
         userService.checkUserAllowed(user);
         user.setPassword(SecurityUtils.encryptPassword(user.getPassword()));
-        user.setUpdateBy(SecurityUtils.getUsername());
+        user.setUpdateBy(LoginHelper.getUsername());
         return toAjax(userService.resetPwd(user));
     }
 
     /**
      * 状态修改
      */
-    @RequiresPermissions("system:user:edit")
+    @SaCheckPermission("system:user:edit")
     @Log(title = "用户管理", businessType = BusinessType.UPDATE)
     @PutMapping("/changeStatus")
     public AjaxResult changeStatus(@RequestBody SysUser user) {
         userService.checkUserAllowed(user);
-        user.setUpdateBy(SecurityUtils.getUsername());
+        user.setUpdateBy(LoginHelper.getUsername());
         return toAjax(userService.updateUserStatus(user));
     }
 
     /**
      * 根据用户编号获取授权角色
      */
-    @RequiresPermissions("system:user:query")
+    @SaCheckPermission("system:user:query")
     @GetMapping("/authRole/{userId}")
     public AjaxResult authRole(@PathVariable("userId") Long userId) {
         AjaxResult ajax = AjaxResult.success();
@@ -225,7 +227,7 @@ public class SysUserController extends BaseController {
     /**
      * 用户授权角色
      */
-    @RequiresPermissions("system:user:edit")
+    @SaCheckPermission("system:user:edit")
     @Log(title = "用户管理", businessType = BusinessType.GRANT)
     @PutMapping("/authRole")
     public AjaxResult insertAuthRole(Long userId, Long[] roleIds) {

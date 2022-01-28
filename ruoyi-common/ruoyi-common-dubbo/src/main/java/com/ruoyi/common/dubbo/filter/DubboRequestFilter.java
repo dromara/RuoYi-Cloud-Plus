@@ -16,7 +16,7 @@ import org.apache.dubbo.rpc.service.GenericService;
  * @author Lion Li
  */
 @Slf4j
-@Activate(group = { CommonConstants.PROVIDER, CommonConstants.CONSUMER })
+@Activate(group = {CommonConstants.PROVIDER, CommonConstants.CONSUMER})
 public class DubboRequestFilter implements Filter {
 
     @Override

@@ -1,5 +1,6 @@
 package com.ruoyi.system.controller;
 
+import cn.dev33.satoken.annotation.SaCheckPermission;
 import cn.hutool.core.util.ArrayUtil;
 import com.ruoyi.common.core.constant.UserConstants;
 import com.ruoyi.common.core.utils.StringUtils;
@@ -7,8 +8,7 @@ import com.ruoyi.common.core.web.controller.BaseController;
 import com.ruoyi.common.core.web.domain.AjaxResult;
 import com.ruoyi.common.log.annotation.Log;
 import com.ruoyi.common.log.enums.BusinessType;
-import com.ruoyi.common.security.annotation.RequiresPermissions;
-import com.ruoyi.common.security.utils.SecurityUtils;
+import com.ruoyi.common.satoken.utils.LoginHelper;
 import com.ruoyi.system.api.domain.SysDept;
 import com.ruoyi.system.service.ISysDeptService;
 import lombok.RequiredArgsConstructor;
@@ -32,7 +32,7 @@ public class SysDeptController extends BaseController {
     /**
      * 获取部门列表
      */
-    @RequiresPermissions("system:dept:list")
+    @SaCheckPermission("system:dept:list")
     @GetMapping("/list")
     public AjaxResult list(SysDept dept) {
         List<SysDept> depts = deptService.selectDeptList(dept);
@@ -42,7 +42,7 @@ public class SysDeptController extends BaseController {
     /**
      * 查询部门列表（排除节点）
      */
-    @RequiresPermissions("system:dept:list")
+    @SaCheckPermission("system:dept:list")
     @GetMapping("/list/exclude/{deptId}")
     public AjaxResult excludeChild(@PathVariable(value = "deptId", required = false) Long deptId) {
         List<SysDept> depts = deptService.selectDeptList(new SysDept());
@@ -54,7 +54,7 @@ public class SysDeptController extends BaseController {
     /**
      * 根据部门编号获取详细信息
      */
-    @RequiresPermissions("system:dept:query")
+    @SaCheckPermission("system:dept:query")
     @GetMapping(value = "/{deptId}")
     public AjaxResult getInfo(@PathVariable Long deptId) {
         deptService.checkDeptDataScope(deptId);
@@ -85,21 +85,21 @@ public class SysDeptController extends BaseController {
     /**
      * 新增部门
      */
-    @RequiresPermissions("system:dept:add")
+    @SaCheckPermission("system:dept:add")
     @Log(title = "部门管理", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@Validated @RequestBody SysDept dept) {
         if (UserConstants.NOT_UNIQUE.equals(deptService.checkDeptNameUnique(dept))) {
             return AjaxResult.error("新增部门'" + dept.getDeptName() + "'失败，部门名称已存在");
         }
-        dept.setCreateBy(SecurityUtils.getUsername());
+        dept.setCreateBy(LoginHelper.getUsername());
         return toAjax(deptService.insertDept(dept));
     }
 
     /**
      * 修改部门
      */
-    @RequiresPermissions("system:dept:edit")
+    @SaCheckPermission("system:dept:edit")
     @Log(title = "部门管理", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@Validated @RequestBody SysDept dept) {
@@ -111,14 +111,14 @@ public class SysDeptController extends BaseController {
                 && deptService.selectNormalChildrenDeptById(dept.getDeptId()) > 0) {
             return AjaxResult.error("该部门包含未停用的子部门！");
         }
-        dept.setUpdateBy(SecurityUtils.getUsername());
+        dept.setUpdateBy(LoginHelper.getUsername());
         return toAjax(deptService.updateDept(dept));
     }
 
     /**
      * 删除部门
      */
-    @RequiresPermissions("system:dept:remove")
+    @SaCheckPermission("system:dept:remove")
     @Log(title = "部门管理", businessType = BusinessType.DELETE)
     @DeleteMapping("/{deptId}")
     public AjaxResult remove(@PathVariable Long deptId) {

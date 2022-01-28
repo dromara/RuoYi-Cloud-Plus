@@ -1,13 +1,13 @@
 package com.ruoyi.system.controller;
 
+import cn.dev33.satoken.annotation.SaCheckPermission;
 import com.ruoyi.common.core.constant.UserConstants;
 import com.ruoyi.common.core.utils.StringUtils;
 import com.ruoyi.common.core.web.controller.BaseController;
 import com.ruoyi.common.core.web.domain.AjaxResult;
 import com.ruoyi.common.log.annotation.Log;
 import com.ruoyi.common.log.enums.BusinessType;
-import com.ruoyi.common.security.annotation.RequiresPermissions;
-import com.ruoyi.common.security.utils.SecurityUtils;
+import com.ruoyi.common.satoken.utils.LoginHelper;
 import com.ruoyi.system.domain.SysMenu;
 import com.ruoyi.system.service.ISysMenuService;
 import lombok.RequiredArgsConstructor;
@@ -31,10 +31,10 @@ public class SysMenuController extends BaseController {
     /**
      * 获取菜单列表
      */
-    @RequiresPermissions("system:menu:list")
+    @SaCheckPermission("system:menu:list")
     @GetMapping("/list")
     public AjaxResult list(SysMenu menu) {
-        Long userId = SecurityUtils.getUserId();
+        Long userId = LoginHelper.getUserId();
         List<SysMenu> menus = menuService.selectMenuList(menu, userId);
         return AjaxResult.success(menus);
     }
@@ -42,7 +42,7 @@ public class SysMenuController extends BaseController {
     /**
      * 根据菜单编号获取详细信息
      */
-    @RequiresPermissions("system:menu:query")
+    @SaCheckPermission("system:menu:query")
     @GetMapping(value = "/{menuId}")
     public AjaxResult getInfo(@PathVariable Long menuId) {
         return AjaxResult.success(menuService.selectMenuById(menuId));
@@ -53,7 +53,7 @@ public class SysMenuController extends BaseController {
      */
     @GetMapping("/treeselect")
     public AjaxResult treeselect(SysMenu menu) {
-        Long userId = SecurityUtils.getUserId();
+        Long userId = LoginHelper.getUserId();
         List<SysMenu> menus = menuService.selectMenuList(menu, userId);
         return AjaxResult.success(menuService.buildMenuTreeSelect(menus));
     }
@@ -63,7 +63,7 @@ public class SysMenuController extends BaseController {
      */
     @GetMapping(value = "/roleMenuTreeselect/{roleId}")
     public AjaxResult roleMenuTreeselect(@PathVariable("roleId") Long roleId) {
-        Long userId = SecurityUtils.getUserId();
+        Long userId = LoginHelper.getUserId();
         List<SysMenu> menus = menuService.selectMenuList(userId);
         AjaxResult ajax = AjaxResult.success();
         ajax.put("checkedKeys", menuService.selectMenuListByRoleId(roleId));
@@ -74,7 +74,7 @@ public class SysMenuController extends BaseController {
     /**
      * 新增菜单
      */
-    @RequiresPermissions("system:menu:add")
+    @SaCheckPermission("system:menu:add")
     @Log(title = "菜单管理", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@Validated @RequestBody SysMenu menu) {
@@ -83,14 +83,14 @@ public class SysMenuController extends BaseController {
         } else if (UserConstants.YES_FRAME.equals(menu.getIsFrame()) && !StringUtils.ishttp(menu.getPath())) {
             return AjaxResult.error("新增菜单'" + menu.getMenuName() + "'失败，地址必须以http(s)://开头");
         }
-        menu.setCreateBy(SecurityUtils.getUsername());
+        menu.setCreateBy(LoginHelper.getUsername());
         return toAjax(menuService.insertMenu(menu));
     }
 
     /**
      * 修改菜单
      */
-    @RequiresPermissions("system:menu:edit")
+    @SaCheckPermission("system:menu:edit")
     @Log(title = "菜单管理", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@Validated @RequestBody SysMenu menu) {
@@ -101,14 +101,14 @@ public class SysMenuController extends BaseController {
         } else if (menu.getMenuId().equals(menu.getParentId())) {
             return AjaxResult.error("修改菜单'" + menu.getMenuName() + "'失败，上级菜单不能选择自己");
         }
-        menu.setUpdateBy(SecurityUtils.getUsername());
+        menu.setUpdateBy(LoginHelper.getUsername());
         return toAjax(menuService.updateMenu(menu));
     }
 
     /**
      * 删除菜单
      */
-    @RequiresPermissions("system:menu:remove")
+    @SaCheckPermission("system:menu:remove")
     @Log(title = "菜单管理", businessType = BusinessType.DELETE)
     @DeleteMapping("/{menuId}")
     public AjaxResult remove(@PathVariable("menuId") Long menuId) {
@@ -128,7 +128,7 @@ public class SysMenuController extends BaseController {
      */
     @GetMapping("getRouters")
     public AjaxResult getRouters() {
-        Long userId = SecurityUtils.getUserId();
+        Long userId = LoginHelper.getUserId();
         List<SysMenu> menus = menuService.selectMenuTreeByUserId(userId);
         return AjaxResult.success(menuService.buildMenus(menus));
     }

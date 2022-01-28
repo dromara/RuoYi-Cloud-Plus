@@ -1,11 +1,15 @@
 package com.ruoyi.system.dubbo;
 
+import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.ObjectUtil;
+import com.ruoyi.common.core.constant.Constants;
 import com.ruoyi.common.core.constant.UserConstants;
+import com.ruoyi.common.core.enums.UserStatus;
 import com.ruoyi.common.core.exception.ServiceException;
 import com.ruoyi.system.api.RemoteUserService;
 import com.ruoyi.system.api.domain.SysUser;
 import com.ruoyi.system.api.model.LoginUser;
+import com.ruoyi.system.api.model.RoleDTO;
 import com.ruoyi.system.service.ISysConfigService;
 import com.ruoyi.system.service.ISysPermissionService;
 import com.ruoyi.system.service.ISysUserService;
@@ -13,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -35,15 +40,28 @@ public class RemoteUserServiceImpl implements RemoteUserService {
         if (ObjectUtil.isNull(sysUser)) {
             throw new ServiceException("用户名或密码错误");
         }
+        if (UserStatus.DELETED.getCode().equals(sysUser.getDelFlag())) {
+            throw new ServiceException("对不起，您的账号：" + username + " 已被删除");
+        }
+        if (UserStatus.DISABLE.getCode().equals(sysUser.getStatus())) {
+            throw new ServiceException("对不起，您的账号：" + username + " 已停用");
+        }
         // 角色集合
-        Set<String> roles = permissionService.getRolePermission(sysUser.getUserId());
+        Set<String> rolePermission = permissionService.getRolePermission(sysUser.getUserId());
         // 权限集合
-        Set<String> permissions = permissionService.getMenuPermission(sysUser.getUserId());
-        LoginUser sysUserVo = new LoginUser();
-        sysUserVo.setSysUser(sysUser);
-        sysUserVo.setRoles(roles);
-        sysUserVo.setPermissions(permissions);
-        return sysUserVo;
+        Set<String> menuPermissions = permissionService.getMenuPermission(sysUser.getUserId());
+        LoginUser loginUser = new LoginUser();
+        loginUser.setUserId(sysUser.getUserId());
+        loginUser.setDeptId(sysUser.getDeptId());
+        loginUser.setUsername(sysUser.getUserName());
+        loginUser.setPassword(sysUser.getPassword());
+        loginUser.setUserType(sysUser.getUserType());
+        loginUser.setDeptName(sysUser.getDept().getDeptName());
+        loginUser.setMenuPermission(menuPermissions);
+        loginUser.setRolePermission(rolePermission);
+        List<RoleDTO> roles = BeanUtil.copyToList(sysUser.getRoles(), RoleDTO.class);
+        loginUser.setRoles(roles);
+        return loginUser;
     }
 
     @Override

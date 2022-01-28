@@ -1,12 +1,13 @@
 package com.ruoyi.common.security.handler;
 
+import cn.dev33.satoken.exception.IdTokenInvalidException;
+import cn.dev33.satoken.exception.NotLoginException;
+import cn.dev33.satoken.exception.NotPermissionException;
+import cn.dev33.satoken.exception.NotRoleException;
 import cn.hutool.core.util.ObjectUtil;
 import com.ruoyi.common.core.constant.HttpStatus;
 import com.ruoyi.common.core.exception.DemoModeException;
-import com.ruoyi.common.core.exception.InnerAuthException;
 import com.ruoyi.common.core.exception.ServiceException;
-import com.ruoyi.common.core.exception.auth.NotPermissionException;
-import com.ruoyi.common.core.exception.auth.NotRoleException;
 import com.ruoyi.common.core.web.domain.AjaxResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.BindException;
@@ -44,6 +45,26 @@ public class GlobalExceptionHandler {
         String requestURI = request.getRequestURI();
         log.error("请求地址'{}',角色权限校验失败'{}'", requestURI, e.getMessage());
         return AjaxResult.error(HttpStatus.FORBIDDEN, "没有访问权限，请联系管理员授权");
+    }
+
+    /**
+     * 认证失败
+     */
+    @ExceptionHandler(NotLoginException.class)
+    public AjaxResult handleNotLoginException(NotLoginException e, HttpServletRequest request) {
+        String requestURI = request.getRequestURI();
+        log.error("请求地址'{}',认证失败'{}',无法访问系统资源", requestURI, e.getMessage());
+        return AjaxResult.error(HttpStatus.UNAUTHORIZED, "认证失败，无法访问系统资源");
+    }
+
+    /**
+     * 无效认证
+     */
+    @ExceptionHandler(IdTokenInvalidException.class)
+    public AjaxResult handleIdTokenInvalidException(IdTokenInvalidException e, HttpServletRequest request) {
+        String requestURI = request.getRequestURI();
+        log.error("请求地址'{}',内网认证失败'{}',无法访问系统资源", requestURI, e.getMessage());
+        return AjaxResult.error(HttpStatus.UNAUTHORIZED, "认证失败，无法访问系统资源");
     }
 
     /**
@@ -105,14 +126,6 @@ public class GlobalExceptionHandler {
         log.error(e.getMessage(), e);
         String message = e.getBindingResult().getFieldError().getDefaultMessage();
         return AjaxResult.error(message);
-    }
-
-    /**
-     * 内部认证异常
-     */
-    @ExceptionHandler(InnerAuthException.class)
-    public AjaxResult handleInnerAuthException(InnerAuthException e) {
-        return AjaxResult.error(e.getMessage());
     }
 
     /**

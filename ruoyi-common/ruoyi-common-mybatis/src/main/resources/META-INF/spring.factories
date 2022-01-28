@@ -1,2 +1,3 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  com.ruoyi.common.mybatis.config.MybatisPlusConfiguration
+  com.ruoyi.common.mybatis.config.MybatisPlusConfiguration,\
+  com.ruoyi.common.mybatis.service.SysDataScopeService

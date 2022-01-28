@@ -12,9 +12,10 @@ import com.ruoyi.common.mybatis.annotation.DataColumn;
 import com.ruoyi.common.mybatis.annotation.DataPermission;
 import com.ruoyi.common.mybatis.enums.DataScopeType;
 import com.ruoyi.common.mybatis.helper.DataPermissionHelper;
+import com.ruoyi.common.satoken.utils.LoginHelper;
 import com.ruoyi.common.security.utils.SecurityUtils;
-import com.ruoyi.system.api.domain.SysRole;
-import com.ruoyi.system.api.domain.SysUser;
+import com.ruoyi.system.api.model.LoginUser;
+import com.ruoyi.system.api.model.RoleDTO;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.jsqlparser.JSQLParserException;
 import net.sf.jsqlparser.expression.Expression;
@@ -73,13 +74,13 @@ public class PlusDataPermissionHandler {
             inavlidCacheSet.add(mappedStatementId);
             return where;
         }
-        SysUser currentUser = DataPermissionHelper.getVariable("user");
+        LoginUser currentUser = DataPermissionHelper.getVariable("user");
         if (ObjectUtil.isNull(currentUser)) {
-            currentUser = SecurityUtils.getLoginUser().getSysUser();
+            currentUser = LoginHelper.getLoginUser();
             DataPermissionHelper.setVariable("user", currentUser);
         }
         // 如果是超级管理员，则不过滤数据
-        if (ObjectUtil.isNull(currentUser) || currentUser.isAdmin()) {
+        if (ObjectUtil.isNull(currentUser) || SecurityUtils.isAdmin(currentUser.getUserId())) {
             return where;
         }
         String dataFilterSql = buildDataFilter(dataColumns, isSelect);
@@ -107,12 +108,12 @@ public class PlusDataPermissionHandler {
         StringBuilder sqlString = new StringBuilder();
         // 更新或删除需满足所有条件
         String joinStr = isSelect ? " OR " : " AND ";
-        SysUser user = DataPermissionHelper.getVariable("user");
+        LoginUser loginUser = DataPermissionHelper.getVariable("user");
         StandardEvaluationContext context = new StandardEvaluationContext();
         context.setBeanResolver(beanResolver);
         DataPermissionHelper.getContext().forEach(context::setVariable);
-        for (SysRole role : user.getRoles()) {
-            user.setRoleId(role.getRoleId());
+        for (RoleDTO role : loginUser.getRoles()) {
+            loginUser.setRoleId(role.getRoleId());
             // 获取角色权限泛型
             DataScopeType type = DataScopeType.findCode(role.getDataScope());
             if (ObjectUtil.isNull(type)) {

@@ -73,19 +73,6 @@ const user = {
       })
     },
 
-    // 刷新token
-    RefreshToken({commit, state}) {
-      return new Promise((resolve, reject) => {
-        refreshToken(state.token).then(res => {
-          setExpiresIn(res.data)
-          commit('SET_EXPIRES_IN', res.data)
-          resolve()
-        }).catch(error => {
-          reject(error)
-        })
-      })
-    },
-    
     // 退出系统
     LogOut({ commit, state }) {
       return new Promise((resolve, reject) => {

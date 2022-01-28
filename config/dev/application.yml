@@ -152,6 +152,37 @@ logging:
     com.alibaba.nacos: warn
   config: classpath:logback.xml
 
+# Sa-Token配置
+sa-token:
+  # token名称 (同时也是cookie名称)
+  token-name: Authorization
+  # token有效期 设为一天 (必定过期) 单位: 秒
+  timeout: 86400
+  # token临时有效期 (指定时间无操作就过期) 单位: 秒
+  activity-timeout: 1800
+  # 开启内网服务调用鉴权
+  check-id-token: true
+  # Id-Token的有效期 (单位: 秒)
+  id-token-timeout: 600
+  # 是否允许同一账号并发登录 (为true时允许一起登录, 为false时新登录挤掉旧登录)
+  is-concurrent: true
+  # 在多人登录同一账号时，是否共用一个token (为true时所有登录共用一个token, 为false时每次登录新建一个token)
+  is-share: false
+  # 是否尝试从请求体里读取token
+  is-read-body: false
+  # 是否尝试从header里读取token
+  is-read-head: true
+  # 是否尝试从cookie里读取token
+  is-read-cookie: false
+  # token前缀
+  token-prefix: "Bearer"
+  # token风格
+  token-style: uuid
+  # jwt秘钥
+  jwt-secret-key: abcdefghijklmnopqrstuvwxyz
+  # 是否输出操作日志
+  is-log: true
+
 # MyBatisPlus配置
 # https://baomidou.com/config/
 mybatis-plus:

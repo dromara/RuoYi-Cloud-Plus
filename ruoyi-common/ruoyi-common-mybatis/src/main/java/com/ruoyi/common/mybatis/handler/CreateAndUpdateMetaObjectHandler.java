@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import com.ruoyi.common.core.exception.ServiceException;
 import com.ruoyi.common.core.utils.StringUtils;
 import com.ruoyi.common.core.web.domain.BaseEntity;
-import com.ruoyi.common.security.utils.SecurityUtils;
+import com.ruoyi.common.satoken.utils.LoginHelper;
 import com.ruoyi.system.api.model.LoginUser;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.reflection.MetaObject;
@@ -68,7 +68,7 @@ public class CreateAndUpdateMetaObjectHandler implements MetaObjectHandler {
     private String getLoginUsername() {
         LoginUser loginUser;
         try {
-            loginUser = SecurityUtils.getLoginUser();
+            loginUser = LoginHelper.getLoginUser();
         } catch (Exception e) {
             log.warn("自动注入警告 => 用户未登录");
             return null;

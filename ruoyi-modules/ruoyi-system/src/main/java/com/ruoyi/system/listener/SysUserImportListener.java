@@ -9,6 +9,7 @@ import com.ruoyi.common.core.utils.SpringUtils;
 import com.ruoyi.common.core.utils.ValidatorUtils;
 import com.ruoyi.common.excel.core.ExcelListener;
 import com.ruoyi.common.excel.core.ExcelResult;
+import com.ruoyi.common.satoken.utils.LoginHelper;
 import com.ruoyi.common.security.utils.SecurityUtils;
 import com.ruoyi.system.api.domain.SysUser;
 import com.ruoyi.system.domain.vo.SysUserImportVo;
@@ -44,7 +45,7 @@ public class SysUserImportListener extends AnalysisEventListener<SysUserImportVo
         this.userService = SpringUtils.getBean(ISysUserService.class);
         this.password = SecurityUtils.encryptPassword(initPassword);
         this.isUpdateSupport = isUpdateSupport;
-        this.operName = SecurityUtils.getUsername();
+        this.operName = LoginHelper.getUsername();
     }
 
     @Override

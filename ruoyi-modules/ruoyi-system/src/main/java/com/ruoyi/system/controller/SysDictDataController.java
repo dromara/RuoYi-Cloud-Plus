@@ -1,5 +1,6 @@
 package com.ruoyi.system.controller;
 
+import cn.dev33.satoken.annotation.SaCheckPermission;
 import cn.hutool.core.util.ObjectUtil;
 import com.ruoyi.common.core.web.controller.BaseController;
 import com.ruoyi.common.core.web.domain.AjaxResult;
@@ -8,8 +9,7 @@ import com.ruoyi.common.log.annotation.Log;
 import com.ruoyi.common.log.enums.BusinessType;
 import com.ruoyi.common.mybatis.core.page.PageQuery;
 import com.ruoyi.common.mybatis.core.page.TableDataInfo;
-import com.ruoyi.common.security.annotation.RequiresPermissions;
-import com.ruoyi.common.security.utils.SecurityUtils;
+import com.ruoyi.common.satoken.utils.LoginHelper;
 import com.ruoyi.system.api.domain.SysDictData;
 import com.ruoyi.system.service.ISysDictDataService;
 import com.ruoyi.system.service.ISysDictTypeService;
@@ -34,14 +34,14 @@ public class SysDictDataController extends BaseController {
     private final ISysDictDataService dictDataService;
     private final ISysDictTypeService dictTypeService;
 
-    @RequiresPermissions("system:dict:list")
+    @SaCheckPermission("system:dict:list")
     @GetMapping("/list")
     public TableDataInfo<SysDictData> list(SysDictData dictData, PageQuery pageQuery) {
         return dictDataService.selectPageDictDataList(dictData, pageQuery);
     }
 
     @Log(title = "字典数据", businessType = BusinessType.EXPORT)
-    @RequiresPermissions("system:dict:export")
+    @SaCheckPermission("system:dict:export")
     @PostMapping("/export")
     public void export(HttpServletResponse response, SysDictData dictData) {
         List<SysDictData> list = dictDataService.selectDictDataList(dictData);
@@ -51,7 +51,7 @@ public class SysDictDataController extends BaseController {
     /**
      * 查询字典数据详细
      */
-    @RequiresPermissions("system:dict:query")
+    @SaCheckPermission("system:dict:query")
     @GetMapping(value = "/{dictCode}")
     public AjaxResult getInfo(@PathVariable Long dictCode) {
         return AjaxResult.success(dictDataService.selectDictDataById(dictCode));
@@ -72,29 +72,29 @@ public class SysDictDataController extends BaseController {
     /**
      * 新增字典类型
      */
-    @RequiresPermissions("system:dict:add")
+    @SaCheckPermission("system:dict:add")
     @Log(title = "字典数据", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@Validated @RequestBody SysDictData dict) {
-        dict.setCreateBy(SecurityUtils.getUsername());
+        dict.setCreateBy(LoginHelper.getUsername());
         return toAjax(dictDataService.insertDictData(dict));
     }
 
     /**
      * 修改保存字典类型
      */
-    @RequiresPermissions("system:dict:edit")
+    @SaCheckPermission("system:dict:edit")
     @Log(title = "字典数据", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@Validated @RequestBody SysDictData dict) {
-        dict.setUpdateBy(SecurityUtils.getUsername());
+        dict.setUpdateBy(LoginHelper.getUsername());
         return toAjax(dictDataService.updateDictData(dict));
     }
 
     /**
      * 删除字典类型
      */
-    @RequiresPermissions("system:dict:remove")
+    @SaCheckPermission("system:dict:remove")
     @Log(title = "字典类型", businessType = BusinessType.DELETE)
     @DeleteMapping("/{dictCodes}")
     public AjaxResult remove(@PathVariable Long[] dictCodes) {

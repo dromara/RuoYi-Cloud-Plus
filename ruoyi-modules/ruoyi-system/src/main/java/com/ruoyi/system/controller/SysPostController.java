@@ -1,5 +1,6 @@
 package com.ruoyi.system.controller;
 
+import cn.dev33.satoken.annotation.SaCheckPermission;
 import com.ruoyi.common.core.constant.UserConstants;
 import com.ruoyi.common.core.web.controller.BaseController;
 import com.ruoyi.common.core.web.domain.AjaxResult;
@@ -8,8 +9,7 @@ import com.ruoyi.common.log.annotation.Log;
 import com.ruoyi.common.log.enums.BusinessType;
 import com.ruoyi.common.mybatis.core.page.PageQuery;
 import com.ruoyi.common.mybatis.core.page.TableDataInfo;
-import com.ruoyi.common.security.annotation.RequiresPermissions;
-import com.ruoyi.common.security.utils.SecurityUtils;
+import com.ruoyi.common.satoken.utils.LoginHelper;
 import com.ruoyi.system.domain.SysPost;
 import com.ruoyi.system.service.ISysPostService;
 import lombok.RequiredArgsConstructor;
@@ -34,14 +34,14 @@ public class SysPostController extends BaseController {
     /**
      * 获取岗位列表
      */
-    @RequiresPermissions("system:post:list")
+    @SaCheckPermission("system:post:list")
     @GetMapping("/list")
     public TableDataInfo<SysPost> list(SysPost post, PageQuery pageQuery) {
         return postService.selectPagePostList(post, pageQuery);
     }
 
     @Log(title = "岗位管理", businessType = BusinessType.EXPORT)
-    @RequiresPermissions("system:post:export")
+    @SaCheckPermission("system:post:export")
     @PostMapping("/export")
     public void export(HttpServletResponse response, SysPost post) {
         List<SysPost> list = postService.selectPostList(post);
@@ -51,7 +51,7 @@ public class SysPostController extends BaseController {
     /**
      * 根据岗位编号获取详细信息
      */
-    @RequiresPermissions("system:post:query")
+    @SaCheckPermission("system:post:query")
     @GetMapping(value = "/{postId}")
     public AjaxResult getInfo(@PathVariable Long postId) {
         return AjaxResult.success(postService.selectPostById(postId));
@@ -60,7 +60,7 @@ public class SysPostController extends BaseController {
     /**
      * 新增岗位
      */
-    @RequiresPermissions("system:post:add")
+    @SaCheckPermission("system:post:add")
     @Log(title = "岗位管理", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@Validated @RequestBody SysPost post) {
@@ -69,14 +69,14 @@ public class SysPostController extends BaseController {
         } else if (UserConstants.NOT_UNIQUE.equals(postService.checkPostCodeUnique(post))) {
             return AjaxResult.error("新增岗位'" + post.getPostName() + "'失败，岗位编码已存在");
         }
-        post.setCreateBy(SecurityUtils.getUsername());
+        post.setCreateBy(LoginHelper.getUsername());
         return toAjax(postService.insertPost(post));
     }
 
     /**
      * 修改岗位
      */
-    @RequiresPermissions("system:post:edit")
+    @SaCheckPermission("system:post:edit")
     @Log(title = "岗位管理", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@Validated @RequestBody SysPost post) {
@@ -85,14 +85,14 @@ public class SysPostController extends BaseController {
         } else if (UserConstants.NOT_UNIQUE.equals(postService.checkPostCodeUnique(post))) {
             return AjaxResult.error("修改岗位'" + post.getPostName() + "'失败，岗位编码已存在");
         }
-        post.setUpdateBy(SecurityUtils.getUsername());
+        post.setUpdateBy(LoginHelper.getUsername());
         return toAjax(postService.updatePost(post));
     }
 
     /**
      * 删除岗位
      */
-    @RequiresPermissions("system:post:remove")
+    @SaCheckPermission("system:post:remove")
     @Log(title = "岗位管理", businessType = BusinessType.DELETE)
     @DeleteMapping("/{postIds}")
     public AjaxResult remove(@PathVariable Long[] postIds) {

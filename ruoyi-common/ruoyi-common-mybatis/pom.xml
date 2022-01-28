@@ -23,6 +23,12 @@
         </dependency>
 
         <dependency>
+            <groupId>com.ruoyi</groupId>
+            <artifactId>ruoyi-common-dubbo</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-boot-starter</artifactId>
         </dependency>
