@@ -161,6 +161,7 @@ public class SysUserController extends BaseController {
     @PutMapping
     public AjaxResult edit(@Validated @RequestBody SysUser user) {
         userService.checkUserAllowed(user);
+        userService.checkUserDataScope(user.getUserId());
         if (StringUtils.isNotEmpty(user.getPhonenumber())
                 && UserConstants.NOT_UNIQUE.equals(userService.checkPhoneUnique(user))) {
             return AjaxResult.error("修改用户'" + user.getUserName() + "'失败，手机号码已存在");
@@ -193,6 +194,7 @@ public class SysUserController extends BaseController {
     @PutMapping("/resetPwd")
     public AjaxResult resetPwd(@RequestBody SysUser user) {
         userService.checkUserAllowed(user);
+        userService.checkUserDataScope(user.getUserId());
         user.setPassword(SecurityUtils.encryptPassword(user.getPassword()));
         user.setUpdateBy(LoginHelper.getUsername());
         return toAjax(userService.resetPwd(user));
@@ -206,6 +208,7 @@ public class SysUserController extends BaseController {
     @PutMapping("/changeStatus")
     public AjaxResult changeStatus(@RequestBody SysUser user) {
         userService.checkUserAllowed(user);
+        userService.checkUserDataScope(user.getUserId());
         user.setUpdateBy(LoginHelper.getUsername());
         return toAjax(userService.updateUserStatus(user));
     }
@@ -231,6 +234,7 @@ public class SysUserController extends BaseController {
     @Log(title = "用户管理", businessType = BusinessType.GRANT)
     @PutMapping("/authRole")
     public AjaxResult insertAuthRole(Long userId, Long[] roleIds) {
+        userService.checkUserDataScope(userId);
         userService.insertUserAuth(userId, roleIds);
         return success();
     }
