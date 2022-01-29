@@ -52,6 +52,7 @@ public class SecurityConfiguration implements WebMvcConfigurer {
     public SaServletFilter getSaServletFilter() {
         return new SaServletFilter()
             .addInclude("/**")
+            .addExclude("/actuator/**")
             .setAuth(obj -> SaIdUtil.checkCurrentRequestToken())
             .setError(e -> SaResult.error("认证失败，无法访问系统资源").setCode(HttpStatus.UNAUTHORIZED));
     }
