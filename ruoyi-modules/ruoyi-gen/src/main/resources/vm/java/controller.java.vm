@@ -17,7 +17,7 @@ import com.ruoyi.common.security.annotation.RequiresPermissions;
 import ${packageName}.domain.${ClassName};
 import ${packageName}.service.I${ClassName}Service;
 import com.ruoyi.common.core.web.controller.BaseController;
-import com.ruoyi.common.core.web.domain.AjaxResult;
+import com.ruoyi.common.core.domain.R;
 import com.ruoyi.common.core.utils.poi.ExcelUtil;
 #if($table.crud || $table.sub)
 import com.ruoyi.common.core.web.page.TableDataInfo;
@@ -50,10 +50,10 @@ public class ${ClassName}Controller extends BaseController
         return getDataTable(list);
     }
 #elseif($table.tree)
-    public AjaxResult list(${ClassName} ${className})
+    public R<List<${ClassName}>> list(${ClassName} ${className})
     {
         List<${ClassName}> list = ${className}Service.select${ClassName}List(${className});
-        return AjaxResult.success(list);
+        return R.ok(list);
     }
 #end
 
@@ -75,9 +75,9 @@ public class ${ClassName}Controller extends BaseController
      */
     @SaCheckPermission("${permissionPrefix}:query")
     @GetMapping(value = "/{${pkColumn.javaField}}")
-    public AjaxResult getInfo(@PathVariable("${pkColumn.javaField}") ${pkColumn.javaType} ${pkColumn.javaField})
+    public R<${ClassName}> getInfo(@PathVariable("${pkColumn.javaField}") ${pkColumn.javaType} ${pkColumn.javaField})
     {
-        return AjaxResult.success(${className}Service.select${ClassName}By${pkColumn.capJavaField}(${pkColumn.javaField}));
+        return R.ok(${className}Service.select${ClassName}By${pkColumn.capJavaField}(${pkColumn.javaField}));
     }
 
     /**
@@ -86,7 +86,7 @@ public class ${ClassName}Controller extends BaseController
     @SaCheckPermission("${permissionPrefix}:add")
     @Log(title = "${functionName}", businessType = BusinessType.INSERT)
     @PostMapping
-    public AjaxResult add(@RequestBody ${ClassName} ${className})
+    public R<Void> add(@RequestBody ${ClassName} ${className})
     {
         return toAjax(${className}Service.insert${ClassName}(${className}));
     }
@@ -97,7 +97,7 @@ public class ${ClassName}Controller extends BaseController
     @SaCheckPermission("${permissionPrefix}:edit")
     @Log(title = "${functionName}", businessType = BusinessType.UPDATE)
     @PutMapping
-    public AjaxResult edit(@RequestBody ${ClassName} ${className})
+    public R<Void> edit(@RequestBody ${ClassName} ${className})
     {
         return toAjax(${className}Service.update${ClassName}(${className}));
     }
@@ -108,7 +108,7 @@ public class ${ClassName}Controller extends BaseController
     @SaCheckPermission("${permissionPrefix}:remove")
     @Log(title = "${functionName}", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{${pkColumn.javaField}s}")
-    public AjaxResult remove(@PathVariable ${pkColumn.javaType}[] ${pkColumn.javaField}s)
+    public R<Void> remove(@PathVariable ${pkColumn.javaType}[] ${pkColumn.javaField}s)
     {
         return toAjax(${className}Service.delete${ClassName}By${pkColumn.capJavaField}s(${pkColumn.javaField}s));
     }

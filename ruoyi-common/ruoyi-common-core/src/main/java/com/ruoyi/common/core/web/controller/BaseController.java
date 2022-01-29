@@ -1,6 +1,6 @@
 package com.ruoyi.common.core.web.controller;
 
-import com.ruoyi.common.core.web.domain.AjaxResult;
+import com.ruoyi.common.core.domain.R;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -17,8 +17,8 @@ public class BaseController {
      * @param rows 影响行数
      * @return 操作结果
      */
-    protected AjaxResult toAjax(int rows) {
-        return rows > 0 ? AjaxResult.success() : AjaxResult.error();
+    protected R<Void> toAjax(int rows) {
+        return rows > 0 ? R.ok() : R.fail();
     }
 
     /**
@@ -27,35 +27,35 @@ public class BaseController {
      * @param result 结果
      * @return 操作结果
      */
-    protected AjaxResult toAjax(boolean result) {
+    protected R<Void> toAjax(boolean result) {
         return result ? success() : error();
     }
 
     /**
      * 返回成功
      */
-    public AjaxResult success() {
-        return AjaxResult.success();
+    public R<Void> success() {
+        return R.ok();
     }
 
     /**
      * 返回失败消息
      */
-    public AjaxResult error() {
-        return AjaxResult.error();
+    public R<Void> error() {
+        return R.fail();
     }
 
     /**
      * 返回成功消息
      */
-    public AjaxResult success(String message) {
-        return AjaxResult.success(message);
+    public R<Void> success(String message) {
+        return R.ok(message);
     }
 
     /**
      * 返回失败消息
      */
-    public AjaxResult error(String message) {
-        return AjaxResult.error(message);
+    public R<Void> error(String message) {
+        return R.fail(message);
     }
 }

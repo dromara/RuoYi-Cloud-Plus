@@ -3,8 +3,8 @@ package com.ruoyi.gen.controller;
 import cn.dev33.satoken.annotation.SaCheckPermission;
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.io.IoUtil;
+import com.ruoyi.common.core.domain.R;
 import com.ruoyi.common.core.web.controller.BaseController;
-import com.ruoyi.common.core.web.domain.AjaxResult;
 import com.ruoyi.common.log.annotation.Log;
 import com.ruoyi.common.log.enums.BusinessType;
 import com.ruoyi.common.mybatis.core.page.PageQuery;
@@ -14,6 +14,7 @@ import com.ruoyi.gen.domain.GenTableColumn;
 import com.ruoyi.gen.service.IGenTableColumnService;
 import com.ruoyi.gen.service.IGenTableService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -27,12 +28,13 @@ import java.util.Map;
 /**
  * 代码生成 操作处理
  *
- * @author ruoyi
+ * @author Lion Li
  */
+@Validated
+@Api(value = "代码生成", tags = {"代码生成管理"})
 @RequiredArgsConstructor
 @RequestMapping("/gen")
 @RestController
-@Api(tags = "代码生成")
 public class GenController extends BaseController {
 
     private final IGenTableService genTableService;
@@ -41,6 +43,7 @@ public class GenController extends BaseController {
     /**
      * 查询代码生成列表
      */
+    @ApiOperation("查询代码生成列表")
     @SaCheckPermission("tool:gen:list")
     @GetMapping("/list")
     public TableDataInfo<GenTable> genList(GenTable genTable, PageQuery pageQuery) {
@@ -50,9 +53,10 @@ public class GenController extends BaseController {
     /**
      * 修改代码生成业务
      */
+    @ApiOperation("修改代码生成业务")
     @SaCheckPermission("tool:gen:query")
     @GetMapping(value = "/{talbleId}")
-    public AjaxResult getInfo(@PathVariable Long talbleId) {
+    public R<Map<String, Object>> getInfo(@PathVariable Long talbleId) {
         GenTable table = genTableService.selectGenTableById(talbleId);
         List<GenTable> tables = genTableService.selectGenTableAll();
         List<GenTableColumn> list = genTableColumnService.selectGenTableColumnListByTableId(talbleId);
@@ -60,12 +64,13 @@ public class GenController extends BaseController {
         map.put("info", table);
         map.put("rows", list);
         map.put("tables", tables);
-        return AjaxResult.success(map);
+        return R.ok(map);
     }
 
     /**
      * 查询数据库列表
      */
+    @ApiOperation("查询数据库列表")
     @SaCheckPermission("tool:gen:list")
     @GetMapping("/db/list")
     public TableDataInfo<GenTable> dataList(GenTable genTable, PageQuery pageQuery) {
@@ -75,6 +80,7 @@ public class GenController extends BaseController {
     /**
      * 查询数据表字段列表
      */
+    @ApiOperation("查询数据表字段列表")
     @GetMapping(value = "/column/{talbleId}")
     public TableDataInfo<GenTableColumn> columnList(Long tableId) {
         TableDataInfo<GenTableColumn> dataInfo = new TableDataInfo<>();
@@ -87,53 +93,58 @@ public class GenController extends BaseController {
     /**
      * 导入表结构（保存）
      */
+    @ApiOperation("导入表结构（保存）")
     @SaCheckPermission("tool:gen:import")
     @Log(title = "代码生成", businessType = BusinessType.IMPORT)
     @PostMapping("/importTable")
-    public AjaxResult importTableSave(String tables) {
+    public R<Void> importTableSave(String tables) {
         String[] tableNames = Convert.toStrArray(tables);
         // 查询表信息
         List<GenTable> tableList = genTableService.selectDbTableListByNames(tableNames);
         genTableService.importGenTable(tableList);
-        return AjaxResult.success();
+        return R.ok();
     }
 
     /**
      * 修改保存代码生成业务
      */
+    @ApiOperation("修改保存代码生成业务")
     @SaCheckPermission("tool:gen:edit")
     @Log(title = "代码生成", businessType = BusinessType.UPDATE)
     @PutMapping
-    public AjaxResult editSave(@Validated @RequestBody GenTable genTable) {
+    public R<Void> editSave(@Validated @RequestBody GenTable genTable) {
         genTableService.validateEdit(genTable);
         genTableService.updateGenTable(genTable);
-        return AjaxResult.success();
+        return R.ok();
     }
 
     /**
      * 删除代码生成
      */
+    @ApiOperation("删除代码生成")
     @SaCheckPermission("tool:gen:remove")
     @Log(title = "代码生成", businessType = BusinessType.DELETE)
     @DeleteMapping("/{tableIds}")
-    public AjaxResult remove(@PathVariable Long[] tableIds) {
+    public R<Void> remove(@PathVariable Long[] tableIds) {
         genTableService.deleteGenTableByIds(tableIds);
-        return AjaxResult.success();
+        return R.ok();
     }
 
     /**
      * 预览代码
      */
+    @ApiOperation("预览代码")
     @SaCheckPermission("tool:gen:preview")
     @GetMapping("/preview/{tableId}")
-    public AjaxResult preview(@PathVariable("tableId") Long tableId) throws IOException {
+    public R<Map<String, String>> preview(@PathVariable("tableId") Long tableId) throws IOException {
         Map<String, String> dataMap = genTableService.previewCode(tableId);
-        return AjaxResult.success(dataMap);
+        return R.ok(dataMap);
     }
 
     /**
      * 生成代码（下载方式）
      */
+    @ApiOperation("生成代码（下载方式）")
     @SaCheckPermission("tool:gen:code")
     @Log(title = "代码生成", businessType = BusinessType.GENCODE)
     @GetMapping("/download/{tableName}")
@@ -145,28 +156,31 @@ public class GenController extends BaseController {
     /**
      * 生成代码（自定义路径）
      */
+    @ApiOperation("生成代码（自定义路径）")
     @SaCheckPermission("tool:gen:code")
     @Log(title = "代码生成", businessType = BusinessType.GENCODE)
     @GetMapping("/genCode/{tableName}")
-    public AjaxResult genCode(@PathVariable("tableName") String tableName) {
+    public R<Void> genCode(@PathVariable("tableName") String tableName) {
         genTableService.generatorCode(tableName);
-        return AjaxResult.success();
+        return R.ok();
     }
 
     /**
      * 同步数据库
      */
+    @ApiOperation("同步数据库")
     @SaCheckPermission("tool:gen:edit")
     @Log(title = "代码生成", businessType = BusinessType.UPDATE)
     @GetMapping("/synchDb/{tableName}")
-    public AjaxResult synchDb(@PathVariable("tableName") String tableName) {
+    public R<Void> synchDb(@PathVariable("tableName") String tableName) {
         genTableService.synchDb(tableName);
-        return AjaxResult.success();
+        return R.ok();
     }
 
     /**
      * 批量生成代码
      */
+    @ApiOperation("批量生成代码")
     @SaCheckPermission("tool:gen:code")
     @Log(title = "代码生成", businessType = BusinessType.GENCODE)
     @GetMapping("/batchGenCode")

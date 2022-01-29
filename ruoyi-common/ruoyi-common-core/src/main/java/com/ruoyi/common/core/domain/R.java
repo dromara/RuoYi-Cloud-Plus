@@ -1,6 +1,8 @@
 package com.ruoyi.common.core.domain;
 
 import com.ruoyi.common.core.constant.Constants;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -9,10 +11,11 @@ import java.io.Serializable;
 /**
  * 响应信息主体
  *
- * @author ruoyi
+ * @author Lion Li
  */
 @Data
 @NoArgsConstructor
+@ApiModel("请求响应对象")
 public class R<T> implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -26,10 +29,13 @@ public class R<T> implements Serializable {
      */
     public static final int FAIL = Constants.FAIL;
 
+    @ApiModelProperty("消息状态码")
     private int code;
 
+    @ApiModelProperty("消息内容")
     private String msg;
 
+    @ApiModelProperty("数据对象")
     private T data;
 
     public static <T> R<T> ok() {
@@ -38,6 +44,10 @@ public class R<T> implements Serializable {
 
     public static <T> R<T> ok(T data) {
         return restResult(data, SUCCESS, null);
+    }
+
+    public static <T> R<T> ok(String msg) {
+        return restResult(null, SUCCESS, msg);
     }
 
     public static <T> R<T> ok(T data, String msg) {

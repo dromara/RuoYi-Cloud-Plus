@@ -1,9 +1,10 @@
 package com.ruoyi.gateway.service;
 
+import com.ruoyi.common.core.domain.R;
 import com.ruoyi.common.core.exception.CaptchaException;
-import com.ruoyi.common.core.web.domain.AjaxResult;
 
 import java.io.IOException;
+import java.util.Map;
 
 /**
  * 验证码处理
@@ -14,7 +15,7 @@ public interface ValidateCodeService {
     /**
      * 生成验证码
      */
-    AjaxResult createCapcha() throws IOException, CaptchaException;
+    R<Map<String, Object>> createCapcha() throws IOException, CaptchaException;
 
     /**
      * 校验验证码

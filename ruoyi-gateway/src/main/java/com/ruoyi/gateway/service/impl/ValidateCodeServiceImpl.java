@@ -5,11 +5,11 @@ import cn.hutool.captcha.generator.CodeGenerator;
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.IdUtil;
 import com.ruoyi.common.core.constant.Constants;
+import com.ruoyi.common.core.domain.R;
 import com.ruoyi.common.core.exception.CaptchaException;
 import com.ruoyi.common.core.utils.SpringUtils;
 import com.ruoyi.common.core.utils.StringUtils;
 import com.ruoyi.common.core.utils.reflect.ReflectUtils;
-import com.ruoyi.common.core.web.domain.AjaxResult;
 import com.ruoyi.common.redis.utils.RedisUtils;
 import com.ruoyi.gateway.config.properties.CaptchaProperties;
 import com.ruoyi.gateway.enums.CaptchaType;
@@ -18,6 +18,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -34,12 +36,12 @@ public class ValidateCodeServiceImpl implements ValidateCodeService {
      * 生成验证码
      */
     @Override
-    public AjaxResult createCapcha() throws IOException, CaptchaException {
-        AjaxResult ajax = AjaxResult.success();
+    public R<Map<String, Object>> createCapcha() throws IOException, CaptchaException {
+        Map<String, Object> ajax = new HashMap<>();
         boolean captchaOnOff = captchaProperties.getEnabled();
         ajax.put("captchaOnOff", captchaOnOff);
         if (!captchaOnOff) {
-            return ajax;
+            return R.ok(ajax);
         }
 
         // 保存验证码信息
@@ -57,7 +59,7 @@ public class ValidateCodeServiceImpl implements ValidateCodeService {
         RedisUtils.setCacheObject(verifyKey, code, Constants.CAPTCHA_EXPIRATION, TimeUnit.MINUTES);
         ajax.put("uuid", uuid);
         ajax.put("img", captcha.getImageBase64());
-        return ajax;
+        return R.ok(ajax);
     }
 
     private String getCodeResult(String capStr) {

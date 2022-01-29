@@ -4,15 +4,16 @@ import cn.dev33.satoken.annotation.SaCheckPermission;
 import cn.dev33.satoken.exception.NotLoginException;
 import cn.dev33.satoken.stp.StpUtil;
 import com.ruoyi.common.core.constant.CacheConstants;
+import com.ruoyi.common.core.domain.R;
 import com.ruoyi.common.core.utils.StringUtils;
 import com.ruoyi.common.core.web.controller.BaseController;
-import com.ruoyi.common.core.web.domain.AjaxResult;
 import com.ruoyi.common.log.annotation.Log;
 import com.ruoyi.common.log.enums.BusinessType;
 import com.ruoyi.common.mybatis.core.page.TableDataInfo;
 import com.ruoyi.common.redis.utils.RedisUtils;
 import com.ruoyi.system.api.domain.SysUserOnline;
-import com.ruoyi.system.service.ISysUserOnlineService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,15 +25,15 @@ import java.util.stream.Collectors;
 /**
  * 在线用户监控
  *
- * @author ruoyi
+ * @author Lion Li
  */
+@Api(value = "在线用户监控", tags = {"在线用户监控管理"})
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/online")
 public class SysUserOnlineController extends BaseController {
 
-    private final ISysUserOnlineService userOnlineService;
-
+    @ApiOperation("在线用户列表")
     @SaCheckPermission("monitor:online:list")
     @GetMapping("/list")
     public TableDataInfo<SysUserOnline> list(String ipaddr, String userName) {
@@ -69,15 +70,15 @@ public class SysUserOnlineController extends BaseController {
     /**
      * 强退用户
      */
+    @ApiOperation("强退用户")
     @SaCheckPermission("monitor:online:forceLogout")
     @Log(title = "在线用户", businessType = BusinessType.FORCE)
     @DeleteMapping("/{tokenId}")
-    public AjaxResult forceLogout(@PathVariable String tokenId) {
+    public R<Void> forceLogout(@PathVariable String tokenId) {
         try {
             StpUtil.kickoutByTokenValue(tokenId);
         } catch (NotLoginException e) {
         }
-        //RedisUtils.deleteObject(CacheConstants.LOGIN_TOKEN_KEY + tokenId);
-        return AjaxResult.success();
+        return R.ok();
     }
 }
