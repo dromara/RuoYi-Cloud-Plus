@@ -8,3 +8,6 @@ spring:
     admin:
       ui:
         title: RuoYi-Cloud-Plus服务监控中心
+      discovery:
+        # seata 不具有健康检查的能力 防止报错排除掉
+        ignored-services: seata-server
