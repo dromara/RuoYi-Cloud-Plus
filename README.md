@@ -69,9 +69,9 @@
 ### 其他
 
 * 同步升级 RuoYi-Cloud
+* github 地址 [RuoYi-Cloud-Plus-github](https://github.com/JavaLionLi/RuoYi-Cloud-Plus)
 * 分离版分支 [RuoYi-Vue-Plus](https://gitee.com/JavaLionLi/RuoYi-Vue-Plus)
 * 单模块 fast 分支 [RuoYi-Vue-Plus-fast](https://gitee.com/JavaLionLi/RuoYi-Vue-Plus/tree/fast/)
-* satoken 分支 [RuoYi-Vue-Plus-satoken](https://gitee.com/JavaLionLi/RuoYi-Vue-Plus/tree/satoken/)
 
 ## 捐献作者
 
