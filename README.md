@@ -5,7 +5,7 @@
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](https://gitee.com/JavaLionLi/RuoYi-Cloud-Plus/blob/master/LICENSE)
 [![使用IntelliJ IDEA开发维护](https://img.shields.io/badge/IntelliJ%20IDEA-提供支持-blue.svg)](https://www.jetbrains.com/?from=RuoYi-Cloud-Plus)
 <br>
-[![RuoYi-Cloud-Plus](https://img.shields.io/badge/RuoYi_Cloud_Plus-0.5.0-success.svg)](https://gitee.com/JavaLionLi/RuoYi-Cloud-Plus)
+[![RuoYi-Cloud-Plus](https://img.shields.io/badge/RuoYi_Cloud_Plus-0.6.0-success.svg)](https://gitee.com/JavaLionLi/RuoYi-Cloud-Plus)
 [![Spring Boot](https://img.shields.io/badge/Spring%20Boot-2.6-blue.svg)]()
 [![JDK-8+](https://img.shields.io/badge/JDK-8-green.svg)]()
 [![JDK-11](https://img.shields.io/badge/JDK-11-green.svg)]()
@@ -41,8 +41,8 @@
 | 分布式锁         | Lock4j                   | [Lock4j官网](https://gitee.com/baomidou/lock4j)                                                     | 注解锁、工具锁 多种多样                 |
 | 分布式幂等        | Redisson                 | [Lock4j文档](https://gitee.com/baomidou/lock4j)                                                     | 拦截重复提交                       |
 | 分布式任务调度      | Xxl-Job                  | [Xxl-Job官网](https://www.xuxueli.com/xxl-job/)                                                     | 高性能 高可靠 易扩展                  |
-| 分布式文件存储(未完成) | Minio                    | [Minio文档](https://docs.min.io/)                                                                   | 本地存储                         |
-| 分布式云存储(未完成)  | 七牛、阿里、腾讯                 | [OSS使用文档](https://gitee.com/JavaLionLi/RuoYi-Vue-Plus/wikis/pages?sort_id=4359146&doc_id=1469725) | 云存储                          |
+| 分布式文件存储      | Minio                    | [Minio文档](https://docs.min.io/)                                                                   | 本地存储                         |
+| 分布式云存储       | 七牛、阿里、腾讯                 | [OSS使用文档](https://gitee.com/JavaLionLi/RuoYi-Vue-Plus/wikis/pages?sort_id=4359146&doc_id=1469725) | 云存储                          |
 | 分布式监控(未完成)   | Prometheus、Grafana       | [Prometheus文档](https://prometheus.io/docs/introduction/overview/)                                 | 全方位性能监控                      |
 | 服务监控         | SpringBoot-Admin         | [SpringBoot-Admin文档](https://codecentric.github.io/spring-boot-admin/current/)                    | 全方位服务监控                      |
 | 数据库框架        | Mybatis-Plus             | [Mybatis-Plus文档](https://baomidou.com/guide/)                                                     | 快速 CRUD 增加开发效率               |
