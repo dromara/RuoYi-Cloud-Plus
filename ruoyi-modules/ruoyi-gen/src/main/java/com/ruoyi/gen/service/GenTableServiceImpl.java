@@ -10,6 +10,7 @@ import com.ruoyi.common.core.constant.GenConstants;
 import com.ruoyi.common.core.exception.ServiceException;
 import com.ruoyi.common.core.utils.JsonUtils;
 import com.ruoyi.common.core.utils.StringUtils;
+import com.ruoyi.common.core.utils.file.FileUtils;
 import com.ruoyi.common.mybatis.core.page.PageQuery;
 import com.ruoyi.common.mybatis.core.page.TableDataInfo;
 import com.ruoyi.common.satoken.utils.LoginHelper;
@@ -22,8 +23,6 @@ import com.ruoyi.gen.util.VelocityInitializer;
 import com.ruoyi.gen.util.VelocityUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
@@ -261,8 +260,8 @@ public class GenTableServiceImpl implements IGenTableService {
                 tpl.merge(context, sw);
                 try {
                     String path = getGenPath(table, template);
-                    FileUtils.writeStringToFile(new File(path), sw.toString(), StandardCharsets.UTF_8);
-                } catch (IOException e) {
+                    FileUtils.writeUtf8String(sw.toString(), path);
+                } catch (Exception e) {
                     throw new ServiceException("渲染模板失败，表名：" + table.getTableName());
                 }
             }
@@ -355,8 +354,8 @@ public class GenTableServiceImpl implements IGenTableService {
             try {
                 // 添加到zip
                 zip.putNextEntry(new ZipEntry(VelocityUtils.getFileName(template, table)));
-                IOUtils.write(sw.toString(), zip, Constants.UTF8);
-                IOUtils.closeQuietly(sw);
+                IoUtil.write(zip, StandardCharsets.UTF_8, false, sw.toString());
+                IoUtil.close(sw);
                 zip.flush();
                 zip.closeEntry();
             } catch (IOException e) {

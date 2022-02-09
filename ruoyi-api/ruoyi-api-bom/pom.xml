@@ -23,10 +23,10 @@
                 <version>${project.version}</version>
             </dependency>
 
-            <!-- 文件服务接口 -->
+            <!-- 资源服务接口 -->
             <dependency>
                 <groupId>com.ruoyi</groupId>
-                <artifactId>ruoyi-api-file</artifactId>
+                <artifactId>ruoyi-api-resource</artifactId>
                 <version>${project.version}</version>
             </dependency>
 

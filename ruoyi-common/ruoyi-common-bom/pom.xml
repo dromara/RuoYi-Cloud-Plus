@@ -42,13 +42,6 @@
                 <version>${project.version}</version>
             </dependency>
 
-            <!-- 多数据源 -->
-            <dependency>
-                <groupId>com.ruoyi</groupId>
-                <artifactId>ruoyi-common-datasource</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-
             <!-- 日志记录 -->
             <dependency>
                 <groupId>com.ruoyi</groupId>

@@ -60,7 +60,7 @@ export default {
   },
   data() {
     return {
-      uploadUrl: process.env.VUE_APP_BASE_API + "/file/upload", // 上传的图片服务器地址
+      uploadUrl: process.env.VUE_APP_BASE_API + "/resource/oss/upload", // 上传的图片服务器地址
       headers: {
         Authorization: "Bearer " + getToken()
       },
@@ -180,7 +180,7 @@ export default {
         // 调整光标到最后
         quill.setSelection(length + 1);
       } else {
-        this.$message.error("图片插入失败");
+        this.$message.error(res.msg);
       }
     },
     handleUploadError() {

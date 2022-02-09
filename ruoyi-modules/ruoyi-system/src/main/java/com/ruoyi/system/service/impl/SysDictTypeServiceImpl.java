@@ -39,14 +39,6 @@ public class SysDictTypeServiceImpl implements ISysDictTypeService {
     private final SysDictTypeMapper baseMapper;
     private final SysDictDataMapper dictDataMapper;
 
-    /**
-     * 项目启动时，初始化字典到缓存
-     */
-    @PostConstruct
-    public void init() {
-        loadingDictCache();
-    }
-
     @Override
     public TableDataInfo<SysDictType> selectPageDictTypeList(SysDictType dictType, PageQuery pageQuery) {
         Map<String, Object> params = dictType.getParams();

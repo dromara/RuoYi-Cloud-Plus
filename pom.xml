@@ -23,16 +23,12 @@
         <alibaba.nacos.version>2.0.4</alibaba.nacos.version>
         <spring-boot-admin.version>2.6.2</spring-boot-admin.version>
         <spring-boot.mybatis>2.2.0</spring-boot.mybatis>
-        <swagger.core.version>1.6.2</swagger.core.version>
-        <tobato.version>1.27.2</tobato.version>
+        <swagger.core.version>1.5.22</swagger.core.version>
         <mybatis-plus.version>3.5.1</mybatis-plus.version>
         <p6spy.version>3.9.1</p6spy.version>
         <druid.version>1.2.8</druid.version>
         <dynamic-ds.version>3.5.0</dynamic-ds.version>
-        <commons.io.version>2.11.0</commons.io.version>
-        <commons.fileupload.version>1.4</commons.fileupload.version>
         <velocity.version>2.3</velocity.version>
-        <minio.version>8.2.2</minio.version>
         <poi.version>4.1.2</poi.version>
         <easyexcel.version>3.0.5</easyexcel.version>
         <cglib.version>3.3.0</cglib.version>
@@ -54,6 +50,7 @@
         <aliyun.oss.version>3.14.0</aliyun.oss.version>
         <qcloud.cos.version>5.6.68</qcloud.cos.version>
         <minio.version>8.3.5</minio.version>
+        <okhttp.version>4.9.2</okhttp.version>
 
         <!-- docker 配置 -->
         <docker.registry.url>localhost</docker.registry.url>
@@ -178,11 +175,10 @@
                 <scope>import</scope>
             </dependency>
 
-            <!-- FastDFS 分布式文件系统 -->
             <dependency>
-                <groupId>com.github.tobato</groupId>
-                <artifactId>fastdfs-client</artifactId>
-                <version>${tobato.version}</version>
+                <groupId>cn.dev33</groupId>
+                <artifactId>sa-token-core</artifactId>
+                <version>${satoken.version}</version>
             </dependency>
 
             <!-- Mybatis 依赖配置 -->
@@ -193,9 +189,9 @@
             </dependency>
 
             <dependency>
-                <groupId>io.swagger</groupId>
-                <artifactId>swagger-models</artifactId>
-                <version>${swagger.core.version}</version>
+                <groupId>com.github.xiaoymin</groupId>
+                <artifactId>knife4j-micro-spring-boot-starter</artifactId>
+                <version>${knife4j.version}</version>
             </dependency>
 
             <!-- Swagger 依赖配置 -->
@@ -221,13 +217,6 @@
                 <groupId>p6spy</groupId>
                 <artifactId>p6spy</artifactId>
                 <version>${p6spy.version}</version>
-            </dependency>
-
-            <!-- io常用工具类 -->
-            <dependency>
-                <groupId>commons-io</groupId>
-                <artifactId>commons-io</artifactId>
-                <version>${commons.io.version}</version>
             </dependency>
 
             <!-- excel工具 -->
@@ -257,13 +246,6 @@
                 <groupId>cglib</groupId>
                 <artifactId>cglib</artifactId>
                 <version>${cglib.version}</version>
-            </dependency>
-
-            <!-- 文件上传工具类 -->
-            <dependency>
-                <groupId>commons-fileupload</groupId>
-                <artifactId>commons-fileupload</artifactId>
-                <version>${commons.fileupload.version}</version>
             </dependency>
 
             <!-- 代码生成使用模板 -->
@@ -301,9 +283,9 @@
             </dependency>
 
             <dependency>
-                <groupId>com.github.xiaoymin</groupId>
-                <artifactId>knife4j-micro-spring-boot-starter</artifactId>
-                <version>${knife4j.version}</version>
+                <groupId>com.squareup.okhttp3</groupId>
+                <artifactId>okhttp</artifactId>
+                <version>${okhttp.version}</version>
             </dependency>
 
         </dependencies>

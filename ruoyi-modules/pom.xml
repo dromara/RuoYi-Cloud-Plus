@@ -11,7 +11,7 @@
     <modules>
         <module>ruoyi-system</module>
         <module>ruoyi-gen</module>
-        <module>ruoyi-file</module>
+        <module>ruoyi-resource</module>
     </modules>
 
     <artifactId>ruoyi-modules</artifactId>

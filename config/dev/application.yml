@@ -279,7 +279,7 @@ knife4j:
 # seata配置
 seata:
   # 默认关闭，如需启用spring.datasource.dynami.seata需要同时开启
-  enabled: false
+  enabled: true
   # Seata 应用编号，默认为 ${spring.application.name}
   application-id: ${spring.application.name}
   # Seata 事务组编号，用于 TC 集群名

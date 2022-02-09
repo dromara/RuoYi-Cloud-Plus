@@ -22,7 +22,7 @@ spring:
       # 性能分析插件(有性能损耗 不建议生产环境使用)
       p6spy: true
       # 开启seata代理，开启后默认每个数据源都代理，如果某个不需要代理可单独关闭
-      seata: false
+      seata: true
       druid:
         initial-size: 5
         min-idle: 5

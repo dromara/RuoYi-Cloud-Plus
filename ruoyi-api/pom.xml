@@ -11,7 +11,7 @@
     <modules>
         <module>ruoyi-api-bom</module>
         <module>ruoyi-api-system</module>
-        <module>ruoyi-api-file</module>
+        <module>ruoyi-api-resource</module>
     </modules>
 
     <artifactId>ruoyi-api</artifactId>

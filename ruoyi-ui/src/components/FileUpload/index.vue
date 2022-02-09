@@ -69,7 +69,7 @@ export default {
   },
   data() {
     return {
-      uploadFileUrl: process.env.VUE_APP_BASE_API + "/file/upload", // 上传的图片服务器地址
+      uploadFileUrl: process.env.VUE_APP_BASE_API + "/resource/oss/upload", // 上传的图片服务器地址
       headers: {
         Authorization: "Bearer " + getToken(),
       },
@@ -146,7 +146,7 @@ export default {
     // 上传成功回调
     handleUploadSuccess(res, file) {
       this.$message.success("上传成功");
-      this.fileList.push({ name: res.data.url, url: res.data.url });
+      this.fileList.push({ name: res.data.fileName, url: res.data.url });
       this.$emit("input", this.listToString(this.fileList));
     },
     // 删除文件
@@ -169,7 +169,7 @@ export default {
       for (let i in list) {
         strs += list[i].url + separator;
       }
-      return strs != '' ? strs.substr(0, strs.length - 1) : '';
+      return strs != "" ? strs.substr(0, strs.length - 1) : "";
     }
   }
 };

@@ -34,14 +34,6 @@ public class SysConfigServiceImpl implements ISysConfigService {
 
     private final SysConfigMapper baseMapper;
 
-    /**
-     * 项目启动时，初始化参数到缓存
-     */
-    @PostConstruct
-    public void init() {
-        loadingConfigCache();
-    }
-
     @Override
     public TableDataInfo<SysConfig> selectPageConfigList(SysConfig config, PageQuery pageQuery) {
         Map<String, Object> params = config.getParams();
@@ -128,7 +120,13 @@ public class SysConfigServiceImpl implements ISysConfigService {
      */
     @Override
     public int updateConfig(SysConfig config) {
-        int row = baseMapper.updateById(config);
+        int row = 0;
+        if (config.getConfigId() != null) {
+            row = baseMapper.updateById(config);
+        } else {
+            row = baseMapper.update(config, new LambdaQueryWrapper<SysConfig>()
+                .eq(SysConfig::getConfigKey, config.getConfigKey()));
+        }
         if (row > 0) {
             RedisUtils.setCacheObject(getCacheKey(config.getConfigKey()), config.getConfigValue());
         }

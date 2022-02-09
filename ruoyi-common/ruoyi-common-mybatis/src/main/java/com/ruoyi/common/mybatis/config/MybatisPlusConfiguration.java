@@ -1,11 +1,13 @@
 package com.ruoyi.common.mybatis.config;
 
 import cn.hutool.core.net.NetUtil;
+import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import com.baomidou.mybatisplus.core.incrementer.DefaultIdentifierGenerator;
 import com.baomidou.mybatisplus.core.incrementer.IdentifierGenerator;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.OptimisticLockerInnerInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
+import com.ruoyi.common.mybatis.handler.CreateAndUpdateMetaObjectHandler;
 import com.ruoyi.common.mybatis.interceptor.PlusDataPermissionInterceptor;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.Bean;
@@ -64,10 +66,10 @@ public class MybatisPlusConfiguration {
     /**
      * 元对象字段填充控制器
      */
-//    @Bean
-//    public MetaObjectHandler metaObjectHandler() {
-//        return new CreateAndUpdateMetaObjectHandler();
-//    }
+    @Bean
+    public MetaObjectHandler metaObjectHandler() {
+        return new CreateAndUpdateMetaObjectHandler();
+    }
 
     /**
      * 使用网卡信息绑定雪花生成器

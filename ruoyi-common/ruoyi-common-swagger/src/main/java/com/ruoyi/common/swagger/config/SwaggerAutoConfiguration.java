@@ -1,7 +1,10 @@
 package com.ruoyi.common.swagger.config;
 
+import cn.dev33.satoken.config.SaTokenConfig;
 import com.github.xiaoymin.knife4j.spring.annotations.EnableKnife4j;
 import com.ruoyi.common.swagger.config.properties.SwaggerProperties;
+import io.swagger.models.auth.In;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -31,6 +34,9 @@ import java.util.function.Predicate;
 @ConditionalOnProperty(name = "swagger.enabled", matchIfMissing = true)
 public class SwaggerAutoConfiguration {
 
+    @Autowired
+    private SaTokenConfig saTokenConfig;
+
     /**
      * 默认的排除路径，排除Spring Boot默认的错误处理路径和端点
      */
@@ -57,6 +63,7 @@ public class SwaggerAutoConfiguration {
         swaggerProperties.getExcludePath().forEach(path -> excludePath.add(PathSelectors.ant(path)));
 
         ApiSelectorBuilder builder = new Docket(DocumentationType.OAS_30)
+            .enable(swaggerProperties.getEnabled())
             .host(swaggerProperties.getHost())
             .apiInfo(apiInfo(swaggerProperties))
             .select()
@@ -76,7 +83,8 @@ public class SwaggerAutoConfiguration {
      */
     private List<SecurityScheme> securitySchemes() {
         List<SecurityScheme> apiKeyList = new ArrayList<>();
-        apiKeyList.add(new ApiKey("Authorization", "Authorization", "header"));
+        String header = saTokenConfig.getTokenName();
+        apiKeyList.add(new ApiKey(header, header, In.HEADER.toValue()));
         return apiKeyList;
     }
 
@@ -101,7 +109,7 @@ public class SwaggerAutoConfiguration {
         AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
         authorizationScopes[0] = authorizationScope;
         List<SecurityReference> securityReferences = new ArrayList<>();
-        securityReferences.add(new SecurityReference("Authorization", authorizationScopes));
+        securityReferences.add(new SecurityReference(saTokenConfig.getTokenName(), authorizationScopes));
         return securityReferences;
     }
 

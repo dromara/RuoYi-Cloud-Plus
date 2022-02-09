@@ -9,10 +9,11 @@ import com.ruoyi.common.log.annotation.Log;
 import com.ruoyi.common.log.enums.BusinessType;
 import com.ruoyi.common.satoken.utils.LoginHelper;
 import com.ruoyi.common.security.utils.SecurityUtils;
-import com.ruoyi.file.api.RemoteFileService;
-import com.ruoyi.file.api.domain.SysFile;
+import com.ruoyi.resource.api.RemoteFileService;
+import com.ruoyi.resource.api.domain.SysFile;
 import com.ruoyi.system.api.domain.SysUser;
 import com.ruoyi.system.service.ISysUserService;
+import io.seata.spring.annotation.GlobalTransactional;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -111,17 +112,14 @@ public class SysProfileController extends BaseController {
     /**
      * 头像上传
      */
-    // @GlobalTransactional(rollbackFor = Exception.class)
+    @GlobalTransactional(rollbackFor = Exception.class)
     @ApiOperation("头像上传")
     @ApiImplicitParams({
         @ApiImplicitParam(name = "avatarfile", value = "用户头像", dataTypeClass = File.class, required = true),
     })
     @Log(title = "用户头像", businessType = BusinessType.UPDATE)
     @PostMapping("/avatar")
-    public R<Map<String, Object>> avatar(@RequestParam("avatarfile") MultipartFile file) throws IOException {
-        // todo 临时用于测试 seata
-        // userService.insertUser(new SysUser().setUserName("test").setNickName("test"));
-
+    public R<Map<String, Object>> avatar(@RequestPart("avatarfile") MultipartFile file) throws IOException {
         if (!file.isEmpty()) {
             SysFile sysFile = remoteFileService.upload(file.getName(), file.getOriginalFilename(), file.getContentType(), file.getBytes());
             if (ObjectUtil.isNull(sysFile)) {

@@ -53,13 +53,6 @@ spring:
             - Path=/code/**
           filters:
             - StripPrefix=1
-        # 定时任务
-        - id: ruoyi-job
-          uri: lb://ruoyi-job
-          predicates:
-            - Path=/schedule/**
-          filters:
-            - StripPrefix=1
         # 系统模块
         - id: ruoyi-system
           uri: lb://ruoyi-system
@@ -67,11 +60,11 @@ spring:
             - Path=/system/**
           filters:
             - StripPrefix=1
-        # 文件服务
-        - id: ruoyi-file
-          uri: lb://ruoyi-file
+        # 资源服务
+        - id: ruoyi-resource
+          uri: lb://ruoyi-resource
           predicates:
-            - Path=/file/**
+            - Path=/resource/**
           filters:
             - StripPrefix=1
 

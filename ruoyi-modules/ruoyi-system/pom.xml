@@ -47,12 +47,6 @@
             <artifactId>mysql-connector-java</artifactId>
         </dependency>
 
-        <!-- RuoYi Common DataSource -->
-        <dependency>
-            <groupId>com.ruoyi</groupId>
-            <artifactId>ruoyi-common-datasource</artifactId>
-        </dependency>
-
         <!-- RuoYi Common Log -->
         <dependency>
             <groupId>com.ruoyi</groupId>
@@ -103,7 +97,7 @@
 
         <dependency>
             <groupId>com.ruoyi</groupId>
-            <artifactId>ruoyi-api-file</artifactId>
+            <artifactId>ruoyi-api-resource</artifactId>
         </dependency>
 
     </dependencies>

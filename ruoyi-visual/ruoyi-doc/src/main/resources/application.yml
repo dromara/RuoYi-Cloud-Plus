@@ -15,6 +15,6 @@ knife4j:
       - name: 代码生成
         uri: ${knife4j.cloud.gatewayUri}
         location: /code/v2/api-docs
-      - name: 文件服务
+      - name: 资源服务
         uri: ${knife4j.cloud.gatewayUri}
-        location: /file/v2/api-docs
+        location: /resource/v2/api-docs

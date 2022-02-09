@@ -162,7 +162,7 @@ create table sys_menu (
 insert into sys_menu values('1', '系统管理', '0', '1', 'system',           null, '', 1, 0, 'M', '0', '0', '', 'system',   'admin', sysdate(), '', null, '系统管理目录');
 insert into sys_menu values('2', '系统监控', '0', '2', 'monitor',          null, '', 1, 0, 'M', '0', '0', '', 'monitor',  'admin', sysdate(), '', null, '系统监控目录');
 insert into sys_menu values('3', '系统工具', '0', '3', 'tool',             null, '', 1, 0, 'M', '0', '0', '', 'tool',     'admin', sysdate(), '', null, '系统工具目录');
-insert into sys_menu values('4', '若依官网', '0', '4', 'http://ruoyi.vip', null, '', 0, 0, 'M', '0', '0', '', 'guide',    'admin', sysdate(), '', null, '若依官网地址');
+insert into sys_menu values('4', 'PLUS官网', '0', '4', 'https://gitee.com/JavaLionLi/RuoYi-Cloud-Plus', null, '', 0, 0, 'M', '0', '0', '', 'guide',    'admin', sysdate(), '', null, '若依官网地址');
 -- 二级菜单
 insert into sys_menu values('100',  '用户管理',       '1',   '1', 'user',       'system/user/index',                 '', 1, 0, 'C', '0', '0', 'system:user:list',        'user',          'admin', sysdate(), '', null, '用户管理菜单');
 insert into sys_menu values('101',  '角色管理',       '1',   '2', 'role',       'system/role/index',                 '', 1, 0, 'C', '0', '0', 'system:role:list',        'peoples',       'admin', sysdate(), '', null, '角色管理菜单');
@@ -181,6 +181,8 @@ insert into sys_menu values('113',  'Admin控制台',    '2',   '5', 'http://loc
 insert into sys_menu values('114',  '表单构建',       '3',   '1', 'build',      'tool/build/index',                  '', 1, 0, 'C', '0', '0', 'tool:build:list',         'build',         'admin', sysdate(), '', null, '表单构建菜单');
 insert into sys_menu values('115',  '代码生成',       '3',   '2', 'gen',        'tool/gen/index',                    '', 1, 0, 'C', '0', '0', 'tool:gen:list',           'code',          'admin', sysdate(), '', null, '代码生成菜单');
 insert into sys_menu values('116',  '系统接口',       '3',   '3', 'http://localhost:18000/doc.html', '',             '', 0, 0, 'C', '0', '0', 'tool:swagger:list',       'swagger',       'admin', sysdate(), '', null, '系统接口菜单');
+-- oss菜单
+insert into sys_menu values('118',  '文件管理',       '1',   '10', 'oss',       'system/oss/index',                  '', 1, 0, 'C', '0', '0', 'system:oss:list',         'upload',        'admin', sysdate(), '', null, '文件管理菜单');
 -- 三级菜单
 insert into sys_menu values('500',  '操作日志', '108', '1', 'operlog',    'system/operlog/index',    '', 1, 0, 'C', '0', '0', 'system:operlog:list',    'form',          'admin', sysdate(), '', null, '操作日志菜单');
 insert into sys_menu values('501',  '登录日志', '108', '2', 'logininfor', 'system/logininfor/index', '', 1, 0, 'C', '0', '0', 'system:logininfor:list', 'logininfor',    'admin', sysdate(), '', null, '登录日志菜单');
@@ -250,6 +252,13 @@ insert into sys_menu values('1057', '生成删除', '115', '3', '#', '', '', 1, 
 insert into sys_menu values('1058', '导入代码', '115', '2', '#', '', '', 1, 0, 'F', '0', '0', 'tool:gen:import',            '#', 'admin', sysdate(), '', null, '');
 insert into sys_menu values('1059', '预览代码', '115', '4', '#', '', '', 1, 0, 'F', '0', '0', 'tool:gen:preview',           '#', 'admin', sysdate(), '', null, '');
 insert into sys_menu values('1060', '生成代码', '115', '5', '#', '', '', 1, 0, 'F', '0', '0', 'tool:gen:code',              '#', 'admin', sysdate(), '', null, '');
+-- oss相关按钮
+insert into sys_menu values('1600', '文件查询', '118', '1', '#', '', '', 1, 0, 'F', '0', '0', 'system:oss:query',           '#', 'admin', sysdate(), '', null, '');
+insert into sys_menu values('1601', '文件上传', '118', '2', '#', '', '', 1, 0, 'F', '0', '0', 'system:oss:upload',          '#', 'admin', sysdate(), '', null, '');
+insert into sys_menu values('1602', '文件下载', '118', '3', '#', '', '', 1, 0, 'F', '0', '0', 'system:oss:download',        '#', 'admin', sysdate(), '', null, '');
+insert into sys_menu values('1603', '文件删除', '118', '4', '#', '', '', 1, 0, 'F', '0', '0', 'system:oss:remove',          '#', 'admin', sysdate(), '', null, '');
+insert into sys_menu values('1604', '配置添加', '118', '5', '#', '', '', 1, 0, 'F', '0', '0', 'system:oss:add',             '#', 'admin', sysdate(), '', null, '');
+insert into sys_menu values('1605', '配置编辑', '118', '6', '#', '', '', 1, 0, 'F', '0', '0', 'system:oss:edit',            '#', 'admin', sysdate(), '', null, '');
 
 
 -- ----------------------------
@@ -533,7 +542,7 @@ insert into sys_config values(1, '主框架页-默认皮肤样式名称',     's
 insert into sys_config values(2, '用户管理-账号初始密码',         'sys.user.initPassword',    '123456',        'Y', 'admin', sysdate(), '', null, '初始化密码 123456' );
 insert into sys_config values(3, '主框架页-侧边栏主题',           'sys.index.sideTheme',      'theme-dark',    'Y', 'admin', sysdate(), '', null, '深色主题theme-dark，浅色主题theme-light' );
 insert into sys_config values(4, '账号自助-是否开启用户注册功能', 'sys.account.registerUser', 'false',         'Y', 'admin', sysdate(), '', null, '是否开启注册用户功能（true开启，false关闭）');
-
+insert into sys_config values(11, 'OSS预览列表资源开关',        'sys.oss.previewListResource', 'true',      'Y', 'admin', sysdate(), '', null, 'true:开启, false:关闭');
 
 -- ----------------------------
 -- 14、系统访问记录
@@ -573,6 +582,52 @@ create table sys_notice (
 insert into sys_notice values('1', '温馨提醒：2018-07-01 若依新版本发布啦', '2', '新版本内容', '0', 'admin', sysdate(), '', null, '管理员');
 insert into sys_notice values('2', '维护通知：2018-07-01 若依系统凌晨维护', '1', '维护内容',   '0', 'admin', sysdate(), '', null, '管理员');
 
+-- ----------------------------
+-- OSS对象存储表
+-- ----------------------------
+drop table if exists sys_oss;
+create table sys_oss (
+  oss_id          bigint(20)        not null auto_increment    comment '对象存储主键',
+  file_name       varchar(255)      not null default ''        comment '文件名',
+  original_name   varchar(255)      not null default ''        comment '原名',
+  file_suffix     varchar(10)       not null default ''        comment '文件后缀名',
+  url              varchar(500)     not null                   comment 'URL地址',
+  create_time     datetime          default null               comment '创建时间',
+  create_by       varchar(64)       default ''                 comment '上传人',
+  update_time     datetime          default null               comment '更新时间',
+  update_by       varchar(64)       default ''                 comment '更新人',
+  service         varchar(10)       not null default 'minio'   comment '服务商',
+  primary key (oss_id)
+) engine=innodb comment ='OSS对象存储表';
+
+-- ----------------------------
+-- OSS对象存储动态配置表
+-- ----------------------------
+drop table if exists sys_oss_config;
+create table sys_oss_config (
+  oss_config_id   bigint(20)         not null auto_increment    comment '主建',
+  config_key      varchar(255)       not null default ''        comment '配置key',
+  access_key      varchar(255)       default ''                 comment 'accessKey',
+  secret_key      varchar(255)       default ''                 comment '秘钥',
+  bucket_name     varchar(255)       default ''                 comment '桶名称',
+  prefix           varchar(255)      default ''                 comment '前缀',
+  endpoint         varchar(255)      default ''                 comment '访问站点',
+  is_https         char(1)           default 'N'                comment '是否https（Y=是,N=否）',
+  region           varchar(255)      default ''                 comment '域',
+  status           char(1)           default '1'                comment '状态（0=正常,1=停用）',
+  ext1             varchar(255)      default ''                 comment '扩展字段',
+  create_by       varchar(64)        default ''                 comment '创建者',
+  create_time     datetime           default null               comment '创建时间',
+  update_by       varchar(64)        default ''                 comment '更新者',
+  update_time     datetime           default null               comment '更新时间',
+  remark           varchar(500)      default null               comment '备注',
+  primary key (oss_config_id)
+) engine=innodb comment='对象存储配置表';
+
+insert into sys_oss_config values (1, 'minio',  'ruoyi',            'ruoyi123',        'ruoyi',             '', 'http://localhost:9000',                'N', '',            '0', '', 'admin', sysdate(), 'admin', sysdate(), NULL);
+insert into sys_oss_config values (2, 'qiniu',  'XXXXXXXXXXXXXXX',  'XXXXXXXXXXXXXXX', 'ruoyi',             '', 'http://XXX.XXXX.com',                  'N', 'z0',          '1', '', 'admin', sysdate(), 'admin', sysdate(), NULL);
+insert into sys_oss_config values (3, 'aliyun', 'XXXXXXXXXXXXXXX',  'XXXXXXXXXXXXXXX', 'ruoyi',             '', 'http://oss-cn-beijing.aliyuncs.com',   'N', '',            '1', '', 'admin', sysdate(), 'admin', sysdate(), NULL);
+insert into sys_oss_config values (4, 'qcloud', 'XXXXXXXXXXXXXXX',  'XXXXXXXXXXXXXXX', 'ruoyi-1250000000',  '', 'http://cos.ap-beijing.myqcloud.com',   'N', 'ap-beijing',  '1', '', 'admin', sysdate(), 'admin', sysdate(), NULL);
 
 -- ----------------------------
 -- 18、代码生成业务表
