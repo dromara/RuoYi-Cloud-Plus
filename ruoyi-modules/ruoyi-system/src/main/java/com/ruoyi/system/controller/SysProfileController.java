@@ -115,7 +115,7 @@ public class SysProfileController extends BaseController {
     @GlobalTransactional(rollbackFor = Exception.class)
     @ApiOperation("头像上传")
     @ApiImplicitParams({
-        @ApiImplicitParam(name = "avatarfile", value = "用户头像", dataTypeClass = File.class, required = true),
+        @ApiImplicitParam(name = "avatarfile", value = "用户头像", paramType = "query", dataTypeClass = File.class, required = true)
     })
     @Log(title = "用户头像", businessType = BusinessType.UPDATE)
     @PostMapping("/avatar")

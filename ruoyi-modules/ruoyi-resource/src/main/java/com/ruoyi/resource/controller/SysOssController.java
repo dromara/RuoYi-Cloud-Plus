@@ -63,7 +63,7 @@ public class SysOssController extends BaseController {
      */
     @ApiOperation("上传OSS对象存储")
     @ApiImplicitParams({
-        @ApiImplicitParam(name = "file", value = "文件", dataTypeClass = File.class, required = true),
+        @ApiImplicitParam(name = "file", value = "文件", paramType = "query", dataTypeClass = File.class, required = true)
     })
     @SaCheckPermission("system:oss:upload")
     @Log(title = "OSS对象存储", businessType = BusinessType.INSERT)
