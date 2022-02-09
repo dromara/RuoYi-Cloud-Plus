@@ -25,6 +25,7 @@
         <module>ruoyi-common-dubbo</module>
         <module>ruoyi-common-seata</module>
         <module>ruoyi-common-loadbalancer</module>
+        <module>ruoyi-common-oss</module>
     </modules>
 
     <artifactId>ruoyi-common</artifactId>

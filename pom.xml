@@ -49,6 +49,12 @@
         <knife4j.version>3.0.3</knife4j.version>
         <satoken.version>1.28.0</satoken.version>
 
+        <!-- OSS 配置 -->
+        <qiniu.version>7.9.2</qiniu.version>
+        <aliyun.oss.version>3.14.0</aliyun.oss.version>
+        <qcloud.cos.version>5.6.68</qcloud.cos.version>
+        <minio.version>8.3.5</minio.version>
+
         <!-- docker 配置 -->
         <docker.registry.url>localhost</docker.registry.url>
         <docker.registry.host>http://${docker.registry.url}:2375</docker.registry.host>
