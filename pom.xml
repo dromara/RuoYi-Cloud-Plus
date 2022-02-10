@@ -32,18 +32,16 @@
         <poi.version>4.1.2</poi.version>
         <easyexcel.version>3.0.5</easyexcel.version>
         <cglib.version>3.3.0</cglib.version>
-        <commons-collections.version>3.2.2</commons-collections.version>
-        <transmittable-thread-local.version>2.12.2</transmittable-thread-local.version>
         <hutool.version>5.7.20</hutool.version>
         <redisson.version>3.16.8</redisson.version>
         <lock4j.version>2.2.1</lock4j.version>
         <dubbo.version>2.7.15</dubbo.version>
         <seata.version>1.4.2</seata.version>
-        <spring.context.support.version>1.0.11</spring.context.support.version>
+        <spring-context-support.version>1.0.11</spring-context-support.version>
         <xxl-job.version>2.3.0</xxl-job.version>
         <knife4j-aggregation.version>2.0.9</knife4j-aggregation.version>
         <knife4j.version>3.0.3</knife4j.version>
-        <satoken.version>1.28.0</satoken.version>
+        <satoken.version>1.29.0</satoken.version>
 
         <!-- OSS 配置 -->
         <qiniu.version>7.9.2</qiniu.version>
@@ -136,7 +134,7 @@
             <dependency>
                 <groupId>com.alibaba.spring</groupId>
                 <artifactId>spring-context-support</artifactId>
-                <version>${spring.context.support.version}</version>
+                <version>${spring-context-support.version}</version>
             </dependency>
 
             <!-- SpringBoot 依赖配置 -->
@@ -253,13 +251,6 @@
                 <groupId>org.apache.velocity</groupId>
                 <artifactId>velocity-engine-core</artifactId>
                 <version>${velocity.version}</version>
-            </dependency>
-
-            <!-- Collection 增强Java集合框架 -->
-            <dependency>
-                <groupId>commons-collections</groupId>
-                <artifactId>commons-collections</artifactId>
-                <version>${commons-collections.version}</version>
             </dependency>
 
             <!--redisson-->
