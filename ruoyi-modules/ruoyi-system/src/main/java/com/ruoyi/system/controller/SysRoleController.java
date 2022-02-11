@@ -10,7 +10,6 @@ import com.ruoyi.common.log.enums.BusinessType;
 import com.ruoyi.common.mybatis.core.page.PageQuery;
 import com.ruoyi.common.mybatis.core.page.TableDataInfo;
 import com.ruoyi.common.satoken.utils.LoginHelper;
-import com.ruoyi.common.security.utils.SecurityUtils;
 import com.ruoyi.system.api.domain.SysRole;
 import com.ruoyi.system.api.domain.SysUser;
 import com.ruoyi.system.api.model.LoginUser;
@@ -108,7 +107,7 @@ public class SysRoleController extends BaseController {
             // 更新缓存用户权限
             LoginUser loginUser = LoginHelper.getLoginUser();
             Long userId = loginUser.getUserId();
-            if (!SecurityUtils.isAdmin(userId)) {
+            if (!LoginHelper.isAdmin(userId)) {
                 loginUser.setMenuPermission(permissionService.getMenuPermission(userId));
                 LoginHelper.setLoginUser(loginUser);
             }

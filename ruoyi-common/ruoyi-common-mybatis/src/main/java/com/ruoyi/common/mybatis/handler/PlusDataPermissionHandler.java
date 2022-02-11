@@ -13,7 +13,6 @@ import com.ruoyi.common.mybatis.annotation.DataPermission;
 import com.ruoyi.common.mybatis.enums.DataScopeType;
 import com.ruoyi.common.mybatis.helper.DataPermissionHelper;
 import com.ruoyi.common.satoken.utils.LoginHelper;
-import com.ruoyi.common.security.utils.SecurityUtils;
 import com.ruoyi.system.api.model.LoginUser;
 import com.ruoyi.system.api.model.RoleDTO;
 import lombok.extern.slf4j.Slf4j;
@@ -80,7 +79,7 @@ public class PlusDataPermissionHandler {
             DataPermissionHelper.setVariable("user", currentUser);
         }
         // 如果是超级管理员，则不过滤数据
-        if (ObjectUtil.isNull(currentUser) || SecurityUtils.isAdmin(currentUser.getUserId())) {
+        if (ObjectUtil.isNull(currentUser) || LoginHelper.isAdmin(currentUser.getUserId())) {
             return where;
         }
         String dataFilterSql = buildDataFilter(dataColumns, isSelect);

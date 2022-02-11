@@ -1,15 +1,14 @@
 package com.ruoyi.auth.service;
 
+import cn.dev33.satoken.secure.BCrypt;
 import cn.hutool.core.util.ObjectUtil;
 import com.ruoyi.common.core.constant.CacheConstants;
 import com.ruoyi.common.core.constant.Constants;
 import com.ruoyi.common.core.constant.UserConstants;
-import com.ruoyi.common.core.enums.UserStatus;
 import com.ruoyi.common.core.exception.ServiceException;
 import com.ruoyi.common.core.utils.ServletUtils;
 import com.ruoyi.common.core.utils.StringUtils;
 import com.ruoyi.common.redis.utils.RedisUtils;
-import com.ruoyi.common.security.utils.SecurityUtils;
 import com.ruoyi.system.api.RemoteLogService;
 import com.ruoyi.system.api.RemoteUserService;
 import com.ruoyi.system.api.domain.SysLogininfor;
@@ -77,7 +76,7 @@ public class SysLoginService {
             throw new ServiceException(msg, null);
         }
 
-        if (!SecurityUtils.matchesPassword(password, userInfo.getPassword())) {
+        if (!BCrypt.checkpw(password, userInfo.getPassword())) {
             // 是否第一次
             errorNumber = ObjectUtil.isNull(errorNumber) ? 1 : errorNumber + 1;
             // 达到规定错误次数 则锁定登录
@@ -125,7 +124,7 @@ public class SysLoginService {
         SysUser sysUser = new SysUser();
         sysUser.setUserName(username);
         sysUser.setNickName(username);
-        sysUser.setPassword(SecurityUtils.encryptPassword(password));
+        sysUser.setPassword(BCrypt.hashpw(password));
         remoteUserService.registerUserInfo(sysUser);
 
         recordLogininfor(username, Constants.REGISTER, "注册成功");

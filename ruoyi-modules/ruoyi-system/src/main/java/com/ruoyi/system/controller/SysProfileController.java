@@ -1,5 +1,6 @@
 package com.ruoyi.system.controller;
 
+import cn.dev33.satoken.secure.BCrypt;
 import cn.hutool.core.util.ObjectUtil;
 import com.ruoyi.common.core.constant.UserConstants;
 import com.ruoyi.common.core.domain.R;
@@ -8,7 +9,6 @@ import com.ruoyi.common.core.web.controller.BaseController;
 import com.ruoyi.common.log.annotation.Log;
 import com.ruoyi.common.log.enums.BusinessType;
 import com.ruoyi.common.satoken.utils.LoginHelper;
-import com.ruoyi.common.security.utils.SecurityUtils;
 import com.ruoyi.resource.api.RemoteFileService;
 import com.ruoyi.resource.api.domain.SysFile;
 import com.ruoyi.system.api.domain.SysUser;
@@ -97,13 +97,13 @@ public class SysProfileController extends BaseController {
     public R<Void> updatePwd(String oldPassword, String newPassword) {
         SysUser user = userService.selectUserById(LoginHelper.getUserId());
         String password = user.getPassword();
-        if (!SecurityUtils.matchesPassword(oldPassword, password)) {
+        if (!BCrypt.checkpw(oldPassword, password)) {
             return R.fail("修改密码失败，旧密码错误");
         }
-        if (SecurityUtils.matchesPassword(newPassword, password)) {
+        if (BCrypt.checkpw(newPassword, password)) {
             return R.fail("新密码不能与旧密码相同");
         }
-        if (userService.resetUserPwd(user.getUserName(), SecurityUtils.encryptPassword(newPassword)) > 0) {
+        if (userService.resetUserPwd(user.getUserName(), BCrypt.hashpw(newPassword)) > 0) {
             return R.ok();
         }
         return R.fail("修改密码异常，请联系管理员");
