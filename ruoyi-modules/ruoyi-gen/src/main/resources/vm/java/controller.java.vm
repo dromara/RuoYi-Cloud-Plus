@@ -1,58 +1,64 @@
 package ${packageName}.controller;
 
-import java.util.List;
-import javax.servlet.http.HttpServletResponse;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import cn.dev33.satoken.annotation.SaCheckPermission;
+import com.ruoyi.common.core.domain.R;
+import com.ruoyi.common.core.validate.AddGroup;
+import com.ruoyi.common.core.validate.EditGroup;
+import com.ruoyi.common.core.validate.QueryGroup;
+import com.ruoyi.common.core.web.controller.BaseController;
+import com.ruoyi.common.excel.utils.ExcelUtil;
 import com.ruoyi.common.log.annotation.Log;
 import com.ruoyi.common.log.enums.BusinessType;
-import com.ruoyi.common.security.annotation.RequiresPermissions;
-import ${packageName}.domain.${ClassName};
+import com.ruoyi.common.mybatis.core.page.PageQuery;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+import ${packageName}.domain.vo.${ClassName}Vo;
+import ${packageName}.domain.bo.${ClassName}Bo;
 import ${packageName}.service.I${ClassName}Service;
-import com.ruoyi.common.core.web.controller.BaseController;
-import com.ruoyi.common.core.domain.R;
-import com.ruoyi.common.core.utils.poi.ExcelUtil;
 #if($table.crud || $table.sub)
-import com.ruoyi.common.core.web.page.TableDataInfo;
+import com.ruoyi.common.mybatis.core.page.TableDataInfo;
 #elseif($table.tree)
 #end
 
+import java.util.List;
+import java.util.Arrays;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.servlet.http.HttpServletResponse;
+
 /**
  * ${functionName}Controller
- *
+ * 前端访问路由地址为:/${moduleName}/${businessName}
  * @author ${author}
  * @date ${datetime}
  */
+@Validated
+@Api(value = "${functionName}控制器", tags = {"${functionName}管理"})
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/${businessName}")
-public class ${ClassName}Controller extends BaseController
-{
-    @Autowired
-    private I${ClassName}Service ${className}Service;
+public class ${ClassName}Controller extends BaseController {
+
+    private final I${ClassName}Service i${ClassName}Service;
 
     /**
      * 查询${functionName}列表
      */
+    @ApiOperation("查询${functionName}列表")
     @SaCheckPermission("${permissionPrefix}:list")
     @GetMapping("/list")
 #if($table.crud || $table.sub)
-    public TableDataInfo list(${ClassName} ${className})
-    {
-        startPage();
-        List<${ClassName}> list = ${className}Service.select${ClassName}List(${className});
-        return getDataTable(list);
+    public TableDataInfo<${ClassName}Vo> list(@Validated(QueryGroup.class) ${ClassName}Bo bo, PageQuery pageQuery) {
+        return i${ClassName}Service.queryPageList(bo, pageQuery);
     }
 #elseif($table.tree)
-    public R<List<${ClassName}>> list(${ClassName} ${className})
-    {
-        List<${ClassName}> list = ${className}Service.select${ClassName}List(${className});
+    public R<List<${ClassName}Vo>> list(@Validated(QueryGroup.class) ${ClassName}Bo bo) {
+        List<${ClassName}Vo> list = i${ClassName}Service.queryList(bo);
         return R.ok(list);
     }
 #end
@@ -60,56 +66,59 @@ public class ${ClassName}Controller extends BaseController
     /**
      * 导出${functionName}列表
      */
+    @ApiOperation("导出${functionName}列表")
     @SaCheckPermission("${permissionPrefix}:export")
     @Log(title = "${functionName}", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
-    public void export(HttpServletResponse response, ${ClassName} ${className})
-    {
-        List<${ClassName}> list = ${className}Service.select${ClassName}List(${className});
-        ExcelUtil<${ClassName}> util = new ExcelUtil<${ClassName}>(${ClassName}.class);
-        util.exportExcel(response, list, "${functionName}数据");
+    public void export(@Validated ${ClassName}Bo bo, HttpServletResponse response) {
+        List<${ClassName}Vo> list = i${ClassName}Service.queryList(bo);
+        ExcelUtil.exportExcel(list, "${functionName}", ${ClassName}Vo.class, response);
     }
 
     /**
      * 获取${functionName}详细信息
      */
+    @ApiOperation("获取${functionName}详细信息")
     @SaCheckPermission("${permissionPrefix}:query")
-    @GetMapping(value = "/{${pkColumn.javaField}}")
-    public R<${ClassName}> getInfo(@PathVariable("${pkColumn.javaField}") ${pkColumn.javaType} ${pkColumn.javaField})
-    {
-        return R.ok(${className}Service.select${ClassName}By${pkColumn.capJavaField}(${pkColumn.javaField}));
+    @GetMapping("/{${pkColumn.javaField}}")
+    public R<${ClassName}Vo> getInfo(@ApiParam("主键")
+                                     @NotNull(message = "主键不能为空")
+                                     @PathVariable("${pkColumn.javaField}") ${pkColumn.javaType} ${pkColumn.javaField}) {
+        return R.ok(i${ClassName}Service.queryById(${pkColumn.javaField}));
     }
 
     /**
      * 新增${functionName}
      */
+    @ApiOperation("新增${functionName}")
     @SaCheckPermission("${permissionPrefix}:add")
     @Log(title = "${functionName}", businessType = BusinessType.INSERT)
-    @PostMapping
-    public R<Void> add(@RequestBody ${ClassName} ${className})
-    {
-        return toAjax(${className}Service.insert${ClassName}(${className}));
+    @PostMapping()
+    public R<Void> add(@Validated(AddGroup.class) @RequestBody ${ClassName}Bo bo) {
+        return toAjax(i${ClassName}Service.insertByBo(bo) ? 1 : 0);
     }
 
     /**
      * 修改${functionName}
      */
+    @ApiOperation("修改${functionName}")
     @SaCheckPermission("${permissionPrefix}:edit")
     @Log(title = "${functionName}", businessType = BusinessType.UPDATE)
-    @PutMapping
-    public R<Void> edit(@RequestBody ${ClassName} ${className})
-    {
-        return toAjax(${className}Service.update${ClassName}(${className}));
+    @PutMapping()
+    public R<Void> edit(@Validated(EditGroup.class) @RequestBody ${ClassName}Bo bo) {
+        return toAjax(i${ClassName}Service.updateByBo(bo) ? 1 : 0);
     }
 
     /**
      * 删除${functionName}
      */
+    @ApiOperation("删除${functionName}")
     @SaCheckPermission("${permissionPrefix}:remove")
     @Log(title = "${functionName}", businessType = BusinessType.DELETE)
-	@DeleteMapping("/{${pkColumn.javaField}s}")
-    public R<Void> remove(@PathVariable ${pkColumn.javaType}[] ${pkColumn.javaField}s)
-    {
-        return toAjax(${className}Service.delete${ClassName}By${pkColumn.capJavaField}s(${pkColumn.javaField}s));
+    @DeleteMapping("/{${pkColumn.javaField}s}")
+    public R<Void> remove(@ApiParam("主键串")
+                          @NotEmpty(message = "主键不能为空")
+                          @PathVariable ${pkColumn.javaType}[] ${pkColumn.javaField}s) {
+        return toAjax(i${ClassName}Service.deleteWithValidByIds(Arrays.asList(${pkColumn.javaField}s), true) ? 1 : 0);
     }
 }

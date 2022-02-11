@@ -68,17 +68,27 @@ public class GenUtils {
             }
         }
 
-        // 插入字段（默认所有字段都需要插入）
-        column.setIsInsert(GenConstants.REQUIRE);
-
-        // 编辑字段
-        if (!arraysContains(GenConstants.COLUMNNAME_NOT_EDIT, columnName) && !column.isPk()) {
+        // BO对象 默认插入勾选
+        if (!arraysContains(GenConstants.COLUMNNAME_NOT_ADD, columnName) && !column.isPk()) {
+            column.setIsInsert(GenConstants.REQUIRE);
+        }
+        // BO对象 默认编辑勾选
+        if (!arraysContains(GenConstants.COLUMNNAME_NOT_EDIT, columnName)) {
             column.setIsEdit(GenConstants.REQUIRE);
         }
-        // 列表字段
-        if (!arraysContains(GenConstants.COLUMNNAME_NOT_LIST, columnName) && !column.isPk()) {
+        // BO对象 默认是否必填勾选
+        if (!arraysContains(GenConstants.COLUMNNAME_NOT_EDIT, columnName)) {
+            column.setIsRequired(GenConstants.REQUIRE);
+        }
+        // VO对象 默认返回勾选
+        if (!arraysContains(GenConstants.COLUMNNAME_NOT_LIST, columnName)) {
             column.setIsList(GenConstants.REQUIRE);
         }
+        // BO对象 默认查询勾选
+        if (!arraysContains(GenConstants.COLUMNNAME_NOT_QUERY, columnName) && !column.isPk()) {
+            column.setIsQuery(GenConstants.REQUIRE);
+        }
+
         // 查询字段
         if (!arraysContains(GenConstants.COLUMNNAME_NOT_QUERY, columnName) && !column.isPk()) {
             column.setIsQuery(GenConstants.REQUIRE);

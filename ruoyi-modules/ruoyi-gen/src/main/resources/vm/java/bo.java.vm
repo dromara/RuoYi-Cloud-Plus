@@ -1,0 +1,66 @@
+package ${packageName}.domain.bo;
+
+import com.ruoyi.common.core.validate.AddGroup;
+import com.ruoyi.common.core.validate.EditGroup;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import javax.validation.constraints.*;
+
+import java.util.Date;
+
+#foreach ($import in $importList)
+import ${import};
+#end
+#if($table.crud || $table.sub)
+import com.ruoyi.common.core.web.domain.BaseEntity;
+#elseif($table.tree)
+import com.ruoyi.common.core.web.domain.TreeEntity;
+#end
+
+/**
+ * ${functionName}业务对象 ${tableName}
+ *
+ * @author ${author}
+ * @date ${datetime}
+ */
+#if($table.crud || $table.sub)
+#set($Entity="BaseEntity")
+#elseif($table.tree)
+#set($Entity="TreeEntity")
+#end
+
+@Data
+@EqualsAndHashCode(callSuper = true)
+@ApiModel("${functionName}业务对象")
+public class ${ClassName}Bo extends ${Entity} {
+
+#foreach ($column in $columns)
+#if(!$table.isSuperColumn($column.javaField) && ($column.query || $column.isInsert || $column.isEdit))
+    /**
+     * $column.columnComment
+     */
+#if($column.isInsert && $column.isEdit)
+#set($Group="AddGroup.class, EditGroup.class")
+#elseif($column.isInsert)
+#set($Group="AddGroup.class")
+#elseif($column.isEdit)
+#set($Group="EditGroup.class")
+#end
+#if($column.isRequired == 1)
+    @ApiModelProperty(value = "$column.columnComment", required = true)
+#if($column.javaType == 'String')
+    @NotBlank(message = "$column.columnComment不能为空", groups = { $Group })
+#else
+    @NotNull(message = "$column.columnComment不能为空", groups = { $Group })
+#end
+#else
+    @ApiModelProperty(value = "$column.columnComment")
+#end
+    private $column.javaType $column.javaField;
+
+#end
+#end
+
+}

@@ -11,7 +11,7 @@
 #else
 #set($comment=$column.columnComment)
 #end
-#if($column.htmlType == "input")
+#if($column.htmlType == "input" || $column.htmlType == "textarea")
       <el-form-item label="${comment}" prop="${column.javaField}">
         <el-input
           v-model="queryParams.${column.javaField}"
@@ -107,11 +107,11 @@
       </el-table-column>
 #elseif($column.list && $column.htmlType == "imageUpload")
       <el-table-column label="${comment}" align="center" prop="${javaField}" width="100">
-        <template slot-scope="scope">
-          <image-preview :src="scope.row.${javaField}" :width="50" :height="50"/>
-        </template>
+          <template #default="scope">
+              <image-preview :src="scope.row.${javaField}" :width="50" :height="50"/>
+          </template>
       </el-table-column>
-#elseif($column.list && "" != $column.dictType)
+#elseif($column.list && $column.dictType && "" != $column.dictType)
       <el-table-column label="${comment}" align="center" prop="${javaField}">
         <template slot-scope="scope">
 #if($column.htmlType == "checkbox")
@@ -162,7 +162,6 @@
 #foreach($column in $columns)
 #set($field=$column.javaField)
 #if($column.insert && !$column.pk)
-#if(($column.usableColumn) || (!$column.superColumn))
 #set($parentheseIndex=$column.columnComment.indexOf("（"))
 #if($parentheseIndex != -1)
 #set($comment=$column.columnComment.substring(0, $parentheseIndex))
@@ -246,8 +245,8 @@
         <el-form-item label="${comment}" prop="${field}">
           <el-date-picker clearable size="small"
             v-model="form.${field}"
-            type="date"
-            value-format="yyyy-MM-dd"
+            type="datetime"
+            value-format="yyyy-MM-dd HH:mm:ss"
             placeholder="选择${comment}">
           </el-date-picker>
         </el-form-item>
@@ -258,10 +257,9 @@
 #end
 #end
 #end
-#end
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="submitForm">确 定</el-button>
+        <el-button :loading="buttonLoading" type="primary" @click="submitForm">确 定</el-button>
         <el-button @click="cancel">取 消</el-button>
       </div>
     </el-dialog>
@@ -283,6 +281,8 @@ export default {
   },
   data() {
     return {
+      // 按钮loading
+      buttonLoading: false,
       // 遮罩层
       loading: true,
       // 显示搜索条件
@@ -427,12 +427,14 @@ export default {
     },
     /** 修改按钮操作 */
     handleUpdate(row) {
+	  this.loading = true;
       this.reset();
       this.getTreeselect();
       if (row != null) {
         this.form.${treeParentCode} = row.${treeCode};
       }
       get${BusinessName}(row.${pkColumn.javaField}).then(response => {
+	    this.loading = false;
         this.form = response.data;
 #foreach ($column in $columns)
 #if($column.htmlType == "checkbox")
@@ -447,6 +449,7 @@ export default {
     submitForm() {
       this.#[[$]]#refs["form"].validate(valid => {
         if (valid) {
+		  this.buttonLoading = true;
 #foreach ($column in $columns)
 #if($column.htmlType == "checkbox")
           this.form.$column.javaField = this.form.${column.javaField}.join(",");
@@ -457,12 +460,16 @@ export default {
               this.#[[$modal]]#.msgSuccess("修改成功");
               this.open = false;
               this.getList();
+            }).finally(() => {
+              this.buttonLoading = false;
             });
           } else {
             add${BusinessName}(this.form).then(response => {
               this.#[[$modal]]#.msgSuccess("新增成功");
               this.open = false;
               this.getList();
+            }).finally(() => {
+              this.buttonLoading = false;
             });
           }
         }
@@ -470,12 +477,16 @@ export default {
     },
     /** 删除按钮操作 */
     handleDelete(row) {
-      this.#[[$modal]]#.confirm('是否确认删除${functionName}编号为"' + row.${pkColumn.javaField} + '"的数据项？').then(function() {
+      this.#[[$modal]]#.confirm('是否确认删除${functionName}编号为"' + row.${pkColumn.javaField} + '"的数据项？').then(() => {
+        this.loading = true;
         return del${BusinessName}(row.${pkColumn.javaField});
       }).then(() => {
+        this.loading = false;
         this.getList();
         this.#[[$modal]]#.msgSuccess("删除成功");
-      }).catch(() => {});
+      }).finally(() => {
+        this.loading = false;
+      });
     }
   }
 };

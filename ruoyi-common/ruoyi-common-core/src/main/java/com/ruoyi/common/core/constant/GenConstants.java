@@ -68,31 +68,38 @@ public interface GenConstants {
             "bigint", "float", "double", "decimal"};
 
     /**
-     * 页面不需要编辑字段
+     * BO对象 不需要添加字段
      */
-    String[] COLUMNNAME_NOT_EDIT = {"id", "create_by", "create_time", "del_flag"};
+    String[] COLUMNNAME_NOT_ADD = {"create_by", "create_time", "del_flag", "update_by",
+        "update_time", "version"};
 
     /**
-     * 页面不需要显示的列表字段
+     * BO对象 不需要编辑字段
      */
-    String[] COLUMNNAME_NOT_LIST = {"id", "create_by", "create_time", "del_flag", "update_by",
-            "update_time"};
+    String[] COLUMNNAME_NOT_EDIT = {"create_by", "create_time", "del_flag", "update_by",
+        "update_time", "version"};
 
     /**
-     * 页面不需要查询字段
+     * VO对象 不需要返回字段
+     */
+    String[] COLUMNNAME_NOT_LIST = {"create_by", "create_time", "del_flag", "update_by",
+        "update_time", "version"};
+
+    /**
+     * BO对象 不需要查询字段
      */
     String[] COLUMNNAME_NOT_QUERY = {"id", "create_by", "create_time", "del_flag", "update_by",
-            "update_time", "remark"};
+        "update_time", "remark", "version"};
 
     /**
      * Entity基类字段
      */
-    String[] BASE_ENTITY = {"createBy", "createTime", "updateBy", "updateTime", "remark"};
+    String[] BASE_ENTITY = {"createBy", "createTime", "updateBy", "updateTime"};
 
     /**
      * Tree基类字段
      */
-    String[] TREE_ENTITY = {"parentName", "parentId", "orderNum", "ancestors"};
+    String[] TREE_ENTITY = {"parentName", "parentId", "children"};
 
     /**
      * 文本框
