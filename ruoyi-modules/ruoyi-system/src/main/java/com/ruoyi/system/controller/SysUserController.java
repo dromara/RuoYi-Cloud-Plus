@@ -255,6 +255,6 @@ public class SysUserController extends BaseController {
     public R<Void> insertAuthRole(Long userId, Long[] roleIds) {
         userService.checkUserDataScope(userId);
         userService.insertUserAuth(userId, roleIds);
-        return success();
+        return R.ok();
     }
 }

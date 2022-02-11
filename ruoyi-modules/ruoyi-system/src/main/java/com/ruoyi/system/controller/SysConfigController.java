@@ -119,7 +119,7 @@ public class SysConfigController extends BaseController {
     @DeleteMapping("/{configIds}")
     public R<Void> remove(@PathVariable Long[] configIds) {
         configService.deleteConfigByIds(configIds);
-        return success();
+        return R.ok();
     }
 
     /**

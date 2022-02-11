@@ -107,6 +107,6 @@ public class SysDictDataController extends BaseController {
     @DeleteMapping("/{dictCodes}")
     public R<Void> remove(@PathVariable Long[] dictCodes) {
         dictDataService.deleteDictDataByIds(dictCodes);
-        return success();
+        return R.ok();
     }
 }
