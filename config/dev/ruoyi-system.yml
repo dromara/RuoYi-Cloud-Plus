@@ -42,6 +42,6 @@ xxl:
       # 执行器IP：默认自动获取IP
       ip:
       # 执行器运行日志文件存储磁盘路径
-      logpath: ./logs/xxl-job
+      logpath: ./logs/${spring.application.name}/xxl-job
       # 执行器日志文件保存天数：大于3生效
       logretentiondays: 30
