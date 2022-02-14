@@ -36,7 +36,7 @@ public class ValidateCodeServiceImpl implements ValidateCodeService {
      * 生成验证码
      */
     @Override
-    public R<Map<String, Object>> createCapcha() throws IOException, CaptchaException {
+    public R<Map<String, Object>> createCaptcha() throws IOException, CaptchaException {
         Map<String, Object> ajax = new HashMap<>();
         boolean captchaOnOff = captchaProperties.getEnabled();
         ajax.put("captchaOnOff", captchaOnOff);
@@ -83,7 +83,7 @@ public class ValidateCodeServiceImpl implements ValidateCodeService {
      * 校验验证码
      */
     @Override
-    public void checkCapcha(String code, String uuid) throws CaptchaException {
+    public void checkCaptcha(String code, String uuid) throws CaptchaException {
         if (StringUtils.isEmpty(code)) {
             throw new CaptchaException("验证码不能为空");
         }

@@ -415,7 +415,7 @@ public class SysMenuServiceImpl implements ISysMenuService {
      * 判断是否有子节点
      */
     private boolean hasChild(List<SysMenu> list, SysMenu t) {
-        return getChildList(list, t).size() > 0 ? true : false;
+        return getChildList(list, t).size() > 0;
     }
 
     /**

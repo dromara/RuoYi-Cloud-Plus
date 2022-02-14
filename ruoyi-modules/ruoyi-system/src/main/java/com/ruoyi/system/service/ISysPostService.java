@@ -12,6 +12,7 @@ import java.util.List;
  * @author ruoyi
  */
 public interface ISysPostService {
+
     TableDataInfo<SysPost> selectPagePostList(SysPost post, PageQuery pageQuery);
 
     /**
@@ -82,7 +83,6 @@ public interface ISysPostService {
      *
      * @param postIds 需要删除的岗位ID
      * @return 结果
-     * @throws Exception 异常
      */
     int deletePostByIds(Long[] postIds);
 

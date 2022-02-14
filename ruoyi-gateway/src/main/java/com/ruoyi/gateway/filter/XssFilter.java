@@ -96,7 +96,7 @@ public class XssFilter implements GlobalFilter, Ordered {
     /**
      * 是否是Json请求
      *
-     * @param request
+     * @param exchange HTTP请求
      */
     public boolean isJsonRequest(ServerWebExchange exchange) {
         String header = exchange.getRequest().getHeaders().getFirst(HttpHeaders.CONTENT_TYPE);

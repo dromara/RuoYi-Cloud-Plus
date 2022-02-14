@@ -29,7 +29,7 @@ public class ValidateCodeHandler implements HandlerFunction<ServerResponse> {
     public Mono<ServerResponse> handle(ServerRequest serverRequest) {
         R<Map<String, Object>> ajax;
         try {
-            ajax = validateCodeService.createCapcha();
+            ajax = validateCodeService.createCaptcha();
         } catch (CaptchaException | IOException e) {
             return Mono.error(e);
         }

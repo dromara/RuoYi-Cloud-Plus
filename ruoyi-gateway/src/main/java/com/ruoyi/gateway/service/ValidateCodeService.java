@@ -15,10 +15,10 @@ public interface ValidateCodeService {
     /**
      * 生成验证码
      */
-    R<Map<String, Object>> createCapcha() throws IOException, CaptchaException;
+    R<Map<String, Object>> createCaptcha() throws IOException, CaptchaException;
 
     /**
      * 校验验证码
      */
-    void checkCapcha(String key, String value) throws CaptchaException;
+    void checkCaptcha(String key, String value) throws CaptchaException;
 }
