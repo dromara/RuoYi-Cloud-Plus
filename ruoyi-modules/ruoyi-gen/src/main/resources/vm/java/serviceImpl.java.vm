@@ -5,12 +5,12 @@ import com.ruoyi.common.core.utils.StringUtils;
 #if($table.crud || $table.sub)
 import com.ruoyi.common.mybatis.core.page.PageQuery;
 import com.ruoyi.common.mybatis.core.page.TableDataInfo;
-#end
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+#end
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 import ${packageName}.domain.bo.${ClassName}Bo;
 import ${packageName}.domain.vo.${ClassName}Vo;
 import ${packageName}.domain.${ClassName};
@@ -74,27 +74,27 @@ public class ${ClassName}ServiceImpl implements I${ClassName}Service {
     private LambdaQueryWrapper<${ClassName}> buildQueryWrapper(${ClassName}Bo bo) {
         Map<String, Object> params = bo.getParams();
         LambdaQueryWrapper<${ClassName}> lqw = Wrappers.lambdaQuery();
-        #foreach($column in $columns)
-            #if($column.query)
-                #set($queryType=$column.queryType)
-                #set($javaField=$column.javaField)
-                #set($javaType=$column.javaType)
-                #set($columnName=$column.columnName)
-                #set($AttrName=$column.javaField.substring(0,1).toUpperCase() + ${column.javaField.substring(1)})
-                #set($mpMethod=$column.queryType.toLowerCase())
-                #if($queryType != 'BETWEEN')
-                    #if($javaType == 'String')
-                        #set($condition='StringUtils.isNotBlank(bo.get'+$AttrName+'())')
-                    #else
-                        #set($condition='bo.get'+$AttrName+'() != null')
-                    #end
-                    lqw.$mpMethod($condition, ${ClassName}::get$AttrName, bo.get$AttrName());
-                #else
-                    lqw.between(params.get("begin$AttrName") != null && params.get("end$AttrName") != null,
-                        ${ClassName}::get$AttrName ,params.get("begin$AttrName"), params.get("end$AttrName"));
-                #end
-            #end
-        #end
+#foreach($column in $columns)
+#if($column.query)
+#set($queryType=$column.queryType)
+#set($javaField=$column.javaField)
+#set($javaType=$column.javaType)
+#set($columnName=$column.columnName)
+#set($AttrName=$column.javaField.substring(0,1).toUpperCase() + ${column.javaField.substring(1)})
+#set($mpMethod=$column.queryType.toLowerCase())
+#if($queryType != 'BETWEEN')
+#if($javaType == 'String')
+#set($condition='StringUtils.isNotBlank(bo.get'+$AttrName+'())')
+#else
+#set($condition='bo.get'+$AttrName+'() != null')
+#end
+        lqw.$mpMethod($condition, ${ClassName}::get$AttrName, bo.get$AttrName());
+#else
+        lqw.between(params.get("begin$AttrName") != null && params.get("end$AttrName") != null,
+            ${ClassName}::get$AttrName ,params.get("begin$AttrName"), params.get("end$AttrName"));
+#end
+#end
+#end
         return lqw;
     }
 
@@ -109,7 +109,7 @@ public class ${ClassName}ServiceImpl implements I${ClassName}Service {
         ${ClassName} add = BeanUtil.toBean(bo, ${ClassName}.class);
         validEntityBeforeSave(add);
         boolean flag = baseMapper.insert(add) > 0;
-        #set($pk=$pkColumn.javaField.substring(0,1).toUpperCase() + ${pkColumn.javaField.substring(1)})
+#set($pk=$pkColumn.javaField.substring(0,1).toUpperCase() + ${pkColumn.javaField.substring(1)})
         if (flag) {
             bo.set$pk(add.get$pk());
         }
