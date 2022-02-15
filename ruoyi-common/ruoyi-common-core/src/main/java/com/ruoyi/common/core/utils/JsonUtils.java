@@ -1,5 +1,6 @@
 package com.ruoyi.common.core.utils;
 
+import cn.hutool.core.lang.Dict;
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.ObjectUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -11,7 +12,6 @@ import lombok.NoArgsConstructor;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * JSON 工具类
@@ -21,14 +21,14 @@ import java.util.Map;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class JsonUtils {
 
-    private static ObjectMapper objectMapper = SpringUtils.getBean(ObjectMapper.class);
+    private static ObjectMapper OBJECT_MAPPER = SpringUtils.getBean(ObjectMapper.class);
 
     public static String toJsonString(Object object) {
         if (ObjectUtil.isNull(object)) {
             return null;
         }
         try {
-            return objectMapper.writeValueAsString(object);
+            return OBJECT_MAPPER.writeValueAsString(object);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
@@ -39,7 +39,7 @@ public class JsonUtils {
             return null;
         }
         try {
-            return objectMapper.readValue(text, clazz);
+            return OBJECT_MAPPER.readValue(text, clazz);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -50,7 +50,7 @@ public class JsonUtils {
             return null;
         }
         try {
-            return objectMapper.readValue(bytes, clazz);
+            return OBJECT_MAPPER.readValue(bytes, clazz);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -61,19 +61,29 @@ public class JsonUtils {
             return null;
         }
         try {
-            return objectMapper.readValue(text, typeReference);
+            return OBJECT_MAPPER.readValue(text, typeReference);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public static <T> Map<String, T> parseMap(String text) {
+    public static Dict parseMap(String text) {
         if (StringUtils.isBlank(text)) {
             return null;
         }
         try {
-            return objectMapper.readValue(text, new TypeReference<Map<String, T>>() {
-            });
+            return OBJECT_MAPPER.readValue(text, OBJECT_MAPPER.getTypeFactory().constructType(Dict.class));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static List<Dict> parseArrayMap(String text) {
+        if (StringUtils.isBlank(text)) {
+            return null;
+        }
+        try {
+            return OBJECT_MAPPER.readValue(text, OBJECT_MAPPER.getTypeFactory().constructCollectionType(List.class, Dict.class));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -84,7 +94,7 @@ public class JsonUtils {
             return new ArrayList<>();
         }
         try {
-            return objectMapper.readValue(text, objectMapper.getTypeFactory().constructCollectionType(List.class, clazz));
+            return OBJECT_MAPPER.readValue(text, OBJECT_MAPPER.getTypeFactory().constructCollectionType(List.class, clazz));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
