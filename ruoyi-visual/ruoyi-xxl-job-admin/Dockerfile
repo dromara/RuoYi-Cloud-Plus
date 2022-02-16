@@ -2,15 +2,15 @@ FROM anapsix/alpine-java:8_server-jre_unlimited
 
 MAINTAINER Lion Li
 
-RUN mkdir -p /ruoyi/xxljob
-RUN mkdir -p /ruoyi/xxljob/logs
+RUN mkdir -p /ruoyi/xxl-job-admin
+RUN mkdir -p /ruoyi/xxl-job-admin/logs
 
-WORKDIR /ruoyi/xxljob
+WORKDIR /ruoyi/xxl-job-admin
 
 ENV TZ=PRC
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
-EXPOSE 9100
+EXPOSE 9900
 
 ADD ./target/ruoyi-xxl-job-admin.jar ./app.jar
 
