@@ -10,6 +10,7 @@
 
     <modules>
         <module>ruoyi-common-bom</module>
+        <module>ruoyi-common-alibaba-bom</module>
         <module>ruoyi-common-log</module>
         <module>ruoyi-common-dict</module>
         <module>ruoyi-common-excel</module>

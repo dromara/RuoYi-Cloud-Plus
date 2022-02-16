@@ -1,140 +1,270 @@
-version : '3.8'
+version: '3'
+
 services:
-  ruoyi-nacos:
-    container_name: ruoyi-nacos
-    image: nacos/nacos-server
-    build:
-      context: ./nacos
+  mysql:
+    image: mysql:8.0.27
+    container_name: mysql
     environment:
-      - MODE=standalone
-    volumes:
-      - ./nacos/logs/:/home/nacos/logs
-      - ./nacos/conf/application.properties:/home/nacos/conf/application.properties
+      # 时区上海
+      TZ: Asia/Shanghai
+      # root 密码
+      MYSQL_ROOT_PASSWORD: ruoyi123
+      # 初始化数据库
+      MYSQL_DATABASE: ry-cloud
     ports:
-      - "8848:8848"
-      - "9848:9848"
-      - "9849:9849"
-    depends_on:
-      - ruoyi-mysql
-  ruoyi-mysql:
-    container_name: ruoyi-mysql
-    image: mysql:5.7
-    build:
-      context: ./mysql
-    ports:
-      - "3306:3306"
+      - 3306:3306
     volumes:
-      - ./mysql/conf:/etc/mysql/conf.d
-      - ./mysql/logs:/logs
-      - ./mysql/data:/var/lib/mysql
-    command: [
-          'mysqld',
-          '--innodb-buffer-pool-size=80M',
-          '--character-set-server=utf8mb4',
-          '--collation-server=utf8mb4_unicode_ci',
-          '--default-time-zone=+8:00',
-          '--lower-case-table-names=1'
-        ]
+      # 数据挂载
+      - /docker/mysql/data/:/var/lib/mysql/
+      # 配置挂载
+      - /docker/mysql/conf/:/etc/mysql/conf.d/
+    command:
+      # 将mysql8.0默认密码策略 修改为 原先 策略 (mysql8.0对其默认策略做了更改 会导致密码无法匹配)
+      --default-authentication-plugin=mysql_native_password
+      --character-set-server=utf8mb4
+      --collation-server=utf8mb4_general_ci
+      --explicit_defaults_for_timestamp=true
+      --lower_case_table_names=1
+    privileged: true
+    restart: always
+    networks:
+      ruoyi_net:
+        ipv4_address: 172.30.0.36
+
+  nacos:
+    image: nacos/nacos-server:2.0.4
+    container_name: nacos
+    ports:
+      - 8848:8848
+      - 9848:9848
+      - 9849:9849
     environment:
-      MYSQL_DATABASE: 'ry-cloud'
-      MYSQL_ROOT_PASSWORD: password
-  ruoyi-redis:
-    container_name: ruoyi-redis
-    image: redis
-    build:
-      context: ./redis
-    ports:
-      - "6379:6379"
+      TZ: Asia/Shanghai
+      MODE: standalone
+      SPRING_DATASOURCE_PLATFORM: mysql
+      MYSQL_SERVICE_HOST: 172.30.0.36
+      MYSQL_SERVICE_PORT: 3306
+      MYSQL_SERVICE_USER: root
+      MYSQL_SERVICE_PASSWORD: ruoyi123
+      MYSQL_SERVICE_DB_NAME: ry-config
+      MYSQL_SERVICE_DB_PARAM: characterEncoding=utf8&connectTimeout=1000&socketTimeout=3000&autoReconnect=true&useUnicode=true&useSSL=false&serverTimezone=UTC
     volumes:
-      - ./redis/conf/redis.conf:/home/ruoyi/redis/redis.conf
-      - ./redis/data:/data
-    command: redis-server /home/ruoyi/redis/redis.conf
-  ruoyi-nginx:
-    container_name: ruoyi-nginx
-    image: nginx
-    build:
-      context: ./nginx
+      - /docker/nacos/logs/:/home/nacos/logs
+      - /docker/nacos/config/custom.properties:/home/nacos/init.d/custom.properties
+    privileged: true
+    restart: always
+    networks:
+      ruoyi_net:
+        ipv4_address: 172.30.0.40
+
+  redis:
+    image: redis:6.2.6
+    container_name: redis
     ports:
-      - "80:80"
+      - 6379:6379
+    environment:
+      # 时区上海
+      TZ: Asia/Shanghai
     volumes:
-      - ./nginx/html/dist:/home/ruoyi/projects/ruoyi-ui
-      - ./nginx/conf/nginx.conf:/etc/nginx/nginx.conf
-      - ./nginx/logs:/var/log/nginx
-      - ./nginx/conf.d:/etc/nginx/conf.d
-    depends_on:
-      - ruoyi-gateway
-    links:
-      - ruoyi-gateway
+      # 配置文件
+      - /docker/redis/conf:/redis/config
+      # 数据文件
+      - /docker/redis/data/:/redis/data/
+    command: "redis-server /redis/config/redis.conf"
+    privileged: true
+    restart: always
+    networks:
+      ruoyi_net:
+        ipv4_address: 172.30.0.48
+
+  minio:
+    image: minio/minio:RELEASE.2021-10-27T16-29-42Z
+    container_name: minio
+    ports:
+      # api 端口
+      - 9000:9000
+      # 控制台端口
+      - 9001:9001
+    environment:
+      # 时区上海
+      TZ: Asia/Shanghai
+      # 管理后台用户名
+      MINIO_ACCESS_KEY: ruoyi
+      # 管理后台密码，最小8个字符
+      MINIO_SECRET_KEY: ruoyi123
+    volumes:
+      # 映射当前目录下的data目录至容器内/data目录
+      - /docker/minio/data:/data
+      # 映射配置目录
+      - /docker/minio/config:/root/.minio/
+    command: server --console-address ':9001' /data  # 指定容器中的目录 /data
+    privileged: true
+    restart: always
+    networks:
+      ruoyi_net:
+        ipv4_address: 172.30.0.54
+
+  seata-server:
+    image: seataio/seata-server:1.4.2
+    container_name: seata-server
+    ports:
+      - 8091:8091
+    environment:
+      TZ: Asia/Shanghai
+      # 注意 此处ip如果是外网使用 要改为外网ip
+      SEATA_IP: 172.30.0.58
+      SEATA_PORT: 8091
+      STORE_MODE: db
+      SEATA_CONFIG_NAME: file:/root/seata-config/registry
+    volumes:
+      - /docker/seata/config:/root/seata-config
+    privileged: true
+    restart: always
+    networks:
+      ruoyi_net:
+        ipv4_address: 172.30.0.58
+
+  nginx-web:
+    image: nginx:1.21.3
+    container_name: nginx-web
+    environment:
+      # 时区上海
+      TZ: Asia/Shanghai
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      # 证书映射
+      - /docker/nginx/cert:/etc/nginx/cert
+      # 配置文件映射
+      - /docker/nginx/conf/nginx.conf:/etc/nginx/nginx.conf
+      # 页面目录
+      - /docker/nginx/html:/usr/share/nginx/html
+      # 日志目录
+      - /docker/nginx/log:/var/log/nginx
+    privileged: true
+    restart: always
+    networks:
+      - ruoyi_net
+
+  sentinel:
+    image: ruoyi/ruoyi-sentinel-dashboard:0.6.0
+    container_name: sentinel
+    environment:
+      TZ: Asia/Shanghai
+    ports:
+      - 8718:8718
+    volumes:
+      # 配置文件
+      - /docker/ruoyi-sentinel-dashboard/logs/:/ruoyi/sentinel-dashboard/logs
+    restart: always
+    networks:
+      ruoyi_net:
+        ipv4_address: 172.30.0.68
+
+  ruoyi-monitor-admin:
+    image: ruoyi/ruoyi-monitor:0.6.0
+    container_name: ruoyi-monitor
+    environment:
+      # 时区上海
+      TZ: Asia/Shanghai
+    ports:
+      - 9100:9100
+    volumes:
+      # 配置文件
+      - /docker/ruoyi-monitor/logs/:/ruoyi/monitor/logs
+    privileged: true
+    restart: always
+    networks:
+      ruoyi_net:
+        ipv4_address: 172.30.0.90
+
+  ruoyi-xxl-job-admin:
+    image: ruoyi/ruoyi-xxl-job-admin:0.6.0
+    container_name: ruoyi-xxl-job-admin
+    environment:
+      # 时区上海
+      TZ: Asia/Shanghai
+    ports:
+      - 9900:9900
+    volumes:
+      # 配置文件
+      - /docker/ruoyi-xxl-job-admin/logs/:/ruoyi/xxl-job-admin/logs
+    privileged: true
+    restart: always
+    networks:
+      ruoyi_net:
+        ipv4_address: 172.30.0.92
+
   ruoyi-gateway:
+    image: ruoyi/ruoyi-gateway:0.6.0
     container_name: ruoyi-gateway
-    build:
-      context: ./ruoyi/gateway
-      dockerfile: dockerfile
+    environment:
+      # 时区上海
+      TZ: Asia/Shanghai
     ports:
-      - "8080:8080"
-    depends_on:
-      - ruoyi-redis
-    links:
-      - ruoyi-redis
-  ruoyi-auth:
-    container_name: ruoyi-auth
-    build:
-      context: ./ruoyi/auth
-      dockerfile: dockerfile
-    ports:
-      - "9200:9200"
-    depends_on:
-      - ruoyi-redis
-    links:
-      - ruoyi-redis
-  ruoyi-modules-system:
-    container_name: ruoyi-modules-system
-    build:
-      context: ./ruoyi/modules/system
-      dockerfile: dockerfile
-    ports:
-      - "9201:9201"
-    depends_on:
-      - ruoyi-redis
-      - ruoyi-mysql
-    links:
-      - ruoyi-redis
-      - ruoyi-mysql
-  ruoyi-modules-gen:
-    container_name: ruoyi-modules-gen
-    build:
-      context: ./ruoyi/modules/gen
-      dockerfile: dockerfile
-    ports:
-      - "9202:9202"
-    depends_on:
-      - ruoyi-mysql
-    links:
-      - ruoyi-mysql
-  ruoyi-modules-job:
-    container_name: ruoyi-modules-job
-    build:
-      context: ./ruoyi/modules/job
-      dockerfile: dockerfile
-    ports:
-      - "9203:9203"
-    depends_on:
-      - ruoyi-mysql
-    links:
-      - ruoyi-mysql
-  ruoyi-modules-file:
-    container_name: ruoyi-modules-file
-    build:
-      context: ./ruoyi/modules/file
-      dockerfile: dockerfile
-    ports:
-      - "9300:9300"
+      - 8080:8080
     volumes:
-    - ./ruoyi/uploadPath:/home/ruoyi/uploadPath
-  ruoyi-visual-monitor:
-    container_name: ruoyi-visual-monitor
-    build:
-      context: ./ruoyi/visual/monitor
-      dockerfile: dockerfile
+      # 配置文件
+      - /docker/ruoyi-gateway/logs/:/ruoyi/gateway/logs
+    privileged: true
+    restart: always
+    networks:
+      ruoyi_net:
+        ipv4_address: 172.30.0.100
+
+  ruoyi-auth:
+    image: ruoyi/ruoyi-auth:0.6.0
+    container_name: ruoyi-auth
+    environment:
+      # 时区上海
+      TZ: Asia/Shanghai
     ports:
-      - "9100:9100"
+      - 9200:9200
+    volumes:
+      # 配置文件
+      - /docker/ruoyi-auth/logs/:/ruoyi/auth/logs
+    privileged: true
+    restart: always
+    networks:
+      ruoyi_net:
+        ipv4_address: 172.30.0.110
+
+  ruoyi-system:
+    image: ruoyi/ruoyi-system:0.6.0
+    container_name: ruoyi-system
+    environment:
+      # 时区上海
+      TZ: Asia/Shanghai
+    ports:
+      - 9201:9201
+    volumes:
+      # 配置文件
+      - /docker/ruoyi-system/logs/:/ruoyi/system/logs
+    privileged: true
+    restart: always
+    networks:
+      - ruoyi_net
+
+  ruoyi-resource:
+    image: ruoyi/ruoyi-resource:0.6.0
+    container_name: ruoyi-resource
+    environment:
+      # 时区上海
+      TZ: Asia/Shanghai
+    ports:
+      - 9300:9300
+    volumes:
+      # 配置文件
+      - /docker/ruoyi-resource/logs/:/ruoyi/resource/logs
+    privileged: true
+    restart: always
+    networks:
+      - ruoyi_net
+
+networks:
+  ruoyi_net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.30.0.0/16

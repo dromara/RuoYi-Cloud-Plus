@@ -19,7 +19,6 @@
         <java.version>1.8</java.version>
         <spring-boot.version>2.6.3</spring-boot.version>
         <spring-cloud.version>2021.0.0</spring-cloud.version>
-        <spring-cloud-alibaba.version>2021.1</spring-cloud-alibaba.version>
         <alibaba.nacos.version>2.0.4</alibaba.nacos.version>
         <spring-boot-admin.version>2.6.2</spring-boot-admin.version>
         <spring-boot.mybatis>2.2.0</spring-boot.mybatis>
@@ -35,9 +34,6 @@
         <hutool.version>5.7.20</hutool.version>
         <redisson.version>3.16.8</redisson.version>
         <lock4j.version>2.2.1</lock4j.version>
-        <dubbo.version>2.7.15</dubbo.version>
-        <seata.version>1.4.2</seata.version>
-        <spring-context-support.version>1.0.11</spring-context-support.version>
         <xxl-job.version>2.3.0</xxl-job.version>
         <knife4j-aggregation.version>2.0.9</knife4j-aggregation.version>
         <knife4j.version>3.0.3</knife4j.version>
@@ -98,43 +94,11 @@
 
             <!-- SpringCloud Alibaba 微服务 -->
             <dependency>
-                <groupId>com.alibaba.cloud</groupId>
-                <artifactId>spring-cloud-alibaba-dependencies</artifactId>
-                <version>${spring-cloud-alibaba.version}</version>
+                <groupId>com.ruoyi</groupId>
+                <artifactId>ruoyi-common-alibaba-bom</artifactId>
+                <version>${ruoyi.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
-            </dependency>
-
-            <!-- Alibaba Nacos 配置 -->
-            <dependency>
-                <groupId>com.alibaba.nacos</groupId>
-                <artifactId>nacos-client</artifactId>
-                <version>${alibaba.nacos.version}</version>
-            </dependency>
-
-            <!-- Apache Dubbo 配置 -->
-            <dependency>
-                <groupId>org.apache.dubbo</groupId>
-                <artifactId>dubbo-spring-boot-starter</artifactId>
-                <version>${dubbo.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.apache.dubbo</groupId>
-                <artifactId>dubbo</artifactId>
-                <version>${dubbo.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>io.seata</groupId>
-                <artifactId>seata-spring-boot-starter</artifactId>
-                <version>${seata.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.alibaba.spring</groupId>
-                <artifactId>spring-context-support</artifactId>
-                <version>${spring-context-support.version}</version>
             </dependency>
 
             <!-- SpringBoot 依赖配置 -->
@@ -305,7 +269,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.1</version>
+                <version>3.9.0</version>
                 <configuration>
                     <source>${java.version}</source>
                     <target>${java.version}</target>
@@ -313,6 +277,29 @@
                 </configuration>
             </plugin>
         </plugins>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>com.spotify</groupId>
+                    <artifactId>docker-maven-plugin</artifactId>
+                    <version>${docker.plugin.version}</version>
+                    <configuration>
+                        <imageName>${docker.namespace}/${project.artifactId}:${project.version}</imageName>
+                        <dockerDirectory>${project.basedir}</dockerDirectory>
+                        <dockerHost>${docker.registry.host}</dockerHost>
+                        <registryUrl>${docker.registry.url}</registryUrl>
+                        <serverId>${docker.registry.url}</serverId>
+                        <resources>
+                            <resource>
+                                <targetPath>/</targetPath>
+                                <directory>${project.build.directory}</directory>
+                                <include>${project.build.finalName}.jar</include>
+                            </resource>
+                        </resources>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
         <resources>
             <resource>
                 <directory>src/main/resources</directory>
