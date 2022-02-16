@@ -75,7 +75,7 @@ spring:
         ds1:
           nacos:
             server-addr: ${spring.cloud.nacos.server-addr}
-            dataId: sentinel-${spring.application.name}
+            dataId: sentinel-${spring.application.name}.json
             groupId: ${spring.cloud.nacos.config.group}
             namespace: ${spring.profiles.active}
             data-type: json
