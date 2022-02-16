@@ -16,16 +16,8 @@
     "controlBehavior": 0
   },
   {
-    "resource": "ruoyi-gen",
-    "count": 200,
-    "grade": 1,
-    "limitApp": "default",
-    "strategy": 0,
-    "controlBehavior": 0
-  },
-  {
-    "resource": "ruoyi-job",
-    "count": 300,
+    "resource": "ruoyi-resource",
+    "count": 500,
     "grade": 1,
     "limitApp": "default",
     "strategy": 0,
