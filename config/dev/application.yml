@@ -55,6 +55,12 @@ spring:
     pathmatch:
       # 适配 boot 2.6 路由与 springfox 兼容
       matching-strategy: ANT_PATH_MATCHER
+  servlet:
+    multipart:
+      # 整个请求大小限制
+      max-request-size: 20MB
+      # 上传单个文件大小限制
+      max-file-size: 10MB
   #jackson配置
   jackson:
     # 日期格式化
