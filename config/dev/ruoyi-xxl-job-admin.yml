@@ -3,9 +3,9 @@ spring:
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: ${datasource.xxl-job-admin.url}
-    username: ${datasource.xxl-job-admin.username}
-    password: ${datasource.xxl-job-admin.password}
+    url: ${datasource.job.url}
+    username: ${datasource.job.username}
+    password: ${datasource.job.password}
     hikari:
       auto-commit: true
       connection-test-query: SELECT 1

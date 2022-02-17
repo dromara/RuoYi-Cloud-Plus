@@ -1,4 +1,4 @@
-package com.ruoyi.system.job;
+package com.ruoyi.job.service;
 
 import com.xxl.job.core.context.XxlJobHelper;
 import com.xxl.job.core.handler.annotation.XxlJob;

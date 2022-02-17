@@ -12,7 +12,7 @@ services:
       # 初始化数据库
       MYSQL_DATABASE: ry-cloud
     ports:
-      - 3306:3306
+      - "3306:3306"
     volumes:
       # 数据挂载
       - /docker/mysql/data/:/var/lib/mysql/
@@ -35,9 +35,9 @@ services:
     image: nacos/nacos-server:2.0.4
     container_name: nacos
     ports:
-      - 8848:8848
-      - 9848:9848
-      - 9849:9849
+      - "8848:8848"
+      - "9848:9848"
+      - "9849:9849"
     environment:
       TZ: Asia/Shanghai
       MODE: standalone
@@ -61,7 +61,7 @@ services:
     image: redis:6.2.6
     container_name: redis
     ports:
-      - 6379:6379
+      - "6379:6379"
     environment:
       # 时区上海
       TZ: Asia/Shanghai
@@ -82,9 +82,9 @@ services:
     container_name: minio
     ports:
       # api 端口
-      - 9000:9000
+      - "9000:9000"
       # 控制台端口
-      - 9001:9001
+      - "9001:9001"
     environment:
       # 时区上海
       TZ: Asia/Shanghai
@@ -108,7 +108,7 @@ services:
     image: seataio/seata-server:1.4.2
     container_name: seata-server
     ports:
-      - 8091:8091
+      - "8091:8091"
     environment:
       TZ: Asia/Shanghai
       # 注意 此处ip如果是外网使用 要改为外网ip
@@ -131,8 +131,8 @@ services:
       # 时区上海
       TZ: Asia/Shanghai
     ports:
-      - 80:80
-      - 443:443
+      - "80:80"
+      - "443:443"
     volumes:
       # 证书映射
       - /docker/nginx/cert:/etc/nginx/cert
@@ -153,7 +153,7 @@ services:
     environment:
       TZ: Asia/Shanghai
     ports:
-      - 8718:8718
+      - "8718:8718"
     volumes:
       # 配置文件
       - /docker/ruoyi-sentinel-dashboard/logs/:/ruoyi/sentinel-dashboard/logs
@@ -169,7 +169,7 @@ services:
       # 时区上海
       TZ: Asia/Shanghai
     ports:
-      - 9100:9100
+      - "9100:9100"
     volumes:
       # 配置文件
       - /docker/ruoyi-monitor/logs/:/ruoyi/monitor/logs
@@ -186,7 +186,7 @@ services:
       # 时区上海
       TZ: Asia/Shanghai
     ports:
-      - 9900:9900
+      - "9900:9900"
     volumes:
       # 配置文件
       - /docker/ruoyi-xxl-job-admin/logs/:/ruoyi/xxl-job-admin/logs
@@ -203,7 +203,7 @@ services:
       # 时区上海
       TZ: Asia/Shanghai
     ports:
-      - 8080:8080
+      - "8080:8080"
     volumes:
       # 配置文件
       - /docker/ruoyi-gateway/logs/:/ruoyi/gateway/logs
@@ -220,7 +220,7 @@ services:
       # 时区上海
       TZ: Asia/Shanghai
     ports:
-      - 9200:9200
+      - "9200:9200"
     volumes:
       # 配置文件
       - /docker/ruoyi-auth/logs/:/ruoyi/auth/logs
@@ -237,10 +237,42 @@ services:
       # 时区上海
       TZ: Asia/Shanghai
     ports:
-      - 9201:9201
+      - "9201:9201"
     volumes:
       # 配置文件
       - /docker/ruoyi-system/logs/:/ruoyi/system/logs
+    privileged: true
+    restart: always
+    networks:
+      - ruoyi_net
+
+  ruoyi-gen:
+    image: ruoyi/ruoyi-gen:0.7.0
+    container_name: ruoyi-gen
+    environment:
+      # 时区上海
+      TZ: Asia/Shanghai
+    ports:
+      - "9202:9202"
+    volumes:
+      # 配置文件
+      - /docker/ruoyi-gen/logs/:/ruoyi/gen/logs
+    privileged: true
+    restart: always
+    networks:
+      - ruoyi_net
+
+  ruoyi-job:
+    image: ruoyi/ruoyi-job:0.7.0
+    container_name: ruoyi-job
+    environment:
+      # 时区上海
+      TZ: Asia/Shanghai
+    ports:
+      - "9203:9203"
+    volumes:
+      # 配置文件
+      - /docker/ruoyi-job/logs/:/ruoyi/job/logs
     privileged: true
     restart: always
     networks:
@@ -253,7 +285,7 @@ services:
       # 时区上海
       TZ: Asia/Shanghai
     ports:
-      - 9300:9300
+      - "9300:9300"
     volumes:
       # 配置文件
       - /docker/ruoyi-resource/logs/:/ruoyi/resource/logs
