@@ -9,29 +9,34 @@ import com.ruoyi.common.core.domain.R;
 import com.ruoyi.common.core.enums.DeviceType;
 import com.ruoyi.common.satoken.utils.LoginHelper;
 import com.ruoyi.system.api.model.LoginUser;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
  * token 控制
  *
- * @author ruoyi
+ * @author Lion Li
  */
+@Validated
+@Api(value = "认证鉴权控制器", tags = {"认证鉴权管理"})
 @RequiredArgsConstructor
 @RestController
 public class TokenController {
 
     private final SysLoginService sysLoginService;
 
+    @ApiOperation("登录方法")
     @PostMapping("login")
-    public R<?> login(@RequestBody LoginBody form) {
+    public R<Map<String, Object>> login(@Validated @RequestBody LoginBody form) {
         // 用户登录
         LoginUser userInfo = sysLoginService.login(form.getUsername(), form.getPassword());
         // 获取登录token
@@ -42,19 +47,23 @@ public class TokenController {
         return R.ok(rspMap);
     }
 
+    @ApiOperation("登出方法")
     @DeleteMapping("logout")
-    public R<?> logout(HttpServletRequest request) {
+    public R<Void> logout() {
         try {
             StpUtil.logout();
+            sysLoginService.logout(LoginHelper.getUsername());
         } catch (NotLoginException e) {
         }
         return R.ok();
     }
 
+    @ApiOperation("用户注册")
     @PostMapping("register")
-    public R<?> register(@RequestBody RegisterBody registerBody) {
+    public R<Void> register(@RequestBody RegisterBody registerBody) {
         // 用户注册
-        sysLoginService.register(registerBody.getUsername(), registerBody.getPassword());
+        sysLoginService.register(registerBody);
         return R.ok();
     }
+
 }

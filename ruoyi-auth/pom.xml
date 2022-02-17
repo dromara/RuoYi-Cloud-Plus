@@ -11,7 +11,7 @@
     <artifactId>ruoyi-auth</artifactId>
 
     <description>
-        ruoyi-auth认证授权中心
+        ruoyi-auth 认证授权中心
     </description>
 
     <dependencies>
@@ -44,6 +44,12 @@
         <dependency>
             <groupId>com.ruoyi</groupId>
             <artifactId>ruoyi-common-security</artifactId>
+        </dependency>
+
+        <!-- RuoYi Common Swagger -->
+        <dependency>
+            <groupId>com.ruoyi</groupId>
+            <artifactId>ruoyi-common-swagger</artifactId>
         </dependency>
 
         <dependency>

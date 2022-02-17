@@ -18,3 +18,6 @@ knife4j:
       - name: 资源服务
         uri: ${knife4j.cloud.gatewayUri}
         location: /resource/v2/api-docs
+      - name: 认证服务
+        uri: ${knife4j.cloud.gatewayUri}
+        location: /auth/v2/api-docs

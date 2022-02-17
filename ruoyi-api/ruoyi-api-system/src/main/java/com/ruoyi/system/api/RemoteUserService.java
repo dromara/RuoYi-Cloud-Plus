@@ -25,4 +25,12 @@ public interface RemoteUserService {
      * @return 结果
      */
     Boolean registerUserInfo(SysUser sysUser);
+
+    /**
+     * 检查用户名是否唯一
+     *
+     * @param username 用户名
+     * @return 结果
+     */
+    String checkUserNameUnique(String username);
 }

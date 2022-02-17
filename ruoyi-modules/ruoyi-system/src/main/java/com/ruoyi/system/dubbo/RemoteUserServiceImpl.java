@@ -2,7 +2,6 @@ package com.ruoyi.system.dubbo;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.ObjectUtil;
-import com.ruoyi.common.core.constant.Constants;
 import com.ruoyi.common.core.constant.UserConstants;
 import com.ruoyi.common.core.enums.UserStatus;
 import com.ruoyi.common.core.exception.ServiceException;
@@ -74,5 +73,10 @@ public class RemoteUserServiceImpl implements RemoteUserService {
             throw new ServiceException("保存用户'" + username + "'失败，注册账号已存在");
         }
         return userService.registerUser(sysUser);
+    }
+
+    @Override
+    public String checkUserNameUnique(String username) {
+        return userService.checkUserNameUnique(username);
     }
 }

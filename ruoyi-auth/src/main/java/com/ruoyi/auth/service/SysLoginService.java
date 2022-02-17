@@ -2,9 +2,11 @@ package com.ruoyi.auth.service;
 
 import cn.dev33.satoken.secure.BCrypt;
 import cn.hutool.core.util.ObjectUtil;
+import com.ruoyi.auth.form.RegisterBody;
 import com.ruoyi.common.core.constant.CacheConstants;
 import com.ruoyi.common.core.constant.Constants;
 import com.ruoyi.common.core.constant.UserConstants;
+import com.ruoyi.common.core.enums.UserType;
 import com.ruoyi.common.core.exception.ServiceException;
 import com.ruoyi.common.core.utils.ServletUtils;
 import com.ruoyi.common.core.utils.StringUtils;
@@ -106,27 +108,25 @@ public class SysLoginService {
     /**
      * 注册
      */
-    public void register(String username, String password) {
-        // 用户名或密码为空 错误
-        if (StringUtils.isAnyBlank(username, password)) {
-            throw new ServiceException("用户/密码必须填写");
-        }
-        if (username.length() < UserConstants.USERNAME_MIN_LENGTH
-            || username.length() > UserConstants.USERNAME_MAX_LENGTH) {
-            throw new ServiceException("账户长度必须在2到20个字符之间");
-        }
-        if (password.length() < UserConstants.PASSWORD_MIN_LENGTH
-            || password.length() > UserConstants.PASSWORD_MAX_LENGTH) {
-            throw new ServiceException("密码长度必须在5到20个字符之间");
-        }
+    public void register(RegisterBody registerBody) {
+        String username = registerBody.getUsername();
+        String password = registerBody.getPassword();
+        // 校验用户类型是否存在
+        String userType = UserType.getUserType(registerBody.getUserType()).getUserType();
 
+        if (UserConstants.NOT_UNIQUE.equals(remoteUserService.checkUserNameUnique(username))) {
+            throw new ServiceException("保存用户 " + username + " 失败，注册账号已存在");
+        }
         // 注册用户信息
         SysUser sysUser = new SysUser();
         sysUser.setUserName(username);
         sysUser.setNickName(username);
         sysUser.setPassword(BCrypt.hashpw(password));
-        remoteUserService.registerUserInfo(sysUser);
-
+        sysUser.setUserType(userType);
+        boolean regFlag = remoteUserService.registerUserInfo(sysUser);
+        if (!regFlag) {
+            throw new ServiceException("注册失败，请联系系统管理人员");
+        }
         recordLogininfor(username, Constants.REGISTER, "注册成功");
     }
 
