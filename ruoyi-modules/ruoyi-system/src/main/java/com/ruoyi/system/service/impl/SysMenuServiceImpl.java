@@ -10,7 +10,6 @@ import com.ruoyi.common.core.utils.StringUtils;
 import com.ruoyi.common.core.utils.TreeBuildUtils;
 import com.ruoyi.common.satoken.utils.LoginHelper;
 import com.ruoyi.system.api.domain.SysRole;
-import com.ruoyi.system.api.domain.SysUser;
 import com.ruoyi.system.domain.SysMenu;
 import com.ruoyi.system.domain.SysRoleMenu;
 import com.ruoyi.system.domain.vo.MetaVo;
@@ -58,7 +57,7 @@ public class SysMenuServiceImpl implements ISysMenuService {
     public List<SysMenu> selectMenuList(SysMenu menu, Long userId) {
         List<SysMenu> menuList = null;
         // 管理员显示所有菜单信息
-        if (SysUser.isAdmin(userId)) {
+        if (LoginHelper.isAdmin(userId)) {
             menuList = baseMapper.selectList(new LambdaQueryWrapper<SysMenu>()
                 .like(StringUtils.isNotBlank(menu.getMenuName()), SysMenu::getMenuName, menu.getMenuName())
                 .eq(StringUtils.isNotBlank(menu.getVisible()), SysMenu::getVisible, menu.getVisible())

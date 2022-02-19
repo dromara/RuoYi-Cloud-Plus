@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.ruoyi.common.core.constant.UserConstants;
 import com.ruoyi.common.core.web.domain.BaseEntity;
 import com.ruoyi.common.excel.annotation.ExcelDictFormat;
 import com.ruoyi.common.excel.convert.ExcelDictConvert;
@@ -132,11 +133,7 @@ public class SysRole extends BaseEntity {
 
     @ApiModelProperty(value = "是否管理员")
     public boolean isAdmin() {
-        return isAdmin(this.roleId);
-    }
-
-    public static boolean isAdmin(Long roleId) {
-        return roleId != null && 1L == roleId;
+        return UserConstants.ADMIN_ID.equals(this.roleId);
     }
 
 }

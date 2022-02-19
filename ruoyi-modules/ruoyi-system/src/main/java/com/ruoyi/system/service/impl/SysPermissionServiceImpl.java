@@ -1,6 +1,6 @@
 package com.ruoyi.system.service.impl;
 
-import com.ruoyi.system.api.domain.SysUser;
+import com.ruoyi.common.satoken.utils.LoginHelper;
 import com.ruoyi.system.service.ISysMenuService;
 import com.ruoyi.system.service.ISysPermissionService;
 import com.ruoyi.system.service.ISysRoleService;
@@ -27,7 +27,7 @@ public class SysPermissionServiceImpl implements ISysPermissionService {
     public Set<String> getRolePermission(Long userId) {
         Set<String> roles = new HashSet<String>();
         // 管理员拥有所有权限
-        if (SysUser.isAdmin(userId)) {
+        if (LoginHelper.isAdmin(userId)) {
             roles.add("admin");
         } else {
             roles.addAll(roleService.selectRolePermissionByUserId(userId));
@@ -45,7 +45,7 @@ public class SysPermissionServiceImpl implements ISysPermissionService {
     public Set<String> getMenuPermission(Long userId) {
         Set<String> perms = new HashSet<String>();
         // 管理员拥有所有权限
-        if (SysUser.isAdmin(userId)) {
+        if (LoginHelper.isAdmin(userId)) {
             perms.add("*:*:*");
         } else {
             perms.addAll(menuService.selectMenuPermsByUserId(userId));

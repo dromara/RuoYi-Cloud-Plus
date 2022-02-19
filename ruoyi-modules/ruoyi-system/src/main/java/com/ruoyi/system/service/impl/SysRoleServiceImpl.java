@@ -11,7 +11,6 @@ import com.ruoyi.common.mybatis.core.page.PageQuery;
 import com.ruoyi.common.mybatis.core.page.TableDataInfo;
 import com.ruoyi.common.satoken.utils.LoginHelper;
 import com.ruoyi.system.api.domain.SysRole;
-import com.ruoyi.system.api.domain.SysUser;
 import com.ruoyi.system.domain.SysRoleDept;
 import com.ruoyi.system.domain.SysRoleMenu;
 import com.ruoyi.system.domain.SysUserRole;
@@ -181,7 +180,7 @@ public class SysRoleServiceImpl implements ISysRoleService {
      */
     @Override
     public void checkRoleDataScope(Long roleId) {
-        if (!SysUser.isAdmin(LoginHelper.getUserId())) {
+        if (!LoginHelper.isAdmin()) {
             SysRole role = new SysRole();
             role.setRoleId(roleId);
             List<SysRole> roles = SpringUtils.getAopProxy(this).selectRoleList(role);
