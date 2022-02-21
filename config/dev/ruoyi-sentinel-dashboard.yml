@@ -1,0 +1,21 @@
+server:
+  servlet:
+    encoding:
+      force: true
+      charset: UTF-8
+      enabled: true
+    session:
+      cookie:
+        name: sentinel_dashboard_cookie
+
+logging:
+  level:
+    org.springframework.web: INFO
+
+auth:
+  enabled: true
+  filter:
+    exclude-urls: /,/auth/login,/auth/logout,/registry/machine,/version
+    exclude-url-suffixes: htm,html,js,css,map,ico,ttf,woff,png
+  username: sentinel
+  password: sentinel
