@@ -7,6 +7,7 @@ import cn.hutool.core.util.IdUtil;
 import com.ruoyi.common.core.constant.Constants;
 import com.ruoyi.common.core.domain.R;
 import com.ruoyi.common.core.exception.CaptchaException;
+import com.ruoyi.common.core.exception.user.CaptchaExpireException;
 import com.ruoyi.common.core.utils.SpringUtils;
 import com.ruoyi.common.core.utils.StringUtils;
 import com.ruoyi.common.core.utils.reflect.ReflectUtils;
@@ -85,17 +86,17 @@ public class ValidateCodeServiceImpl implements ValidateCodeService {
     @Override
     public void checkCaptcha(String code, String uuid) throws CaptchaException {
         if (StringUtils.isEmpty(code)) {
-            throw new CaptchaException("验证码不能为空");
+            throw new CaptchaException("user.jcaptcha.not.blank");
         }
         if (StringUtils.isEmpty(uuid)) {
-            throw new CaptchaException("验证码已失效");
+            throw new CaptchaExpireException();
         }
         String verifyKey = Constants.CAPTCHA_CODE_KEY + uuid;
         String captcha = RedisUtils.getCacheObject(verifyKey);
         RedisUtils.deleteObject(verifyKey);
 
         if (!code.equalsIgnoreCase(captcha)) {
-            throw new CaptchaException("验证码错误");
+            throw new CaptchaException();
         }
     }
 }

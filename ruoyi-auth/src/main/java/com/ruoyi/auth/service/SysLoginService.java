@@ -5,9 +5,10 @@ import cn.hutool.core.util.ObjectUtil;
 import com.ruoyi.auth.form.RegisterBody;
 import com.ruoyi.common.core.constant.CacheConstants;
 import com.ruoyi.common.core.constant.Constants;
-import com.ruoyi.common.core.constant.UserConstants;
 import com.ruoyi.common.core.enums.UserType;
 import com.ruoyi.common.core.exception.ServiceException;
+import com.ruoyi.common.core.exception.user.UserException;
+import com.ruoyi.common.core.utils.MessageUtils;
 import com.ruoyi.common.core.utils.ServletUtils;
 import com.ruoyi.common.core.utils.StringUtils;
 import com.ruoyi.common.redis.utils.RedisUtils;
@@ -44,8 +45,8 @@ public class SysLoginService {
             userInfo = remoteUserService.getUserInfo(username);
 
             if (ObjectUtil.isNull(userInfo)) {
-                recordLogininfor(username, Constants.LOGIN_FAIL, "登录用户不存在");
-                throw new ServiceException("登录用户：" + username + " 不存在");
+                recordLogininfor(username, Constants.LOGIN_FAIL, MessageUtils.message("user.not.exists", username));
+                throw new UserException("user.not.exists", username);
             }
         } catch (Exception e) {
             recordLogininfor(username, Constants.LOGIN_FAIL, e.getMessage());
@@ -56,9 +57,8 @@ public class SysLoginService {
         Integer errorNumber = RedisUtils.getCacheObject(CacheConstants.LOGIN_ERROR + username);
         // 锁定时间内登录 则踢出
         if (ObjectUtil.isNotNull(errorNumber) && errorNumber.equals(CacheConstants.LOGIN_ERROR_NUMBER)) {
-            String msg = "密码错误次数过多，帐户锁定" + CacheConstants.LOGIN_ERROR_LIMIT_TIME + "分钟";
-            recordLogininfor(username, Constants.LOGIN_FAIL, msg);
-            throw new ServiceException(msg, null);
+            recordLogininfor(username, Constants.LOGIN_FAIL, MessageUtils.message("user.password.retry.limit.exceed", CacheConstants.LOGIN_ERROR_LIMIT_TIME));
+            throw new UserException("user.password.retry.limit.exceed", CacheConstants.LOGIN_ERROR_LIMIT_TIME);
         }
 
         if (!BCrypt.checkpw(password, userInfo.getPassword())) {
@@ -66,26 +66,24 @@ public class SysLoginService {
             errorNumber = ObjectUtil.isNull(errorNumber) ? 1 : errorNumber + 1;
             // 达到规定错误次数 则锁定登录
             if (errorNumber.equals(CacheConstants.LOGIN_ERROR_NUMBER)) {
-                String msg = "密码错误次数过多，帐户锁定" + CacheConstants.LOGIN_ERROR_LIMIT_TIME + "分钟";
                 RedisUtils.setCacheObject(CacheConstants.LOGIN_ERROR + username, errorNumber, CacheConstants.LOGIN_ERROR_LIMIT_TIME, TimeUnit.MINUTES);
-                recordLogininfor(username, Constants.LOGIN_FAIL, msg);
-                throw new ServiceException(msg, null);
+                recordLogininfor(username, Constants.LOGIN_FAIL, MessageUtils.message("user.password.retry.limit.exceed", CacheConstants.LOGIN_ERROR_LIMIT_TIME));
+                throw new UserException("user.password.retry.limit.exceed", CacheConstants.LOGIN_ERROR_LIMIT_TIME);
             } else {
                 // 未达到规定错误次数 则递增
-                String msg = "密码输入错误" + errorNumber + "次";
                 RedisUtils.setCacheObject(CacheConstants.LOGIN_ERROR + username, errorNumber);
-                recordLogininfor(username, Constants.LOGIN_FAIL, msg);
-                throw new ServiceException(msg, null);
+                recordLogininfor(username, Constants.LOGIN_FAIL, MessageUtils.message("user.password.retry.limit.count", errorNumber));
+                throw new UserException("user.password.retry.limit.count", errorNumber);
             }
         }
         // 登录成功 清空错误次数
         RedisUtils.deleteObject(CacheConstants.LOGIN_ERROR + username);
-        recordLogininfor(username, Constants.LOGIN_SUCCESS, "登录成功");
+        recordLogininfor(username, Constants.LOGIN_SUCCESS, MessageUtils.message("user.login.success"));
         return userInfo;
     }
 
     public void logout(String loginName) {
-        recordLogininfor(loginName, Constants.LOGOUT, "退出成功");
+        recordLogininfor(loginName, Constants.LOGOUT, MessageUtils.message("user.logout.success"));
     }
 
     /**
@@ -97,9 +95,6 @@ public class SysLoginService {
         // 校验用户类型是否存在
         String userType = UserType.getUserType(registerBody.getUserType()).getUserType();
 
-        if (UserConstants.NOT_UNIQUE.equals(remoteUserService.checkUserNameUnique(username))) {
-            throw new ServiceException("保存用户 " + username + " 失败，注册账号已存在");
-        }
         // 注册用户信息
         SysUser sysUser = new SysUser();
         sysUser.setUserName(username);
@@ -108,9 +103,9 @@ public class SysLoginService {
         sysUser.setUserType(userType);
         boolean regFlag = remoteUserService.registerUserInfo(sysUser);
         if (!regFlag) {
-            throw new ServiceException("注册失败，请联系系统管理人员");
+            throw new UserException("user.register.error");
         }
-        recordLogininfor(username, Constants.REGISTER, "注册成功");
+        recordLogininfor(username, Constants.REGISTER, MessageUtils.message("user.register.success"));
     }
 
     /**

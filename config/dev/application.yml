@@ -55,6 +55,10 @@ spring:
     pathmatch:
       # 适配 boot 2.6 路由与 springfox 兼容
       matching-strategy: ANT_PATH_MATCHER
+  # 资源信息
+  messages:
+    # 国际化资源文件路径
+    basename: i18n/messages
   servlet:
     multipart:
       # 整个请求大小限制

@@ -5,6 +5,7 @@ import cn.hutool.core.util.ObjectUtil;
 import com.ruoyi.common.core.constant.UserConstants;
 import com.ruoyi.common.core.enums.UserStatus;
 import com.ruoyi.common.core.exception.ServiceException;
+import com.ruoyi.common.core.exception.user.UserException;
 import com.ruoyi.system.api.RemoteUserService;
 import com.ruoyi.system.api.domain.SysUser;
 import com.ruoyi.system.api.model.LoginUser;
@@ -37,13 +38,13 @@ public class RemoteUserServiceImpl implements RemoteUserService {
     public LoginUser getUserInfo(String username) {
         SysUser sysUser = userService.selectUserByUserName(username);
         if (ObjectUtil.isNull(sysUser)) {
-            throw new ServiceException("用户名或密码错误");
+            throw new UserException("user.not.exists", username);
         }
         if (UserStatus.DELETED.getCode().equals(sysUser.getDelFlag())) {
-            throw new ServiceException("对不起，您的账号：" + username + " 已被删除");
+            throw new UserException("user.password.delete", username);
         }
         if (UserStatus.DISABLE.getCode().equals(sysUser.getStatus())) {
-            throw new ServiceException("对不起，您的账号：" + username + " 已停用");
+            throw new UserException("user.blocked", username);
         }
         // 角色集合
         Set<String> rolePermission = permissionService.getRolePermission(sysUser.getUserId());
@@ -70,13 +71,9 @@ public class RemoteUserServiceImpl implements RemoteUserService {
             throw new ServiceException("当前系统没有开启注册功能");
         }
         if (UserConstants.NOT_UNIQUE.equals(userService.checkUserNameUnique(username))) {
-            throw new ServiceException("保存用户'" + username + "'失败，注册账号已存在");
+            throw new UserException("user.register.save.error", username);
         }
         return userService.registerUser(sysUser);
     }
 
-    @Override
-    public String checkUserNameUnique(String username) {
-        return userService.checkUserNameUnique(username);
-    }
 }

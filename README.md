@@ -56,7 +56,7 @@
 | 工具类框架        | Hutool、Lombok            | [Hutool文档](https://www.hutool.cn/docs/)                                                           | 减少代码冗余 增加安全性                 |
 | 代码生成器        | 适配MP、Knife4j规范化代码        | [Hutool文档](https://www.hutool.cn/docs/)                                                           | 一键生成前后端代码                    |
 | 部署方式         | Docker                   | [Docker文档](https://docs.docker.com/)                                                              | 容器编排 一键部署业务集群                |
-| 国际化(未完成)     | SpringMessage            | [SpringMVC文档](https://docs.spring.io/spring-framework/docs/current/reference/html/web.html#mvc)   | Spring标准国际化方案                |
+| 国际化          | SpringMessage            | [SpringMVC文档](https://docs.spring.io/spring-framework/docs/current/reference/html/web.html#mvc)   | Spring标准国际化方案                |
 
 ## 软件架构图
 
