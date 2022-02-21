@@ -1,11 +1,13 @@
 package com.ruoyi.common.core.exception;
 
+import com.ruoyi.common.core.exception.user.UserException;
+
 /**
  * 验证码错误异常类
  *
  * @author Lion Li
  */
-public class CaptchaException extends RuntimeException {
+public class CaptchaException extends UserException {
     private static final long serialVersionUID = 1L;
 
     public CaptchaException() {
