@@ -35,7 +35,7 @@ public class RemoteUserServiceImpl implements RemoteUserService {
     private final ISysConfigService configService;
 
     @Override
-    public LoginUser getUserInfo(String username) {
+    public LoginUser getUserInfo(String username) throws UserException {
         SysUser sysUser = userService.selectUserByUserName(username);
         if (ObjectUtil.isNull(sysUser)) {
             throw new UserException("user.not.exists", username);

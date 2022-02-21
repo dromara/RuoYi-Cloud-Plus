@@ -6,7 +6,6 @@ import com.ruoyi.auth.form.RegisterBody;
 import com.ruoyi.common.core.constant.CacheConstants;
 import com.ruoyi.common.core.constant.Constants;
 import com.ruoyi.common.core.enums.UserType;
-import com.ruoyi.common.core.exception.ServiceException;
 import com.ruoyi.common.core.exception.user.UserException;
 import com.ruoyi.common.core.utils.MessageUtils;
 import com.ruoyi.common.core.utils.ServletUtils;
@@ -39,19 +38,7 @@ public class SysLoginService {
      * 登录
      */
     public LoginUser login(String username, String password) {
-        LoginUser userInfo;
-        try {
-            // 查询用户信息
-            userInfo = remoteUserService.getUserInfo(username);
-
-            if (ObjectUtil.isNull(userInfo)) {
-                recordLogininfor(username, Constants.LOGIN_FAIL, MessageUtils.message("user.not.exists", username));
-                throw new UserException("user.not.exists", username);
-            }
-        } catch (Exception e) {
-            recordLogininfor(username, Constants.LOGIN_FAIL, e.getMessage());
-            throw new ServiceException(e.getMessage());
-        }
+        LoginUser userInfo = remoteUserService.getUserInfo(username);
 
         // 获取用户登录错误次数(可自定义限制策略 例如: key + username + ip)
         Integer errorNumber = RedisUtils.getCacheObject(CacheConstants.LOGIN_ERROR + username);

@@ -1,5 +1,6 @@
 package com.ruoyi.system.api;
 
+import com.ruoyi.common.core.exception.user.UserException;
 import com.ruoyi.system.api.domain.SysUser;
 import com.ruoyi.system.api.model.LoginUser;
 
@@ -16,7 +17,7 @@ public interface RemoteUserService {
      * @param username 用户名
      * @return 结果
      */
-    LoginUser getUserInfo(String username);
+    LoginUser getUserInfo(String username) throws UserException;
 
     /**
      * 注册用户信息
