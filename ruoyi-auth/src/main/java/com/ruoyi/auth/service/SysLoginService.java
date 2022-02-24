@@ -1,16 +1,19 @@
 package com.ruoyi.auth.service;
 
 import cn.dev33.satoken.secure.BCrypt;
+import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.util.ObjectUtil;
 import com.ruoyi.auth.form.RegisterBody;
 import com.ruoyi.common.core.constant.CacheConstants;
 import com.ruoyi.common.core.constant.Constants;
+import com.ruoyi.common.core.enums.DeviceType;
 import com.ruoyi.common.core.enums.UserType;
 import com.ruoyi.common.core.exception.user.UserException;
 import com.ruoyi.common.core.utils.MessageUtils;
 import com.ruoyi.common.core.utils.ServletUtils;
 import com.ruoyi.common.core.utils.StringUtils;
 import com.ruoyi.common.redis.utils.RedisUtils;
+import com.ruoyi.common.satoken.utils.LoginHelper;
 import com.ruoyi.system.api.RemoteLogService;
 import com.ruoyi.system.api.RemoteUserService;
 import com.ruoyi.system.api.domain.SysLogininfor;
@@ -37,7 +40,7 @@ public class SysLoginService {
     /**
      * 登录
      */
-    public LoginUser login(String username, String password) {
+    public String login(String username, String password) {
         LoginUser userInfo = remoteUserService.getUserInfo(username);
 
         // 获取用户登录错误次数(可自定义限制策略 例如: key + username + ip)
@@ -65,8 +68,11 @@ public class SysLoginService {
         }
         // 登录成功 清空错误次数
         RedisUtils.deleteObject(CacheConstants.LOGIN_ERROR + username);
+        // 获取登录token
+        LoginHelper.loginByDevice(userInfo, DeviceType.PC);
+
         recordLogininfor(username, Constants.LOGIN_SUCCESS, MessageUtils.message("user.login.success"));
-        return userInfo;
+        return StpUtil.getTokenValue();
     }
 
     public void logout(String loginName) {
