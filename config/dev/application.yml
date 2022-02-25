@@ -31,7 +31,8 @@ dubbo:
   # 消费者相关配置
   consumer:
     # 结果缓存(LRU算法)
-    cache: true
+    # 会有数据不一致问题 建议在注解局部开启
+    cache: false
     # 支持校验注解
     validation: true
     # 超时时间
