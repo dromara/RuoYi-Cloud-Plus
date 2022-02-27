@@ -1,5 +1,6 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
   com.ruoyi.common.core.utils.SpringUtils,\
+  com.ruoyi.common.core.config.ApplicationConfig,\
   com.ruoyi.common.core.config.JacksonConfig,\
   com.ruoyi.common.core.config.ValidatorConfig
 
