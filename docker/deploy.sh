@@ -58,22 +58,22 @@ mount(){
 
 #启动基础模块
 base(){
-    docker-compose up -d mysql nacos sentinel seata nginx-web redis minio
+    docker-compose up -d mysql nacos seata nginx-web redis minio
 }
 
 #启动监控模块
 monitor(){
-    docker-compose up -d ruoyi-monitor
+    docker-compose up -d ruoyi-monitor sentinel ruoyi-xxl-job-admin
 }
 
 #启动程序模块
 start(){
-    docker-compose up -d ruoyi-gateway ruoyi-auth ruoyi-xxl-job-admin ruoyi-system ruoyi-resource
+    docker-compose up -d ruoyi-gateway ruoyi-auth ruoyi-system ruoyi-resource
 }
 
 #停止程序模块
 stop(){
-    docker-compose stop ruoyi-gateway ruoyi-auth ruoyi-xxl-job-admin ruoyi-system ruoyi-resource
+    docker-compose stop ruoyi-gateway ruoyi-auth ruoyi-system ruoyi-resource
 }
 
 #关闭所有模块
