@@ -88,7 +88,7 @@ service.interceptors.response.use(res => {
       ).then(() => {
         isRelogin.show = false;
         store.dispatch('LogOut').then(() => {
-          location.href = '/index';
+          location.href = process.env.VUE_APP_CONTEXT_PATH + "index";
         })
       }).catch(() => {
         isRelogin.show = false;
