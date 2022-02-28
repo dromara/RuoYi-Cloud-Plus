@@ -47,7 +47,7 @@ mount(){
     #挂载 nacos 配置文件
     if test ! -f "/docker/nacos/conf/custom.properties" ;then
         mkdir -p /docker/nacos/conf
-        cp seata/custom.properties /docker/nacos/conf/custom.properties
+        cp nacos/custom.properties /docker/nacos/conf/custom.properties
     fi
     #挂载 seata 配置文件
     if test ! -f "/docker/seata/conf/registry.conf" ;then
