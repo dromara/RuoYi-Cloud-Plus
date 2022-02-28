@@ -151,12 +151,17 @@ export default {
     },
     // 上传成功回调
     handleUploadSuccess(res) {
-      this.uploadList.push({ name: res.data.fileName, url: res.data.url });
-      if (this.uploadList.length === this.number) {
-        this.fileList = this.fileList.concat(this.uploadList);
-        this.uploadList = [];
-        this.number = 0;
-        this.$emit("input", this.listToString(this.fileList));
+      if (res.code === 200) {
+        this.uploadList.push({ name: res.data.fileName, url: res.data.url });
+        if (this.uploadList.length === this.number) {
+          this.fileList = this.fileList.concat(this.uploadList);
+          this.uploadList = [];
+          this.number = 0;
+          this.$emit("input", this.listToString(this.fileList));
+          this.$modal.closeLoading();
+        }
+      } else {
+        this.$modal.msgError(res.msg);
         this.$modal.closeLoading();
       }
     },
