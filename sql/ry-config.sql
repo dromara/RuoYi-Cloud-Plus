@@ -58,7 +58,7 @@ insert into config_info(id, data_id, group_id, content, md5, gmt_create, gmt_mod
 (110, 'sentinel-ruoyi-gateway.json', 'DEFAULT_GROUP', '# 将项目路径：config/下对应文件中内容复制到此处', '2944a25cb97926efcaa43b3ad7a64cf0', '2022-01-09 15:23:00', '2022-01-09 15:23:00', NULL, '0:0:0:0:0:0:0:1', '', 'prod', '限流策略', NULL, NULL, 'json', NULL),
 (111, 'ruoyi-xxl-job-admin.yml', 'DEFAULT_GROUP', '# 将项目路径：config/下对应文件中内容复制到此处', '2944a25cb97926efcaa43b3ad7a64cf0', '2022-01-09 15:21:02', '2022-01-09 15:21:02', NULL, '0:0:0:0:0:0:0:1', '', 'prod', '定时任务控制台', NULL, NULL, 'yaml', NULL),
 (112, 'seata-server.properties', 'DEFAULT_GROUP', '# 将项目路径：config/下对应文件中内容复制到此处', '2944a25cb97926efcaa43b3ad7a64cf0', '2022-01-09 15:21:02', '2022-01-09 15:21:02', NULL, '0:0:0:0:0:0:0:1', '', 'prod', 'seata配置文件', NULL, NULL, 'properties', NULL),
-(113, 'ruoyi-sentinel-dashboard.yml', 'DEFAULT_GROUP', '# 将项目路径：config/下对应文件中内容复制到此处', '2944a25cb97926efcaa43b3ad7a64cf0', '2022-01-09 15:21:02', '2022-01-09 15:21:02', NULL, '0:0:0:0:0:0:0:1', '', 'dev', 'sentinel控制台配置文件', NULL, NULL, 'yaml', NULL);
+(113, 'ruoyi-sentinel-dashboard.yml', 'DEFAULT_GROUP', '# 将项目路径：config/下对应文件中内容复制到此处', '2944a25cb97926efcaa43b3ad7a64cf0', '2022-01-09 15:21:02', '2022-01-09 15:21:02', NULL, '0:0:0:0:0:0:0:1', '', 'prod', 'sentinel控制台配置文件', NULL, NULL, 'yaml', NULL);
 
 /******************************************/
 /*   表名称 = config_info_aggr   */
