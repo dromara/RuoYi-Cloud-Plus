@@ -26,7 +26,6 @@
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-dubbo</artifactId>
-            <scope>provided</scope>
         </dependency>
 
     </dependencies>

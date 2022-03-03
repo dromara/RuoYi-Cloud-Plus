@@ -20,7 +20,6 @@
         <dependency>
             <groupId>com.ruoyi</groupId>
             <artifactId>ruoyi-common-core</artifactId>
-            <scope>provided</scope>
         </dependency>
 
         <!-- excel工具 -->
