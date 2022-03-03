@@ -17,21 +17,6 @@ public interface Constants {
     String GBK = "GBK";
 
     /**
-     * RMI 远程方法调用
-     */
-    String LOOKUP_RMI = "rmi:";
-
-    /**
-     * LDAP 远程方法调用
-     */
-    String LOOKUP_LDAP = "ldap:";
-
-    /**
-     * LDAPS 远程方法调用
-     */
-    String LOOKUP_LDAPS = "ldaps:";
-
-    /**
      * http请求
      */
     String HTTP = "http://";
@@ -72,26 +57,6 @@ public interface Constants {
     String LOGIN_FAIL = "Error";
 
     /**
-     * 当前记录起始索引
-     */
-    String PAGE_NUM = "pageNum";
-
-    /**
-     * 每页显示记录数
-     */
-    String PAGE_SIZE = "pageSize";
-
-    /**
-     * 排序列
-     */
-    String ORDER_BY_COLUMN = "orderByColumn";
-
-    /**
-     * 排序的方向 "desc" 或者 "asc".
-     */
-    String IS_ASC = "isAsc";
-
-    /**
      * 验证码 redis key
      */
     String CAPTCHA_CODE_KEY = "captcha_codes:";
@@ -111,10 +76,5 @@ public interface Constants {
      * 字典管理 cache key
      */
     String SYS_DICT_KEY = "sys_dict:";
-
-    /**
-     * 资源映射路径 前缀
-     */
-    String RESOURCE_PREFIX = "/profile";
 
 }
