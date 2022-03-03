@@ -66,6 +66,10 @@ public interface Constants {
      */
     long CAPTCHA_EXPIRATION = 2;
 
+    /**
+     * 防重提交 redis key
+     */
+    String REPEAT_SUBMIT_KEY = "repeat_submit:";
 
     /**
      * 参数管理 cache key
