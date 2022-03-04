@@ -22,6 +22,11 @@ public interface UserConstants {
     String EXCEPTION = "1";
 
     /**
+     * 用户正常状态
+     */
+    String USER_NORMAL = "0";
+
+    /**
      * 用户封禁状态
      */
     String USER_DISABLE = "1";
