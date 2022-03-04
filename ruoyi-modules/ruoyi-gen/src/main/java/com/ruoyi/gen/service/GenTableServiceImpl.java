@@ -119,8 +119,8 @@ public class GenTableServiceImpl implements IGenTableService {
         Map<String, Object> params = genTable.getParams();
         QueryWrapper<Object> wrapper = Wrappers.query();
         wrapper.apply("table_schema = (select database())")
-            .notLike("table_name", "xxl_job_%")
-            .notLike("table_name", "gen_%")
+            .notLike("table_name", "xxl_job_")
+            .notLike("table_name", "gen_")
             .notInSql("table_name", "select table_name from gen_table")
             .like(StringUtils.isNotBlank(genTable.getTableName()), "lower(table_name)", StringUtils.lowerCase(genTable.getTableName()))
             .like(StringUtils.isNotBlank(genTable.getTableComment()), "lower(table_comment)", StringUtils.lowerCase(genTable.getTableComment()))
