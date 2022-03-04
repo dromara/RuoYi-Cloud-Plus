@@ -32,7 +32,7 @@ services:
         ipv4_address: 172.30.0.36
 
   nacos:
-    image: nacos/nacos-server:2.0.4
+    image: nacos/nacos-server:v2.0.4
     container_name: nacos
     ports:
       - "8848:8848"

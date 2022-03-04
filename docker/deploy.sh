@@ -58,7 +58,7 @@ mount(){
 
 #启动基础模块
 base(){
-    docker-compose up -d mysql nacos seata nginx-web redis minio
+    docker-compose up -d mysql nacos seata-server nginx-web redis minio
 }
 
 #启动监控模块
