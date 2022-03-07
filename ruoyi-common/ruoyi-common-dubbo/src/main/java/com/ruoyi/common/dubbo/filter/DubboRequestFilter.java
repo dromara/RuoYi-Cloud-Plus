@@ -27,7 +27,7 @@ public class DubboRequestFilter implements Filter {
             return invoker.invoke(invocation);
         }
         String client = CommonConstants.PROVIDER;
-        if (RpcContext.getContext().isConsumerSide()) {
+        if (RpcContext.getServiceContext().isConsumerSide()) {
             client = CommonConstants.CONSUMER;
         }
         String baselog = "Client[" + client + "],InterfaceName=[" + invocation.getInvoker().getInterface().getSimpleName() + "],MethodName=[" + invocation.getMethodName() + "]";
