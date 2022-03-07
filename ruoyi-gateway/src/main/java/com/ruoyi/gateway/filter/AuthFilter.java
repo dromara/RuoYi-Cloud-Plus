@@ -24,7 +24,7 @@ public class AuthFilter {
             .addInclude("/**")
             // 开放地址
             .setExcludeList(ignoreWhite.getWhites())
-            .addExclude("/favicon.ico")
+            .addExclude("/favicon.ico", "/actuator/**")
             // 鉴权方法：每次访问进入
             .setAuth(obj -> {
                 // 登录校验 -- 拦截所有路由
