@@ -68,7 +68,6 @@ public class SysMenu extends TreeEntity {
      * 路由参数
      */
     @ApiModelProperty(value = "路由参数")
-    @TableField("`query`")
     private String query;
 
     /**
