@@ -27,7 +27,9 @@ dubbo:
       # FORCE_APPLICATION，只消费应用级地址，如无地址则报错，单订阅 3.x 地址
       migration: FORCE_APPLICATION
   protocol:
-    # 使用dubbo协议通信
+    # 设置为 tri 即可使用 Triple 3.0 新协议
+    # 性能对比 dubbo 协议并没有提升 但基于 http2 用于多语言异构等 http 交互场景
+    # 使用 dubbo 协议通信
     name: dubbo
     # dubbo 协议端口(-1表示自增端口,从20880开始)
     port: -1
