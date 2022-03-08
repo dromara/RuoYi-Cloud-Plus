@@ -25,6 +25,9 @@
 | 容器框架         | Undertow                 | [Undertow官网](https://undertow.io/)                                                                | 基于 XNIO 的高性能容器               |
 | 权限认证框架       | Sa-Token、Jwt             | [Sa-Token官网](https://sa-token.dev33.cn/)                                                          | 强解耦、强扩展                      |
 | 关系数据库        | MySQL                    | [MySQL官网](https://dev.mysql.com/)                                                                 | 适配 8.X 最低 5.7                |
+| 关系数据库(未完成)   | Oracle                   | [Oracle官网](https://www.oracle.com/cn/database/)                                                   | 适配 12c                       |
+| 关系数据库(未完成)   | PostgreSQL               | [PostgreSQL官网](https://www.postgresql.org/)                                                       | 适配 14                        |
+| 关系数据库(未完成)   | SQLServer                | [SQLServer官网](https://docs.microsoft.com/zh-cn/sql/sql-server)                                    | 适配 2019                      |
 | 缓存数据库        | Redis                    | [Redis官网](https://redis.io/)                                                                      | 适配 6.X 最低 5.X                |
 | 分布式注册中心      | Alibaba Nacos            | [Alibaba Nacos文档](https://nacos.io/zh-cn/docs/quick-start.html)                                   | 采用2.X 基于GRPC通信高性能            |
 | 分布式配置中心      | Alibaba Nacos            | [Alibaba Nacos文档](https://nacos.io/zh-cn/docs/quick-start.html)                                   | 采用2.X 基于GRPC通信高性能            |
