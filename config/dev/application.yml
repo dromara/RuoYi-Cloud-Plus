@@ -17,13 +17,15 @@ server:
 dubbo:
   application:
     logger: slf4j
+    # 元数据中心 local 本地 remote 远程 这里使用远程便于其他服务获取
+    metadataType: remote
     # 可选值 interface、instance、all，默认是 all，即接口级地址、应用级地址都注册
-    register-mode: all
+    register-mode: instance
     service-discovery:
       # FORCE_INTERFACE，只消费接口级地址，如无地址则报错，单订阅 2.x 地址
       # APPLICATION_FIRST，智能决策接口级/应用级地址，双订阅
       # FORCE_APPLICATION，只消费应用级地址，如无地址则报错，单订阅 3.x 地址
-      migration: APPLICATION_FIRST
+      migration: FORCE_APPLICATION
   protocol:
     # 使用dubbo协议通信
     name: dubbo
@@ -33,8 +35,6 @@ dubbo:
   registry:
     address: nacos://${spring.cloud.nacos.server-addr}
     group: DUBBO_GROUP
-    # URL采用精简模式(与元数据中心配合)
-    simplified: true
   # 消费者相关配置
   consumer:
     # 结果缓存(LRU算法)
