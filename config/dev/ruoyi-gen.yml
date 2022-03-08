@@ -1,9 +1,3 @@
-# dubbo 订阅配置
-dubbo:
-  cloud:
-    # 需要远程调用的服务 多个用逗号分割
-    subscribed-services: ruoyi-system
-
 spring:
   datasource:
     dynamic:
