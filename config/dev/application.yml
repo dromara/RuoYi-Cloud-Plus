@@ -37,6 +37,8 @@ dubbo:
   registry:
     address: nacos://${spring.cloud.nacos.server-addr}
     group: DUBBO_GROUP
+    parameters:
+      namespace: ${spring.cloud.nacos.discovery.namespace}
   # 消费者相关配置
   consumer:
     # 结果缓存(LRU算法)
