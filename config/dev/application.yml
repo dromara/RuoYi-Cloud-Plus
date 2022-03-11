@@ -242,8 +242,6 @@ mybatis-plus:
       insertStrategy: NOT_NULL
       updateStrategy: NOT_NULL
       where-strategy: NOT_NULL
-      # 对 mysql 的字段做格式化 防止出现系统关键字
-      column-format: "`%s`"
 
 # swagger配置
 swagger:
