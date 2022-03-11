@@ -1,5 +1,6 @@
 package com.ruoyi.resource.api;
 
+import com.ruoyi.common.core.exception.ServiceException;
 import com.ruoyi.resource.api.domain.SysFile;
 
 /**
@@ -15,5 +16,5 @@ public interface RemoteFileService {
      * @param file 文件信息
      * @return 结果
      */
-    SysFile upload(String name, String originalFilename, String contentType, byte[] file);
+    SysFile upload(String name, String originalFilename, String contentType, byte[] file) throws ServiceException;
 }

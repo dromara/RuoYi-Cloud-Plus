@@ -33,7 +33,7 @@ public class RemoteFileServiceImpl implements RemoteFileService {
      */
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public SysFile upload(String name, String originalFilename, String contentType, byte[] file) {
+    public SysFile upload(String name, String originalFilename, String contentType, byte[] file) throws ServiceException {
         try {
             String suffix = StringUtils.substring(originalFilename, originalFilename.lastIndexOf("."), originalFilename.length());
             IOssStrategy storage = OssFactory.instance();
