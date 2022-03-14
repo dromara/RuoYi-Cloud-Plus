@@ -82,9 +82,9 @@ public class SysUserServiceImpl implements ISysUserService {
                 List<SysDept> deptList = deptMapper.selectList(new LambdaQueryWrapper<SysDept>()
                     .select(SysDept::getDeptId)
                     .apply("find_in_set({0},ancestors) <> 0", user.getDeptId()));
-                w.eq("u.dept_id", user.getDeptId())
-                    .or()
-                    .in("u.dept_id", deptList.stream().map(SysDept::getDeptId).collect(Collectors.toList()));
+                List<Long> ids = deptList.stream().map(SysDept::getDeptId).collect(Collectors.toList());
+                ids.add(user.getDeptId());
+                w.in("u.dept_id", ids);
             });
         return wrapper;
     }

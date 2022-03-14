@@ -45,11 +45,14 @@ public class RemoteDataScopeServiceImpl implements RemoteDataScopeService {
 
     @Override
     public String getDeptAndChild(Long deptId) {
+        List<SysDept> deptList = deptMapper.selectList(new LambdaQueryWrapper<SysDept>()
+            .select(SysDept::getDeptId)
+            .apply("find_in_set({0},ancestors) <> 0", deptId));
+        List<Long> ids = deptList.stream().map(SysDept::getDeptId).collect(Collectors.toList());
+        ids.add(deptId);
         List<SysDept> list = deptMapper.selectList(new LambdaQueryWrapper<SysDept>()
             .select(SysDept::getDeptId)
-            .eq(SysDept::getDeptId, deptId)
-            .or()
-            .apply("find_in_set({0},ancestors) <> 0", deptId));
+            .in(SysDept::getDeptId, ids));
         if (CollUtil.isNotEmpty(list)) {
             return list.stream().map(d -> Convert.toStr(d.getDeptId())).collect(Collectors.joining(","));
         }
