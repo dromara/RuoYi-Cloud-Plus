@@ -3,6 +3,8 @@ package com.ruoyi.gen.service;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.lang.Dict;
+import cn.hutool.core.lang.Snowflake;
+import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -31,7 +33,6 @@ import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -56,6 +57,19 @@ public class GenTableServiceImpl implements IGenTableService {
 
     private final GenTableMapper baseMapper;
     private final GenTableColumnMapper genTableColumnMapper;
+
+    /**
+     * 查询业务字段列表
+     *
+     * @param tableId 业务字段编号
+     * @return 业务字段集合
+     */
+    @Override
+    public List<GenTableColumn> selectGenTableColumnListByTableId(Long tableId) {
+        return genTableColumnMapper.selectList(new LambdaQueryWrapper<GenTableColumn>()
+            .eq(GenTableColumn::getTableId, tableId)
+            .orderByAsc(GenTableColumn::getSort));
+    }
 
     /**
      * 查询业务信息
@@ -158,7 +172,6 @@ public class GenTableServiceImpl implements IGenTableService {
      * @return 结果
      */
     @Override
-    @Transactional(rollbackFor = Exception.class)
     public void updateGenTable(GenTable genTable) {
         String options = JsonUtils.toJsonString(genTable.getParams());
         genTable.setOptions(options);
@@ -177,7 +190,6 @@ public class GenTableServiceImpl implements IGenTableService {
      * @return 结果
      */
     @Override
-    @Transactional(rollbackFor = Exception.class)
     public void deleteGenTableByIds(Long[] tableIds) {
         List<Long> ids = Arrays.asList(tableIds);
         baseMapper.deleteBatchIds(ids);
@@ -190,7 +202,6 @@ public class GenTableServiceImpl implements IGenTableService {
      * @param tableList 导入表列表
      */
     @Override
-    @Transactional(rollbackFor = Exception.class)
     public void importGenTable(List<GenTable> tableList) {
         String operName = LoginHelper.getUsername();
         try {
@@ -227,6 +238,12 @@ public class GenTableServiceImpl implements IGenTableService {
         Map<String, String> dataMap = new LinkedHashMap<>();
         // 查询表信息
         GenTable table = baseMapper.selectGenTableById(tableId);
+        Snowflake snowflake = IdUtil.getSnowflake();
+        List<Long> menuIds = new ArrayList<>();
+        for (int i = 0; i < 6; i++) {
+            menuIds.add(snowflake.nextId());
+        }
+        table.setMenuIds(menuIds);
         // 设置主子表信息
         setSubTable(table);
         // 设置主键列信息
@@ -271,6 +288,12 @@ public class GenTableServiceImpl implements IGenTableService {
     public void generatorCode(String tableName) {
         // 查询表信息
         GenTable table = baseMapper.selectGenTableByName(tableName);
+        Snowflake snowflake = IdUtil.getSnowflake();
+        List<Long> menuIds = new ArrayList<>();
+        for (int i = 0; i < 6; i++) {
+            menuIds.add(snowflake.nextId());
+        }
+        table.setMenuIds(menuIds);
         // 设置主子表信息
         setSubTable(table);
         // 设置主键列信息
@@ -304,7 +327,6 @@ public class GenTableServiceImpl implements IGenTableService {
      * @param tableName 表名称
      */
     @Override
-    @Transactional(rollbackFor = Exception.class)
     public void synchDb(String tableName) {
         GenTable table = baseMapper.selectGenTableByName(tableName);
         List<GenTableColumn> tableColumns = table.getColumns();
