@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.experimental.Accessors;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +16,7 @@ import java.util.List;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class TreeEntity extends BaseEntity {
+public class TreeEntity<T> extends BaseEntity {
 
     private static final long serialVersionUID = 1L;
 
@@ -39,6 +38,6 @@ public class TreeEntity extends BaseEntity {
      */
     @TableField(exist = false)
     @ApiModelProperty(value = "子部门")
-    private List<?> children = new ArrayList<>();
+    private List<T> children = new ArrayList<>();
 
 }
