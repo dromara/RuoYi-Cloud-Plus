@@ -81,7 +81,7 @@ public class GenController extends BaseController {
      * 查询数据表字段列表
      */
     @ApiOperation("查询数据表字段列表")
-    @GetMapping(value = "/column/{talbleId}")
+    @GetMapping(value = "/column/{tableId}")
     public TableDataInfo<GenTableColumn> columnList(Long tableId) {
         TableDataInfo<GenTableColumn> dataInfo = new TableDataInfo<>();
         List<GenTableColumn> list = genTableColumnService.selectGenTableColumnListByTableId(tableId);

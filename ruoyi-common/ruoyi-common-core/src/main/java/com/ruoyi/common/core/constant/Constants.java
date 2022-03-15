@@ -37,6 +37,16 @@ public interface Constants {
     Integer FAIL = 500;
 
     /**
+     * 登录成功状态
+     */
+    String LOGIN_SUCCESS_STATUS = "0";
+
+    /**
+     * 登录失败状态
+     */
+    String LOGIN_FAIL_STATUS = "1";
+
+    /**
      * 登录成功
      */
     String LOGIN_SUCCESS = "Success";
