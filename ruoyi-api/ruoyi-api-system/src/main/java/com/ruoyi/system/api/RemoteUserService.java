@@ -20,6 +20,22 @@ public interface RemoteUserService {
     LoginUser getUserInfo(String username) throws UserException;
 
     /**
+     * 通过手机号查询用户信息
+     *
+     * @param phonenumber 手机号
+     * @return 结果
+     */
+    LoginUser getUserInfoByPhonenumber(String phonenumber) throws UserException;
+
+    /**
+     * 通过openid查询用户信息
+     *
+     * @param openid openid
+     * @return 结果
+     */
+    LoginUser getUserInfoByOpenid(String openid) throws UserException;
+
+    /**
      * 注册用户信息
      *
      * @param sysUser 用户信息

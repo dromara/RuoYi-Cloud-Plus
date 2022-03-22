@@ -75,6 +75,57 @@ public class SysLoginService {
         return StpUtil.getTokenValue();
     }
 
+    public String smsLogin(String phonenumber, String smsCode) {
+        // 通过手机号查找用户
+        LoginUser userInfo = remoteUserService.getUserInfoByPhonenumber(phonenumber);
+
+        // 获取用户登录错误次数(可自定义限制策略 例如: key + username + ip)
+        Integer errorNumber = RedisUtils.getCacheObject(CacheConstants.LOGIN_ERROR + userInfo.getUsername());
+        // 锁定时间内登录 则踢出
+        if (ObjectUtil.isNotNull(errorNumber) && errorNumber.equals(CacheConstants.LOGIN_ERROR_NUMBER)) {
+            recordLogininfor(userInfo.getUsername(), Constants.LOGIN_FAIL, MessageUtils.message("sms.code.retry.limit.exceed", CacheConstants.LOGIN_ERROR_LIMIT_TIME));
+            throw new UserException("sms.code.retry.limit.exceed", CacheConstants.LOGIN_ERROR_LIMIT_TIME);
+        }
+
+        if (!validateSmsCode(phonenumber, smsCode)) {
+            // 是否第一次
+            errorNumber = ObjectUtil.isNull(errorNumber) ? 1 : errorNumber + 1;
+            // 达到规定错误次数 则锁定登录
+            if (errorNumber.equals(CacheConstants.LOGIN_ERROR_NUMBER)) {
+                RedisUtils.setCacheObject(CacheConstants.LOGIN_ERROR + userInfo.getUsername(), errorNumber, CacheConstants.LOGIN_ERROR_LIMIT_TIME, TimeUnit.MINUTES);
+                recordLogininfor(userInfo.getUsername(), Constants.LOGIN_FAIL, MessageUtils.message("sms.code.retry.limit.exceed", CacheConstants.LOGIN_ERROR_LIMIT_TIME));
+                throw new UserException("sms.code.retry.limit.exceed", CacheConstants.LOGIN_ERROR_LIMIT_TIME);
+            } else {
+                // 未达到规定错误次数 则递增
+                RedisUtils.setCacheObject(CacheConstants.LOGIN_ERROR + userInfo.getUsername(), errorNumber);
+                recordLogininfor(userInfo.getUsername(), Constants.LOGIN_FAIL, MessageUtils.message("sms.code.retry.limit.count", errorNumber));
+                throw new UserException("sms.code.retry.limit.count", errorNumber);
+            }
+        }
+
+        // 登录成功 清空错误次数
+        RedisUtils.deleteObject(CacheConstants.LOGIN_ERROR + userInfo.getUsername());
+
+        // 生成token
+        LoginHelper.loginByDevice(userInfo, DeviceType.APP);
+
+        recordLogininfor(userInfo.getUsername(), Constants.LOGIN_SUCCESS, MessageUtils.message("user.login.success"));
+        return StpUtil.getTokenValue();
+    }
+
+    public String xcxLogin(String xcxCode) {
+        // xcxCode 为 小程序调用 wx.login 授权后获取
+        // todo 自行实现 校验 appid + appsrcret + xcxCode 调用登录凭证校验接口 获取 session_key 与 openid
+        String openid = "";
+        LoginUser userInfo = remoteUserService.getUserInfoByOpenid(openid);
+
+        // 生成token
+        LoginHelper.loginByDevice(userInfo, DeviceType.XCX);
+
+        recordLogininfor(userInfo.getUsername(), Constants.LOGIN_SUCCESS, MessageUtils.message("user.login.success"));
+        return StpUtil.getTokenValue();
+    }
+
     public void logout(String loginName) {
         recordLogininfor(loginName, Constants.LOGOUT, MessageUtils.message("user.logout.success"));
     }
@@ -121,5 +172,13 @@ public class SysLoginService {
             logininfor.setStatus(Constants.LOGIN_FAIL_STATUS);
         }
         remoteLogService.saveLogininfor(logininfor);
+    }
+
+    /**
+     * 校验短信验证码
+     */
+    private boolean validateSmsCode(String phonenumber, String smsCode) {
+        // todo 此处使用手机号查询redis验证码与参数验证码是否一致 用户自行实现
+        return true;
     }
 }

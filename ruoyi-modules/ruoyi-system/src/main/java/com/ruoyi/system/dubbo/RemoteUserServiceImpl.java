@@ -18,7 +18,6 @@ import org.apache.dubbo.config.annotation.DubboService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Set;
 
 /**
  * 操作日志记录
@@ -46,22 +45,41 @@ public class RemoteUserServiceImpl implements RemoteUserService {
         if (UserStatus.DISABLE.getCode().equals(sysUser.getStatus())) {
             throw new UserException("user.blocked", username);
         }
-        // 角色集合
-        Set<String> rolePermission = permissionService.getRolePermission(sysUser.getUserId());
-        // 权限集合
-        Set<String> menuPermissions = permissionService.getMenuPermission(sysUser.getUserId());
-        LoginUser loginUser = new LoginUser();
-        loginUser.setUserId(sysUser.getUserId());
-        loginUser.setDeptId(sysUser.getDeptId());
-        loginUser.setUsername(sysUser.getUserName());
-        loginUser.setPassword(sysUser.getPassword());
-        loginUser.setUserType(sysUser.getUserType());
-        loginUser.setDeptName(sysUser.getDept().getDeptName());
-        loginUser.setMenuPermission(menuPermissions);
-        loginUser.setRolePermission(rolePermission);
-        List<RoleDTO> roles = BeanUtil.copyToList(sysUser.getRoles(), RoleDTO.class);
-        loginUser.setRoles(roles);
-        return loginUser;
+        // 此处可根据登录用户的数据不同 自行创建 loginUser
+        return buildLoginUser(sysUser);
+    }
+
+    @Override
+    public LoginUser getUserInfoByPhonenumber(String phonenumber) throws UserException {
+        SysUser sysUser = userService.selectUserByPhonenumber(phonenumber);
+        if (ObjectUtil.isNull(sysUser)) {
+            throw new UserException("user.not.exists", phonenumber);
+        }
+        if (UserStatus.DELETED.getCode().equals(sysUser.getDelFlag())) {
+            throw new UserException("user.password.delete", phonenumber);
+        }
+        if (UserStatus.DISABLE.getCode().equals(sysUser.getStatus())) {
+            throw new UserException("user.blocked", phonenumber);
+        }
+        // 此处可根据登录用户的数据不同 自行创建 loginUser
+        return buildLoginUser(sysUser);
+    }
+
+    @Override
+    public LoginUser getUserInfoByOpenid(String openid) throws UserException {
+        // todo 自行实现 userService.selectUserByOpenid(openid);
+        SysUser sysUser = new SysUser();
+        if (ObjectUtil.isNull(sysUser)) {
+            // todo 用户不存在 业务逻辑自行实现
+        }
+        if (UserStatus.DELETED.getCode().equals(sysUser.getDelFlag())) {
+            // todo 用户已被删除 业务逻辑自行实现
+        }
+        if (UserStatus.DISABLE.getCode().equals(sysUser.getStatus())) {
+            // todo 用户已被停用 业务逻辑自行实现
+        }
+        // 此处可根据登录用户的数据不同 自行创建 loginUser
+        return buildLoginUser(sysUser);
     }
 
     @Override
@@ -74,6 +92,23 @@ public class RemoteUserServiceImpl implements RemoteUserService {
             throw new UserException("user.register.save.error", username);
         }
         return userService.registerUser(sysUser);
+    }
+
+    /**
+     * 构建登录用户
+     */
+    private LoginUser buildLoginUser(SysUser user) {
+        LoginUser loginUser = new LoginUser();
+        loginUser.setUserId(user.getUserId());
+        loginUser.setDeptId(user.getDeptId());
+        loginUser.setUsername(user.getUserName());
+        loginUser.setUserType(user.getUserType());
+        loginUser.setMenuPermission(permissionService.getMenuPermission(user.getUserId()));
+        loginUser.setRolePermission(permissionService.getRolePermission(user.getUserId()));
+        loginUser.setDeptName(user.getDept().getDeptName());
+        List<RoleDTO> roles = BeanUtil.copyToList(user.getRoles(), RoleDTO.class);
+        loginUser.setRoles(roles);
+        return loginUser;
     }
 
 }

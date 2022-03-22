@@ -116,12 +116,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<select id="selectUserByUserName" parameterType="String" resultMap="SysUserResult">
 	    <include refid="selectUserVo"/>
-		where u.user_name = #{userName}
+		where u.del_flag = '0' and u.user_name = #{userName}
 	</select>
+
+    <select id="selectUserByPhonenumber" parameterType="String" resultMap="SysUserResult">
+        <include refid="selectUserVo"/>
+        where u.del_flag = '0' and u.phonenumber = #{phonenumber}
+    </select>
 
 	<select id="selectUserById" parameterType="Long" resultMap="SysUserResult">
 		<include refid="selectUserVo"/>
-		where u.user_id = #{userId}
+		where u.del_flag = '0' and u.user_id = #{userId}
 	</select>
 
 </mapper>
