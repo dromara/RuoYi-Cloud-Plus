@@ -19,6 +19,7 @@ import com.ruoyi.system.api.RemoteUserService;
 import com.ruoyi.system.api.domain.SysLogininfor;
 import com.ruoyi.system.api.domain.SysUser;
 import com.ruoyi.system.api.model.LoginUser;
+import com.ruoyi.system.api.model.XcxLoginUser;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.stereotype.Service;
 
@@ -117,8 +118,7 @@ public class SysLoginService {
         // xcxCode 为 小程序调用 wx.login 授权后获取
         // todo 自行实现 校验 appid + appsrcret + xcxCode 调用登录凭证校验接口 获取 session_key 与 openid
         String openid = "";
-        LoginUser userInfo = remoteUserService.getUserInfoByOpenid(openid);
-
+        XcxLoginUser userInfo = remoteUserService.getUserInfoByOpenid(openid);
         // 生成token
         LoginHelper.loginByDevice(userInfo, DeviceType.XCX);
 

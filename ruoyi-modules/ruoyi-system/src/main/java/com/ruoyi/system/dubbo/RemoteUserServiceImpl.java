@@ -10,6 +10,7 @@ import com.ruoyi.system.api.RemoteUserService;
 import com.ruoyi.system.api.domain.SysUser;
 import com.ruoyi.system.api.model.LoginUser;
 import com.ruoyi.system.api.model.RoleDTO;
+import com.ruoyi.system.api.model.XcxLoginUser;
 import com.ruoyi.system.service.ISysConfigService;
 import com.ruoyi.system.service.ISysPermissionService;
 import com.ruoyi.system.service.ISysUserService;
@@ -66,7 +67,7 @@ public class RemoteUserServiceImpl implements RemoteUserService {
     }
 
     @Override
-    public LoginUser getUserInfoByOpenid(String openid) throws UserException {
+    public XcxLoginUser getUserInfoByOpenid(String openid) throws UserException {
         // todo 自行实现 userService.selectUserByOpenid(openid);
         SysUser sysUser = new SysUser();
         if (ObjectUtil.isNull(sysUser)) {
@@ -79,7 +80,12 @@ public class RemoteUserServiceImpl implements RemoteUserService {
             // todo 用户已被停用 业务逻辑自行实现
         }
         // 此处可根据登录用户的数据不同 自行创建 loginUser
-        return buildLoginUser(sysUser);
+        XcxLoginUser loginUser = new XcxLoginUser();
+        loginUser.setUserId(sysUser.getUserId());
+        loginUser.setUsername(sysUser.getUserName());
+        loginUser.setUserType(sysUser.getUserType());
+        loginUser.setOpenid(openid);
+        return loginUser;
     }
 
     @Override

@@ -3,6 +3,7 @@ package com.ruoyi.system.api;
 import com.ruoyi.common.core.exception.user.UserException;
 import com.ruoyi.system.api.domain.SysUser;
 import com.ruoyi.system.api.model.LoginUser;
+import com.ruoyi.system.api.model.XcxLoginUser;
 
 /**
  * 用户服务
@@ -33,7 +34,7 @@ public interface RemoteUserService {
      * @param openid openid
      * @return 结果
      */
-    LoginUser getUserInfoByOpenid(String openid) throws UserException;
+    XcxLoginUser getUserInfoByOpenid(String openid) throws UserException;
 
     /**
      * 注册用户信息
