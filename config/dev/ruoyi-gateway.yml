@@ -23,6 +23,8 @@ security:
       - /code
       - /auth/logout
       - /auth/login
+      - /auth/smsLogin
+      - /auth/xcxLogin
       - /auth/register
       - /*/v2/api-docs
       - /csrf
