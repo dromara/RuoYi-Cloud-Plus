@@ -1,4 +1,5 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
   com.ruoyi.common.satoken.core.dao.PlusSaTokenDao,\
   com.ruoyi.common.satoken.core.service.SaInterfaceImpl,\
-  com.ruoyi.common.satoken.config.SaTokenConfiguration
+  com.ruoyi.common.satoken.config.SaTokenConfiguration,\
+  com.ruoyi.common.satoken.listener.UserActionListener
