@@ -10,6 +10,7 @@ import com.ruoyi.common.core.domain.R;
 import com.ruoyi.common.core.exception.DemoModeException;
 import com.ruoyi.common.core.exception.ServiceException;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.validation.BindException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -76,6 +77,16 @@ public class GlobalExceptionHandler {
         String requestURI = request.getRequestURI();
         log.error("请求地址'{}',不支持'{}'请求", requestURI, e.getMethod());
         return R.fail(e.getMessage());
+    }
+
+    /**
+     * 主键或UNIQUE索引，数据重复异常
+     */
+    @ExceptionHandler(DuplicateKeyException.class)
+    public R<Void> handleDuplicateKeyException(DuplicateKeyException e, HttpServletRequest request) {
+        String requestURI = request.getRequestURI();
+        log.error("请求地址'{}',数据库中已存在记录'{}'", requestURI, e.getMessage());
+        return R.fail("数据库中已存在该记录，请联系管理员确认");
     }
 
     /**
