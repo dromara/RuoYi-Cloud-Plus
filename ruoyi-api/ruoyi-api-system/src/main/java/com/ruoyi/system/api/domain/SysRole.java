@@ -137,4 +137,33 @@ public class SysRole extends BaseEntity {
         return UserConstants.ADMIN_ID.equals(this.roleId);
     }
 
+    public Boolean getMenuCheckStrictly() {
+        if (menuCheckStrictly == null) {
+            return null;
+        }
+        return menuCheckStrictly == 1;
+    }
+
+    public void setMenuCheckStrictly(Boolean menuCheckStrictly) {
+        if (menuCheckStrictly == null) {
+            this.menuCheckStrictly = null;
+            return;
+        }
+        this.menuCheckStrictly = menuCheckStrictly ? 1 : 0;
+    }
+
+    public Boolean getDeptCheckStrictly() {
+        if (deptCheckStrictly == null) {
+            return null;
+        }
+        return deptCheckStrictly == 1;
+    }
+
+    public void setDeptCheckStrictly(Boolean deptCheckStrictly) {
+        if (deptCheckStrictly == null) {
+            this.deptCheckStrictly = null;
+            return;
+        }
+        this.deptCheckStrictly = deptCheckStrictly ? 1 : 0;
+    }
 }
