@@ -10,6 +10,8 @@ import com.ruoyi.common.core.utils.JsonUtils;
 import com.ruoyi.common.core.utils.StringUtils;
 import com.ruoyi.gen.domain.GenTable;
 import com.ruoyi.gen.domain.GenTableColumn;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import org.apache.velocity.VelocityContext;
 
 import java.util.*;
@@ -19,6 +21,7 @@ import java.util.*;
  *
  * @author ruoyi
  */
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class VelocityUtils {
 
     /**
