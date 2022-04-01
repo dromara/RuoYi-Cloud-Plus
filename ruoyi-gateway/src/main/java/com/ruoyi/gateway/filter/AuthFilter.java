@@ -28,7 +28,16 @@ public class AuthFilter {
             // 鉴权方法：每次访问进入
             .setAuth(obj -> {
                 // 登录校验 -- 拦截所有路由
-                SaRouter.match("/**", r -> StpUtil.checkLogin());
+                SaRouter.match("/**", r -> {
+                    // 检查是否登录 是否有token
+                    StpUtil.checkLogin();
+
+                    // 有效率影响 用于临时测试
+                    // if (log.isDebugEnabled()) {
+                    //     log.debug("剩余有效时间: {}", StpUtil.getTokenTimeout());
+                    //     log.debug("临时有效时间: {}", StpUtil.getTokenActivityTimeout());
+                    // }
+                });
             }).setError(e -> SaResult.error("认证失败，无法访问系统资源").setCode(HttpStatus.UNAUTHORIZED));
     }
 }
