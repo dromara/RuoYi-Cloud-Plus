@@ -10,13 +10,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 权限认证接口实现
+ * sa-token 权限管理实现类
  *
  * @author Lion Li
  */
 @Component
-public class SaInterfaceImpl implements StpInterface {
+public class SaPermissionImpl implements StpInterface {
 
+    /**
+     * 获取菜单权限列表
+     */
     @Override
     public List<String> getPermissionList(Object loginId, String loginType) {
         LoginUser loginUser = LoginHelper.getLoginUser();
@@ -24,11 +27,14 @@ public class SaInterfaceImpl implements StpInterface {
         if (userType == UserType.SYS_USER) {
             return new ArrayList<>(loginUser.getMenuPermission());
         } else if (userType == UserType.APP_USER) {
-            // app端权限返回 自行根据业务编写
+            // 其他端 自行根据业务编写
         }
         return new ArrayList<>();
     }
 
+    /**
+     * 获取角色权限列表
+     */
     @Override
     public List<String> getRoleList(Object loginId, String loginType) {
         LoginUser loginUser = LoginHelper.getLoginUser();
@@ -36,7 +42,7 @@ public class SaInterfaceImpl implements StpInterface {
         if (userType == UserType.SYS_USER) {
             return new ArrayList<>(loginUser.getRolePermission());
         } else if (userType == UserType.APP_USER) {
-            // app端权限返回 自行根据业务编写
+            // 其他端 自行根据业务编写
         }
         return new ArrayList<>();
     }
