@@ -396,6 +396,12 @@ public class GenTableServiceImpl implements IGenTableService {
     private void generatorCode(String tableName, ZipOutputStream zip) {
         // 查询表信息
         GenTable table = baseMapper.selectGenTableByName(tableName);
+        Snowflake snowflake = IdUtil.getSnowflake();
+        List<Long> menuIds = new ArrayList<>();
+        for (int i = 0; i < 6; i++) {
+            menuIds.add(snowflake.nextId());
+        }
+        table.setMenuIds(menuIds);
         // 设置主子表信息
         setSubTable(table);
         // 设置主键列信息
