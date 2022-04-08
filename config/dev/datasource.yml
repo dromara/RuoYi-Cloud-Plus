@@ -23,6 +23,8 @@ spring:
       p6spy: true
       # 开启seata代理，开启后默认每个数据源都代理，如果某个不需要代理可单独关闭
       seata: true
+      # 严格模式 匹配不到数据源则报错
+      strict: true
       druid:
         initial-size: 5
         min-idle: 5
