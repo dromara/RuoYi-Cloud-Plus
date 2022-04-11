@@ -20,7 +20,7 @@
         <spring-boot.version>2.6.6</spring-boot.version>
         <spring-cloud.version>2021.0.1</spring-cloud.version>
         <alibaba.nacos.version>2.0.4</alibaba.nacos.version>
-        <spring-boot-admin.version>2.6.5</spring-boot-admin.version>
+        <spring-boot-admin.version>2.6.6</spring-boot-admin.version>
         <spring-boot.mybatis>2.2.0</spring-boot.mybatis>
         <swagger.core.version>1.5.22</swagger.core.version>
         <mybatis-plus.version>3.5.1</mybatis-plus.version>
@@ -41,11 +41,11 @@
         <satoken.version>1.29.0</satoken.version>
 
         <!-- OSS 配置 -->
-        <qiniu.version>7.9.3</qiniu.version>
+        <qiniu.version>7.9.5</qiniu.version>
         <aliyun.oss.version>3.14.0</aliyun.oss.version>
-        <qcloud.cos.version>5.6.68</qcloud.cos.version>
-        <minio.version>8.3.7</minio.version>
-        <okhttp.version>4.9.2</okhttp.version>
+        <qcloud.cos.version>5.6.72</qcloud.cos.version>
+        <minio.version>8.3.8</minio.version>
+        <okhttp.version>4.9.3</okhttp.version>
 
         <!-- docker 配置 -->
         <docker.registry.url>localhost</docker.registry.url>
