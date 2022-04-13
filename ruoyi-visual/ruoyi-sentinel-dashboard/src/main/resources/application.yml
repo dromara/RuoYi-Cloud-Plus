@@ -1,20 +1,19 @@
 # Tomcat
 server:
-  port: 8080
-  servlet:
-    context-path: /
+  port: 8718
 
 # Spring
 spring:
-  main:
-    # 此配置禁止放入 nacos 优先级不够
-    allow-circular-references: true
   application:
     # 应用名称
-    name: ruoyi-gateway
+    name: ruoyi-sentinel-dashboard
   profiles:
     # 环境配置
     active: @profiles.active@
+
+sentinel:
+  dashboard:
+    version: @sentinel.version@
 
 --- # nacos 配置
 spring:
@@ -30,9 +29,8 @@ spring:
         # 配置组
         group: @nacos.config.group@
         namespace: ${spring.profiles.active}
-        # 配置文件格式
-        file-extension: yml
-        # 共享配置
-        shared-configs:
-          - data-id: application.${spring.cloud.nacos.config.file-extension}
-            refresh: true
+  config:
+    import:
+      - optional:nacos:application-common.yml
+      - optional:nacos:datasource.yml
+      - optional:nacos:${spring.application.name}.yml

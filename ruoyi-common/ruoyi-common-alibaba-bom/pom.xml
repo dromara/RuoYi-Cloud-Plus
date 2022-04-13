@@ -14,14 +14,14 @@
     </description>
 
     <properties>
-        <spring-cloud-alibaba.version>2021.1</spring-cloud-alibaba.version>
+        <spring-cloud-alibaba.version>2021.0.1.0</spring-cloud-alibaba.version>
         <maven-javadoc-plugin.version>3.1.1</maven-javadoc-plugin.version>
         <sentinel.version>1.8.3</sentinel.version>
         <maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
         <nacos.config.version>0.8.0</nacos.config.version>
         <maven-source-plugin.version>2.2.1</maven-source-plugin.version>
         <flatten-maven-plugin.version>1.1.0</flatten-maven-plugin.version>
-        <nacos.client.version>2.0.4</nacos.client.version>
+        <nacos.client.version>2.0.2</nacos.client.version>
         <seata.version>1.4.2</seata.version>
         <dubbo.version>3.0.7</dubbo.version>
         <spring.context.support.version>1.0.11</spring.context.support.version>
