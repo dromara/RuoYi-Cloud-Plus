@@ -15,23 +15,13 @@
  */
 package com.alibaba.csp.sentinel.dashboard.util;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import com.alibaba.csp.sentinel.cluster.ClusterStateManager;
-import com.alibaba.csp.sentinel.util.StringUtil;
-
 import com.alibaba.csp.sentinel.dashboard.domain.cluster.ClusterGroupEntity;
 import com.alibaba.csp.sentinel.dashboard.domain.cluster.ConnectionGroupVO;
-import com.alibaba.csp.sentinel.dashboard.domain.cluster.state.AppClusterClientStateWrapVO;
-import com.alibaba.csp.sentinel.dashboard.domain.cluster.state.AppClusterServerStateWrapVO;
-import com.alibaba.csp.sentinel.dashboard.domain.cluster.state.ClusterClientStateVO;
-import com.alibaba.csp.sentinel.dashboard.domain.cluster.state.ClusterServerStateVO;
-import com.alibaba.csp.sentinel.dashboard.domain.cluster.state.ClusterUniversalStatePairVO;
+import com.alibaba.csp.sentinel.dashboard.domain.cluster.state.*;
+import com.alibaba.csp.sentinel.util.StringUtil;
+
+import java.util.*;
 
 /**
  * @author Eric Zhao
@@ -130,7 +120,8 @@ public final class ClusterEntityUtils {
             if (mode == ClusterStateManager.CLUSTER_SERVER) {
                 String serverAddress = getIp(ip);
                 int port = stateVO.getState().getServer().getPort();
-                map.computeIfAbsent(serverAddress, v -> new ClusterGroupEntity()
+                String targetAddress = serverAddress + ":" + port;
+                map.computeIfAbsent(targetAddress, v -> new ClusterGroupEntity()
                     .setBelongToApp(true).setMachineId(ip + '@' + stateVO.getCommandPort())
                     .setIp(ip).setPort(port)
                 );
@@ -145,8 +136,8 @@ public final class ClusterEntityUtils {
                 if (StringUtil.isBlank(targetServer) || targetPort == null || targetPort <= 0) {
                     continue;
                 }
-
-                ClusterGroupEntity group = map.computeIfAbsent(targetServer,
+                String targetAddress = targetServer + ":" + targetPort;
+                ClusterGroupEntity group = map.computeIfAbsent(targetAddress,
                     v -> new ClusterGroupEntity()
                         .setBelongToApp(true).setMachineId(targetServer)
                         .setIp(targetServer).setPort(targetPort)

@@ -16,7 +16,7 @@
     <properties>
         <spring-cloud-alibaba.version>2021.0.1.0</spring-cloud-alibaba.version>
         <maven-javadoc-plugin.version>3.1.1</maven-javadoc-plugin.version>
-        <sentinel.version>1.8.3</sentinel.version>
+        <sentinel.version>1.8.4</sentinel.version>
         <maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
         <nacos.config.version>0.8.0</nacos.config.version>
         <maven-source-plugin.version>2.2.1</maven-source-plugin.version>
