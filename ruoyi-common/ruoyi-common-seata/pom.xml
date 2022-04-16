@@ -23,6 +23,13 @@
             <artifactId>spring-cloud-starter-alibaba-seata</artifactId>
         </dependency>
 
+        <!-- 解决 seata protobuf-java 漏洞 -->
+        <dependency>
+            <groupId>com.google.protobuf</groupId>
+            <artifactId>protobuf-java</artifactId>
+            <version>3.16.1</version>
+        </dependency>
+
         <!-- 用于修复 seata 序列化问题 -->
         <dependency>
             <groupId>com.esotericsoftware</groupId>
