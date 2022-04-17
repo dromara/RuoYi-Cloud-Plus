@@ -7,6 +7,7 @@ import com.ruoyi.auth.form.RegisterBody;
 import com.ruoyi.common.core.constant.CacheConstants;
 import com.ruoyi.common.core.constant.Constants;
 import com.ruoyi.common.core.enums.DeviceType;
+import com.ruoyi.common.core.enums.LoginType;
 import com.ruoyi.common.core.enums.UserType;
 import com.ruoyi.common.core.exception.user.UserException;
 import com.ruoyi.common.core.utils.MessageUtils;
@@ -24,6 +25,7 @@ import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.stereotype.Service;
 
 import java.util.concurrent.TimeUnit;
+import java.util.function.Supplier;
 
 /**
  * 登录校验方法
@@ -44,31 +46,7 @@ public class SysLoginService {
     public String login(String username, String password) {
         LoginUser userInfo = remoteUserService.getUserInfo(username);
 
-        // 获取用户登录错误次数(可自定义限制策略 例如: key + username + ip)
-        Integer errorNumber = RedisUtils.getCacheObject(CacheConstants.LOGIN_ERROR + username);
-        // 锁定时间内登录 则踢出
-        if (ObjectUtil.isNotNull(errorNumber) && errorNumber.equals(CacheConstants.LOGIN_ERROR_NUMBER)) {
-            recordLogininfor(username, Constants.LOGIN_FAIL, MessageUtils.message("user.password.retry.limit.exceed", CacheConstants.LOGIN_ERROR_LIMIT_TIME));
-            throw new UserException("user.password.retry.limit.exceed", CacheConstants.LOGIN_ERROR_LIMIT_TIME);
-        }
-
-        if (!BCrypt.checkpw(password, userInfo.getPassword())) {
-            // 是否第一次
-            errorNumber = ObjectUtil.isNull(errorNumber) ? 1 : errorNumber + 1;
-            // 达到规定错误次数 则锁定登录
-            if (errorNumber.equals(CacheConstants.LOGIN_ERROR_NUMBER)) {
-                RedisUtils.setCacheObject(CacheConstants.LOGIN_ERROR + username, errorNumber, CacheConstants.LOGIN_ERROR_LIMIT_TIME, TimeUnit.MINUTES);
-                recordLogininfor(username, Constants.LOGIN_FAIL, MessageUtils.message("user.password.retry.limit.exceed", CacheConstants.LOGIN_ERROR_LIMIT_TIME));
-                throw new UserException("user.password.retry.limit.exceed", CacheConstants.LOGIN_ERROR_LIMIT_TIME);
-            } else {
-                // 未达到规定错误次数 则递增
-                RedisUtils.setCacheObject(CacheConstants.LOGIN_ERROR + username, errorNumber);
-                recordLogininfor(username, Constants.LOGIN_FAIL, MessageUtils.message("user.password.retry.limit.count", errorNumber));
-                throw new UserException("user.password.retry.limit.count", errorNumber);
-            }
-        }
-        // 登录成功 清空错误次数
-        RedisUtils.deleteObject(CacheConstants.LOGIN_ERROR + username);
+        checkLogin(LoginType.PASSWORD, username, () -> !BCrypt.checkpw(password, userInfo.getPassword()));
         // 获取登录token
         LoginHelper.loginByDevice(userInfo, DeviceType.PC);
 
@@ -80,33 +58,7 @@ public class SysLoginService {
         // 通过手机号查找用户
         LoginUser userInfo = remoteUserService.getUserInfoByPhonenumber(phonenumber);
 
-        // 获取用户登录错误次数(可自定义限制策略 例如: key + username + ip)
-        Integer errorNumber = RedisUtils.getCacheObject(CacheConstants.LOGIN_ERROR + userInfo.getUsername());
-        // 锁定时间内登录 则踢出
-        if (ObjectUtil.isNotNull(errorNumber) && errorNumber.equals(CacheConstants.LOGIN_ERROR_NUMBER)) {
-            recordLogininfor(userInfo.getUsername(), Constants.LOGIN_FAIL, MessageUtils.message("sms.code.retry.limit.exceed", CacheConstants.LOGIN_ERROR_LIMIT_TIME));
-            throw new UserException("sms.code.retry.limit.exceed", CacheConstants.LOGIN_ERROR_LIMIT_TIME);
-        }
-
-        if (!validateSmsCode(phonenumber, smsCode)) {
-            // 是否第一次
-            errorNumber = ObjectUtil.isNull(errorNumber) ? 1 : errorNumber + 1;
-            // 达到规定错误次数 则锁定登录
-            if (errorNumber.equals(CacheConstants.LOGIN_ERROR_NUMBER)) {
-                RedisUtils.setCacheObject(CacheConstants.LOGIN_ERROR + userInfo.getUsername(), errorNumber, CacheConstants.LOGIN_ERROR_LIMIT_TIME, TimeUnit.MINUTES);
-                recordLogininfor(userInfo.getUsername(), Constants.LOGIN_FAIL, MessageUtils.message("sms.code.retry.limit.exceed", CacheConstants.LOGIN_ERROR_LIMIT_TIME));
-                throw new UserException("sms.code.retry.limit.exceed", CacheConstants.LOGIN_ERROR_LIMIT_TIME);
-            } else {
-                // 未达到规定错误次数 则递增
-                RedisUtils.setCacheObject(CacheConstants.LOGIN_ERROR + userInfo.getUsername(), errorNumber);
-                recordLogininfor(userInfo.getUsername(), Constants.LOGIN_FAIL, MessageUtils.message("sms.code.retry.limit.count", errorNumber));
-                throw new UserException("sms.code.retry.limit.count", errorNumber);
-            }
-        }
-
-        // 登录成功 清空错误次数
-        RedisUtils.deleteObject(CacheConstants.LOGIN_ERROR + userInfo.getUsername());
-
+        checkLogin(LoginType.SMS, userInfo.getUsername(), () -> !validateSmsCode(phonenumber, smsCode));
         // 生成token
         LoginHelper.loginByDevice(userInfo, DeviceType.APP);
 
@@ -180,5 +132,41 @@ public class SysLoginService {
     private boolean validateSmsCode(String phonenumber, String smsCode) {
         // todo 此处使用手机号查询redis验证码与参数验证码是否一致 用户自行实现
         return true;
+    }
+
+    /**
+     * 登录校验
+     */
+    private void checkLogin(LoginType loginType, String username, Supplier<Boolean> supplier) {
+        String errorKey = CacheConstants.LOGIN_ERROR + username;
+        Integer errorLimitTime = CacheConstants.LOGIN_ERROR_LIMIT_TIME;
+        Integer setErrorNumber = CacheConstants.LOGIN_ERROR_NUMBER;
+        String loginFail = Constants.LOGIN_FAIL;
+
+        // 获取用户登录错误次数(可自定义限制策略 例如: key + username + ip)
+        Integer errorNumber = RedisUtils.getCacheObject(errorKey);
+        // 锁定时间内登录 则踢出
+        if (ObjectUtil.isNotNull(errorNumber) && errorNumber.equals(setErrorNumber)) {
+            recordLogininfor(username, loginFail, MessageUtils.message(loginType.getRetryLimitExceed(), errorLimitTime));
+            throw new UserException(loginType.getRetryLimitExceed(), errorLimitTime);
+        }
+
+        if (supplier.get()) {
+            // 是否第一次
+            errorNumber = ObjectUtil.isNull(errorNumber) ? 1 : errorNumber + 1;
+            // 达到规定错误次数 则锁定登录
+            if (errorNumber.equals(setErrorNumber)) {
+                RedisUtils.setCacheObject(errorKey, errorNumber, errorLimitTime, TimeUnit.MINUTES);
+                recordLogininfor(username, loginFail, MessageUtils.message(loginType.getRetryLimitExceed(), errorLimitTime));
+                throw new UserException(loginType.getRetryLimitExceed(), errorLimitTime);
+            } else {
+                // 未达到规定错误次数 则递增
+                RedisUtils.setCacheObject(errorKey, errorNumber);
+                recordLogininfor(username, loginFail, MessageUtils.message(loginType.getRetryLimitCount(), errorNumber));
+                throw new UserException(loginType.getRetryLimitCount(), errorNumber);
+            }
+        }
+        // 登录成功 清空错误次数
+        RedisUtils.deleteObject(errorKey);
     }
 }
