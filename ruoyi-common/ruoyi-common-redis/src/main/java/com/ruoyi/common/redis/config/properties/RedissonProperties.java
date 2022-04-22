@@ -29,11 +29,6 @@ public class RedissonProperties {
     private int nettyThreads;
 
     /**
-     * 传输模式
-     */
-    private TransportMode transportMode;
-
-    /**
      * 单机服务配置
      */
     private SingleServerConfig singleServerConfig;
@@ -78,16 +73,6 @@ public class RedissonProperties {
         private int timeout;
 
         /**
-         * 如果尝试在此限制之内发送成功，则开始启用 timeout 计时。
-         */
-        private int retryAttempts;
-
-        /**
-         * 命令重试发送时间间隔，单位：毫秒
-         */
-        private int retryInterval;
-
-        /**
          * 发布和订阅连接池大小
          */
         private int subscriptionConnectionPoolSize;
@@ -129,24 +114,9 @@ public class RedissonProperties {
         private int idleConnectionTimeout;
 
         /**
-         * ping超时
-         */
-        private int pingConnectionInterval;
-
-        /**
          * 命令等待超时，单位：毫秒
          */
         private int timeout;
-
-        /**
-         * 如果尝试在此限制之内发送成功，则开始启用 timeout 计时。
-         */
-        private int retryAttempts;
-
-        /**
-         * 命令重试发送时间间隔，单位：毫秒
-         */
-        private int retryInterval;
 
         /**
          * 发布和订阅连接池大小
