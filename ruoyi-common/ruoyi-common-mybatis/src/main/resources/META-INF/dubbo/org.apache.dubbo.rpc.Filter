@@ -1,0 +1,1 @@
+dubboDataPermissionFilter=com.ruoyi.common.mybatis.filter.DubboDataPermissionFilter
