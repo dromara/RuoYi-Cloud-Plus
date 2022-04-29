@@ -23,6 +23,10 @@ public class JsonUtils {
 
     private static ObjectMapper OBJECT_MAPPER = SpringUtils.getBean(ObjectMapper.class);
 
+    public static ObjectMapper getObjectMapper() {
+        return OBJECT_MAPPER;
+    }
+
     public static String toJsonString(Object object) {
         if (ObjectUtil.isNull(object)) {
             return null;
