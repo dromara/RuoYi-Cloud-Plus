@@ -19,9 +19,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 /**
  * 验证码实现处理
@@ -57,7 +57,7 @@ public class ValidateCodeServiceImpl implements ValidateCodeService {
         captcha.setGenerator(codeGenerator);
         captcha.createCode();
         String code = isMath ? getCodeResult(captcha.getCode()) : captcha.getCode();
-        RedisUtils.setCacheObject(verifyKey, code, Constants.CAPTCHA_EXPIRATION, TimeUnit.MINUTES);
+        RedisUtils.setCacheObject(verifyKey, code, Duration.ofMinutes(Constants.CAPTCHA_EXPIRATION));
         ajax.put("uuid", uuid);
         ajax.put("img", captcha.getImageBase64());
         return R.ok(ajax);

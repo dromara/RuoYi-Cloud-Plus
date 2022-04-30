@@ -19,7 +19,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
-import java.util.concurrent.TimeUnit;
+import java.time.Duration;
 
 /**
  * 用户行为 侦听器的实现
@@ -55,7 +55,7 @@ public class UserActionListener implements SaTokenListener {
             if (ObjectUtil.isNotNull(user.getDeptName())) {
                 userOnline.setDeptName(user.getDeptName());
             }
-            RedisUtils.setCacheObject(CacheConstants.ONLINE_TOKEN_KEY + tokenValue, userOnline, tokenConfig.getTimeout(), TimeUnit.SECONDS);
+            RedisUtils.setCacheObject(CacheConstants.ONLINE_TOKEN_KEY + tokenValue, userOnline, Duration.ofSeconds(tokenConfig.getTimeout()));
             log.info("user doLogin, useId:{}, token:{}", loginId, tokenValue);
         } else if (userType == UserType.APP_USER) {
             // app端 自行根据业务编写
