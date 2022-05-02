@@ -95,6 +95,11 @@
             <artifactId>ruoyi-api-resource</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.ruoyi</groupId>
+            <artifactId>ruoyi-common-mail</artifactId>
+        </dependency>
+
     </dependencies>
 
     <build>
