@@ -17,11 +17,11 @@ import org.springframework.context.annotation.Configuration;
  * @version 4.2.0
  */
 @Configuration
-@ConditionalOnProperty(value = "sms.enabled", havingValue = "true")
 @EnableConfigurationProperties(SmsProperties.class)
 public class SmsAutoConfiguration {
 
     @Configuration
+    @ConditionalOnProperty(value = "sms.enabled", havingValue = "true")
     @ConditionalOnClass(com.aliyun.dysmsapi20170525.Client.class)
     static class AliyunSmsConfiguration {
 
@@ -33,6 +33,7 @@ public class SmsAutoConfiguration {
     }
 
     @Configuration
+    @ConditionalOnProperty(value = "sms.enabled", havingValue = "true")
     @ConditionalOnClass(com.tencentcloudapi.sms.v20190711.SmsClient.class)
     static class TencentSmsConfiguration {
 

@@ -4,6 +4,7 @@ package com.ruoyi.resource.controller;
 import cn.hutool.core.util.RandomUtil;
 import com.ruoyi.common.core.constant.Constants;
 import com.ruoyi.common.core.domain.R;
+import com.ruoyi.common.core.utils.SpringUtils;
 import com.ruoyi.common.core.web.controller.BaseController;
 import com.ruoyi.common.redis.utils.RedisUtils;
 import com.ruoyi.common.sms.config.properties.SmsProperties;
@@ -38,7 +39,6 @@ import java.util.Map;
 public class SysSmsController extends BaseController {
 
     private final SmsProperties smsProperties;
-    private final SmsTemplate smsTemplate;
 
     /**
      * 短信验证码
@@ -58,6 +58,7 @@ public class SysSmsController extends BaseController {
         String templateId = "";
         Map<String, String> map = new HashMap<>(1);
         map.put("code", code);
+        SmsTemplate smsTemplate = SpringUtils.getBean(SmsTemplate.class);
         SmsResult result = smsTemplate.send(phonenumber, templateId, map);
         if (!result.isSuccess()) {
             log.error("验证码短信发送异常 => {}", result);
