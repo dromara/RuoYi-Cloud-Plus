@@ -50,6 +50,10 @@
         <minio.version>8.3.8</minio.version>
         <okhttp.version>4.9.3</okhttp.version>
 
+        <!-- SMS 配置 -->
+        <aliyun.sms.version>2.0.9</aliyun.sms.version>
+        <tencent.sms.version>3.1.500</tencent.sms.version>
+
         <!-- docker 配置 -->
         <docker.registry.url>localhost</docker.registry.url>
         <docker.registry.host>http://${docker.registry.url}:2375</docker.registry.host>
@@ -246,6 +250,24 @@
                 <groupId>com.squareup.okhttp3</groupId>
                 <artifactId>okhttp</artifactId>
                 <version>${okhttp.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.aliyun</groupId>
+                <artifactId>dysmsapi20170525</artifactId>
+                <version>${aliyun.sms.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.tencentcloudapi</groupId>
+                <artifactId>tencentcloud-sdk-java</artifactId>
+                <version>${tencent.sms.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>com.squareup.okio</groupId>
+                        <artifactId>okio</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
 
             <!-- 统一 guava 版本 解决隐式漏洞问题 -->
