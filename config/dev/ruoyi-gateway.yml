@@ -26,6 +26,7 @@ security:
       - /auth/smsLogin
       - /auth/xcxLogin
       - /auth/register
+      - /resource/sms/code
       - /*/v2/api-docs
       - /csrf
 

@@ -48,12 +48,12 @@ public class TokenController {
     }
 
     /**
-     * 短信登录(示例)
+     * 短信登录
      *
      * @param smsLoginBody 登录信息
      * @return 结果
      */
-    @ApiOperation("短信登录(示例)")
+    @ApiOperation("短信登录")
     @PostMapping("/smsLogin")
     public R<Map<String, Object>> smsLogin(@Validated @RequestBody SmsLoginBody smsLoginBody) {
         Map<String, Object> ajax = new HashMap<>();
