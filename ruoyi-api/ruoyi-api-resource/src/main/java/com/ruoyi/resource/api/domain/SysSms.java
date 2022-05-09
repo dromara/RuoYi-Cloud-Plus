@@ -1,0 +1,32 @@
+package com.ruoyi.resource.api.domain;
+
+import lombok.Data;
+
+import java.io.Serializable;
+
+/**
+ * 文件信息
+ *
+ * @author ruoyi
+ */
+@Data
+public class SysSms implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
+    /**
+     * 是否成功
+     */
+    private Boolean isSuccess;
+
+    /**
+     * 响应消息
+     */
+    private String message;
+
+    /**
+     * 实际响应体
+     */
+    private Object response;
+
+}
