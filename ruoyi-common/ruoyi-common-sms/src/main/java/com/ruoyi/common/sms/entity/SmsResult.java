@@ -15,7 +15,7 @@ public class SmsResult {
     /**
      * 是否成功
      */
-    private boolean isSuccess;
+    private Boolean isSuccess;
 
     /**
      * 响应消息
