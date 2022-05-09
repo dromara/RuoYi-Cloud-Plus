@@ -60,7 +60,7 @@ public class SysSmsController extends BaseController {
         map.put("code", code);
         SmsTemplate smsTemplate = SpringUtils.getBean(SmsTemplate.class);
         SmsResult result = smsTemplate.send(phonenumber, templateId, map);
-        if (!result.isSuccess()) {
+        if (!result.getIsSuccess()) {
             log.error("验证码短信发送异常 => {}", result);
             return R.fail(result.getMessage());
         }
