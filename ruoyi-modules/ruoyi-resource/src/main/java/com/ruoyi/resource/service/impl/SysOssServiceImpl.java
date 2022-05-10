@@ -7,9 +7,9 @@ import com.ruoyi.common.core.exception.ServiceException;
 import com.ruoyi.common.core.utils.StringUtils;
 import com.ruoyi.common.mybatis.core.page.PageQuery;
 import com.ruoyi.common.mybatis.core.page.TableDataInfo;
+import com.ruoyi.common.oss.core.OssClient;
 import com.ruoyi.common.oss.entity.UploadResult;
 import com.ruoyi.common.oss.factory.OssFactory;
-import com.ruoyi.common.oss.service.IOssStrategy;
 import com.ruoyi.resource.domain.SysOss;
 import com.ruoyi.resource.domain.bo.SysOssBo;
 import com.ruoyi.resource.domain.vo.SysOssVo;
@@ -65,7 +65,7 @@ public class SysOssServiceImpl implements ISysOssService {
     public SysOss upload(MultipartFile file) {
         String originalfileName = file.getOriginalFilename();
         String suffix = StringUtils.substring(originalfileName, originalfileName.lastIndexOf("."), originalfileName.length());
-        IOssStrategy storage = OssFactory.instance();
+        OssClient storage = OssFactory.instance();
         UploadResult uploadResult;
         try {
             uploadResult = storage.uploadSuffix(file.getBytes(), suffix, file.getContentType());
@@ -78,7 +78,7 @@ public class SysOssServiceImpl implements ISysOssService {
         oss.setFileSuffix(suffix);
         oss.setFileName(uploadResult.getFilename());
         oss.setOriginalName(originalfileName);
-        oss.setService(storage.getServiceType().getValue());
+        oss.setService(storage.getConfigKey());
         baseMapper.insert(oss);
         return oss;
     }
@@ -90,7 +90,7 @@ public class SysOssServiceImpl implements ISysOssService {
         }
         List<SysOss> list = baseMapper.selectBatchIds(ids);
         for (SysOss sysOss : list) {
-            IOssStrategy storage = OssFactory.instance(sysOss.getService());
+            OssClient storage = OssFactory.instance(sysOss.getService());
             storage.delete(sysOss.getUrl());
         }
         return baseMapper.deleteBatchIds(ids) > 0;

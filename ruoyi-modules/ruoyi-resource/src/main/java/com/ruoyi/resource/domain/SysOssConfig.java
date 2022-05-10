@@ -53,6 +53,12 @@ public class SysOssConfig extends BaseEntity {
     private String endpoint;
 
     /**
+     * 自定义域名
+     */
+    private String domain;
+
+
+    /**
      * 是否https（0否 1是）
      */
     private String isHttps;

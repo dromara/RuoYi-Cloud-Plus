@@ -2,9 +2,9 @@ package com.ruoyi.resource.dubbo;
 
 import com.ruoyi.common.core.exception.ServiceException;
 import com.ruoyi.common.core.utils.StringUtils;
+import com.ruoyi.common.oss.core.OssClient;
 import com.ruoyi.common.oss.entity.UploadResult;
 import com.ruoyi.common.oss.factory.OssFactory;
-import com.ruoyi.common.oss.service.IOssStrategy;
 import com.ruoyi.resource.api.RemoteFileService;
 import com.ruoyi.resource.api.domain.SysFile;
 import com.ruoyi.resource.domain.SysOss;
@@ -36,7 +36,7 @@ public class RemoteFileServiceImpl implements RemoteFileService {
     public SysFile upload(String name, String originalFilename, String contentType, byte[] file) throws ServiceException {
         try {
             String suffix = StringUtils.substring(originalFilename, originalFilename.lastIndexOf("."), originalFilename.length());
-            IOssStrategy storage = OssFactory.instance();
+            OssClient storage = OssFactory.instance();
             UploadResult uploadResult = storage.uploadSuffix(file, suffix, contentType);
             // 保存文件信息
             SysOss oss = new SysOss();
@@ -44,7 +44,7 @@ public class RemoteFileServiceImpl implements RemoteFileService {
             oss.setFileSuffix(suffix);
             oss.setFileName(uploadResult.getFilename());
             oss.setOriginalName(originalFilename);
-            oss.setService(storage.getServiceType().getValue());
+            oss.setService(storage.getConfigKey());
             sysOssMapper.insert(oss);
             SysFile sysFile = new SysFile();
             sysFile.setName(uploadResult.getFilename());

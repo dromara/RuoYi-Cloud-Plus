@@ -1,5 +1,1 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  com.ruoyi.common.oss.service.impl.AliyunOssStrategy,\
-  com.ruoyi.common.oss.service.impl.MinioOssStrategy,\
-  com.ruoyi.common.oss.service.impl.QcloudOssStrategy,\
-  com.ruoyi.common.oss.service.impl.QiniuOssStrategy
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=

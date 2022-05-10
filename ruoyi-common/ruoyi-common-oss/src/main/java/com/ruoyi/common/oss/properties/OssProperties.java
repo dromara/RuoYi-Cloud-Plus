@@ -16,6 +16,11 @@ public class OssProperties {
     private String endpoint;
 
     /**
+     * 自定义域名
+     */
+    private String domain;
+
+    /**
      * 前缀
      */
     private String prefix;
