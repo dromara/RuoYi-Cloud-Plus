@@ -1,7 +1,7 @@
 package com.ruoyi.common.redis.config;
 
 import cn.hutool.core.util.ObjectUtil;
-import com.ruoyi.common.core.utils.JsonUtils;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ruoyi.common.core.utils.StringUtils;
 import com.ruoyi.common.redis.config.properties.RedissonProperties;
 import lombok.extern.slf4j.Slf4j;
@@ -49,6 +49,9 @@ public class RedisConfiguration extends CachingConfigurerSupport {
     @Autowired
     private RedissonProperties redissonProperties;
 
+    @Autowired
+    private ObjectMapper objectMapper;
+
     @Primary
     @Bean(destroyMethod = "shutdown")
     public RedissonClient redisson() {
@@ -59,7 +62,7 @@ public class RedisConfiguration extends CachingConfigurerSupport {
         Config config = new Config();
         config.setThreads(redissonProperties.getThreads())
                 .setNettyThreads(redissonProperties.getNettyThreads())
-                .setCodec(new JsonJacksonCodec(JsonUtils.getObjectMapper()));
+                .setCodec(new JsonJacksonCodec(objectMapper));
 
         RedissonProperties.SingleServerConfig singleServerConfig = redissonProperties.getSingleServerConfig();
         if (ObjectUtil.isNotNull(singleServerConfig)) {
@@ -118,7 +121,7 @@ public class RedisConfiguration extends CachingConfigurerSupport {
             cacheConfig.setMaxSize(group.getMaxSize());
             config.put(group.getGroupId(), cacheConfig);
         }
-        return new RedissonSpringCacheManager(redissonClient, config, JsonJacksonCodec.INSTANCE);
+        return new RedissonSpringCacheManager(redissonClient, config, new JsonJacksonCodec(objectMapper));
     }
 
     /**
