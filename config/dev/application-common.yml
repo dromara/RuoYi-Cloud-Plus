@@ -59,8 +59,6 @@ dubbo:
     log-level: info
 
 spring:
-  main:
-    allow-bean-definition-overriding: true
   mvc:
     pathmatch:
       # 适配 boot 2.6 路由与 springfox 兼容
