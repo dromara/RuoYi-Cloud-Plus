@@ -1,13 +1,11 @@
 package com.ruoyi.common.mybatis.helper;
 
+import cn.dev33.satoken.context.SaHolder;
+import cn.dev33.satoken.context.model.SaStorage;
 import cn.hutool.core.util.ObjectUtil;
-import com.ruoyi.common.core.utils.ServletUtils;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
-import org.apache.dubbo.rpc.RpcContext;
-import org.apache.dubbo.rpc.RpcServiceContext;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -35,21 +33,15 @@ public class DataPermissionHelper {
     }
 
     public static Map<String, Object> getContext() {
-        HttpServletRequest request = ServletUtils.getRequest();
-        Object attribute;
-        if (request != null) {
-            attribute = request.getAttribute(DATA_PERMISSION_KEY);
-            if (ObjectUtil.isNull(attribute)) {
-                request.setAttribute(DATA_PERMISSION_KEY, new HashMap<>());
-                attribute = request.getAttribute(DATA_PERMISSION_KEY);
-            }
-        } else {
-            RpcServiceContext context = RpcContext.getServiceContext();
-            attribute = context.getObjectAttachment(DATA_PERMISSION_KEY);
-            if (ObjectUtil.isNull(attribute)) {
-                context.setObjectAttachment(DATA_PERMISSION_KEY, new HashMap<>());
-                attribute = context.getObjectAttachment(DATA_PERMISSION_KEY);
-            }
+        /*
+        *借用satoken的SaStorage存储数据权限标识
+        *
+        */
+        SaStorage saStorage = SaHolder.getStorage();
+        Object attribute = saStorage.get(DATA_PERMISSION_KEY);
+        if (ObjectUtil.isNull(attribute)) {
+            saStorage.set(DATA_PERMISSION_KEY, new HashMap<>());
+            attribute = saStorage.get(DATA_PERMISSION_KEY);
         }
         if (attribute instanceof Map) {
             return (Map<String, Object>) attribute;
