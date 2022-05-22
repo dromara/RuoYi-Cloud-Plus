@@ -33,10 +33,6 @@ public class DataPermissionHelper {
     }
 
     public static Map<String, Object> getContext() {
-        /*
-        *借用satoken的SaStorage存储数据权限标识
-        *
-        */
         SaStorage saStorage = SaHolder.getStorage();
         Object attribute = saStorage.get(DATA_PERMISSION_KEY);
         if (ObjectUtil.isNull(attribute)) {
