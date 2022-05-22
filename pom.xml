@@ -33,7 +33,7 @@
         <hutool.version>5.8.1</hutool.version>
         <redisson.version>3.17.0</redisson.version>
         <lock4j.version>2.2.1</lock4j.version>
-        <xxl-job.version>2.3.0</xxl-job.version>
+        <xxl-job.version>2.3.1</xxl-job.version>
         <knife4j-aggregation.version>2.0.9</knife4j-aggregation.version>
         <knife4j.version>3.0.3</knife4j.version>
         <satoken.version>1.30.0</satoken.version>
