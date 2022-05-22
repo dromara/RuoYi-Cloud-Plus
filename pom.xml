@@ -29,8 +29,8 @@
         <velocity.version>2.3</velocity.version>
         <poi.version>4.1.2</poi.version>
         <commons-compress.version>1.21</commons-compress.version>
-        <easyexcel.version>3.0.5</easyexcel.version>
-        <hutool.version>5.8.0</hutool.version>
+        <easyexcel.version>3.1.0</easyexcel.version>
+        <hutool.version>5.8.1</hutool.version>
         <redisson.version>3.17.0</redisson.version>
         <lock4j.version>2.2.1</lock4j.version>
         <xxl-job.version>2.3.0</xxl-job.version>
