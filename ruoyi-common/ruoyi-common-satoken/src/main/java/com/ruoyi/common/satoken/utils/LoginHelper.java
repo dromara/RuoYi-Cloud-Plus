@@ -69,7 +69,9 @@ public class LoginHelper {
         if (loginUser != null) {
             return loginUser;
         }
-        return (LoginUser) StpUtil.getTokenSession().get(LOGIN_USER_KEY);
+        loginUser = (LoginUser) StpUtil.getTokenSession().get(LOGIN_USER_KEY);
+        LOGIN_CACHE.set(loginUser);
+        return loginUser;
     }
 
     /**
