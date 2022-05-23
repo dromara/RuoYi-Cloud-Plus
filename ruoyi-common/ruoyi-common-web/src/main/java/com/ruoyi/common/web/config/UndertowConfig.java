@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Configuration;
  * @author Lion Li
  */
 @Configuration
-public class CustomizationBean implements WebServerFactoryCustomizer<UndertowServletWebServerFactory> {
+public class UndertowConfig implements WebServerFactoryCustomizer<UndertowServletWebServerFactory> {
 
     /**
      * 设置 Undertow 的 websocket 缓冲池
