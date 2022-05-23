@@ -101,7 +101,8 @@ spring:
   redis:
     host: localhost
     port: 6379
-    password:
+    # 密码(如没有密码请注释掉)
+    # password:
     database: 0
     timeout: 10s
     ssl: false
