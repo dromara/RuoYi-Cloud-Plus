@@ -33,6 +33,8 @@ dubbo:
     name: dubbo
     # dubbo 协议端口(-1表示自增端口,从20880开始)
     port: -1
+    # 指定dubbo协议注册ip
+    # host: 192.168.0.100
   # 注册中心配置
   registry:
     address: nacos://${spring.cloud.nacos.server-addr}
