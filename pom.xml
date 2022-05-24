@@ -27,6 +27,7 @@
         <druid.version>1.2.9</druid.version>
         <dynamic-ds.version>3.5.1</dynamic-ds.version>
         <velocity.version>2.3</velocity.version>
+        <fastjson.version>1.2.83</fastjson.version>
         <poi.version>4.1.2</poi.version>
         <commons-compress.version>1.21</commons-compress.version>
         <easyexcel.version>3.1.0</easyexcel.version>
@@ -270,6 +271,13 @@
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>
                 <version>${guava.version}</version>
+            </dependency>
+
+            <!-- 统一 fastjson 版本 解决alibaba组件序列化漏洞问题 -->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>fastjson</artifactId>
+                <version>${fastjson.version}</version>
             </dependency>
 
         </dependencies>
