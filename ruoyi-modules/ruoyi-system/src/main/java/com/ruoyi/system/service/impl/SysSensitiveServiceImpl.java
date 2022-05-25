@@ -19,7 +19,7 @@ public class SysSensitiveServiceImpl implements SensitiveService {
      */
     @Override
     public boolean isSensitive() {
-        return LoginHelper.isAdmin();
+        return !LoginHelper.isAdmin();
     }
 
 }
