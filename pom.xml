@@ -32,7 +32,7 @@
         <commons-compress.version>1.21</commons-compress.version>
         <easyexcel.version>3.1.0</easyexcel.version>
         <hutool.version>5.8.1</hutool.version>
-        <redisson.version>3.17.0</redisson.version>
+        <redisson.version>3.17.2</redisson.version>
         <lock4j.version>2.2.2</lock4j.version>
         <xxl-job.version>2.3.1</xxl-job.version>
         <knife4j-aggregation.version>2.0.9</knife4j-aggregation.version>
