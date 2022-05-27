@@ -1,5 +1,6 @@
 package com.ruoyi.resource.service.impl;
 
+import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -7,9 +8,11 @@ import com.ruoyi.common.core.exception.ServiceException;
 import com.ruoyi.common.core.utils.StringUtils;
 import com.ruoyi.common.mybatis.core.page.PageQuery;
 import com.ruoyi.common.mybatis.core.page.TableDataInfo;
+import com.ruoyi.common.oss.constant.OssConstant;
 import com.ruoyi.common.oss.core.OssClient;
 import com.ruoyi.common.oss.entity.UploadResult;
 import com.ruoyi.common.oss.factory.OssFactory;
+import com.ruoyi.common.redis.utils.RedisUtils;
 import com.ruoyi.resource.domain.SysOss;
 import com.ruoyi.resource.domain.bo.SysOssBo;
 import com.ruoyi.resource.domain.vo.SysOssVo;
@@ -20,6 +23,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.time.Duration;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -44,7 +49,17 @@ public class SysOssServiceImpl implements ISysOssService {
 
     @Override
     public List<SysOssVo> listByIds(Collection<Long> ossIds) {
-        return baseMapper.selectVoById(ossIds);
+        List<SysOssVo> list = new ArrayList<>();
+        for (Long id : ossIds) {
+            String key = OssConstant.SYS_OSS_KEY + id;
+            SysOssVo vo = RedisUtils.getCacheObject(key);
+            if (ObjectUtil.isNull(vo)) {
+                vo = baseMapper.selectVoById(id);
+                RedisUtils.setCacheObject(key, vo, Duration.ofDays(30));
+            }
+            list.add(vo);
+        }
+        return list;
     }
 
     private LambdaQueryWrapper<SysOss> buildQueryWrapper(SysOssBo bo) {
