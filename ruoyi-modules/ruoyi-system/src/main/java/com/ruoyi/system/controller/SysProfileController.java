@@ -1,11 +1,11 @@
 package com.ruoyi.system.controller;
 
 import cn.dev33.satoken.secure.BCrypt;
+import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.ObjectUtil;
 import com.ruoyi.common.core.constant.UserConstants;
 import com.ruoyi.common.core.domain.R;
 import com.ruoyi.common.core.utils.StringUtils;
-import com.ruoyi.common.core.utils.file.FileTypeUtils;
 import com.ruoyi.common.core.utils.file.MimeTypeUtils;
 import com.ruoyi.common.core.web.controller.BaseController;
 import com.ruoyi.common.log.annotation.Log;
@@ -28,6 +28,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -123,6 +124,10 @@ public class SysProfileController extends BaseController {
     @PostMapping("/avatar")
     public R<Map<String, Object>> avatar(@RequestPart("avatarfile") MultipartFile file) throws IOException {
         if (!file.isEmpty()) {
+            String extension = FileUtil.extName(file.getOriginalFilename());
+            if (!StringUtils.equalsAnyIgnoreCase(extension, MimeTypeUtils.IMAGE_EXTENSION)) {
+                return R.fail("文件格式不正确，请上传" + Arrays.toString(MimeTypeUtils.IMAGE_EXTENSION) + "格式");
+            }
             SysFile sysFile = remoteFileService.upload(file.getName(), file.getOriginalFilename(), file.getContentType(), file.getBytes());
             if (ObjectUtil.isNull(sysFile)) {
                 return R.fail("文件服务异常，请联系管理员");
