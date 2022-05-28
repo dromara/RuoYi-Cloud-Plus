@@ -33,7 +33,7 @@ public class SysOperLogServiceImpl implements ISysOperLogService {
         Map<String, Object> params = operLog.getParams();
         LambdaQueryWrapper<SysOperLog> lqw = new LambdaQueryWrapper<SysOperLog>()
             .like(StringUtils.isNotBlank(operLog.getTitle()), SysOperLog::getTitle, operLog.getTitle())
-            .eq(operLog.getBusinessType() != null && operLog.getBusinessType() > 0,
+            .eq(operLog.getBusinessType() != null,
                 SysOperLog::getBusinessType, operLog.getBusinessType())
             .func(f -> {
                 if (ArrayUtil.isNotEmpty(operLog.getBusinessTypes())) {
