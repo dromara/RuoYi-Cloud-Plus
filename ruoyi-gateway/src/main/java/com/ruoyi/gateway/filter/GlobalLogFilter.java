@@ -12,7 +12,6 @@ import org.springframework.core.Ordered;
 import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.http.MediaType;
 import org.springframework.http.server.reactive.ServerHttpRequest;
-import org.springframework.http.server.reactive.ServerHttpRequestDecorator;
 import org.springframework.stereotype.Component;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.server.ServerWebExchange;
@@ -24,7 +23,6 @@ import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.util.LinkedHashSet;
 
-import static org.springframework.cloud.gateway.support.ServerWebExchangeUtils.CACHED_SERVER_HTTP_REQUEST_DECORATOR_ATTR;
 import static org.springframework.cloud.gateway.support.ServerWebExchangeUtils.GATEWAY_ORIGINAL_REQUEST_URL_ATTR;
 
 /**
@@ -54,9 +52,7 @@ public class GlobalLogFilter implements GlobalFilter, Ordered {
         }
         // 打印请求参数
         if (isJsonRequest(request)) {
-            ServerHttpRequestDecorator decorator = (ServerHttpRequestDecorator)
-                exchange.getAttributes().get(CACHED_SERVER_HTTP_REQUEST_DECORATOR_ATTR);
-            String jsonParam = resolveBodyFromRequest(decorator);
+            String jsonParam = resolveBodyFromRequest(request);
             log.debug("[PLUS]开始请求 => URL[{}],参数类型[json],参数:[{}]", url, jsonParam);
         } else {
             MultiValueMap<String, String> parameterMap = request.getQueryParams();
