@@ -46,7 +46,6 @@ spring:
             - Path=/auth/**
           filters:
             # 验证码处理
-            - CacheRequestFilter
             - ValidateCodeFilter
             - StripPrefix=1
         # 代码生成
