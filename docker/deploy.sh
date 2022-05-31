@@ -27,6 +27,7 @@ port(){
     # sentinel端口
     firewall-cmd --add-port=8718/tcp --permanent
     # seata端口
+    firewall-cmd --add-port=7091/tcp --permanent
     firewall-cmd --add-port=8091/tcp --permanent
     # 重启防火墙
     service firewalld restart
@@ -48,11 +49,6 @@ mount(){
     if test ! -f "/docker/nacos/conf/custom.properties" ;then
         mkdir -p /docker/nacos/conf
         cp nacos/custom.properties /docker/nacos/conf/custom.properties
-    fi
-    #挂载 seata 配置文件
-    if test ! -f "/docker/seata/conf/registry.conf" ;then
-        mkdir -p /docker/seata/conf
-        cp seata/registry.conf /docker/seata/conf/registry.conf
     fi
 }
 

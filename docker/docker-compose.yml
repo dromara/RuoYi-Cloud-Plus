@@ -113,24 +113,22 @@ services:
         ipv4_address: 172.30.0.54
 
   seata-server:
-    image: seataio/seata-server:1.4.2
+    image: ruoyi/ruoyi-seata-server:0.11.0
     container_name: seata-server
     ports:
+      - "7091:7091"
       - "8091:8091"
     environment:
       TZ: Asia/Shanghai
       # 注意 此处ip如果是外网使用 要改为外网ip
-      SEATA_IP: 172.30.0.58
+      # SEATA_IP: 127.0.0.1
       SEATA_PORT: 8091
-      STORE_MODE: db
-      SEATA_CONFIG_NAME: file:/root/seata-config/registry
     volumes:
-      - /docker/seata/config:/root/seata-config
+      - /docker/ruoyi-seata-server/logs/:/ruoyi/seata-server/logs
     privileged: true
     restart: always
     networks:
-      ruoyi_net:
-        ipv4_address: 172.30.0.58
+      - ruoyi_net
 
   nginx-web:
     image: nginx:1.21.3
