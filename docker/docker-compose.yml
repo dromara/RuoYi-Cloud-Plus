@@ -113,7 +113,7 @@ services:
         ipv4_address: 172.30.0.54
 
   seata-server:
-    image: ruoyi/ruoyi-seata-server:0.11.0
+    image: ruoyi/ruoyi-seata-server:0.12.0
     container_name: seata-server
     ports:
       - "7091:7091"
@@ -154,7 +154,7 @@ services:
       - ruoyi_net
 
   sentinel:
-    image: ruoyi/ruoyi-sentinel-dashboard:0.11.0
+    image: ruoyi/ruoyi-sentinel-dashboard:0.12.0
     container_name: sentinel
     environment:
       TZ: Asia/Shanghai
@@ -169,7 +169,7 @@ services:
         ipv4_address: 172.30.0.68
 
   ruoyi-monitor-admin:
-    image: ruoyi/ruoyi-monitor:0.11.0
+    image: ruoyi/ruoyi-monitor:0.12.0
     container_name: ruoyi-monitor
     environment:
       # 时区上海
@@ -186,7 +186,7 @@ services:
         ipv4_address: 172.30.0.90
 
   ruoyi-xxl-job-admin:
-    image: ruoyi/ruoyi-xxl-job-admin:0.11.0
+    image: ruoyi/ruoyi-xxl-job-admin:0.12.0
     container_name: ruoyi-xxl-job-admin
     environment:
       # 时区上海
@@ -203,7 +203,7 @@ services:
         ipv4_address: 172.30.0.92
 
   ruoyi-gateway:
-    image: ruoyi/ruoyi-gateway:0.11.0
+    image: ruoyi/ruoyi-gateway:0.12.0
     container_name: ruoyi-gateway
     environment:
       # 时区上海
@@ -220,7 +220,7 @@ services:
         ipv4_address: 172.30.0.100
 
   ruoyi-auth:
-    image: ruoyi/ruoyi-auth:0.11.0
+    image: ruoyi/ruoyi-auth:0.12.0
     container_name: ruoyi-auth
     environment:
       # 时区上海
@@ -237,7 +237,7 @@ services:
         ipv4_address: 172.30.0.110
 
   ruoyi-system:
-    image: ruoyi/ruoyi-system:0.11.0
+    image: ruoyi/ruoyi-system:0.12.0
     container_name: ruoyi-system
     environment:
       # 时区上海
@@ -253,7 +253,7 @@ services:
       - ruoyi_net
 
   ruoyi-gen:
-    image: ruoyi/ruoyi-gen:0.11.0
+    image: ruoyi/ruoyi-gen:0.12.0
     container_name: ruoyi-gen
     environment:
       # 时区上海
@@ -269,7 +269,7 @@ services:
       - ruoyi_net
 
   ruoyi-job:
-    image: ruoyi/ruoyi-job:0.11.0
+    image: ruoyi/ruoyi-job:0.12.0
     container_name: ruoyi-job
     environment:
       # 时区上海
@@ -285,7 +285,7 @@ services:
       - ruoyi_net
 
   ruoyi-resource:
-    image: ruoyi/ruoyi-resource:0.11.0
+    image: ruoyi/ruoyi-resource:0.12.0
     container_name: ruoyi-resource
     environment:
       # 时区上海

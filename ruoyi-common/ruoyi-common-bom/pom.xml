@@ -6,7 +6,7 @@
 
     <groupId>com.ruoyi</groupId>
     <artifactId>ruoyi-common-bom</artifactId>
-    <version>0.11.0</version>
+    <version>0.12.0</version>
     <packaging>pom</packaging>
 
     <description>
