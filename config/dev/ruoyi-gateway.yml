@@ -27,7 +27,7 @@ security:
       - /auth/xcxLogin
       - /auth/register
       - /resource/sms/code
-      - /*/v2/api-docs
+      - /*/v3/api-docs
       - /csrf
 
 spring:
@@ -69,6 +69,13 @@ spring:
           uri: lb://ruoyi-resource
           predicates:
             - Path=/resource/**
+          filters:
+            - StripPrefix=1
+        # 演示服务
+        - id: ruoyi-demo
+          uri: lb://ruoyi-demo
+          predicates:
+            - Path=/demo/**
           filters:
             - StripPrefix=1
 

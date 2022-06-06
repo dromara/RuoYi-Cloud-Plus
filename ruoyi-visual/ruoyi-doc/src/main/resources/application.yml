@@ -43,13 +43,13 @@ knife4j:
     routes:
       - name: 系统服务
         uri: ${knife4j.cloud.gatewayUri}
-        location: /system/v2/api-docs
+        location: /system/v3/api-docs
       - name: 代码生成
         uri: ${knife4j.cloud.gatewayUri}
-        location: /code/v2/api-docs
+        location: /code/v3/api-docs
       - name: 资源服务
         uri: ${knife4j.cloud.gatewayUri}
-        location: /resource/v2/api-docs
+        location: /resource/v3/api-docs
       - name: 认证服务
         uri: ${knife4j.cloud.gatewayUri}
-        location: /auth/v2/api-docs
+        location: /auth/v3/api-docs
