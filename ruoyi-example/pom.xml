@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <groupId>com.ruoyi</groupId>
+        <artifactId>ruoyi-cloud-plus</artifactId>
+        <version>0.12.0</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <modules>
+        <module>ruoyi-demo</module>
+    </modules>
+
+    <artifactId>ruoyi-example</artifactId>
+    <packaging>pom</packaging>
+
+    <description>
+        ruoyi-example 例子模块
+    </description>
+
+    <dependencies>
+        <!-- 自定义负载均衡(多团队开发使用) -->
+<!--        <dependency>-->
+<!--            <groupId>com.ruoyi</groupId>-->
+<!--            <artifactId>ruoyi-common-loadbalancer</artifactId>-->
+<!--        </dependency>-->
+    </dependencies>
+
+</project>
