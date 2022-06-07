@@ -2,7 +2,7 @@ version: '3'
 
 services:
   mysql:
-    image: mysql:8.0.27
+    image: mysql:8.0.29
     container_name: mysql
     environment:
       # 时区上海
@@ -32,7 +32,7 @@ services:
         ipv4_address: 172.30.0.36
 
   nacos:
-    image: nacos/nacos-server:v2.0.4
+    image: nacos/nacos-server:v2.1.0
     container_name: nacos
     ports:
       - "8848:8848"
@@ -58,7 +58,7 @@ services:
         ipv4_address: 172.30.0.40
 
   redis:
-    image: redis:6.2.6
+    image: redis:6.2.7
     container_name: redis
     ports:
       - "6379:6379"
@@ -78,7 +78,7 @@ services:
         ipv4_address: 172.30.0.48
 
   minio:
-    image: minio/minio:RELEASE.2021-10-27T16-29-42Z
+    image: minio/minio:RELEASE.2022-05-26T05-48-41Z
     container_name: minio
     ports:
       # api 端口
@@ -131,7 +131,7 @@ services:
       - ruoyi_net
 
   nginx-web:
-    image: nginx:1.21.3
+    image: nginx:1.21.6
     container_name: nginx-web
     environment:
       # 时区上海
