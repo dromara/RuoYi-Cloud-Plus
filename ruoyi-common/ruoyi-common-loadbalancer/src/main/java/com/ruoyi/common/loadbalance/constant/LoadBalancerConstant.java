@@ -1,5 +1,7 @@
 package com.ruoyi.common.loadbalance.constant;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
@@ -8,6 +10,7 @@ import java.net.UnknownHostException;
  *
  * @author Lion Li
  */
+@Slf4j
 public class LoadBalancerConstant {
 
     /**
@@ -25,6 +28,7 @@ public class LoadBalancerConstant {
         } catch (UnknownHostException e) {
             e.printStackTrace();
         }
+        log.debug("[LoadBalancer] - 本机IP地址: {}", host);
         return host;
     }
 }
