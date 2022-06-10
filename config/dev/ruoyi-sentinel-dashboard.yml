@@ -15,7 +15,7 @@ logging:
 auth:
   enabled: true
   filter:
-    exclude-urls: /,/auth/login,/auth/logout,/registry/machine,/version
+    exclude-urls: /,/auth/login,/auth/logout,/registry/machine,/version,/actuator,/actuator/**
     exclude-url-suffixes: htm,html,js,css,map,ico,ttf,woff,png
   username: sentinel
   password: sentinel
