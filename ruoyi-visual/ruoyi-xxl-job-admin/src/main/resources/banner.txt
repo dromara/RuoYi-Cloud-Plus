@@ -1,5 +1,5 @@
-Application Version: ${ruoyi.version}
 Spring Boot Version: ${spring-boot.version}
+Spring Application Name: ${spring.application.name}
 __   __      _            _       _                     _           _
 \ \ / /     | |          | |     | |           /\      | |         (_)
  \ V / __  _| |______    | | ___ | |__ ______ /  \   __| |_ __ ___  _ _ __
