@@ -83,8 +83,9 @@ public class TokenController {
     @DeleteMapping("logout")
     public R<Void> logout() {
         try {
+            String username = LoginHelper.getUsername();
             StpUtil.logout();
-            sysLoginService.logout(LoginHelper.getUsername());
+            sysLoginService.logout(username);
         } catch (NotLoginException e) {
         }
         return R.ok();
