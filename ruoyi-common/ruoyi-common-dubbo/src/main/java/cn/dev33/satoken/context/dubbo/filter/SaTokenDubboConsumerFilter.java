@@ -6,10 +6,15 @@ import cn.dev33.satoken.id.SaIdUtil;
 import cn.dev33.satoken.spring.SaBeanInject;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.dev33.satoken.util.SaTokenConsts;
+import cn.hutool.core.annotation.AnnotationUtil;
+import com.ruoyi.common.core.annotation.InnerExclude;
 import com.ruoyi.common.core.utils.SpringUtils;
+import lombok.SneakyThrows;
 import org.apache.dubbo.common.constants.CommonConstants;
 import org.apache.dubbo.common.extension.Activate;
 import org.apache.dubbo.rpc.*;
+
+import java.lang.reflect.Method;
 
 /**
  *
@@ -23,6 +28,7 @@ import org.apache.dubbo.rpc.*;
 @Activate(group = {CommonConstants.CONSUMER}, order = Integer.MIN_VALUE)
 public class SaTokenDubboConsumerFilter implements Filter {
 
+    @SneakyThrows(NoSuchMethodException.class)
 	@Override
 	public Result invoke(Invoker<?> invoker, Invocation invocation) throws RpcException {
         // 强制初始化 Sa-Token 相关配置 解决内网鉴权元数据加载报错问题
@@ -30,7 +36,16 @@ public class SaTokenDubboConsumerFilter implements Filter {
 
         // 追加 Id-Token 参数
 		if(SaManager.getConfig().getCheckIdToken()) {
-			RpcContext.getServiceContext().setAttachment(SaIdUtil.ID_TOKEN, SaIdUtil.getToken());
+            Class<?> clazz = invoker.getInterface();
+            Method method = clazz.getMethod(invocation.getMethodName(), invocation.getParameterTypes());
+            // 检查是否有内网鉴权排除注解
+            if (AnnotationUtil.hasAnnotation(clazz, InnerExclude.class)
+                || AnnotationUtil.hasAnnotation(method, InnerExclude.class)) {
+                // 不传递 Id-Token
+            } else {
+                RpcContext.getServiceContext().setAttachment(SaIdUtil.ID_TOKEN, SaIdUtil.getToken());
+            }
+
 		}
 
 		// 1. 调用前，向下传递会话Token
