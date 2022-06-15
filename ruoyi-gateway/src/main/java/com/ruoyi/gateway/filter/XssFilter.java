@@ -39,7 +39,7 @@ public class XssFilter implements GlobalFilter, Ordered {
         ServerHttpRequest request = exchange.getRequest();
         // GET DELETE 不过滤
         HttpMethod method = request.getMethod();
-        if (method == null || method.matches("GET") || method.matches("DELETE")) {
+        if (method == null || method == HttpMethod.GET || method == HttpMethod.DELETE) {
             return chain.filter(exchange);
         }
         // 非json类型，不过滤
