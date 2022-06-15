@@ -34,5 +34,11 @@
             <artifactId>spring-boot-starter-undertow</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+            <optional>true</optional>
+        </dependency>
+
     </dependencies>
 </project>
