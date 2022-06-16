@@ -56,6 +56,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
                u.email,
                u.avatar,
                u.phonenumber,
+               u.password,
                u.sex,
                u.status,
                u.del_flag,
@@ -83,21 +84,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
                  left join sys_role r on r.role_id = sur.role_id
     </sql>
 
-    <select id="selectPageUserList" parameterType="SysUser" resultMap="SysUserResult">
-        select u.user_id, u.dept_id, u.nick_name, u.user_name, u.email, u.avatar, u.phonenumber, u.password, u.sex,
+    <select id="selectPageUserList" resultMap="SysUserResult">
+        select u.user_id, u.dept_id, u.nick_name, u.user_name, u.email, u.avatar, u.phonenumber, u.sex,
         u.status, u.del_flag, u.login_ip, u.login_date, u.create_by, u.create_time, u.remark, d.dept_name, d.leader from
         sys_user u
         left join sys_dept d on u.dept_id = d.dept_id
         ${ew.getCustomSqlSegment}
     </select>
 
-    <select id="selectUserList" parameterType="SysUser" resultMap="SysUserResult">
+    <select id="selectUserList" resultMap="SysUserResult">
 		select u.user_id, u.dept_id, u.nick_name, u.user_name, u.email, u.avatar, u.phonenumber, u.sex, u.status, u.del_flag, u.login_ip, u.login_date, u.create_by, u.create_time, u.remark, d.dept_name, d.leader from sys_user u
 		left join sys_dept d on u.dept_id = d.dept_id
         ${ew.getCustomSqlSegment}
 	</select>
 
-	<select id="selectAllocatedList" parameterType="SysUser" resultMap="SysUserResult">
+	<select id="selectAllocatedList" resultMap="SysUserResult">
 	    select distinct u.user_id, u.dept_id, u.user_name, u.nick_name, u.email, u.phonenumber, u.status, u.create_time
 	    from sys_user u
 			 left join sys_dept d on u.dept_id = d.dept_id
@@ -106,7 +107,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         ${ew.getCustomSqlSegment}
 	</select>
 
-	<select id="selectUnallocatedList" parameterType="SysUser" resultMap="SysUserResult">
+	<select id="selectUnallocatedList" resultMap="SysUserResult">
 	    select distinct u.user_id, u.dept_id, u.user_name, u.nick_name, u.email, u.phonenumber, u.status, u.create_time
 	    from sys_user u
 			 left join sys_dept d on u.dept_id = d.dept_id
