@@ -7,6 +7,7 @@ import com.ruoyi.common.core.constant.Constants;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.springframework.http.MediaType;
+import org.springframework.util.LinkedCaseInsensitiveMap;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
