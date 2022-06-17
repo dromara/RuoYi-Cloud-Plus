@@ -21,7 +21,7 @@ import java.util.concurrent.*;
  */
 @Slf4j
 @EnableAsync
-@Configuration
+@Configuration(proxyBeanMethods = false)
 public class AsyncConfig extends AsyncConfigurerSupport {
 
     private static final int CORE_POOL_SIZE = 10;

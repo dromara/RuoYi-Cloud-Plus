@@ -16,7 +16,7 @@ import org.springframework.context.annotation.Configuration;
  * @author Lion Li
  * @version 4.2.0
  */
-@Configuration
+@Configuration(proxyBeanMethods = false)
 @EnableConfigurationProperties(SmsProperties.class)
 public class SmsAutoConfiguration {
 

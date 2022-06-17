@@ -15,7 +15,7 @@ import org.springframework.context.annotation.Configuration;
  * @author Lion Li
  */
 @Slf4j
-@Configuration
+@Configuration(proxyBeanMethods = false)
 @EnableConfigurationProperties(XxlJobProperties.class)
 @AllArgsConstructor
 @ConditionalOnProperty(prefix = "xxl.job", name = "enabled", havingValue = "true")

@@ -3,14 +3,12 @@ package com.ruoyi.common.core.utils;
 import cn.hutool.extra.spring.SpringUtil;
 import org.springframework.aop.framework.AopContext;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
-import org.springframework.stereotype.Component;
 
 /**
  * spring工具类
  *
  * @author Lion Li
  */
-@Component
 public final class SpringUtils extends SpringUtil {
 
     /**

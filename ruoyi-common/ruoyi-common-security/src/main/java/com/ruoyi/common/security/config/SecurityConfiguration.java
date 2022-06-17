@@ -15,7 +15,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  *
  * @author Lion Li
  */
-@Configuration
+@Configuration(proxyBeanMethods = false)
 public class SecurityConfiguration implements WebMvcConfigurer {
 
     /**

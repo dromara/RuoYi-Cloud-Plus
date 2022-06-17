@@ -28,7 +28,7 @@ import java.util.function.Predicate;
  *
  * @author Lion Li
  */
-@Configuration
+@Configuration(proxyBeanMethods = false)
 @EnableKnife4j
 @EnableConfigurationProperties(SwaggerProperties.class)
 @ConditionalOnProperty(name = "swagger.enabled", matchIfMissing = true)

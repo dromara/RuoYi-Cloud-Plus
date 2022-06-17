@@ -12,7 +12,7 @@ import org.springframework.web.servlet.LocaleResolver;
  *
  * @author Lion Li
  */
-@Configuration
+@Configuration(proxyBeanMethods = false)
 @AutoConfigureBefore(WebMvcAutoConfiguration.class)
 public class I18nConfig {
 

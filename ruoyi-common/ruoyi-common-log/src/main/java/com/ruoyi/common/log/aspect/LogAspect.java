@@ -15,8 +15,8 @@ import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
-import org.springframework.stereotype.Component;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -32,7 +32,7 @@ import java.util.Map;
  */
 @Slf4j
 @Aspect
-@Component
+@Configuration(proxyBeanMethods = false)
 public class LogAspect {
 
     @Autowired
