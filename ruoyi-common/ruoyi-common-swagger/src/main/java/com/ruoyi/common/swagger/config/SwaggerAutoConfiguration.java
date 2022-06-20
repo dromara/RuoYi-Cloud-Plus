@@ -2,9 +2,11 @@ package com.ruoyi.common.swagger.config;
 
 import cn.dev33.satoken.config.SaTokenConfig;
 import com.github.xiaoymin.knife4j.spring.annotations.EnableKnife4j;
+import com.ruoyi.common.core.utils.StringUtils;
 import com.ruoyi.common.swagger.config.properties.SwaggerProperties;
 import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -36,6 +38,9 @@ public class SwaggerAutoConfiguration {
 
     @Autowired
     private SaTokenConfig saTokenConfig;
+
+    @Value("${spring.application.name}")
+    private String appName;
 
     /**
      * 默认的排除路径，排除Spring Boot默认的错误处理路径和端点
@@ -75,7 +80,7 @@ public class SwaggerAutoConfiguration {
         return builder.build()
             .securitySchemes(securitySchemes())
             .securityContexts(securityContexts())
-            .pathMapping("/");
+            .pathMapping(StringUtils.substring(appName, appName.indexOf("-") + 1));
     }
 
     /**
