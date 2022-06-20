@@ -154,7 +154,7 @@ export default {
   data() {
     return {
       // 版本号
-      version: "0.12.0",
+      version: "1.0.0",
     };
   },
   methods: {
