@@ -53,3 +53,6 @@ knife4j:
       - name: 认证服务
         uri: ${knife4j.cloud.gatewayUri}
         location: /auth/v3/api-docs
+      - name: 演示服务
+        uri: ${knife4j.cloud.gatewayUri}
+        location: /demo/v3/api-docs
