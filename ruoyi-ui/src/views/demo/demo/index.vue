@@ -406,7 +406,7 @@ export default {
     },
     /** 导出按钮操作 */
     handleExport() {
-      this.download('demo/demo/export', {
+      this.download('demo/demo/demo/export', {
         ...this.queryParams
       }, `demo_${new Date().getTime()}.xlsx`)
     },
