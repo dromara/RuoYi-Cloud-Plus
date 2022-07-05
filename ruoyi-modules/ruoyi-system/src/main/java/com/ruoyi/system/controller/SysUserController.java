@@ -6,6 +6,7 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.ObjectUtil;
 import com.ruoyi.common.core.constant.UserConstants;
 import com.ruoyi.common.core.domain.R;
+import com.ruoyi.common.core.utils.StreamUtils;
 import com.ruoyi.common.core.utils.StringUtils;
 import com.ruoyi.common.core.web.controller.BaseController;
 import com.ruoyi.common.excel.core.ExcelResult;
@@ -38,7 +39,6 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * 用户信息
@@ -133,13 +133,13 @@ public class SysUserController extends BaseController {
         userService.checkUserDataScope(userId);
         Map<String, Object> ajax = new HashMap<>();
         List<SysRole> roles = roleService.selectRoleAll();
-        ajax.put("roles", LoginHelper.isAdmin(userId) ? roles : roles.stream().filter(r -> !r.isAdmin()).collect(Collectors.toList()));
+        ajax.put("roles", LoginHelper.isAdmin(userId) ? roles : StreamUtils.filter(roles, r -> !r.isAdmin()));
         ajax.put("posts", postService.selectPostAll());
         if (ObjectUtil.isNotNull(userId)) {
             SysUser sysUser = userService.selectUserById(userId);
             ajax.put("user", sysUser);
             ajax.put("postIds", postService.selectPostListByUserId(userId));
-            ajax.put("roleIds", sysUser.getRoles().stream().map(SysRole::getRoleId).collect(Collectors.toList()));
+            ajax.put("roleIds", StreamUtils.toList(sysUser.getRoles(), SysRole::getRoleId));
         }
         return R.ok(ajax);
     }
@@ -237,7 +237,7 @@ public class SysUserController extends BaseController {
         SysUser user = userService.selectUserById(userId);
         List<SysRole> roles = roleService.selectRolesByUserId(userId);
         ajax.put("user", user);
-        ajax.put("roles", LoginHelper.isAdmin(userId) ? roles : roles.stream().filter(r -> !r.isAdmin()).collect(Collectors.toList()));
+        ajax.put("roles", LoginHelper.isAdmin(userId) ? roles : StreamUtils.filter(roles, r -> !r.isAdmin()));
         return R.ok(ajax);
     }
 

@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ruoyi.common.core.constant.UserConstants;
 import com.ruoyi.common.core.exception.ServiceException;
+import com.ruoyi.common.core.utils.StreamUtils;
 import com.ruoyi.common.core.utils.StringUtils;
 import com.ruoyi.common.dict.utils.DictUtils;
 import com.ruoyi.common.mybatis.core.page.PageQuery;
@@ -20,12 +21,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.PostConstruct;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  * 字典 业务层处理
@@ -146,11 +145,9 @@ public class SysDictTypeServiceImpl implements ISysDictTypeService {
     public void loadingDictCache() {
         List<SysDictData> dictDataList = dictDataMapper.selectList(
             new LambdaQueryWrapper<SysDictData>().eq(SysDictData::getStatus, UserConstants.DICT_NORMAL));
-        Map<String, List<SysDictData>> dictDataMap = dictDataList.stream().collect(Collectors.groupingBy(SysDictData::getDictType));
+        Map<String, List<SysDictData>> dictDataMap = StreamUtils.groupByKey(dictDataList, SysDictData::getDictType);
         dictDataMap.forEach((k, v) -> {
-            List<SysDictData> dictList = v.stream()
-                .sorted(Comparator.comparing(SysDictData::getDictSort))
-                .collect(Collectors.toList());
+            List<SysDictData> dictList = StreamUtils.sorted(v, Comparator.comparing(SysDictData::getDictSort));
             DictUtils.setDictCache(k, dictList);
         });
     }

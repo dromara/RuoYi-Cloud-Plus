@@ -5,6 +5,7 @@ import cn.dev33.satoken.exception.NotLoginException;
 import cn.dev33.satoken.stp.StpUtil;
 import com.ruoyi.common.core.constant.CacheConstants;
 import com.ruoyi.common.core.domain.R;
+import com.ruoyi.common.core.utils.StreamUtils;
 import com.ruoyi.common.core.utils.StringUtils;
 import com.ruoyi.common.core.web.controller.BaseController;
 import com.ruoyi.common.log.annotation.Log;
@@ -20,7 +21,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * 在线用户监控
@@ -49,18 +49,18 @@ public class SysUserOnlineController extends BaseController {
             userOnlineList.add(RedisUtils.getCacheObject(CacheConstants.ONLINE_TOKEN_KEY + token));
         }
         if (StringUtils.isNotEmpty(ipaddr) && StringUtils.isNotEmpty(userName)) {
-            userOnlineList = userOnlineList.stream().filter(userOnline ->
+            userOnlineList = StreamUtils.filter(userOnlineList, userOnline ->
                 StringUtils.equals(ipaddr, userOnline.getIpaddr()) &&
                     StringUtils.equals(userName, userOnline.getUserName())
-            ).collect(Collectors.toList());
+            );
         } else if (StringUtils.isNotEmpty(ipaddr)) {
-            userOnlineList = userOnlineList.stream().filter(userOnline ->
-                    StringUtils.equals(ipaddr, userOnline.getIpaddr()))
-                .collect(Collectors.toList());
+            userOnlineList = StreamUtils.filter(userOnlineList, userOnline ->
+                    StringUtils.equals(ipaddr, userOnline.getIpaddr())
+            );
         } else if (StringUtils.isNotEmpty(userName)) {
-            userOnlineList = userOnlineList.stream().filter(userOnline ->
+            userOnlineList = StreamUtils.filter(userOnlineList, userOnline ->
                 StringUtils.equals(userName, userOnline.getUserName())
-            ).collect(Collectors.toList());
+            );
         }
         Collections.reverse(userOnlineList);
         userOnlineList.removeAll(Collections.singleton(null));

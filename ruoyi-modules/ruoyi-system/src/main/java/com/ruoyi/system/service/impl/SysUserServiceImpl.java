@@ -11,6 +11,7 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ruoyi.common.core.constant.UserConstants;
 import com.ruoyi.common.core.exception.ServiceException;
+import com.ruoyi.common.core.utils.StreamUtils;
 import com.ruoyi.common.core.utils.StringUtils;
 import com.ruoyi.common.mybatis.core.page.PageQuery;
 import com.ruoyi.common.mybatis.core.page.TableDataInfo;
@@ -33,7 +34,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  * 用户 业务层处理
@@ -83,7 +83,7 @@ public class SysUserServiceImpl implements ISysUserService {
                 List<SysDept> deptList = deptMapper.selectList(new LambdaQueryWrapper<SysDept>()
                     .select(SysDept::getDeptId)
                     .apply("find_in_set({0},ancestors) <> 0", user.getDeptId()));
-                List<Long> ids = deptList.stream().map(SysDept::getDeptId).collect(Collectors.toList());
+                List<Long> ids = StreamUtils.toList(deptList, SysDept::getDeptId);
                 ids.add(user.getDeptId());
                 w.in("u.dept_id", ids);
             });
@@ -172,7 +172,7 @@ public class SysUserServiceImpl implements ISysUserService {
         if (CollectionUtils.isEmpty(list)) {
             return StringUtils.EMPTY;
         }
-        return list.stream().map(SysRole::getRoleName).collect(Collectors.joining(","));
+        return StreamUtils.join(list, SysRole::getRoleName);
     }
 
     /**
@@ -187,7 +187,7 @@ public class SysUserServiceImpl implements ISysUserService {
         if (CollectionUtils.isEmpty(list)) {
             return StringUtils.EMPTY;
         }
-        return list.stream().map(SysPost::getPostName).collect(Collectors.joining(","));
+        return StreamUtils.join(list, SysPost::getPostName);
     }
 
     /**
