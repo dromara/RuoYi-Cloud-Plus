@@ -26,7 +26,9 @@ public class SysSms implements Serializable {
 
     /**
      * 实际响应体
+     * <p>
+     * 可自行转换为 SDK 对应的 SendSmsResponse
      */
-    private Object response;
+    private String response;
 
 }
