@@ -7,8 +7,10 @@ RUN mkdir -p /ruoyi/gen/logs
 
 WORKDIR /ruoyi/gen
 
-EXPOSE 9202
+ENV SERVER_PORT=9202
+
+EXPOSE ${SERVER_PORT}
 
 ADD ./target/ruoyi-gen.jar ./app.jar
 
-ENTRYPOINT ["java", "-Djava.security.egd=file:/dev/./urandom", "-jar", "app.jar"]
+ENTRYPOINT ["java", "-Djava.security.egd=file:/dev/./urandom", "-Dserver.port=${SERVER_PORT}", "-jar", "app.jar"]

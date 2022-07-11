@@ -26,10 +26,7 @@ services:
       --explicit_defaults_for_timestamp=true
       --lower_case_table_names=1
     privileged: true
-    restart: always
-    networks:
-      ruoyi_net:
-        ipv4_address: 172.30.0.36
+    network_mode: "host"
 
   nacos:
     image: nacos/nacos-server:v2.1.0
@@ -42,7 +39,7 @@ services:
       TZ: Asia/Shanghai
       MODE: standalone
       SPRING_DATASOURCE_PLATFORM: mysql
-      MYSQL_SERVICE_HOST: 172.30.0.36
+      MYSQL_SERVICE_HOST: 127.0.0.1
       MYSQL_SERVICE_PORT: 3306
       MYSQL_SERVICE_USER: root
       MYSQL_SERVICE_PASSWORD: ruoyi123
@@ -52,10 +49,7 @@ services:
       - /docker/nacos/logs/:/home/nacos/logs
       - /docker/nacos/config/custom.properties:/home/nacos/init.d/custom.properties
     privileged: true
-    restart: always
-    networks:
-      ruoyi_net:
-        ipv4_address: 172.30.0.40
+    network_mode: "host"
 
   redis:
     image: redis:6.2.7
@@ -72,10 +66,7 @@ services:
       - /docker/redis/data/:/redis/data/
     command: "redis-server /redis/config/redis.conf"
     privileged: true
-    restart: always
-    networks:
-      ruoyi_net:
-        ipv4_address: 172.30.0.48
+    network_mode: "host"
 
   minio:
     image: minio/minio:RELEASE.2022-05-26T05-48-41Z
@@ -107,10 +98,7 @@ services:
       - /docker/minio/config:/root/.minio/
     command: server --address ':9000' --console-address ':9001' /data  # 指定容器中的目录 /data
     privileged: true
-    restart: always
-    networks:
-      ruoyi_net:
-        ipv4_address: 172.30.0.54
+    network_mode: "host"
 
   seata-server:
     image: ruoyi/ruoyi-seata-server:1.0.0
@@ -126,9 +114,7 @@ services:
     volumes:
       - /docker/ruoyi-seata-server/logs/:/ruoyi/seata-server/logs
     privileged: true
-    restart: always
-    networks:
-      - ruoyi_net
+    network_mode: "host"
 
   nginx-web:
     image: nginx:1.21.6
@@ -149,9 +135,7 @@ services:
       # 日志目录
       - /docker/nginx/log:/var/log/nginx
     privileged: true
-    restart: always
-    networks:
-      - ruoyi_net
+    network_mode: "host"
 
   sentinel:
     image: ruoyi/ruoyi-sentinel-dashboard:1.0.0
@@ -164,9 +148,7 @@ services:
       # 配置文件
       - /docker/ruoyi-sentinel-dashboard/logs/:/ruoyi/sentinel-dashboard/logs
     restart: always
-    networks:
-      ruoyi_net:
-        ipv4_address: 172.30.0.68
+    network_mode: "host"
 
   ruoyi-monitor-admin:
     image: ruoyi/ruoyi-monitor:1.0.0
@@ -180,10 +162,7 @@ services:
       # 配置文件
       - /docker/ruoyi-monitor/logs/:/ruoyi/monitor/logs
     privileged: true
-    restart: always
-    networks:
-      ruoyi_net:
-        ipv4_address: 172.30.0.90
+    network_mode: "host"
 
   ruoyi-xxl-job-admin:
     image: ruoyi/ruoyi-xxl-job-admin:1.0.0
@@ -197,10 +176,7 @@ services:
       # 配置文件
       - /docker/ruoyi-xxl-job-admin/logs/:/ruoyi/xxl-job-admin/logs
     privileged: true
-    restart: always
-    networks:
-      ruoyi_net:
-        ipv4_address: 172.30.0.92
+    network_mode: "host"
 
   ruoyi-gateway:
     image: ruoyi/ruoyi-gateway:1.0.0
@@ -214,10 +190,7 @@ services:
       # 配置文件
       - /docker/ruoyi-gateway/logs/:/ruoyi/gateway/logs
     privileged: true
-    restart: always
-    networks:
-      ruoyi_net:
-        ipv4_address: 172.30.0.100
+    network_mode: "host"
 
   ruoyi-auth:
     image: ruoyi/ruoyi-auth:1.0.0
@@ -231,10 +204,7 @@ services:
       # 配置文件
       - /docker/ruoyi-auth/logs/:/ruoyi/auth/logs
     privileged: true
-    restart: always
-    networks:
-      ruoyi_net:
-        ipv4_address: 172.30.0.110
+    network_mode: "host"
 
   ruoyi-system:
     image: ruoyi/ruoyi-system:1.0.0
@@ -248,9 +218,7 @@ services:
       # 配置文件
       - /docker/ruoyi-system/logs/:/ruoyi/system/logs
     privileged: true
-    restart: always
-    networks:
-      - ruoyi_net
+    network_mode: "host"
 
   ruoyi-gen:
     image: ruoyi/ruoyi-gen:1.0.0
@@ -264,9 +232,7 @@ services:
       # 配置文件
       - /docker/ruoyi-gen/logs/:/ruoyi/gen/logs
     privileged: true
-    restart: always
-    networks:
-      - ruoyi_net
+    network_mode: "host"
 
   ruoyi-job:
     image: ruoyi/ruoyi-job:1.0.0
@@ -280,9 +246,7 @@ services:
       # 配置文件
       - /docker/ruoyi-job/logs/:/ruoyi/job/logs
     privileged: true
-    restart: always
-    networks:
-      - ruoyi_net
+    network_mode: "host"
 
   ruoyi-resource:
     image: ruoyi/ruoyi-resource:1.0.0
@@ -296,13 +260,4 @@ services:
       # 配置文件
       - /docker/ruoyi-resource/logs/:/ruoyi/resource/logs
     privileged: true
-    restart: always
-    networks:
-      - ruoyi_net
-
-networks:
-  ruoyi_net:
-    driver: bridge
-    ipam:
-      config:
-        - subnet: 172.30.0.0/16
+    network_mode: "host"

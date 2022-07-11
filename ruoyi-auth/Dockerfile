@@ -8,8 +8,10 @@ RUN mkdir -p /ruoyi/auth/temp
 
 WORKDIR /ruoyi/auth
 
-EXPOSE 9200
+ENV SERVER_PORT=9200
+
+EXPOSE ${SERVER_PORT}
 
 ADD ./target/ruoyi-auth.jar ./app.jar
 
-ENTRYPOINT ["java", "-Djava.security.egd=file:/dev/./urandom", "-jar", "app.jar"]
+ENTRYPOINT ["java", "-Djava.security.egd=file:/dev/./urandom", "-Dserver.port=${SERVER_PORT}", "-jar", "app.jar"]

@@ -8,8 +8,10 @@ RUN mkdir -p /ruoyi/resource/temp
 
 WORKDIR /ruoyi/resource
 
-EXPOSE 9300
+ENV SERVER_PORT=9300
+
+EXPOSE ${SERVER_PORT}
 
 ADD ./target/ruoyi-resource.jar ./app.jar
 
-ENTRYPOINT ["java", "-Djava.security.egd=file:/dev/./urandom", "-jar", "app.jar"]
+ENTRYPOINT ["java", "-Djava.security.egd=file:/dev/./urandom", "-Dserver.port=${SERVER_PORT}", "-jar", "app.jar"]
