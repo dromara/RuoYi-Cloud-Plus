@@ -23,4 +23,12 @@
         ruoyi-visual图形化管理模块
     </description>
 
+    <dependencies>
+        <!-- ELK 日志收集 -->
+<!--        <dependency>-->
+<!--            <groupId>com.ruoyi</groupId>-->
+<!--            <artifactId>ruoyi-common-logstash</artifactId>-->
+<!--        </dependency>-->
+    </dependencies>
+
 </project>

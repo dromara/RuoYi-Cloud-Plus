@@ -1,0 +1,1 @@
+ES 数据目录 请执行 `chmod 777 /docker/elk/elasticsearch/data` 赋予读写权限 否则 ES 将无法写入数据

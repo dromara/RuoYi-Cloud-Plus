@@ -43,7 +43,7 @@
 | 分布式搜索引擎(未完成) | ElasticSearch            | [ElasticSearch官网](https://www.elastic.co/cn/elasticsearch/)                                       | 业界知名                         |
 | 分布式数据同步(未完成) | Alibaba Canal            | [Alibaba Canal官网](https://github.com/alibaba/canal/wiki)                                          | 采集数据同步各种数据库 ES Redis Mysql   |
 | 分布式链路追踪(未完成) | Apache SkyWalking        | [Apache SkyWalking文档](https://skywalking.apache.org/docs/)                                        | 链路追踪、网格分析、度量聚合、可视化           |
-| 分布式日志中心(未完成) | ELK                      | [ElasticSearch官网](https://www.elastic.co/cn/elasticsearch/)                                       | ELK业界成熟解决方案                  |
+| 分布式日志中心      | ELK                      | [ElasticSearch官网](https://www.elastic.co/cn/elasticsearch/)                                       | ELK业界成熟解决方案                  |
 | 分布式锁         | Lock4j                   | [Lock4j官网](https://gitee.com/baomidou/lock4j)                                                     | 注解锁、工具锁 多种多样                 |
 | 分布式幂等        | Redisson                 | [Lock4j文档](https://gitee.com/baomidou/lock4j)                                                     | 拦截重复提交                       |
 | 分布式任务调度      | Xxl-Job                  | [Xxl-Job官网](https://www.xuxueli.com/xxl-job/)                                                     | 高性能 高可靠 易扩展                  |

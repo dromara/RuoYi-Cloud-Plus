@@ -99,6 +99,8 @@
         <appender-ref ref="file_error"/>
     </appender>
 
+    <include resource="logback-logstash.xml" />
+
     <!--系统操作日志-->
     <root level="info">
         <appender-ref ref="console"/>

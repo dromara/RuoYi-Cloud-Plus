@@ -121,22 +121,12 @@
         <appender-ref ref="file_error"/>
     </appender>
 
-    <!-- logstash-appender: off by default -->
-    <!--<include resource="logback/logstash-appender.xml"/>-->
-
-    <!-- kafka-appender: off by default -->
-    <!--<include resource="logback/kafka-appender.xml"/>-->
+    <include resource="logback-logstash.xml" />
 
     <root level="INFO">
         <appender-ref ref="console"/>
         <appender-ref ref="async_info"/>
         <appender-ref ref="async_error"/>
         <appender-ref ref="file_console"/>
-
-        <!-- logstash-appender: off by default -->
-        <!--<appender-ref ref="LOGSTASH"/>-->
-
-        <!-- kafka-appender: off by default -->
-        <!--<appender-ref ref="KAFKA"/>-->
     </root>
 </configuration>

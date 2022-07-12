@@ -38,6 +38,7 @@
         <knife4j-aggregation.version>2.0.9</knife4j-aggregation.version>
         <knife4j.version>3.0.3</knife4j.version>
         <satoken.version>1.30.0</satoken.version>
+        <logstash.version>7.1.1</logstash.version>
 
         <!-- 统一 guava 版本 解决隐式漏洞问题 -->
         <guava.version>30.0-jre</guava.version>
@@ -66,6 +67,7 @@
                 <nacos.server>127.0.0.1:8848</nacos.server>
                 <nacos.discovery.group>DEFAULT_GROUP</nacos.discovery.group>
                 <nacos.config.group>DEFAULT_GROUP</nacos.config.group>
+                <logstash.address>127.0.0.1:4560</logstash.address>
             </properties>
             <activation>
                 <!-- 默认环境 -->
@@ -79,6 +81,7 @@
                 <nacos.server>127.0.0.1:8848</nacos.server>
                 <nacos.discovery.group>DEFAULT_GROUP</nacos.discovery.group>
                 <nacos.config.group>DEFAULT_GROUP</nacos.config.group>
+                <logstash.address>127.0.0.1:4560</logstash.address>
             </properties>
         </profile>
     </profiles>
@@ -238,6 +241,13 @@
                 <groupId>com.xuxueli</groupId>
                 <artifactId>xxl-job-core</artifactId>
                 <version>${xxl-job.version}</version>
+            </dependency>
+
+            <!-- logstash -->
+            <dependency>
+                <groupId>net.logstash.logback</groupId>
+                <artifactId>logstash-logback-encoder</artifactId>
+                <version>${logstash.version}</version>
             </dependency>
 
             <dependency>

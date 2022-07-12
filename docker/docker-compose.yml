@@ -261,3 +261,53 @@ services:
       - /docker/ruoyi-resource/logs/:/ruoyi/resource/logs
     privileged: true
     network_mode: "host"
+
+
+#################################################################################################
+#################################### 以下为扩展根据需求搭建 #########################################
+#################################################################################################
+
+  elasticsearch:
+    image: elasticsearch:7.17.2
+    container_name: elk_elasticsearch
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    environment:
+      # 设置集群名称
+      cluster.name: elasticsearch
+      # 以单一节点模式启动
+      discovery.type: single-node
+      ES_JAVA_OPTS: "-Xms512m -Xmx512m"
+    volumes:
+      - /docker/elk/elasticsearch/plugins:/usr/share/elasticsearch/plugins
+      - /docker/elk/elasticsearch/data:/usr/share/elasticsearch/data
+    network_mode: "host"
+
+  kibana:
+    image: kibana:7.17.2
+    container_name: elk_kibana
+    ports:
+      - "5601:5601"
+    depends_on:
+      # kibana在elasticsearch启动之后再启动
+      - elasticsearch
+    environment:
+      # 设置访问elasticsearch的地址
+      ELASTICSEARCH_URL: http://127.0.0.1:9200
+      #设置系统语言文中文
+      I18N_LOCALE: zh-CN
+      # 访问域名
+      # SERVER_PUBLICBASEURL: https://kibana.cloud.com
+    network_mode: "host"
+
+  logstash:
+    image: logstash:7.17.2
+    container_name: elk_logstash
+    ports:
+      - "4560:4560"
+    volumes:
+      - /docker/elk/logstash/logstash.conf:/usr/share/logstash/pipeline/logstash.conf
+    depends_on:
+      - elasticsearch
+    network_mode: "host"

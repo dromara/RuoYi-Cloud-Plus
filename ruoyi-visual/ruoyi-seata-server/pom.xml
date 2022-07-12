@@ -29,8 +29,6 @@
     <properties>
         <seata.version>1.5.1</seata.version>
         <jcommander.version>1.72</jcommander.version>
-        <logstash-logback-encoder.version>6.5</logstash-logback-encoder.version>
-        <kafka-appender.version>0.2.0-RC2</kafka-appender.version>
     </properties>
 
     <dependencyManagement>
@@ -151,17 +149,7 @@
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
         </dependency>
-        <!-- logback appenders -->
-        <dependency>
-            <groupId>net.logstash.logback</groupId>
-            <artifactId>logstash-logback-encoder</artifactId>
-            <version>${logstash-logback-encoder.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.github.danielwegener</groupId>
-            <artifactId>logback-kafka-appender</artifactId>
-            <version>${kafka-appender.version}</version>
-        </dependency>
+
     </dependencies>
 
     <build>
