@@ -313,3 +313,44 @@ services:
     depends_on:
       - elasticsearch
     network_mode: "host"
+
+  mqnamesrv:
+    image: apache/rocketmq:4.9.4
+    container_name: mqnamesrv
+    ports:
+      - "9876:9876"
+    environment:
+      JAVA_OPT: -server -Xms512m -Xmx512m
+    command: sh mqnamesrv
+    volumes:
+      - /docker/rocketmq/namesrv/logs:/home/rocketmq/logs/rocketmqlogs
+    network_mode: "host"
+
+  mqbroker1:
+    image: apache/rocketmq:4.9.4
+    container_name: mqbroker1
+    ports:
+      - "10911:10911"
+      - "10909:10909"
+      - "10912:10912"
+    environment:
+      JAVA_OPT_EXT: -server -Xms512M -Xmx512M -Xmn256m
+    command: sh mqbroker -c /home/rocketmq/rocketmq-4.9.4/conf/broker.conf
+    depends_on:
+      - mqnamesrv
+    volumes:
+      - /docker/rocketmq/broker1/conf/broker.conf:/home/rocketmq/rocketmq-4.9.4/conf/broker.conf
+      - /docker/rocketmq/broker1/logs:/home/rocketmq/logs/rocketmqlogs
+      - /docker/rocketmq/broker1/store:/home/rocketmq/store
+    network_mode: "host"
+
+  mqconsole:
+    image: styletang/rocketmq-console-ng
+    container_name: mqconsole
+    ports:
+      - "19876:19876"
+    environment:
+      JAVA_OPTS: -Dserver.port=19876 -Drocketmq.namesrv.addr=127.0.0.1:9876 -Dcom.rocketmq.sendMessageWithVIPChannel=false
+    depends_on:
+      - mqnamesrv
+    network_mode: "host"
