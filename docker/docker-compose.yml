@@ -354,3 +354,19 @@ services:
     depends_on:
       - mqnamesrv
     network_mode: "host"
+
+  rabbitmq:
+    image: rabbitmq:3.10.6
+    container_name: rabbitmq
+    build:
+      context: ./rabbitmq
+    environment:
+      RABBITMQ_DEFAULT_USER: ruoyi
+      RABBITMQ_DEFAULT_PASS: ruoyi123
+    ports:
+      - "15672:15672" # 管理界面端口
+      - "5672:5672"   # api 端口
+    volumes:
+      - /docker/rabbitmq/log:/var/log/rabbitmq
+      - /docker/rabbitmq/data:/var/lib/rabbitmq
+    network_mode: "host"
