@@ -4,7 +4,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.redisson.config.ReadMode;
 import org.redisson.config.SubscriptionMode;
-import org.redisson.config.TransportMode;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import java.util.List;
@@ -17,6 +16,11 @@ import java.util.List;
 @Data
 @ConfigurationProperties(prefix = "redisson")
 public class RedissonProperties {
+
+    /**
+     * redis缓存key前缀
+     */
+    private String keyPrefix;
 
     /**
      * 线程池数量,默认值 = 当前处理核数量 * 2

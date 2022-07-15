@@ -113,6 +113,8 @@ spring:
 
 # redisson 配置
 redisson:
+  # redis key前缀
+  keyPrefix:
   # 线程池数量
   threads: 4
   # Netty线程池数量
