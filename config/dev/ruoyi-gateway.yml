@@ -78,6 +78,13 @@ spring:
             - Path=/demo/**
           filters:
             - StripPrefix=1
+        # MQ演示服务
+        - id: ruoyi-stream-mq
+          uri: lb://ruoyi-stream-mq
+          predicates:
+            - Path=/stream-mq/**
+          filters:
+            - StripPrefix=1
 
     # sentinel 配置
     sentinel:

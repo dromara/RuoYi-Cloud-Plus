@@ -1,0 +1,107 @@
+server:
+  port: 9402
+
+# Spring
+spring:
+  application:
+    # 应用名称
+    name: ruoyi-stream-mq
+  profiles:
+    # 环境配置
+    active: @profiles.active@
+  cloud:
+    stream:
+      function:
+        # 重点配置 与 binding 名与消费者对应
+        definition: delay;demo;log
+
+--- # rabbitmq 配置
+spring:
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: root
+    password: root
+  cloud:
+    stream:
+      rabbit:
+        bindings:
+          delay-in-0:
+            consumer:
+              delayedExchange: true
+          delay-out-0:
+            producer:
+              delayedExchange: true
+      bindings:
+        delay-in-0:
+          destination: delay.exchange.cloud
+          content-type: application/json
+          group: delay-group
+          binder: rabbit
+        delay-out-0:
+          destination: delay.exchange.cloud
+          content-type: application/json
+          group: delay-group
+          binder: rabbit
+
+--- # rocketmq 配置
+spring:
+  cloud:
+    stream:
+      rocketmq:
+        binder:
+          # rocketmq 地址
+          name-server: localhost:9876
+        bindings:
+          demo-out-0:
+            producer:
+              # 必须得写
+              group: default
+      bindings:
+        demo-out-0:
+          content-type: application/json
+          destination: stream-test-topic
+          group: test-group
+          binder: rocketmq
+        demo-in-0:
+          content-type: application/json
+          destination: stream-test-topic
+          group: test-group
+          binder: rocketmq
+
+--- # kafka 配置
+spring:
+  cloud:
+    stream:
+      kafka:
+        binder:
+          brokers: localhost:9092
+      bindings:
+        log-out-0:
+          destination: stream-log-topic
+          contentType: application/json
+          group: log_group
+          binder: kafka
+        log-in-0:
+          destination: stream-log-topic
+          contentType: application/json
+          group: log_group
+          binder: kafka
+
+--- # nacos 配置
+spring:
+  cloud:
+    nacos:
+      # nacos 服务地址
+      server-addr: @nacos.server@
+      discovery:
+        # 注册组
+        group: @nacos.discovery.group@
+        namespace: ${spring.profiles.active}
+      config:
+        # 配置组
+        group: @nacos.config.group@
+        namespace: ${spring.profiles.active}
+  config:
+    import:
+      - optional:nacos:application-common.yml

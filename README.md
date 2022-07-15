@@ -36,10 +36,10 @@
 | RPC远程调用      | Apache Dubbo             | [Apache Dubbo官网](https://dubbo.apache.org/zh/)                                                    | 原生态使用体验、高性能                  |
 | 分布式限流熔断      | Alibaba Sentinel         | [Alibaba Sentinel文档](https://sentinelguard.io/zh-cn/)                                             | 无侵入、高扩展                      |
 | 分布式事务        | Alibaba Seata            | [Alibaba Seata文档](http://seata.io/zh-cn/)                                                         | 无侵入、高扩展 支持 四种模式              |
-| 分布式消息队列(未完成) | SpringCloud Stream       | [SpringCloud Stream文档](https://spring.io/projects/spring-cloud-stream)                            | 门面框架兼容各种MQ集成                 |
-| 分布式消息队列(未完成) | Apache Kafka             | [Apache Kafka文档](https://kafka.apache.org/)                                                       | 高性能高速度                       |
-| 分布式消息队列(未完成) | Apache RocketMQ          | [Apache RocketMQ文档](http://rocketmq.apache.org/)                                                  | 高可用功能多样                      |
-| 分布式消息队列(未完成) | RabbitMQ                 | [RabbitMQ文档](https://www.rabbitmq.com/)                                                           | 支持各种扩展插件功能多样性                |
+| 分布式消息队列      | SpringCloud Stream       | [SpringCloud Stream文档](https://spring.io/projects/spring-cloud-stream)                            | 门面框架兼容各种MQ集成                 |
+| 分布式消息队列      | Apache Kafka             | [Apache Kafka文档](https://kafka.apache.org/)                                                       | 高性能高速度                       |
+| 分布式消息队列      | Apache RocketMQ          | [Apache RocketMQ文档](http://rocketmq.apache.org/)                                                  | 高可用功能多样                      |
+| 分布式消息队列      | RabbitMQ                 | [RabbitMQ文档](https://www.rabbitmq.com/)                                                           | 支持各种扩展插件功能多样性                |
 | 分布式搜索引擎(未完成) | ElasticSearch            | [ElasticSearch官网](https://www.elastic.co/cn/elasticsearch/)                                       | 业界知名                         |
 | 分布式数据同步(未完成) | Alibaba Canal            | [Alibaba Canal官网](https://github.com/alibaba/canal/wiki)                                          | 采集数据同步各种数据库 ES Redis Mysql   |
 | 分布式链路追踪(未完成) | Apache SkyWalking        | [Apache SkyWalking文档](https://skywalking.apache.org/docs/)                                        | 链路追踪、网格分析、度量聚合、可视化           |
