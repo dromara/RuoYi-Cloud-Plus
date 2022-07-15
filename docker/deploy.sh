@@ -29,6 +29,21 @@ port(){
     # seata端口
     firewall-cmd --add-port=7091/tcp --permanent
     firewall-cmd --add-port=8091/tcp --permanent
+    # elk端口
+    firewall-cmd --add-port=9200/tcp --permanent
+    firewall-cmd --add-port=5601/tcp --permanent
+    firewall-cmd --add-port=4560/tcp --permanent
+    # kafka端口
+    firewall-cmd --add-port=2181/tcp --permanent
+    firewall-cmd --add-port=9092/tcp --permanent
+    firewall-cmd --add-port=19092/tcp --permanent
+    # rabbitmq端口
+    firewall-cmd --add-port=5672/tcp --permanent
+    firewall-cmd --add-port=15672/tcp --permanent
+    # rocketmq端口
+    firewall-cmd --add-port=9876/tcp --permanent
+    firewall-cmd --add-port=19876/tcp --permanent
+    firewall-cmd --add-port=10911/tcp --permanent
     # 重启防火墙
     service firewalld restart
 }
@@ -36,20 +51,42 @@ port(){
 ##放置挂载文件
 mount(){
     #挂载 nginx 配置文件
-    if test ! -f "/docker/nginx/conf/nginx.conf" ;then
-        mkdir -p /docker/nginx/conf
-        cp nginx/nginx.conf /docker/nginx/conf/nginx.conf
+    if test ! -f "/docker/nginx/" ;then
+        mkdir -p /docker/nginx/
+        cp -r nginx/* /docker/nginx
     fi
     #挂载 redis 配置文件
-    if test ! -f "/docker/redis/conf/redis.conf" ;then
-        mkdir -p /docker/redis/conf
-        cp redis/redis.conf /docker/redis/conf/redis.conf
+    if test ! -f "/docker/redis/" ;then
+        mkdir -p /docker/redis/
+        cp -r redis/* /docker/redis
     fi
     #挂载 nacos 配置文件
-    if test ! -f "/docker/nacos/conf/custom.properties" ;then
-        mkdir -p /docker/nacos/conf
-        cp nacos/custom.properties /docker/nacos/conf/custom.properties
+    if test ! -f "/docker/nacos/" ;then
+        mkdir -p /docker/nacos/
+        cp -r nacos/* /docker/nacos
     fi
+    #挂载 elk 文件
+    if test ! -f "/docker/elk/" ;then
+        mkdir -p /docker/elk/
+        cp -r elk/* /docker/elk
+    fi
+    #挂载 kafka 文件
+    if test ! -f "/docker/kafka/" ;then
+        mkdir -p /docker/kafka/
+        cp -r kafka/* /docker/kafka
+    fi
+    #挂载 rabbitmq 文件
+    if test ! -f "/docker/rabbitmq/" ;then
+        mkdir -p /docker/rabbitmq/
+        cp -r rabbitmq/data /docker/rabbitmq
+        cp -r rabbitmq/log /docker/rabbitmq
+    fi
+    #挂载 rocketmq 文件
+    if test ! -f "/docker/rocketmq/" ;then
+        mkdir -p /docker/rocketmq/
+        cp -r rocketmq/* /docker/rocketmq
+    fi
+    chmod -R 777 /docker
 }
 
 #启动基础模块
