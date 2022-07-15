@@ -58,4 +58,4 @@ knife4j:
         location: /demo/v3/api-docs
       - name: MQ演示服务
         uri: ${knife4j.cloud.gatewayUri}
-        location: /stream/v3/api-docs
+        location: /stream-mq/v3/api-docs
