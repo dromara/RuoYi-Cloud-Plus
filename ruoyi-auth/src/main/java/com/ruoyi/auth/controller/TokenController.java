@@ -82,12 +82,7 @@ public class TokenController {
     @ApiOperation("登出方法")
     @DeleteMapping("logout")
     public R<Void> logout() {
-        try {
-            String username = LoginHelper.getUsername();
-            StpUtil.logout();
-            sysLoginService.logout(username);
-        } catch (NotLoginException e) {
-        }
+        sysLoginService.logout();
         return R.ok();
     }
 
