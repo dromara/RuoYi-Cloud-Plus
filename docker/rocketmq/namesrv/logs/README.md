@@ -1,1 +1,1 @@
-ES 日志目录 请执行 `chmod 777 /docker/rocketmq/namesrv/logs` 赋予读写权限 否则 ES 将无法写入数据
+日志目录 请执行 `chmod 777 /docker/rocketmq/namesrv/logs` 赋予读写权限 否则将无法写入数据
