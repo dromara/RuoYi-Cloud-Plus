@@ -370,3 +370,51 @@ services:
       - /docker/rabbitmq/log:/var/log/rabbitmq
       - /docker/rabbitmq/data:/var/lib/rabbitmq
     network_mode: "host"
+
+  zookeeper:
+    image: 'bitnami/zookeeper:3.8.0'
+    container_name: zookeeper
+    ports:
+      - "2181:2181"
+    environment:
+      TZ: Asia/Shanghai
+      ALLOW_ANONYMOUS_LOGIN: "yes"
+      ZOO_SERVER_ID: 1
+      ZOO_PORT_NUMBER: 2181
+    network_mode: "host"
+
+  kafka:
+    image: 'bitnami/kafka:3.2.0'
+    container_name: kafka
+    ports:
+      - "9092:9092"
+    environment:
+      TZ: Asia/Shanghai
+      # 更多变量 查看文档 https://github.com/bitnami/bitnami-docker-kafka/blob/master/README.md
+      KAFKA_BROKER_ID: 1
+      # 监听端口
+      KAFKA_CFG_LISTENERS: PLAINTEXT://:9092
+      # 实际访问ip 本地用 127 内网用 192 外网用 外网ip
+      KAFKA_CFG_ADVERTISED_LISTENERS: PLAINTEXT://192.168.31.165:9092
+      KAFKA_CFG_ZOOKEEPER_CONNECT: 127.0.0.1:2181
+      ALLOW_PLAINTEXT_LISTENER: "yes"
+    volumes:
+      - /docker/kafka/data:/bitnami/kafka/data
+    depends_on:
+      - zookeeper
+    network_mode: "host"
+
+  kafka-manager:
+    image: sheepkiller/kafka-manager:latest
+    container_name: kafka-manager
+    ports:
+      - "19092:19092"
+    environment:
+      ZK_HOSTS: 127.0.0.1:2181
+      APPLICATION_SECRET: letmein
+      KAFKA_MANAGER_USERNAME: ruoyi
+      KAFKA_MANAGER_PASSWORD: ruoyi123
+      KM_ARGS: -Dhttp.port=19092
+    depends_on:
+      - kafka
+    network_mode: "host"
