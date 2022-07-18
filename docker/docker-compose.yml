@@ -101,7 +101,7 @@ services:
     network_mode: "host"
 
   seata-server:
-    image: ruoyi/ruoyi-seata-server:1.0.0
+    image: ruoyi/ruoyi-seata-server:1.1.0
     container_name: seata-server
     ports:
       - "7091:7091"
@@ -138,7 +138,7 @@ services:
     network_mode: "host"
 
   sentinel:
-    image: ruoyi/ruoyi-sentinel-dashboard:1.0.0
+    image: ruoyi/ruoyi-sentinel-dashboard:1.1.0
     container_name: sentinel
     environment:
       TZ: Asia/Shanghai
@@ -151,7 +151,7 @@ services:
     network_mode: "host"
 
   ruoyi-monitor-admin:
-    image: ruoyi/ruoyi-monitor:1.0.0
+    image: ruoyi/ruoyi-monitor:1.1.0
     container_name: ruoyi-monitor
     environment:
       # 时区上海
@@ -165,7 +165,7 @@ services:
     network_mode: "host"
 
   ruoyi-xxl-job-admin:
-    image: ruoyi/ruoyi-xxl-job-admin:1.0.0
+    image: ruoyi/ruoyi-xxl-job-admin:1.1.0
     container_name: ruoyi-xxl-job-admin
     environment:
       # 时区上海
@@ -179,7 +179,7 @@ services:
     network_mode: "host"
 
   ruoyi-gateway:
-    image: ruoyi/ruoyi-gateway:1.0.0
+    image: ruoyi/ruoyi-gateway:1.1.0
     container_name: ruoyi-gateway
     environment:
       # 时区上海
@@ -193,7 +193,7 @@ services:
     network_mode: "host"
 
   ruoyi-auth:
-    image: ruoyi/ruoyi-auth:1.0.0
+    image: ruoyi/ruoyi-auth:1.1.0
     container_name: ruoyi-auth
     environment:
       # 时区上海
@@ -207,7 +207,7 @@ services:
     network_mode: "host"
 
   ruoyi-system:
-    image: ruoyi/ruoyi-system:1.0.0
+    image: ruoyi/ruoyi-system:1.1.0
     container_name: ruoyi-system
     environment:
       # 时区上海
@@ -221,7 +221,7 @@ services:
     network_mode: "host"
 
   ruoyi-gen:
-    image: ruoyi/ruoyi-gen:1.0.0
+    image: ruoyi/ruoyi-gen:1.1.0
     container_name: ruoyi-gen
     environment:
       # 时区上海
@@ -235,7 +235,7 @@ services:
     network_mode: "host"
 
   ruoyi-job:
-    image: ruoyi/ruoyi-job:1.0.0
+    image: ruoyi/ruoyi-job:1.1.0
     container_name: ruoyi-job
     environment:
       # 时区上海
@@ -249,7 +249,7 @@ services:
     network_mode: "host"
 
   ruoyi-resource:
-    image: ruoyi/ruoyi-resource:1.0.0
+    image: ruoyi/ruoyi-resource:1.1.0
     container_name: ruoyi-resource
     environment:
       # 时区上海
