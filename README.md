@@ -75,7 +75,10 @@
 >[初始化项目 必看](https://gitee.com/JavaLionLi/RuoYi-Cloud-Plus/wikis/pages?sort_id=5279751&doc_id=2056143)
 >>[https://gitee.com/JavaLionLi/RuoYi-Cloud-Plus/wikis/pages?sort_id=5279751&doc_id=2056143](https://gitee.com/JavaLionLi/RuoYi-Cloud-Plus/wikis/pages?sort_id=5279751&doc_id=2056143)
 >
->[应用部署 Wiki](https://gitee.com/JavaLionLi/RuoYi-Cloud-Plus/wikis/pages?sort_id=5305504&doc_id=2056143)
+>[专栏与视频 入门必看](https://gitee.com/JavaLionLi/RuoYi-Cloud-Plus/wikis/pages?sort_id=5873351&doc_id=2056143)
+>>[https://gitee.com/JavaLionLi/RuoYi-Cloud-Plus/wikis/pages?sort_id=5873351&doc_id=2056143](https://gitee.com/JavaLionLi/RuoYi-Cloud-Plus/wikis/pages?sort_id=5873351&doc_id=2056143)
+>
+>[部署项目 必看](https://gitee.com/JavaLionLi/RuoYi-Cloud-Plus/wikis/pages?sort_id=5305504&doc_id=2056143)
 >>[https://gitee.com/JavaLionLi/RuoYi-Cloud-Plus/wikis/pages?sort_id=5305504&doc_id=2056143](https://gitee.com/JavaLionLi/RuoYi-Cloud-Plus/wikis/pages?sort_id=5305504&doc_id=2056143)
 >
 >[参考文档 Wiki](https://gitee.com/JavaLionLi/RuoYi-Cloud-Plus/wikis/pages)
