@@ -31,7 +31,7 @@
         <fastjson.version>1.2.83</fastjson.version>
         <poi.version>5.2.2</poi.version>
         <easyexcel.version>3.1.1</easyexcel.version>
-        <hutool.version>5.8.3</hutool.version>
+        <hutool.version>5.8.4</hutool.version>
         <redisson.version>3.17.4</redisson.version>
         <lock4j.version>2.2.2</lock4j.version>
         <xxl-job.version>2.3.1</xxl-job.version>
@@ -41,15 +41,15 @@
         <logstash.version>7.1.1</logstash.version>
 
         <!-- 统一 guava 版本 解决隐式漏洞问题 -->
-        <guava.version>30.0-jre</guava.version>
+        <guava.version>31.1-jre</guava.version>
 
         <!-- OSS 配置 -->
-        <aws-java-sdk-s3.version>1.12.248</aws-java-sdk-s3.version>
-        <okhttp.version>4.9.3</okhttp.version>
+        <aws-java-sdk-s3.version>1.12.264</aws-java-sdk-s3.version>
+        <okhttp.version>4.10.0</okhttp.version>
 
         <!-- SMS 配置 -->
-        <aliyun.sms.version>2.0.9</aliyun.sms.version>
-        <tencent.sms.version>3.1.537</tencent.sms.version>
+        <aliyun.sms.version>2.0.16</aliyun.sms.version>
+        <tencent.sms.version>3.1.555</tencent.sms.version>
 
         <!-- docker 配置 -->
         <docker.registry.url>localhost</docker.registry.url>
