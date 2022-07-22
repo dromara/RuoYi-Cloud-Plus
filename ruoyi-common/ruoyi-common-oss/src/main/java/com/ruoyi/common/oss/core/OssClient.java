@@ -95,7 +95,10 @@ public class OssClient {
             ObjectMetadata metadata = new ObjectMetadata();
             metadata.setContentType(contentType);
             metadata.setContentLength(inputStream.available());
-            client.putObject(new PutObjectRequest(properties.getBucketName(), path, inputStream, metadata));
+            PutObjectRequest putObjectRequest = new PutObjectRequest(properties.getBucketName(), path, inputStream, metadata);
+            // 设置上传对象的 Acl 为公共读
+            putObjectRequest.setCannedAcl(CannedAccessControlList.PublicRead);
+            client.putObject(putObjectRequest);
         } catch (Exception e) {
             throw new OssException("上传文件失败，请检查配置信息:[" + e.getMessage() + "]");
         }
