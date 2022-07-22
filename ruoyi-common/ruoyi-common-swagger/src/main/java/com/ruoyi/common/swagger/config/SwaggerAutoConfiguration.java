@@ -7,6 +7,7 @@ import com.ruoyi.common.swagger.config.properties.SwaggerProperties;
 import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -30,7 +31,7 @@ import java.util.function.Predicate;
  *
  * @author Lion Li
  */
-@Configuration(proxyBeanMethods = false)
+@AutoConfiguration
 @EnableKnife4j
 @EnableConfigurationProperties(SwaggerProperties.class)
 @ConditionalOnProperty(name = "swagger.enabled", matchIfMissing = true)

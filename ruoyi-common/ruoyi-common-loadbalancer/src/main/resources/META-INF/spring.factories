@@ -1,4 +1,2 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  com.ruoyi.common.loadbalance.config.CustomLoadBalanceAutoConfiguration
 org.springframework.boot.env.EnvironmentPostProcessor=\
   com.ruoyi.common.loadbalance.config.CustomEnvironmentPostProcessor

@@ -10,8 +10,8 @@ import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerIntercept
 import com.ruoyi.common.mybatis.handler.CreateAndUpdateMetaObjectHandler;
 import com.ruoyi.common.mybatis.interceptor.PlusDataPermissionInterceptor;
 import org.mybatis.spring.annotation.MapperScan;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
@@ -20,8 +20,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  *
  * @author Lion Li
  */
+@AutoConfiguration
 @EnableTransactionManagement(proxyTargetClass = true)
-@Configuration(proxyBeanMethods = false)
 @MapperScan("${mybatis-plus.mapperPackage}")
 public class MybatisPlusConfiguration {
 

@@ -5,8 +5,8 @@ import cn.dev33.satoken.id.SaIdUtil;
 import cn.dev33.satoken.interceptor.SaAnnotationInterceptor;
 import cn.dev33.satoken.util.SaResult;
 import com.ruoyi.common.core.constant.HttpStatus;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -15,7 +15,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  *
  * @author Lion Li
  */
-@Configuration(proxyBeanMethods = false)
+@AutoConfiguration
 public class SecurityConfiguration implements WebMvcConfigurer {
 
     /**

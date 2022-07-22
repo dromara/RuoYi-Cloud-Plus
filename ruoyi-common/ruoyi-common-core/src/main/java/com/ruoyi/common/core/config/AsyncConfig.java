@@ -6,8 +6,8 @@ import com.ruoyi.common.core.utils.SpringUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.concurrent.BasicThreadFactory;
 import org.springframework.aop.interceptor.AsyncUncaughtExceptionHandler;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.AsyncConfigurerSupport;
 import org.springframework.scheduling.annotation.EnableAsync;
 
@@ -21,7 +21,7 @@ import java.util.concurrent.*;
  */
 @Slf4j
 @EnableAsync
-@Configuration(proxyBeanMethods = false)
+@AutoConfiguration
 public class AsyncConfig extends AsyncConfigurerSupport {
 
     private static final int CORE_POOL_SIZE = 10;

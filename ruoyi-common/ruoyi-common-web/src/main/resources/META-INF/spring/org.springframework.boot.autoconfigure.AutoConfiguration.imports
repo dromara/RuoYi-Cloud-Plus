@@ -1,0 +1,3 @@
+com.ruoyi.common.web.config.I18nConfig
+com.ruoyi.common.web.config.UndertowConfig
+com.ruoyi.common.web.config.NacosConfig

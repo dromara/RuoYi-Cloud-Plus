@@ -1,10 +1,9 @@
 package com.ruoyi.common.web.config;
 
 import com.ruoyi.common.web.core.I18nLocaleResolver;
-import org.springframework.boot.autoconfigure.AutoConfigureBefore;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.LocaleResolver;
 
 /**
@@ -12,8 +11,7 @@ import org.springframework.web.servlet.LocaleResolver;
  *
  * @author Lion Li
  */
-@Configuration(proxyBeanMethods = false)
-@AutoConfigureBefore(WebMvcAutoConfiguration.class)
+@AutoConfiguration(before = WebMvcAutoConfiguration.class)
 public class I18nConfig {
 
     @Bean

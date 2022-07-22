@@ -11,6 +11,7 @@ import org.redisson.spring.cache.CacheConfig;
 import org.redisson.spring.cache.RedissonSpringCacheManager;
 import org.redisson.spring.starter.RedissonAutoConfigurationCustomizer;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CachingConfigurerSupport;
@@ -27,6 +28,7 @@ import java.util.Map;
  * @author Lion Li
  */
 @Slf4j
+@AutoConfiguration
 @EnableCaching
 @EnableConfigurationProperties(RedissonProperties.class)
 public class RedisConfiguration extends CachingConfigurerSupport {
