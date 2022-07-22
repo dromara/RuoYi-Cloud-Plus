@@ -33,7 +33,7 @@ import com.ruoyi.common.core.web.domain.TreeEntity;
 @TableName("${tableName}")
 public class ${ClassName} extends ${Entity} {
 
-private static final long serialVersionUID=1L;
+    private static final long serialVersionUID=1L;
 
 #foreach ($column in $columns)
 #if(!$table.isSuperColumn($column.javaField))
@@ -41,13 +41,13 @@ private static final long serialVersionUID=1L;
      * $column.columnComment
      */
 #if($column.javaField=='delFlag')
-     @TableLogic
+    @TableLogic
 #end
 #if($column.javaField=='version')
-     @Version
+    @Version
 #end
 #if($column.isPk==1)
-     @TableId(value = "$column.columnName")
+    @TableId(value = "$column.columnName")
 #end
     private $column.javaType $column.javaField;
 #end

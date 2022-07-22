@@ -2,9 +2,7 @@ package com.ruoyi.resource.dubbo;
 
 import cn.hutool.core.util.ArrayUtil;
 import com.ruoyi.common.core.exception.ServiceException;
-import com.ruoyi.common.mail.config.properties.MailProperties;
 import com.ruoyi.common.mail.utils.MailUtils;
-import com.ruoyi.common.sms.config.properties.SmsProperties;
 import com.ruoyi.resource.api.RemoteMailService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

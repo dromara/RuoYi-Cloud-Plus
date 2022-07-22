@@ -22,7 +22,6 @@
         <spring-boot-admin.version>2.7.2</spring-boot-admin.version>
         <spring-boot.mybatis>2.2.2</spring-boot.mybatis>
         <mybatis.version>3.5.10</mybatis.version>
-        <swagger.core.version>1.5.22</swagger.core.version>
         <mybatis-plus.version>3.5.2</mybatis-plus.version>
         <p6spy.version>3.9.1</p6spy.version>
         <druid.version>1.2.11</druid.version>
@@ -35,8 +34,6 @@
         <redisson.version>3.17.4</redisson.version>
         <lock4j.version>2.2.2</lock4j.version>
         <xxl-job.version>2.3.1</xxl-job.version>
-        <knife4j-aggregation.version>2.0.9</knife4j-aggregation.version>
-        <knife4j.version>3.0.3</knife4j.version>
         <satoken.version>1.30.0</satoken.version>
         <logstash.version>7.1.1</logstash.version>
 
@@ -161,19 +158,6 @@
                 <groupId>org.mybatis</groupId>
                 <artifactId>mybatis</artifactId>
                 <version>${mybatis.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.github.xiaoymin</groupId>
-                <artifactId>knife4j-micro-spring-boot-starter</artifactId>
-                <version>${knife4j.version}</version>
-            </dependency>
-
-            <!-- Swagger 依赖配置 -->
-            <dependency>
-                <groupId>io.swagger</groupId>
-                <artifactId>swagger-annotations</artifactId>
-                <version>${swagger.core.version}</version>
             </dependency>
 
             <dependency>

@@ -22,13 +22,6 @@
                 <version>${project.version}</version>
             </dependency>
 
-            <!-- 接口模块 -->
-            <dependency>
-                <groupId>com.ruoyi</groupId>
-                <artifactId>ruoyi-common-swagger</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-
             <!-- 安全模块 -->
             <dependency>
                 <groupId>com.ruoyi</groupId>

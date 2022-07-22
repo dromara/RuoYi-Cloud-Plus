@@ -20,10 +20,8 @@ import com.ruoyi.demo.domain.bo.TestDemoBo;
 import com.ruoyi.demo.domain.bo.TestDemoImportVo;
 import com.ruoyi.demo.domain.vo.TestDemoVo;
 import com.ruoyi.demo.service.ITestDemoService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -42,7 +40,6 @@ import java.util.concurrent.TimeUnit;
  * @date 2021-07-26
  */
 @Validated
-@Api(value = "测试单表控制器", tags = {"测试单表管理"})
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/demo/demo")
@@ -53,28 +50,30 @@ public class TestDemoController extends BaseController {
     /**
      * 查询测试单表列表
      */
-    @ApiOperation("查询测试单表列表")
     @SaCheckPermission("demo:demo:list")
     @GetMapping("/list")
-    public TableDataInfo<TestDemoVo> list(@Validated(QueryGroup.class) TestDemoBo bo, PageQuery pageQuery) {
+    public TableDataInfo<TestDemoVo> list(TestDemoBo bo, PageQuery pageQuery) {
         return iTestDemoService.queryPageList(bo, pageQuery);
     }
 
     /**
      * 自定义分页查询
      */
-    @ApiOperation("自定义分页查询")
     @SaCheckPermission("demo:demo:list")
     @GetMapping("/page")
     public TableDataInfo<TestDemoVo> page(@Validated(QueryGroup.class) TestDemoBo bo, PageQuery pageQuery) {
         return iTestDemoService.customPageList(bo, pageQuery);
     }
 
-    @ApiOperation("导入测试-校验")
+    /**
+     * 导入测试-校验
+     *
+     * @param file 导入文件
+     */
     @Log(title = "测试单表", businessType = BusinessType.IMPORT)
     @SaCheckPermission("demo:demo:import")
-    @PostMapping("/importData")
-    public R<Void> importData(@ApiParam("导入文件") @RequestPart("file") MultipartFile file) throws Exception {
+    @PostMapping(value = "/importData", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public R<Void> importData(@RequestPart("file") MultipartFile file) throws Exception {
         ExcelResult<TestDemoImportVo> excelResult = ExcelUtil.importExcel(file.getInputStream(), TestDemoImportVo.class, true);
         List<TestDemoImportVo> volist = excelResult.getList();
         List<TestDemo> list = BeanUtil.copyToList(volist, TestDemo.class);
@@ -85,7 +84,6 @@ public class TestDemoController extends BaseController {
     /**
      * 导出测试单表列表
      */
-    @ApiOperation("导出测试单表列表")
     @SaCheckPermission("demo:demo:export")
     @Log(title = "测试单表", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
@@ -100,20 +98,18 @@ public class TestDemoController extends BaseController {
 
     /**
      * 获取测试单表详细信息
+     *
+     * @param id 测试ID
      */
-    @ApiOperation("获取测试单表详细信息")
     @SaCheckPermission("demo:demo:query")
     @GetMapping("/{id}")
-    public R<TestDemoVo> getInfo(@ApiParam("测试ID")
-                                          @NotNull(message = "主键不能为空")
-                                          @PathVariable("id") Long id) {
+    public R<TestDemoVo> getInfo(@NotNull(message = "主键不能为空") @PathVariable("id") Long id) {
         return R.ok(iTestDemoService.queryById(id));
     }
 
     /**
      * 新增测试单表
      */
-    @ApiOperation("新增测试单表")
     @SaCheckPermission("demo:demo:add")
     @Log(title = "测试单表", businessType = BusinessType.INSERT)
     @RepeatSubmit(interval = 2, timeUnit = TimeUnit.SECONDS, message = "{repeat.submit.message}")
@@ -128,7 +124,6 @@ public class TestDemoController extends BaseController {
     /**
      * 修改测试单表
      */
-    @ApiOperation("修改测试单表")
     @SaCheckPermission("demo:demo:edit")
     @Log(title = "测试单表", businessType = BusinessType.UPDATE)
     @RepeatSubmit
@@ -139,14 +134,13 @@ public class TestDemoController extends BaseController {
 
     /**
      * 删除测试单表
+     *
+     * @param ids 测试ID串
      */
-    @ApiOperation("删除测试单表")
     @SaCheckPermission("demo:demo:remove")
     @Log(title = "测试单表", businessType = BusinessType.DELETE)
     @DeleteMapping("/{ids}")
-    public R<Void> remove(@ApiParam("测试ID串")
-                                   @NotEmpty(message = "主键不能为空")
-                                   @PathVariable Long[] ids) {
+    public R<Void> remove(@NotEmpty(message = "主键不能为空") @PathVariable Long[] ids) {
         return toAjax(iTestDemoService.deleteWithValidByIds(Arrays.asList(ids), true) ? 1 : 0);
     }
 }

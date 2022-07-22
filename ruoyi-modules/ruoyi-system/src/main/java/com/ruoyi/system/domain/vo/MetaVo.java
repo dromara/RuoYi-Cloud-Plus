@@ -3,7 +3,6 @@ package com.ruoyi.system.domain.vo;
 import com.ruoyi.common.core.utils.StringUtils;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.experimental.Accessors;
 
 /**
  * 路由显示信息

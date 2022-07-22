@@ -58,12 +58,6 @@
             <artifactId>ruoyi-common-dict</artifactId>
         </dependency>
 
-        <!-- RuoYi Common Swagger -->
-        <dependency>
-            <groupId>com.ruoyi</groupId>
-            <artifactId>ruoyi-common-swagger</artifactId>
-        </dependency>
-
         <dependency>
             <groupId>com.ruoyi</groupId>
             <artifactId>ruoyi-common-web</artifactId>

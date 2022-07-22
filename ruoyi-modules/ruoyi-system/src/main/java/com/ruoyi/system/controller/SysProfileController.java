@@ -16,17 +16,13 @@ import com.ruoyi.resource.api.domain.SysFile;
 import com.ruoyi.system.api.domain.SysUser;
 import com.ruoyi.system.service.ISysUserService;
 import io.seata.spring.annotation.GlobalTransactional;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.apache.dubbo.config.annotation.DubboReference;
+import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -38,7 +34,6 @@ import java.util.Map;
  * @author Lion Li
  */
 @Validated
-@Api(value = "个人信息控制器", tags = {"个人信息管理"})
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/user/profile")
@@ -52,7 +47,6 @@ public class SysProfileController extends BaseController {
     /**
      * 个人信息
      */
-    @ApiOperation("个人信息")
     @GetMapping
     public R<Map<String, Object>> profile() {
         String username = LoginHelper.getUsername();
@@ -67,15 +61,14 @@ public class SysProfileController extends BaseController {
     /**
      * 修改用户
      */
-    @ApiOperation("修改用户")
     @Log(title = "个人信息", businessType = BusinessType.UPDATE)
     @PutMapping
     public R<Void> updateProfile(@RequestBody SysUser user) {
         if (StringUtils.isNotEmpty(user.getPhonenumber())
-                && UserConstants.NOT_UNIQUE.equals(userService.checkPhoneUnique(user))) {
+            && UserConstants.NOT_UNIQUE.equals(userService.checkPhoneUnique(user))) {
             return R.fail("修改用户'" + user.getUserName() + "'失败，手机号码已存在");
         } else if (StringUtils.isNotEmpty(user.getEmail())
-                && UserConstants.NOT_UNIQUE.equals(userService.checkEmailUnique(user))) {
+            && UserConstants.NOT_UNIQUE.equals(userService.checkEmailUnique(user))) {
             return R.fail("修改用户'" + user.getUserName() + "'失败，邮箱账号已存在");
         }
         user.setUserId(LoginHelper.getUserId());
@@ -89,12 +82,10 @@ public class SysProfileController extends BaseController {
 
     /**
      * 重置密码
+     *
+     * @param oldPassword 旧密码
+     * @param newPassword 新密码
      */
-    @ApiOperation("重置密码")
-    @ApiImplicitParams({
-        @ApiImplicitParam(name = "oldPassword", value = "旧密码", paramType = "query", dataTypeClass = String.class),
-        @ApiImplicitParam(name = "newPassword", value = "新密码", paramType = "query", dataTypeClass = String.class)
-    })
     @Log(title = "个人信息", businessType = BusinessType.UPDATE)
     @PutMapping("/updatePwd")
     public R<Void> updatePwd(String oldPassword, String newPassword) {
@@ -114,21 +105,19 @@ public class SysProfileController extends BaseController {
 
     /**
      * 头像上传
+     *
+     * @param avatarfile 用户头像
      */
     @GlobalTransactional(rollbackFor = Exception.class)
-    @ApiOperation("头像上传")
-    @ApiImplicitParams({
-        @ApiImplicitParam(name = "avatarfile", value = "用户头像", paramType = "query", dataTypeClass = File.class, required = true)
-    })
     @Log(title = "用户头像", businessType = BusinessType.UPDATE)
-    @PostMapping("/avatar")
-    public R<Map<String, Object>> avatar(@RequestPart("avatarfile") MultipartFile file) throws IOException {
-        if (!file.isEmpty()) {
-            String extension = FileUtil.extName(file.getOriginalFilename());
+    @PostMapping(value = "/avatar", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public R<Map<String, Object>> avatar(@RequestPart("avatarfile") MultipartFile avatarfile) throws IOException {
+        if (!avatarfile.isEmpty()) {
+            String extension = FileUtil.extName(avatarfile.getOriginalFilename());
             if (!StringUtils.equalsAnyIgnoreCase(extension, MimeTypeUtils.IMAGE_EXTENSION)) {
                 return R.fail("文件格式不正确，请上传" + Arrays.toString(MimeTypeUtils.IMAGE_EXTENSION) + "格式");
             }
-            SysFile sysFile = remoteFileService.upload(file.getName(), file.getOriginalFilename(), file.getContentType(), file.getBytes());
+            SysFile sysFile = remoteFileService.upload(avatarfile.getName(), avatarfile.getOriginalFilename(), avatarfile.getContentType(), avatarfile.getBytes());
             if (ObjectUtil.isNull(sysFile)) {
                 return R.fail("文件服务异常，请联系管理员");
             }

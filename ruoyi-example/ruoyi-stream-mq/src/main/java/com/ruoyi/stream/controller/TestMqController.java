@@ -1,50 +1,58 @@
 package com.ruoyi.stream.controller;
 
-import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.ruoyi.common.core.domain.R;
 import com.ruoyi.stream.mq.producer.DelayProducer;
 import com.ruoyi.stream.mq.producer.LogStreamProducer;
 import com.ruoyi.stream.mq.producer.TestStreamProducer;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * 测试mq
+ */
 @Slf4j
 @RestController
 @AllArgsConstructor
 @RequestMapping("/test-mq")
-@Api(value = "测试mq", tags = "测试mq")
 public class TestMqController {
 
     private final DelayProducer delayProducer;
     private final TestStreamProducer testStreamProducer;
     private final LogStreamProducer logStreamProducer;
 
+    /**
+     * 发送消息Rabbitmq
+     *
+     * @param msg 消息内容
+     * @param delay 延时时间
+     */
     @GetMapping("/sendRabbitmq")
-    @ApiOperationSupport(order = 1)
-    @ApiOperation(value = "发送消息Rabbitmq", notes = "发送消息")
-    public R<Void> sendRabbitmq(@ApiParam("消息内容") String msg, @ApiParam("延时时间") Long delay) {
+    public R<Void> sendRabbitmq(String msg, Long delay) {
         delayProducer.sendMsg(msg, delay);
         return R.ok();
     }
 
+    /**
+     * 发送消息Rocketmq
+     *
+     * @param msg 消息内容
+     */
     @GetMapping("/sendRocketmq")
-    @ApiOperationSupport(order = 2)
-    @ApiOperation(value = "发送消息Rocketmq", notes = "发送消息")
-    public R<Void> sendRocketmq(@ApiParam("消息内容") String msg) {
+    public R<Void> sendRocketmq(String msg) {
         testStreamProducer.streamTestMsg(msg);
         return R.ok();
     }
 
+    /**
+     * 发送消息Kafka
+     *
+     * @param msg 消息内容
+     */
     @GetMapping("/sendKafka")
-    @ApiOperationSupport(order = 3)
-    @ApiOperation(value = "发送消息Kafka", notes = "发送消息")
-    public R<Void> sendKafka(@ApiParam("消息内容") String msg) {
+    public R<Void> sendKafka(String msg) {
         logStreamProducer.streamLogMsg(msg);
         return R.ok();
     }

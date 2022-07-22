@@ -12,8 +12,6 @@ import com.ruoyi.common.mybatis.core.page.TableDataInfo;
 import com.ruoyi.system.api.domain.SysDictData;
 import com.ruoyi.system.service.ISysDictDataService;
 import com.ruoyi.system.service.ISysDictTypeService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -28,7 +26,6 @@ import java.util.List;
  * @author Lion Li
  */
 @Validated
-@Api(value = "数据字典信息控制器", tags = {"数据字典信息管理"})
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/dict/data")
@@ -37,14 +34,18 @@ public class SysDictDataController extends BaseController {
     private final ISysDictDataService dictDataService;
     private final ISysDictTypeService dictTypeService;
 
-    @ApiOperation("查询字典数据列表")
+    /**
+     * 查询字典数据列表
+     */
     @SaCheckPermission("system:dict:list")
     @GetMapping("/list")
     public TableDataInfo<SysDictData> list(SysDictData dictData, PageQuery pageQuery) {
         return dictDataService.selectPageDictDataList(dictData, pageQuery);
     }
 
-    @ApiOperation("导出字典数据列表")
+    /**
+     * 导出字典数据列表
+     */
     @Log(title = "字典数据", businessType = BusinessType.EXPORT)
     @SaCheckPermission("system:dict:export")
     @PostMapping("/export")
@@ -55,8 +56,9 @@ public class SysDictDataController extends BaseController {
 
     /**
      * 查询字典数据详细
+     *
+     * @param dictCode 字典code
      */
-    @ApiOperation("查询字典数据详细")
     @SaCheckPermission("system:dict:query")
     @GetMapping(value = "/{dictCode}")
     public R<SysDictData> getInfo(@PathVariable Long dictCode) {
@@ -65,8 +67,9 @@ public class SysDictDataController extends BaseController {
 
     /**
      * 根据字典类型查询字典数据信息
+     *
+     * @param dictType 字典类型
      */
-    @ApiOperation("根据字典类型查询字典数据信息")
     @GetMapping(value = "/type/{dictType}")
     public R<List<SysDictData>> dictType(@PathVariable String dictType) {
         List<SysDictData> data = dictTypeService.selectDictDataByType(dictType);
@@ -79,7 +82,6 @@ public class SysDictDataController extends BaseController {
     /**
      * 新增字典类型
      */
-    @ApiOperation("新增字典类型")
     @SaCheckPermission("system:dict:add")
     @Log(title = "字典数据", businessType = BusinessType.INSERT)
     @PostMapping
@@ -90,7 +92,6 @@ public class SysDictDataController extends BaseController {
     /**
      * 修改保存字典类型
      */
-    @ApiOperation("修改保存字典类型")
     @SaCheckPermission("system:dict:edit")
     @Log(title = "字典数据", businessType = BusinessType.UPDATE)
     @PutMapping
@@ -100,8 +101,9 @@ public class SysDictDataController extends BaseController {
 
     /**
      * 删除字典类型
+     *
+     * @param dictCodes 字典Code串
      */
-    @ApiOperation("删除字典类型")
     @SaCheckPermission("system:dict:remove")
     @Log(title = "字典类型", businessType = BusinessType.DELETE)
     @DeleteMapping("/{dictCodes}")

@@ -309,7 +309,7 @@ public class SysMenuServiceImpl implements ISysMenuService {
         }
         // 非外链并且是一级目录（类型为目录）
         if (0 == menu.getParentId().intValue() && UserConstants.TYPE_DIR.equals(menu.getMenuType())
-                && UserConstants.NO_FRAME.equals(menu.getIsFrame())) {
+            && UserConstants.NO_FRAME.equals(menu.getIsFrame())) {
             routerPath = "/" + menu.getPath();
         }
         // 非外链并且是一级目录（类型为菜单）
@@ -345,7 +345,7 @@ public class SysMenuServiceImpl implements ISysMenuService {
      */
     public boolean isMenuFrame(SysMenu menu) {
         return menu.getParentId().intValue() == 0 && UserConstants.TYPE_MENU.equals(menu.getMenuType())
-                && menu.getIsFrame().equals(UserConstants.NO_FRAME);
+            && menu.getIsFrame().equals(UserConstants.NO_FRAME);
     }
 
     /**
@@ -431,6 +431,6 @@ public class SysMenuServiceImpl implements ISysMenuService {
      */
     public String innerLinkReplaceEach(String path) {
         return StringUtils.replaceEach(path, new String[]{Constants.HTTP, Constants.HTTPS},
-                new String[]{"", ""});
+            new String[]{"", ""});
     }
 }

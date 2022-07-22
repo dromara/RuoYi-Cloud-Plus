@@ -10,9 +10,6 @@ import com.ruoyi.common.redis.utils.RedisUtils;
 import com.ruoyi.common.sms.config.properties.SmsProperties;
 import com.ruoyi.common.sms.core.SmsTemplate;
 import com.ruoyi.common.sms.entity.SmsResult;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
@@ -32,7 +29,6 @@ import java.util.Map;
  */
 @Slf4j
 @Validated
-@Api(value = "短信功能控制器", tags = {"短信功能管理"})
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/sms")
@@ -42,12 +38,11 @@ public class SysSmsController extends BaseController {
 
     /**
      * 短信验证码
+     *
+     * @param phonenumber 用户手机号
      */
-    @ApiOperation("短信验证码")
     @GetMapping("/code")
-    public R<Void> smsCaptcha(@ApiParam("用户手机号")
-                              @NotBlank(message = "{user.phonenumber.not.blank}")
-                              String phonenumber) {
+    public R<Void> smsCaptcha(@NotBlank(message = "{user.phonenumber.not.blank}") String phonenumber) {
         if (smsProperties.getEnabled()) {
             R.fail("当前系统没有开启短信功能！");
         }

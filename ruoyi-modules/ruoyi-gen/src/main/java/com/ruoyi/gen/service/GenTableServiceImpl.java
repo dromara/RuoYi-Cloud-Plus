@@ -354,9 +354,8 @@ public class GenTableServiceImpl implements IGenTableService {
                     column.setQueryType(prevColumn.getQueryType());
                 }
                 if (StringUtils.isNotEmpty(prevColumn.getIsRequired()) && !column.isPk()
-                        && (column.isInsert() || column.isEdit())
-                        && ((column.isUsableColumn()) || (!column.isSuperColumn())))
-                {
+                    && (column.isInsert() || column.isEdit())
+                    && ((column.isUsableColumn()) || (!column.isSuperColumn()))) {
                     // 如果是(新增/修改&非主键/非忽略及父属性)，继续保留必填/显示类型选项
                     column.setIsRequired(prevColumn.getIsRequired());
                     column.setHtmlType(prevColumn.getHtmlType());

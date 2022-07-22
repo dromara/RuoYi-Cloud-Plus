@@ -254,27 +254,6 @@ swagger:
     email: crazylionli@163.com
     url: https://gitee.com/JavaLionLi/RuoYi-Cloud-Plus
 
-knife4j:
-  # 是否开启Knife4j增强模式
-  enable: true
-  # 是否开启生产环境保护策略
-  production: false
-  # 登录认证
-  basic:
-    enable: true
-    username: ruoyi
-    password: 123456
-  # 前端Ui的个性化配置属性
-  setting:
-    # 默认语言
-    language: zh-CN
-    # 是否显示Footer
-    enableFooter: true
-    # 是否开启动态参数调试功能
-    enableDynamicParameter: true
-    # 是否在每个Debug调试栏后显示刷新变量按钮
-    enableReloadCacheParameter: true
-
 # seata配置
 seata:
   # 默认关闭，如需启用spring.datasource.dynami.seata需要同时开启

@@ -12,8 +12,6 @@ import com.ruoyi.common.satoken.utils.LoginHelper;
 import com.ruoyi.system.domain.SysMenu;
 import com.ruoyi.system.domain.vo.RouterVo;
 import com.ruoyi.system.service.ISysMenuService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -28,7 +26,6 @@ import java.util.Map;
  * @author Lion Li
  */
 @Validated
-@Api(value = "菜单信息控制器", tags = {"菜单信息管理"})
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/menu")
@@ -39,7 +36,6 @@ public class SysMenuController extends BaseController {
     /**
      * 获取菜单列表
      */
-    @ApiOperation("获取菜单列表")
     @SaCheckPermission("system:menu:list")
     @GetMapping("/list")
     public R<List<SysMenu>> list(SysMenu menu) {
@@ -50,8 +46,9 @@ public class SysMenuController extends BaseController {
 
     /**
      * 根据菜单编号获取详细信息
+     *
+     * @param menuId 菜单ID
      */
-    @ApiOperation("根据菜单编号获取详细信息")
     @SaCheckPermission("system:menu:query")
     @GetMapping(value = "/{menuId}")
     public R<SysMenu> getInfo(@PathVariable Long menuId) {
@@ -61,7 +58,6 @@ public class SysMenuController extends BaseController {
     /**
      * 获取菜单下拉树列表
      */
-    @ApiOperation("获取菜单下拉树列表")
     @GetMapping("/treeselect")
     public R<List<Tree<Long>>> treeselect(SysMenu menu) {
         Long userId = LoginHelper.getUserId();
@@ -71,8 +67,9 @@ public class SysMenuController extends BaseController {
 
     /**
      * 加载对应角色菜单列表树
+     *
+     * @param roleId 角色ID
      */
-    @ApiOperation("加载对应角色菜单列表树")
     @GetMapping(value = "/roleMenuTreeselect/{roleId}")
     public R<Map<String, Object>> roleMenuTreeselect(@PathVariable("roleId") Long roleId) {
         Long userId = LoginHelper.getUserId();
@@ -86,7 +83,6 @@ public class SysMenuController extends BaseController {
     /**
      * 新增菜单
      */
-    @ApiOperation("新增菜单")
     @SaCheckPermission("system:menu:add")
     @Log(title = "菜单管理", businessType = BusinessType.INSERT)
     @PostMapping
@@ -102,7 +98,6 @@ public class SysMenuController extends BaseController {
     /**
      * 修改菜单
      */
-    @ApiOperation("修改菜单")
     @SaCheckPermission("system:menu:edit")
     @Log(title = "菜单管理", businessType = BusinessType.UPDATE)
     @PutMapping
@@ -119,8 +114,9 @@ public class SysMenuController extends BaseController {
 
     /**
      * 删除菜单
+     *
+     * @param menuId 菜单ID
      */
-    @ApiOperation("删除菜单")
     @SaCheckPermission("system:menu:remove")
     @Log(title = "菜单管理", businessType = BusinessType.DELETE)
     @DeleteMapping("/{menuId}")
@@ -139,7 +135,6 @@ public class SysMenuController extends BaseController {
      *
      * @return 路由信息
      */
-    @ApiOperation("获取路由信息")
     @GetMapping("getRouters")
     public R<List<RouterVo>> getRouters() {
         Long userId = LoginHelper.getUserId();

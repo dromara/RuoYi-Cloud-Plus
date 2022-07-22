@@ -13,8 +13,6 @@ import com.ruoyi.common.log.enums.BusinessType;
 import com.ruoyi.common.mybatis.core.page.TableDataInfo;
 import com.ruoyi.common.redis.utils.RedisUtils;
 import com.ruoyi.system.api.domain.SysUserOnline;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,13 +25,17 @@ import java.util.List;
  *
  * @author Lion Li
  */
-@Api(value = "在线用户监控", tags = {"在线用户监控管理"})
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/online")
 public class SysUserOnlineController extends BaseController {
 
-    @ApiOperation("在线用户列表")
+    /**
+     * 在线用户列表
+     *
+     * @param ipaddr   ip地址
+     * @param userName 用户名
+     */
     @SaCheckPermission("monitor:online:list")
     @GetMapping("/list")
     public TableDataInfo<SysUserOnline> list(String ipaddr, String userName) {
@@ -55,7 +57,7 @@ public class SysUserOnlineController extends BaseController {
             );
         } else if (StringUtils.isNotEmpty(ipaddr)) {
             userOnlineList = StreamUtils.filter(userOnlineList, userOnline ->
-                    StringUtils.equals(ipaddr, userOnline.getIpaddr())
+                StringUtils.equals(ipaddr, userOnline.getIpaddr())
             );
         } else if (StringUtils.isNotEmpty(userName)) {
             userOnlineList = StreamUtils.filter(userOnlineList, userOnline ->
@@ -70,7 +72,6 @@ public class SysUserOnlineController extends BaseController {
     /**
      * 强退用户
      */
-    @ApiOperation("强退用户")
     @SaCheckPermission("monitor:online:forceLogout")
     @Log(title = "在线用户", businessType = BusinessType.FORCE)
     @DeleteMapping("/{tokenId}")
