@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>ruoyi-common-swagger</artifactId>
+    <artifactId>ruoyi-common-doc</artifactId>
 
     <description>
         ruoyi-common-swagger系统接口
@@ -23,15 +23,14 @@
             <artifactId>ruoyi-common-core</artifactId>
         </dependency>
 
-        <!-- SpringBoot Web -->
         <dependency>
-            <groupId>com.ruoyi</groupId>
-            <artifactId>ruoyi-common-web</artifactId>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-webmvc-core</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>cn.dev33</groupId>
-            <artifactId>sa-token-core</artifactId>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-javadoc</artifactId>
         </dependency>
 
     </dependencies>

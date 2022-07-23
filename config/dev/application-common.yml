@@ -63,10 +63,6 @@ dubbo:
     log-level: info
 
 spring:
-  mvc:
-    pathmatch:
-      # 适配 boot 2.6 路由与 springfox 兼容
-      matching-strategy: ANT_PATH_MATCHER
   # 资源信息
   messages:
     # 国际化资源文件路径
@@ -242,17 +238,25 @@ mybatis-plus:
 swagger:
   # 是否开启swagger
   enabled: true
-  # 标题
-  title: '标题：RuoYi-Cloud-Plus微服务权限管理系统_接口文档'
-  # 描述
-  description: '描述：微服务权限管理系统, 具体包括XXX,XXX模块...'
-  # 版本
-  version: '版本号：系统版本...'
-  # 作者信息
-  contact:
-    name: Lion Li
-    email: crazylionli@163.com
-    url: https://gitee.com/JavaLionLi/RuoYi-Cloud-Plus
+  info:
+    # 标题
+    title: '标题：RuoYi-Cloud-Plus微服务权限管理系统_接口文档'
+    # 描述
+    description: '描述：微服务权限管理系统, 具体包括XXX,XXX模块...'
+    # 版本
+    version: '版本号：系统版本...'
+    # 作者信息
+    contact:
+      name: Lion Li
+      email: crazylionli@163.com
+      url: https://gitee.com/JavaLionLi/RuoYi-Cloud-Plus
+  components:
+    # 鉴权方式配置
+    security-schemes:
+      apiKey:
+        type: APIKEY
+        in: HEADER
+        name: ${sa-token.token-name}
 
 # seata配置
 seata:
