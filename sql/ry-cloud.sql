@@ -180,7 +180,6 @@ insert into sys_menu values('112',  'Nacos控制台',    '2',   '4', 'http://loc
 insert into sys_menu values('113',  'Admin控制台',    '2',   '5', 'http://localhost:9100/login',  '',                '', 0, 0, 'C', '0', '0', 'monitor:server:list',     'server',        'admin', sysdate(), '', null, '服务监控菜单');
 insert into sys_menu values('114',  '表单构建',       '3',   '1', 'build',      'tool/build/index',                  '', 1, 0, 'C', '0', '0', 'tool:build:list',         'build',         'admin', sysdate(), '', null, '表单构建菜单');
 insert into sys_menu values('115',  '代码生成',       '3',   '2', 'gen',        'tool/gen/index',                    '', 1, 0, 'C', '0', '0', 'tool:gen:list',           'code',          'admin', sysdate(), '', null, '代码生成菜单');
-insert into sys_menu values('116',  '系统接口',       '3',   '3', 'http://localhost:18000/doc.html', '',             '', 0, 0, 'C', '0', '0', 'tool:swagger:list',       'swagger',       'admin', sysdate(), '', null, '系统接口菜单');
 -- oss菜单
 insert into sys_menu values('118',  '文件管理',       '1',   '10', 'oss',       'system/oss/index',                  '', 1, 0, 'C', '0', '0', 'system:oss:list',         'upload',        'admin', sysdate(), '', null, '文件管理菜单');
 -- 三级菜单
