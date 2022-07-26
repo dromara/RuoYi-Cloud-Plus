@@ -44,7 +44,7 @@
 
 <script>
 import { getToken } from "@/utils/auth";
-import { delOss } from "@/api/system/oss";
+import { delOss, listByIds } from "@/api/system/oss";
 
 export default {
   props: {

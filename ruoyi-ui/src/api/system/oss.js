@@ -12,7 +12,7 @@ export function listOss(query) {
 // 查询OSS对象基于id串
 export function listByIds(ossId) {
   return request({
-    url: '/system/oss/listByIds/' + ossId,
+    url: '/resource/oss/listByIds/' + ossId,
     method: 'get'
   })
 }
