@@ -23,6 +23,7 @@ import org.springframework.context.annotation.Bean;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -90,9 +91,22 @@ public class SwaggerAutoConfiguration {
      */
     @Bean
     public OpenApiCustomiser openApiCustomiser() {
+        // 如果服务的自定义 Path 不存在 则采用默认去除前缀当 Path
+        Map<String, String> serviceMapping = swaggerProperties.getServiceMapping();
+        String appPath;
+        if (serviceMapping.containsKey(appName)) {
+            appPath = serviceMapping.get(appName);
+        } else {
+            appPath = "/" + StringUtils.substring(appName, appName.indexOf("-") + 1);
+        }
+
         String contextPath = serverProperties.getServlet().getContextPath();
-        String appPath = "/" + StringUtils.substring(appName, appName.indexOf("-") + 1);
-        String finalContextPath = StringUtils.isBlank(contextPath) || "/".equals(contextPath) ? appPath : appPath + contextPath;
+        String finalContextPath;
+        if (StringUtils.isBlank(contextPath) || "/".equals(contextPath)) {
+            finalContextPath = appPath;
+        } else {
+            finalContextPath = appPath + contextPath;
+        }
         // 对所有路径增加前置上下文路径
         return openApi -> {
             Paths oldPaths = openApi.getPaths();
