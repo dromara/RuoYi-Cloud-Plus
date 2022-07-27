@@ -39,9 +39,9 @@ public class ValidateCodeServiceImpl implements ValidateCodeService {
     @Override
     public R<Map<String, Object>> createCaptcha() throws IOException, CaptchaException {
         Map<String, Object> ajax = new HashMap<>();
-        boolean captchaOnOff = captchaProperties.getEnabled();
-        ajax.put("captchaOnOff", captchaOnOff);
-        if (!captchaOnOff) {
+        boolean captchaEnabled = captchaProperties.getEnabled();
+        ajax.put("captchaEnabled", captchaEnabled);
+        if (!captchaEnabled) {
             return R.ok(ajax);
         }
 
