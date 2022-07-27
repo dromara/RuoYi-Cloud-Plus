@@ -88,10 +88,10 @@
         </dependency>
 
         <!-- 短信 用哪个导入哪个依赖 -->
-        <dependency>
-            <groupId>com.aliyun</groupId>
-            <artifactId>dysmsapi20170525</artifactId>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>com.aliyun</groupId>-->
+<!--            <artifactId>dysmsapi20170525</artifactId>-->
+<!--        </dependency>-->
 
 <!--        <dependency>-->
 <!--            <groupId>com.tencentcloudapi</groupId>-->
