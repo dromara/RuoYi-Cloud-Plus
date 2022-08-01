@@ -41,6 +41,5 @@ spring:
         namespace: ${spring.profiles.active}
   config:
     import:
-      - optional:nacos:application-common.yml
       - optional:nacos:datasource.yml
       - optional:nacos:${spring.application.name}.yml
