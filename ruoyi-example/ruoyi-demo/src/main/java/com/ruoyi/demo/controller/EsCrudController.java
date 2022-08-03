@@ -5,6 +5,7 @@ import com.ruoyi.common.core.domain.R;
 import com.ruoyi.demo.domain.Document;
 import com.ruoyi.demo.esmapper.DocumentMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,6 +15,7 @@ import java.util.List;
  *
  * @author Lion Li
  */
+@ConditionalOnProperty(value = "easy-es.enable", havingValue = "true")
 @RestController
 @RequiredArgsConstructor
 public class EsCrudController {
