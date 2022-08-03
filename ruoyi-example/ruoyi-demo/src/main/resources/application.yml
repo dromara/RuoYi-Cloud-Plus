@@ -51,7 +51,7 @@ spring:
 # 更改包名需要去 EasyEsConfiguration 修改包扫描(后续版本支持配置文件读取)
 easy-es:
   # 是否开启EE自动配置
-  enable: true
+  enable: false
   # es连接地址+端口 格式必须为ip:port,如果是集群则可用逗号隔开
   address : localhost:9200
   # 默认为http
