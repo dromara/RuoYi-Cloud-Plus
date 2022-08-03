@@ -30,6 +30,7 @@
         <module>ruoyi-common-mail</module>
         <module>ruoyi-common-sms</module>
         <module>ruoyi-common-logstash</module>
+        <module>ruoyi-common-elasticsearch</module>
     </modules>
 
     <artifactId>ruoyi-common</artifactId>
