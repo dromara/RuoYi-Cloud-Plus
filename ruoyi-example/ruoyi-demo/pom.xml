@@ -93,6 +93,10 @@
 <!--            <artifactId>tencentcloud-sdk-java</artifactId>-->
 <!--        </dependency>-->
 
+        <dependency>
+            <groupId>com.ruoyi</groupId>
+            <artifactId>ruoyi-common-elasticsearch</artifactId>
+        </dependency>
     </dependencies>
 
     <build>
