@@ -88,9 +88,6 @@ spring:
   cloud:
     # sentinel 配置
     sentinel:
-      filter:
-        # sentinel 在 springboot 2.6.x 不兼容问题的处理
-        enabled: false
       # 取消控制台懒加载
       eager: true
       transport:

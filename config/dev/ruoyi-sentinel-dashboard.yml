@@ -1,3 +1,9 @@
+spring:
+  mvc:
+    pathmatch:
+      # 修复 sentinel 控制台未适配 springboot 2.6 新路由方式
+      matching-strategy: ANT_PATH_MATCHER
+
 server:
   servlet:
     encoding:
