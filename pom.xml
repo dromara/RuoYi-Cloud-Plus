@@ -19,7 +19,7 @@
         <java.version>1.8</java.version>
         <spring-boot.version>2.7.2</spring-boot.version>
         <spring-cloud.version>2021.0.3</spring-cloud.version>
-        <spring-boot-admin.version>2.7.2</spring-boot-admin.version>
+        <spring-boot-admin.version>2.7.3</spring-boot-admin.version>
         <spring-boot.mybatis>2.2.2</spring-boot.mybatis>
         <mybatis.version>3.5.10</mybatis.version>
         <mybatis-plus.version>3.5.2</mybatis-plus.version>
@@ -32,8 +32,8 @@
         <springdoc.version>1.6.9</springdoc.version>
         <poi.version>5.2.2</poi.version>
         <easyexcel.version>3.1.1</easyexcel.version>
-        <hutool.version>5.8.4</hutool.version>
-        <redisson.version>3.17.4</redisson.version>
+        <hutool.version>5.8.5</hutool.version>
+        <redisson.version>3.17.5</redisson.version>
         <lock4j.version>2.2.2</lock4j.version>
         <xxl-job.version>2.3.1</xxl-job.version>
         <satoken.version>1.30.0</satoken.version>
