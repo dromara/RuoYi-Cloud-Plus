@@ -4,6 +4,7 @@ import cn.hutool.captcha.AbstractCaptcha;
 import cn.hutool.captcha.generator.CodeGenerator;
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.IdUtil;
+import com.ruoyi.common.core.constant.CacheConstants;
 import com.ruoyi.common.core.constant.Constants;
 import com.ruoyi.common.core.domain.R;
 import com.ruoyi.common.core.exception.CaptchaException;
@@ -47,7 +48,7 @@ public class ValidateCodeServiceImpl implements ValidateCodeService {
 
         // 保存验证码信息
         String uuid = IdUtil.simpleUUID();
-        String verifyKey = Constants.CAPTCHA_CODE_KEY + uuid;
+        String verifyKey = CacheConstants.CAPTCHA_CODE_KEY + uuid;
         // 生成验证码
         CaptchaType captchaType = captchaProperties.getType();
         boolean isMath = CaptchaType.MATH == captchaType;

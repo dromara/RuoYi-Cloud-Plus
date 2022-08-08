@@ -1,7 +1,7 @@
 package com.ruoyi.common.dict.utils;
 
 import cn.hutool.core.util.ObjectUtil;
-import com.ruoyi.common.core.constant.Constants;
+import com.ruoyi.common.core.constant.CacheConstants;
 import com.ruoyi.common.redis.utils.RedisUtils;
 import com.ruoyi.system.api.domain.SysDictData;
 
@@ -51,7 +51,7 @@ public class DictUtils {
      * 清空字典缓存
      */
     public static void clearDictCache() {
-        Collection<String> keys = RedisUtils.keys(Constants.SYS_DICT_KEY + "*");
+        Collection<String> keys = RedisUtils.keys(CacheConstants.SYS_DICT_KEY + "*");
         RedisUtils.deleteObject(keys);
     }
 
@@ -62,6 +62,6 @@ public class DictUtils {
      * @return 缓存键key
      */
     public static String getCacheKey(String configKey) {
-        return Constants.SYS_DICT_KEY + configKey;
+        return CacheConstants.SYS_DICT_KEY + configKey;
     }
 }

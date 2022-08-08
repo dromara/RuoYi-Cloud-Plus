@@ -23,31 +23,6 @@ public interface CacheConstants {
     String LOGINID_JOIN_CODE = ":";
 
     /**
-     * 密码最大错误次数
-     */
-    int passwordMaxRetryCount = 5;
-
-    /**
-     * 密码锁定时间，默认10（分钟）
-     */
-    long passwordLockTime = 10;
-
-    /**
-     * 登陆错误 redis key
-     */
-    String LOGIN_ERROR = "login_error:";
-
-    /**
-     * 登录错误次数
-     */
-    Integer LOGIN_ERROR_NUMBER = 5;
-
-    /**
-     * 登录错误限制时间(分钟)
-     */
-    Integer LOGIN_ERROR_LIMIT_TIME = 10;
-
-    /**
      * 验证码 redis key
      */
     String CAPTCHA_CODE_KEY = "captcha_codes:";

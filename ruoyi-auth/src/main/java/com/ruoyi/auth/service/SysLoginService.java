@@ -5,6 +5,7 @@ import cn.dev33.satoken.secure.BCrypt;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.util.ObjectUtil;
 import com.ruoyi.auth.form.RegisterBody;
+import com.ruoyi.auth.properties.UserPasswordProperties;
 import com.ruoyi.common.core.constant.CacheConstants;
 import com.ruoyi.common.core.constant.Constants;
 import com.ruoyi.common.core.enums.DeviceType;
@@ -19,10 +20,12 @@ import com.ruoyi.common.redis.utils.RedisUtils;
 import com.ruoyi.common.satoken.utils.LoginHelper;
 import com.ruoyi.system.api.RemoteLogService;
 import com.ruoyi.system.api.RemoteUserService;
+import com.ruoyi.system.api.domain.SysLogininfor;
 import com.ruoyi.system.api.domain.SysUser;
 import com.ruoyi.system.api.model.LoginUser;
 import com.ruoyi.system.api.model.XcxLoginUser;
 import org.apache.dubbo.config.annotation.DubboReference;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
@@ -40,6 +43,9 @@ public class SysLoginService {
     private RemoteLogService remoteLogService;
     @DubboReference
     private RemoteUserService remoteUserService;
+
+    @Autowired
+    private UserPasswordProperties userPasswordProperties;
 
     /**
      * 登录
@@ -139,7 +145,7 @@ public class SysLoginService {
      * 校验短信验证码
      */
     private boolean validateSmsCode(String phonenumber, String smsCode) {
-        String code = RedisUtils.getCacheObject(Constants.CAPTCHA_CODE_KEY + phonenumber);
+        String code = RedisUtils.getCacheObject(CacheConstants.CAPTCHA_CODE_KEY + phonenumber);
         if (StringUtils.isBlank(code)) {
             recordLogininfor(phonenumber, Constants.LOGIN_FAIL, MessageUtils.message("user.jcaptcha.expire"));
             throw new CaptchaExpireException();
@@ -151,27 +157,27 @@ public class SysLoginService {
      * 登录校验
      */
     private void checkLogin(LoginType loginType, String username, Supplier<Boolean> supplier) {
-        String errorKey = CacheConstants.LOGIN_ERROR + username;
-        Integer errorLimitTime = CacheConstants.LOGIN_ERROR_LIMIT_TIME;
-        Integer setErrorNumber = CacheConstants.LOGIN_ERROR_NUMBER;
+        String errorKey = CacheConstants.PWD_ERR_CNT_KEY + username;
         String loginFail = Constants.LOGIN_FAIL;
+        Integer maxRetryCount = userPasswordProperties.getMaxRetryCount();
+        Integer lockTime = userPasswordProperties.getLockTime();
 
         // 获取用户登录错误次数(可自定义限制策略 例如: key + username + ip)
         Integer errorNumber = RedisUtils.getCacheObject(errorKey);
         // 锁定时间内登录 则踢出
-        if (ObjectUtil.isNotNull(errorNumber) && errorNumber.equals(setErrorNumber)) {
-            recordLogininfor(username, loginFail, MessageUtils.message(loginType.getRetryLimitExceed(), errorLimitTime));
-            throw new UserException(loginType.getRetryLimitExceed(), errorLimitTime);
+        if (ObjectUtil.isNotNull(errorNumber) && errorNumber.equals(maxRetryCount)) {
+            recordLogininfor(username, loginFail, MessageUtils.message(loginType.getRetryLimitExceed(), maxRetryCount, lockTime));
+            throw new UserException(loginType.getRetryLimitExceed(), maxRetryCount, lockTime);
         }
 
         if (supplier.get()) {
             // 是否第一次
             errorNumber = ObjectUtil.isNull(errorNumber) ? 1 : errorNumber + 1;
             // 达到规定错误次数 则锁定登录
-            if (errorNumber.equals(setErrorNumber)) {
-                RedisUtils.setCacheObject(errorKey, errorNumber, Duration.ofMinutes(errorLimitTime));
-                recordLogininfor(username, loginFail, MessageUtils.message(loginType.getRetryLimitExceed(), errorLimitTime));
-                throw new UserException(loginType.getRetryLimitExceed(), errorLimitTime);
+            if (errorNumber.equals(maxRetryCount)) {
+                RedisUtils.setCacheObject(errorKey, errorNumber, Duration.ofMinutes(lockTime));
+                recordLogininfor(username, loginFail, MessageUtils.message(loginType.getRetryLimitExceed(), maxRetryCount, lockTime));
+                throw new UserException(loginType.getRetryLimitExceed(), maxRetryCount, lockTime);
             } else {
                 // 未达到规定错误次数 则递增
                 RedisUtils.setCacheObject(errorKey, errorNumber);
