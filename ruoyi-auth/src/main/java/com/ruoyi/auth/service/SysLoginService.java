@@ -19,7 +19,6 @@ import com.ruoyi.common.redis.utils.RedisUtils;
 import com.ruoyi.common.satoken.utils.LoginHelper;
 import com.ruoyi.system.api.RemoteLogService;
 import com.ruoyi.system.api.RemoteUserService;
-import com.ruoyi.system.api.domain.SysLogininfor;
 import com.ruoyi.system.api.domain.SysUser;
 import com.ruoyi.system.api.model.LoginUser;
 import com.ruoyi.system.api.model.XcxLoginUser;

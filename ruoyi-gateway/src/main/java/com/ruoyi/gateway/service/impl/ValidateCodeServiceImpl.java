@@ -91,7 +91,7 @@ public class ValidateCodeServiceImpl implements ValidateCodeService {
         if (StringUtils.isEmpty(uuid)) {
             throw new CaptchaExpireException();
         }
-        String verifyKey = Constants.CAPTCHA_CODE_KEY + uuid;
+        String verifyKey = CacheConstants.CAPTCHA_CODE_KEY + uuid;
         String captcha = RedisUtils.getCacheObject(verifyKey);
         RedisUtils.deleteObject(verifyKey);
 

@@ -67,11 +67,6 @@ public interface Constants {
     String LOGIN_FAIL = "Error";
 
     /**
-     * 验证码 redis key
-     */
-    String CAPTCHA_CODE_KEY = "captcha_codes:";
-
-    /**
      * 验证码有效期（分钟）
      */
     long CAPTCHA_EXPIRATION = 2;
@@ -80,15 +75,5 @@ public interface Constants {
      * 防重提交 redis key
      */
     String REPEAT_SUBMIT_KEY = "repeat_submit:";
-
-    /**
-     * 参数管理 cache key
-     */
-    String SYS_CONFIG_KEY = "sys_config:";
-
-    /**
-     * 字典管理 cache key
-     */
-    String SYS_DICT_KEY = "sys_dict:";
 
 }
