@@ -39,9 +39,9 @@ services:
       TZ: Asia/Shanghai
       JAVA_OPTS: "-Xms256m -Xmx512m"
     volumes:
-      # 日志目录
+      # 日志目录 注意集群模式下 日志目录不能一致 需要区分例如 nacos1 nacos2
       - /docker/nacos/logs/:/root/nacos/logs
-      # 集群配置文件
+      # 集群配置文件 集群所有nacos都必须使用此文件
       - /docker/nacos/conf/cluster.conf:/root/nacos/conf/cluster.conf
     network_mode: "host"
 
