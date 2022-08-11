@@ -32,7 +32,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 public class Nacos {
 
     public static void main(String[] args) {
-        // true 单机模式 false 为集群模式 集群模式需搭配如下参数使用
+        // true 单机模式 false 为集群模式 集群模式需搭配 cluster.conf 使用 使用方法请查看文档
         System.setProperty("nacos.standalone", "true");
         System.setProperty("server.tomcat.accesslog.enabled", "false");
         // 本地集群搭建使用 在此目录下创建 conf/cluster.conf 文件用于编写集群ip端口
