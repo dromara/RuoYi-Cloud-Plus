@@ -29,7 +29,7 @@ services:
     network_mode: "host"
 
   nacos:
-    image: nacos/nacos-server:v2.1.0
+    image: ruoyi/ruoyi-nacos:1.2.0
     container_name: nacos
     ports:
       - "8848:8848"
@@ -37,18 +37,12 @@ services:
       - "9849:9849"
     environment:
       TZ: Asia/Shanghai
-      MODE: standalone
-      SPRING_DATASOURCE_PLATFORM: mysql
-      MYSQL_SERVICE_HOST: 127.0.0.1
-      MYSQL_SERVICE_PORT: 3306
-      MYSQL_SERVICE_USER: root
-      MYSQL_SERVICE_PASSWORD: ruoyi123
-      MYSQL_SERVICE_DB_NAME: ry-config
-      MYSQL_SERVICE_DB_PARAM: characterEncoding=utf8&connectTimeout=1000&socketTimeout=3000&autoReconnect=true&useUnicode=true&useSSL=false&serverTimezone=UTC
+      JAVA_OPTS: "-Xms256m -Xmx512m"
     volumes:
-      - /docker/nacos/logs/:/home/nacos/logs
-      - /docker/nacos/config/custom.properties:/home/nacos/init.d/custom.properties
-    privileged: true
+      # 日志目录
+      - /docker/nacos/logs/:/root/nacos/logs
+      # 集群配置文件
+      - /docker/nacos/conf/cluster.conf:/root/nacos/conf/cluster.conf
     network_mode: "host"
 
   redis:

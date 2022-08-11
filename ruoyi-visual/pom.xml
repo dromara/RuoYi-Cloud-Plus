@@ -13,6 +13,7 @@
         <module>ruoyi-xxl-job-admin</module>
         <module>ruoyi-sentinel-dashboard</module>
         <module>ruoyi-seata-server</module>
+        <module>ruoyi-nacos</module>
     </modules>
 
     <artifactId>ruoyi-visual</artifactId>
