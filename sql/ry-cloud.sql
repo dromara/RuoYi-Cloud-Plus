@@ -360,7 +360,6 @@ insert into sys_role_menu values ('2', '1042');
 insert into sys_role_menu values ('2', '1043');
 insert into sys_role_menu values ('2', '1044');
 insert into sys_role_menu values ('2', '1045');
-insert into sys_role_menu values ('2', '1050');
 insert into sys_role_menu values ('2', '1046');
 insert into sys_role_menu values ('2', '1047');
 insert into sys_role_menu values ('2', '1048');
