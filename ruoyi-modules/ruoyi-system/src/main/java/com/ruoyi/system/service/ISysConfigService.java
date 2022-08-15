@@ -45,7 +45,7 @@ public interface ISysConfigService {
      * @param config 参数配置信息
      * @return 结果
      */
-    int insertConfig(SysConfig config);
+    String insertConfig(SysConfig config);
 
     /**
      * 修改参数配置
@@ -53,7 +53,7 @@ public interface ISysConfigService {
      * @param config 参数配置信息
      * @return 结果
      */
-    int updateConfig(SysConfig config);
+    String updateConfig(SysConfig config);
 
     /**
      * 批量删除参数信息

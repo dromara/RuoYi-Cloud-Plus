@@ -53,7 +53,7 @@ public interface ISysDictDataService {
      * @param dictData 字典数据信息
      * @return 结果
      */
-    int insertDictData(SysDictData dictData);
+    List<SysDictData> insertDictData(SysDictData dictData);
 
     /**
      * 修改保存字典数据信息
@@ -61,5 +61,5 @@ public interface ISysDictDataService {
      * @param dictData 字典数据信息
      * @return 结果
      */
-    int updateDictData(SysDictData dictData);
+    List<SysDictData> updateDictData(SysDictData dictData);
 }

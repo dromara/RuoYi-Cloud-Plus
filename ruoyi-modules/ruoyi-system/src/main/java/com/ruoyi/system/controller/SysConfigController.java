@@ -81,7 +81,8 @@ public class SysConfigController extends BaseController {
         if (UserConstants.NOT_UNIQUE.equals(configService.checkConfigKeyUnique(config))) {
             return R.fail("新增参数'" + config.getConfigName() + "'失败，参数键名已存在");
         }
-        return toAjax(configService.insertConfig(config));
+        configService.insertConfig(config);
+        return R.ok();
     }
 
     /**
@@ -94,7 +95,8 @@ public class SysConfigController extends BaseController {
         if (UserConstants.NOT_UNIQUE.equals(configService.checkConfigKeyUnique(config))) {
             return R.fail("修改参数'" + config.getConfigName() + "'失败，参数键名已存在");
         }
-        return toAjax(configService.updateConfig(config));
+        configService.updateConfig(config);
+        return R.ok();
     }
 
     /**
@@ -104,7 +106,8 @@ public class SysConfigController extends BaseController {
     @Log(title = "参数管理", businessType = BusinessType.UPDATE)
     @PutMapping("/updateByKey")
     public R<Void> updateByKey(@RequestBody SysConfig config) {
-        return toAjax(configService.updateConfig(config));
+        configService.updateConfig(config);
+        return R.ok();
     }
 
     /**

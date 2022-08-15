@@ -7,7 +7,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.google.common.collect.Lists;
+import com.ruoyi.common.core.constant.CacheNames;
 import com.ruoyi.common.core.constant.UserConstants;
 import com.ruoyi.common.core.exception.ServiceException;
 import com.ruoyi.common.core.utils.JsonUtils;
@@ -16,6 +16,7 @@ import com.ruoyi.common.mybatis.core.page.PageQuery;
 import com.ruoyi.common.mybatis.core.page.TableDataInfo;
 import com.ruoyi.common.oss.constant.OssConstant;
 import com.ruoyi.common.oss.factory.OssFactory;
+import com.ruoyi.common.redis.utils.CacheUtils;
 import com.ruoyi.common.redis.utils.RedisUtils;
 import com.ruoyi.resource.domain.SysOssConfig;
 import com.ruoyi.resource.domain.bo.SysOssConfigBo;
@@ -54,7 +55,7 @@ public class SysOssConfigServiceImpl implements ISysOssConfigService {
         for (SysOssConfig config : list) {
             String configKey = config.getConfigKey();
             if ("0".equals(config.getStatus())) {
-                RedisUtils.setCacheObject(OssConstant.CACHE_CONFIG_KEY, configKey);
+                RedisUtils.setCacheObject(OssConstant.DEFAULT_CONFIG_KEY, configKey);
             }
             setConfigCache(true, config);
         }
@@ -120,16 +121,15 @@ public class SysOssConfigServiceImpl implements ISysOssConfigService {
                 throw new ServiceException("系统内置, 不可删除!");
             }
         }
-        List<SysOssConfig> list = Lists.newArrayList();
+        List<SysOssConfig> list = CollUtil.newArrayList();
         for (Long configId : ids) {
             SysOssConfig config = baseMapper.selectById(configId);
             list.add(config);
         }
         boolean flag = baseMapper.deleteBatchIds(ids) > 0;
         if (flag) {
-            list.forEach(sysOssConfig -> {
-                RedisUtils.deleteObject(getCacheKey(sysOssConfig.getConfigKey()));
-            });
+            list.forEach(sysOssConfig ->
+                CacheUtils.evict(CacheNames.SYS_OSS_CONFIG, sysOssConfig.getConfigKey()));
         }
         return flag;
     }
@@ -159,19 +159,9 @@ public class SysOssConfigServiceImpl implements ISysOssConfigService {
             .set(SysOssConfig::getStatus, "1"));
         row += baseMapper.updateById(sysOssConfig);
         if (row > 0) {
-            RedisUtils.setCacheObject(OssConstant.CACHE_CONFIG_KEY, sysOssConfig.getConfigKey());
+            RedisUtils.setCacheObject(OssConstant.DEFAULT_CONFIG_KEY, sysOssConfig.getConfigKey());
         }
         return row;
-    }
-
-    /**
-     * 设置cache key
-     *
-     * @param configKey 参数键
-     * @return 缓存键key
-     */
-    private String getCacheKey(String configKey) {
-        return OssConstant.SYS_OSS_KEY + configKey;
     }
 
     /**
@@ -183,10 +173,8 @@ public class SysOssConfigServiceImpl implements ISysOssConfigService {
      */
     private boolean setConfigCache(boolean flag, SysOssConfig config) {
         if (flag) {
-            RedisUtils.setCacheObject(
-                getCacheKey(config.getConfigKey()),
-                JsonUtils.toJsonString(config));
-            RedisUtils.publish(OssConstant.CACHE_CONFIG_KEY, config.getConfigKey(), msg -> {
+            CacheUtils.put(CacheNames.SYS_OSS_CONFIG, config.getConfigKey(), JsonUtils.toJsonString(config));
+            RedisUtils.publish(OssConstant.DEFAULT_CONFIG_KEY, config.getConfigKey(), msg -> {
                 log.info("发布刷新OSS配置 => " + msg);
             });
         }

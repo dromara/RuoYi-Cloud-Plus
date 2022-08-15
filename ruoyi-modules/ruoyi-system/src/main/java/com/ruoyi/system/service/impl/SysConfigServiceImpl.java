@@ -1,24 +1,24 @@
 package com.ruoyi.system.service.impl;
 
-import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.ruoyi.common.core.constant.CacheConstants;
+import com.ruoyi.common.core.constant.CacheNames;
 import com.ruoyi.common.core.constant.UserConstants;
 import com.ruoyi.common.core.exception.ServiceException;
 import com.ruoyi.common.core.utils.StringUtils;
 import com.ruoyi.common.mybatis.core.page.PageQuery;
 import com.ruoyi.common.mybatis.core.page.TableDataInfo;
-import com.ruoyi.common.redis.utils.RedisUtils;
+import com.ruoyi.common.redis.utils.CacheUtils;
 import com.ruoyi.system.domain.SysConfig;
 import com.ruoyi.system.mapper.SysConfigMapper;
 import com.ruoyi.system.service.ISysConfigService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -63,16 +63,12 @@ public class SysConfigServiceImpl implements ISysConfigService {
      * @param configKey 参数key
      * @return 参数键值
      */
+    @Cacheable(cacheNames = CacheNames.SYS_CONFIG, key = "#configKey")
     @Override
     public String selectConfigByKey(String configKey) {
-        String configValue = Convert.toStr(RedisUtils.getCacheObject(getCacheKey(configKey)));
-        if (StringUtils.isNotEmpty(configValue)) {
-            return configValue;
-        }
         SysConfig retConfig = baseMapper.selectOne(new LambdaQueryWrapper<SysConfig>()
             .eq(SysConfig::getConfigKey, configKey));
         if (ObjectUtil.isNotNull(retConfig)) {
-            RedisUtils.setCacheObject(getCacheKey(configKey), retConfig.getConfigValue());
             return retConfig.getConfigValue();
         }
         return StringUtils.EMPTY;
@@ -102,13 +98,14 @@ public class SysConfigServiceImpl implements ISysConfigService {
      * @param config 参数配置信息
      * @return 结果
      */
+    @CachePut(cacheNames = CacheNames.SYS_CONFIG, key = "#config.configKey")
     @Override
-    public int insertConfig(SysConfig config) {
+    public String insertConfig(SysConfig config) {
         int row = baseMapper.insert(config);
         if (row > 0) {
-            RedisUtils.setCacheObject(getCacheKey(config.getConfigKey()), config.getConfigValue());
+            return config.getConfigValue();
         }
-        return row;
+        throw new ServiceException("操作失败");
     }
 
     /**
@@ -117,8 +114,9 @@ public class SysConfigServiceImpl implements ISysConfigService {
      * @param config 参数配置信息
      * @return 结果
      */
+    @CachePut(cacheNames = CacheNames.SYS_CONFIG, key = "#config.configKey")
     @Override
-    public int updateConfig(SysConfig config) {
+    public String updateConfig(SysConfig config) {
         int row = 0;
         if (config.getConfigId() != null) {
             row = baseMapper.updateById(config);
@@ -127,9 +125,9 @@ public class SysConfigServiceImpl implements ISysConfigService {
                 .eq(SysConfig::getConfigKey, config.getConfigKey()));
         }
         if (row > 0) {
-            RedisUtils.setCacheObject(getCacheKey(config.getConfigKey()), config.getConfigValue());
+            return config.getConfigValue();
         }
-        return row;
+        throw new ServiceException("操作失败");
     }
 
     /**
@@ -144,7 +142,7 @@ public class SysConfigServiceImpl implements ISysConfigService {
             if (StringUtils.equals(UserConstants.YES, config.getConfigType())) {
                 throw new ServiceException(String.format("内置参数【%1$s】不能删除 ", config.getConfigKey()));
             }
-            RedisUtils.deleteObject(getCacheKey(config.getConfigKey()));
+            CacheUtils.evict(CacheNames.SYS_CONFIG, config.getConfigKey());
         }
         baseMapper.deleteBatchIds(Arrays.asList(configIds));
     }
@@ -155,9 +153,8 @@ public class SysConfigServiceImpl implements ISysConfigService {
     @Override
     public void loadingConfigCache() {
         List<SysConfig> configsList = selectConfigList(new SysConfig());
-        for (SysConfig config : configsList) {
-            RedisUtils.setCacheObject(getCacheKey(config.getConfigKey()), config.getConfigValue());
-        }
+        configsList.forEach(config ->
+            CacheUtils.put(CacheNames.SYS_CONFIG, config.getConfigKey(), config.getConfigValue()));
     }
 
     /**
@@ -165,8 +162,7 @@ public class SysConfigServiceImpl implements ISysConfigService {
      */
     @Override
     public void clearConfigCache() {
-        Collection<String> keys = RedisUtils.keys(CacheConstants.SYS_CONFIG_KEY + "*");
-        RedisUtils.deleteObject(keys);
+        CacheUtils.clear(CacheNames.SYS_CONFIG);
     }
 
     /**
@@ -194,13 +190,4 @@ public class SysConfigServiceImpl implements ISysConfigService {
         return UserConstants.UNIQUE;
     }
 
-    /**
-     * 设置cache key
-     *
-     * @param configKey 参数键
-     * @return 缓存键key
-     */
-    private String getCacheKey(String configKey) {
-        return CacheConstants.SYS_CONFIG_KEY + configKey;
-    }
 }

@@ -5,26 +5,26 @@ import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.ruoyi.common.core.constant.CacheNames;
 import com.ruoyi.common.core.constant.UserConstants;
 import com.ruoyi.common.core.exception.ServiceException;
 import com.ruoyi.common.core.utils.StreamUtils;
 import com.ruoyi.common.core.utils.StringUtils;
-import com.ruoyi.common.dict.utils.DictUtils;
 import com.ruoyi.common.mybatis.core.page.PageQuery;
 import com.ruoyi.common.mybatis.core.page.TableDataInfo;
+import com.ruoyi.common.redis.utils.CacheUtils;
 import com.ruoyi.system.api.domain.SysDictData;
 import com.ruoyi.system.api.domain.SysDictType;
 import com.ruoyi.system.mapper.SysDictDataMapper;
 import com.ruoyi.system.mapper.SysDictTypeMapper;
 import com.ruoyi.system.service.ISysDictTypeService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 字典 业务层处理
@@ -84,15 +84,11 @@ public class SysDictTypeServiceImpl implements ISysDictTypeService {
      * @param dictType 字典类型
      * @return 字典数据集合信息
      */
+    @Cacheable(cacheNames = CacheNames.SYS_DICT, key = "#dictType")
     @Override
     public List<SysDictData> selectDictDataByType(String dictType) {
-        List<SysDictData> dictDatas = DictUtils.getDictCache(dictType);
+        List<SysDictData> dictDatas = dictDataMapper.selectDictDataByType(dictType);
         if (CollUtil.isNotEmpty(dictDatas)) {
-            return dictDatas;
-        }
-        dictDatas = dictDataMapper.selectDictDataByType(dictType);
-        if (CollUtil.isNotEmpty(dictDatas)) {
-            DictUtils.setDictCache(dictType, dictDatas);
             return dictDatas;
         }
         return null;
@@ -115,6 +111,7 @@ public class SysDictTypeServiceImpl implements ISysDictTypeService {
      * @param dictType 字典类型
      * @return 字典类型
      */
+    @Cacheable(cacheNames = CacheNames.SYS_DICT, key = "#dictType")
     @Override
     public SysDictType selectDictTypeByType(String dictType) {
         return baseMapper.selectById(new LambdaQueryWrapper<SysDictType>().eq(SysDictType::getDictType, dictType));
@@ -133,7 +130,7 @@ public class SysDictTypeServiceImpl implements ISysDictTypeService {
                 .eq(SysDictData::getDictType, dictType.getDictType()))) {
                 throw new ServiceException(String.format("%1$s已分配,不能删除", dictType.getDictName()));
             }
-            DictUtils.removeDictCache(dictType.getDictType());
+            CacheUtils.evict(CacheNames.SYS_DICT, dictType.getDictType());
         }
         baseMapper.deleteBatchIds(Arrays.asList(dictIds));
     }
@@ -146,9 +143,9 @@ public class SysDictTypeServiceImpl implements ISysDictTypeService {
         List<SysDictData> dictDataList = dictDataMapper.selectList(
             new LambdaQueryWrapper<SysDictData>().eq(SysDictData::getStatus, UserConstants.DICT_NORMAL));
         Map<String, List<SysDictData>> dictDataMap = StreamUtils.groupByKey(dictDataList, SysDictData::getDictType);
-        dictDataMap.forEach((k, v) -> {
+        dictDataMap.forEach((k,v) -> {
             List<SysDictData> dictList = StreamUtils.sorted(v, Comparator.comparing(SysDictData::getDictSort));
-            DictUtils.setDictCache(k, dictList);
+            CacheUtils.put(CacheNames.SYS_DICT, k, dictList);
         });
     }
 
@@ -157,7 +154,7 @@ public class SysDictTypeServiceImpl implements ISysDictTypeService {
      */
     @Override
     public void clearDictCache() {
-        DictUtils.clearDictCache();
+        CacheUtils.clear(CacheNames.SYS_DICT);
     }
 
     /**
@@ -175,13 +172,14 @@ public class SysDictTypeServiceImpl implements ISysDictTypeService {
      * @param dict 字典类型信息
      * @return 结果
      */
+    @CachePut(cacheNames = CacheNames.SYS_DICT, key = "#dict.dictType")
     @Override
-    public int insertDictType(SysDictType dict) {
+    public List<SysDictData> insertDictType(SysDictType dict) {
         int row = baseMapper.insert(dict);
         if (row > 0) {
-            DictUtils.setDictCache(dict.getDictType(), null);
+            return new ArrayList<>();
         }
-        return row;
+        throw new ServiceException("操作失败");
     }
 
     /**
@@ -190,19 +188,20 @@ public class SysDictTypeServiceImpl implements ISysDictTypeService {
      * @param dict 字典类型信息
      * @return 结果
      */
+    @CachePut(cacheNames = CacheNames.SYS_DICT, key = "#dict.dictType")
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public int updateDictType(SysDictType dict) {
+    public List<SysDictData> updateDictType(SysDictType dict) {
         SysDictType oldDict = baseMapper.selectById(dict.getDictId());
         dictDataMapper.update(null, new LambdaUpdateWrapper<SysDictData>()
             .set(SysDictData::getDictType, dict.getDictType())
             .eq(SysDictData::getDictType, oldDict.getDictType()));
         int row = baseMapper.updateById(dict);
         if (row > 0) {
-            List<SysDictData> dictDatas = dictDataMapper.selectDictDataByType(dict.getDictType());
-            DictUtils.setDictCache(dict.getDictType(), dictDatas);
+            CacheUtils.evict(CacheNames.SYS_DICT, oldDict.getDictType());
+            return dictDataMapper.selectDictDataByType(dict.getDictType());
         }
-        return row;
+        throw new ServiceException("操作失败");
     }
 
     /**
