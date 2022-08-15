@@ -6,8 +6,6 @@ import org.redisson.config.ReadMode;
 import org.redisson.config.SubscriptionMode;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-import java.util.List;
-
 /**
  * Redisson 配置属性
  *
@@ -41,11 +39,6 @@ public class RedissonProperties {
      * 集群服务配置
      */
     private ClusterServersConfig clusterServersConfig;
-
-    /**
-     * 缓存组
-     */
-    private List<CacheGroup> cacheGroup;
 
     @Data
     @NoArgsConstructor
@@ -136,32 +129,6 @@ public class RedissonProperties {
          * 订阅模式
          */
         private SubscriptionMode subscriptionMode;
-
-    }
-
-    @Data
-    @NoArgsConstructor
-    public static class CacheGroup {
-
-        /**
-         * 组id
-         */
-        private String groupId;
-
-        /**
-         * 组过期时间
-         */
-        private long ttl;
-
-        /**
-         * 组最大空闲时间
-         */
-        private long maxIdleTime;
-
-        /**
-         * 组最大长度
-         */
-        private int maxSize;
 
     }
 
