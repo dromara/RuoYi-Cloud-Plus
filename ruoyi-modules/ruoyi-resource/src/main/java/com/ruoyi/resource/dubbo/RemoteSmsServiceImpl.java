@@ -1,7 +1,6 @@
 package com.ruoyi.resource.dubbo;
 
 import cn.hutool.core.bean.BeanUtil;
-import com.ruoyi.common.core.domain.R;
 import com.ruoyi.common.core.exception.ServiceException;
 import com.ruoyi.common.core.utils.SpringUtils;
 import com.ruoyi.common.sms.config.properties.SmsProperties;
@@ -37,8 +36,8 @@ public class RemoteSmsServiceImpl implements RemoteSmsService {
      * @param param      模板对应参数
      */
     public SysSms send(String phones, String templateId, Map<String, String> param) throws ServiceException {
-        if (smsProperties.getEnabled()) {
-            R.fail("当前系统没有开启短信功能！");
+        if (!smsProperties.getEnabled()) {
+            throw new ServiceException("当前系统没有开启短信功能！");
         }
         SmsTemplate smsTemplate = SpringUtils.getBean(SmsTemplate.class);
         SmsResult smsResult = smsTemplate.send(phones, templateId, param);
