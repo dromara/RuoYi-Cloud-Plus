@@ -8,6 +8,7 @@ import com.alibaba.cloud.nacos.discovery.NacosDiscoveryClientConfiguration;
 import com.alibaba.cloud.nacos.discovery.NacosWatch;
 import com.ruoyi.common.web.nacos.CustomNacosWatch;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.cloud.client.ConditionalOnBlockingDiscoveryEnabled;
 import org.springframework.cloud.client.ConditionalOnDiscoveryEnabled;
@@ -18,6 +19,7 @@ import org.springframework.context.annotation.Bean;
  *
  * @author Lion Li
  */
+@ConditionalOnClass(NacosWatch.class)
 @AutoConfiguration(
     before = NacosDiscoveryClientConfiguration.class,
     after = NacosDiscoveryAutoConfiguration.class
