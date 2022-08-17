@@ -117,15 +117,6 @@
                 <artifactId>docker-maven-plugin</artifactId>
             </plugin>
         </plugins>
-
-        <resources>
-            <resource>
-                <directory>src/main/resources</directory>
-            </resource>
-            <resource>
-                <directory>src/main/webapp/</directory>
-            </resource>
-        </resources>
     </build>
 
 </project>

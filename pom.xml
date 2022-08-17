@@ -395,6 +395,9 @@
                 <filtering>false</filtering>
             </resource>
             <resource>
+                <directory>src/main/webapp/</directory>
+            </resource>
+            <resource>
                 <directory>src/main/resources</directory>
                 <!-- 引入所有 匹配文件进行过滤 -->
                 <includes>
