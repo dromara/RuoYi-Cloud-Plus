@@ -144,7 +144,7 @@ services:
     restart: always
     network_mode: "host"
 
-  ruoyi-monitor-admin:
+  ruoyi-monitor:
     image: ruoyi/ruoyi-monitor:1.2.0
     container_name: ruoyi-monitor
     environment:
