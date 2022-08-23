@@ -143,6 +143,7 @@ export default {
       } else {
         this.$modal.msgError(res.msg);
         this.$modal.closeLoading();
+        this.number--;
       }
     },
     // 上传前loading加载
