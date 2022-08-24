@@ -250,7 +250,7 @@ services:
       # 时区上海
       TZ: Asia/Shanghai
     ports:
-      - "9300:9300"
+      - "9204:9204"
     volumes:
       # 配置文件
       - /docker/ruoyi-resource/logs/:/ruoyi/resource/logs
