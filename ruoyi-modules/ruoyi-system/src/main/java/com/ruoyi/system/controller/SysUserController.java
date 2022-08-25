@@ -3,6 +3,7 @@ package com.ruoyi.system.controller;
 import cn.dev33.satoken.annotation.SaCheckPermission;
 import cn.dev33.satoken.secure.BCrypt;
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.lang.tree.Tree;
 import cn.hutool.core.util.ObjectUtil;
 import com.ruoyi.common.core.constant.UserConstants;
 import com.ruoyi.common.core.domain.R;
@@ -22,10 +23,7 @@ import com.ruoyi.system.api.domain.SysUser;
 import com.ruoyi.system.domain.vo.SysUserExportVo;
 import com.ruoyi.system.domain.vo.SysUserImportVo;
 import com.ruoyi.system.listener.SysUserImportListener;
-import com.ruoyi.system.service.ISysPermissionService;
-import com.ruoyi.system.service.ISysPostService;
-import com.ruoyi.system.service.ISysRoleService;
-import com.ruoyi.system.service.ISysUserService;
+import com.ruoyi.system.service.*;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.http.MediaType;
@@ -112,13 +110,13 @@ public class SysUserController extends BaseController {
      */
     @GetMapping("getInfo")
     public R<Map<String, Object>> getInfo() {
-        Long userId = LoginHelper.getUserId();
+        SysUser user = userService.selectUserById(LoginHelper.getUserId());
         // 角色集合
         Set<String> roles = permissionService.getRolePermission(user);
         // 权限集合
-        Set<String> permissions = permissionService.getMenuPermission(userId);
+        Set<String> permissions = permissionService.getMenuPermission(user);
         Map<String, Object> ajax = new HashMap<>();
-        ajax.put("user", userService.selectUserById(userId));
+        ajax.put("user", user);
         ajax.put("roles", roles);
         ajax.put("permissions", permissions);
         return R.ok(ajax);
@@ -261,7 +259,7 @@ public class SysUserController extends BaseController {
      */
     @SaCheckPermission("system:user:list")
     @GetMapping("/deptTree")
-    public AjaxResult deptTree(SysDept dept) {
+    public R<List<Tree<Long>>> deptTree(SysDept dept) {
         return R.ok(deptService.selectDeptTreeList(dept));
     }
 }

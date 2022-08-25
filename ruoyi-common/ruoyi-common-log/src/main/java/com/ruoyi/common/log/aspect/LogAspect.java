@@ -152,14 +152,6 @@ public class LogAspect {
     }
 
     /**
-     * 忽略敏感属性
-     */
-    public PropertyPreExcludeFilter excludePropertyPreFilter()
-    {
-        return new PropertyPreExcludeFilter().addExcludes(EXCLUDE_PROPERTIES);
-    }
-
-    /**
      * 判断是否需要过滤的对象。
      *
      * @param o 对象信息。

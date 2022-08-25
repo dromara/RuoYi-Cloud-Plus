@@ -1,6 +1,8 @@
 package com.ruoyi.system.service.impl;
 
 import com.ruoyi.common.satoken.utils.LoginHelper;
+import com.ruoyi.system.api.domain.SysRole;
+import com.ruoyi.system.api.domain.SysUser;
 import com.ruoyi.system.service.ISysMenuService;
 import com.ruoyi.system.service.ISysPermissionService;
 import com.ruoyi.system.service.ISysRoleService;
@@ -8,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
