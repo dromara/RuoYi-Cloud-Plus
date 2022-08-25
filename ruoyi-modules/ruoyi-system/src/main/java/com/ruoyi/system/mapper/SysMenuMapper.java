@@ -33,6 +33,14 @@ public interface SysMenuMapper extends BaseMapperPlus<SysMenuMapper, SysMenu, Sy
     List<SysMenu> selectMenuListByUserId(@Param(Constants.WRAPPER) Wrapper<SysMenu> queryWrapper);
 
     /**
+     * 根据角色ID查询权限
+     *
+     * @param roleId 角色ID
+     * @return 权限列表
+     */
+    public List<String> selectMenuPermsByRoleId(Long roleId);
+
+    /**
      * 根据用户ID查询权限
      *
      * @param userId 用户ID

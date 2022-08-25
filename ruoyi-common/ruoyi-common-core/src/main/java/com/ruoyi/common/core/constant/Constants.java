@@ -17,6 +17,11 @@ public interface Constants {
     String GBK = "GBK";
 
     /**
+     * www主域
+     */
+    String WWW = "www.";
+
+    /**
      * http请求
      */
     String HTTP = "http://";

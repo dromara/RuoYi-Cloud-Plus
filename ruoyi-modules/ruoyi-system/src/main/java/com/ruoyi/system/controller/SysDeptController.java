@@ -51,8 +51,7 @@ public class SysDeptController extends BaseController {
     @GetMapping("/list/exclude/{deptId}")
     public R<List<SysDept>> excludeChild(@PathVariable(value = "deptId", required = false) Long deptId) {
         List<SysDept> depts = deptService.selectDeptList(new SysDept());
-        depts.removeIf(d -> d.getDeptId().equals(deptId)
-            || ArrayUtil.contains(StringUtils.split(d.getAncestors(), ","), deptId + ""));
+        depts.removeIf(d -> d.getDeptId().intValue() == deptId || ArrayUtil.contains(StringUtils.split(d.getAncestors(), ","), deptId + ""));
         return R.ok(depts);
     }
 
@@ -66,29 +65,6 @@ public class SysDeptController extends BaseController {
     public R<SysDept> getInfo(@PathVariable Long deptId) {
         deptService.checkDeptDataScope(deptId);
         return R.ok(deptService.selectDeptById(deptId));
-    }
-
-    /**
-     * 获取部门下拉树列表
-     */
-    @GetMapping("/treeselect")
-    public R<List<Tree<Long>>> treeselect(SysDept dept) {
-        List<SysDept> depts = deptService.selectDeptList(dept);
-        return R.ok(deptService.buildDeptTreeSelect(depts));
-    }
-
-    /**
-     * 加载对应角色部门列表树
-     *
-     * @param roleId 角色ID
-     */
-    @GetMapping(value = "/roleDeptTreeselect/{roleId}")
-    public R<Map<String, Object>> roleDeptTreeselect(@PathVariable("roleId") Long roleId) {
-        List<SysDept> depts = deptService.selectDeptList(new SysDept());
-        Map<String, Object> ajax = new HashMap<>();
-        ajax.put("checkedKeys", deptService.selectDeptListByRoleId(roleId));
-        ajax.put("depts", deptService.buildDeptTreeSelect(depts));
-        return R.ok(ajax);
     }
 
     /**

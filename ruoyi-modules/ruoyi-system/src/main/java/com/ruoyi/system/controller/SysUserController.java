@@ -52,6 +52,7 @@ public class SysUserController extends BaseController {
     private final ISysRoleService roleService;
     private final ISysPostService postService;
     private final ISysPermissionService permissionService;
+    private final ISysDeptService deptService;
 
     /**
      * 获取用户列表
@@ -113,7 +114,7 @@ public class SysUserController extends BaseController {
     public R<Map<String, Object>> getInfo() {
         Long userId = LoginHelper.getUserId();
         // 角色集合
-        Set<String> roles = permissionService.getRolePermission(userId);
+        Set<String> roles = permissionService.getRolePermission(user);
         // 权限集合
         Set<String> permissions = permissionService.getMenuPermission(userId);
         Map<String, Object> ajax = new HashMap<>();
@@ -253,5 +254,14 @@ public class SysUserController extends BaseController {
         userService.checkUserDataScope(userId);
         userService.insertUserAuth(userId, roleIds);
         return R.ok();
+    }
+
+    /**
+     * 获取部门树列表
+     */
+    @SaCheckPermission("system:user:list")
+    @GetMapping("/deptTree")
+    public AjaxResult deptTree(SysDept dept) {
+        return R.ok(deptService.selectDeptTreeList(dept));
     }
 }

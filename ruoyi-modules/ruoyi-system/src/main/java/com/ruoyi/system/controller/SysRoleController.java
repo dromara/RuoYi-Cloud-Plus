@@ -10,10 +10,12 @@ import com.ruoyi.common.log.enums.BusinessType;
 import com.ruoyi.common.mybatis.core.page.PageQuery;
 import com.ruoyi.common.mybatis.core.page.TableDataInfo;
 import com.ruoyi.common.satoken.utils.LoginHelper;
+import com.ruoyi.system.api.domain.SysDept;
 import com.ruoyi.system.api.domain.SysRole;
 import com.ruoyi.system.api.domain.SysUser;
 import com.ruoyi.system.api.model.LoginUser;
 import com.ruoyi.system.domain.SysUserRole;
+import com.ruoyi.system.service.ISysDeptService;
 import com.ruoyi.system.service.ISysPermissionService;
 import com.ruoyi.system.service.ISysRoleService;
 import com.ruoyi.system.service.ISysUserService;
@@ -22,7 +24,9 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 角色信息
@@ -37,6 +41,7 @@ public class SysRoleController extends BaseController {
 
     private final ISysRoleService roleService;
     private final ISysUserService userService;
+    private final ISysDeptService deptService;
     private final ISysPermissionService permissionService;
 
     /**
@@ -106,7 +111,9 @@ public class SysRoleController extends BaseController {
             LoginUser loginUser = LoginHelper.getLoginUser();
             Long userId = loginUser.getUserId();
             if (!LoginHelper.isAdmin(userId)) {
-                loginUser.setMenuPermission(permissionService.getMenuPermission(userId));
+                SysUser sysUser = new SysUser();
+                sysUser.setUserId(userId);
+                loginUser.setMenuPermission(permissionService.getMenuPermission(sysUser));
                 LoginHelper.setLoginUser(loginUser);
             }
             return R.ok();
@@ -213,4 +220,19 @@ public class SysRoleController extends BaseController {
         roleService.checkRoleDataScope(roleId);
         return toAjax(roleService.insertAuthUsers(roleId, userIds));
     }
+
+    /**
+     * 获取对应角色部门树列表
+     *
+     * @param roleId 角色ID
+     */
+    @SaCheckPermission("system:role:query")
+    @GetMapping(value = "/deptTree/{roleId}")
+    public R<Map<String, Object>> deptTree(@PathVariable("roleId") Long roleId) {
+        Map<String, Object> ajax = new HashMap<>();
+        ajax.put("checkedKeys", deptService.selectDeptListByRoleId(roleId));
+        ajax.put("depts", deptService.selectDeptTreeList(new SysDept()));
+        return R.ok(ajax);
+    }
 }
+
