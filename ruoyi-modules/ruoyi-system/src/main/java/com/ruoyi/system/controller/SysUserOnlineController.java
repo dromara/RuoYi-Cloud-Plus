@@ -4,7 +4,6 @@ import cn.dev33.satoken.annotation.SaCheckPermission;
 import cn.dev33.satoken.exception.NotLoginException;
 import cn.dev33.satoken.stp.StpUtil;
 import com.ruoyi.common.core.constant.CacheConstants;
-import com.ruoyi.common.core.constant.CacheNames;
 import com.ruoyi.common.core.domain.R;
 import com.ruoyi.common.core.utils.StreamUtils;
 import com.ruoyi.common.core.utils.StringUtils;
@@ -12,7 +11,7 @@ import com.ruoyi.common.core.web.controller.BaseController;
 import com.ruoyi.common.log.annotation.Log;
 import com.ruoyi.common.log.enums.BusinessType;
 import com.ruoyi.common.mybatis.core.page.TableDataInfo;
-import com.ruoyi.common.redis.utils.CacheUtils;
+import com.ruoyi.common.redis.utils.RedisUtils;
 import com.ruoyi.system.api.domain.SysUserOnline;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -49,8 +48,7 @@ public class SysUserOnlineController extends BaseController {
             if (StpUtil.stpLogic.getTokenActivityTimeoutByToken(token) < 0) {
                 continue;
             }
-            SysUserOnline dto = CacheUtils.get(CacheNames.ONLINE_TOKEN, token);
-            userOnlineList.add(dto);
+            userOnlineList.add(RedisUtils.getCacheObject(CacheConstants.ONLINE_TOKEN_KEY + token));
         }
         if (StringUtils.isNotEmpty(ipaddr) && StringUtils.isNotEmpty(userName)) {
             userOnlineList = StreamUtils.filter(userOnlineList, userOnline ->
