@@ -21,6 +21,7 @@
 |--------------|--------------------------|---------------------------------------------------------------------------------------------------|-----------------------------------|
 | 微服务权限管理系统    | RuoYi-Cloud-Plus         | [RuoYi-Cloud-Plus官网](https://gitee.com/JavaLionLi/RuoYi-Cloud-Plus)                               | 重写 RuoYi-Cloud 全方位升级(不兼容原框架)      |
 | 分布式集群分支      | RuoYi-Vue-Plus           | [RuoYi-Vue-Plus官网](https://gitee.com/JavaLionLi/RuoYi-Vue-Plus)                                   | 重写 RuoYi-Vue (不兼容原框架)             |
+| Vue3分支       | RuoYi-Cloud-Plus-UI      | [UI地址](https://gitee.com/JavaLionLi/RuoYi-Cloud-Plus-UI)                                          | 由于组件还未完善 仅供学习                     |
 | 前端开发框架       | Vue、Element UI           | [Element UI官网](https://element.eleme.cn/#/zh-CN)                                                  |                                   |
 | 后端开发框架       | SpringBoot               | [SpringBoot官网](https://spring.io/projects/spring-boot/#learn)                                     |                                   |
 | 微服务开发框架      | SpringCloud              | [SpringCloud官网](https://spring.io/projects/spring-cloud)                                          |                                   |
