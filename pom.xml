@@ -52,12 +52,6 @@
         <!-- SMS 配置 -->
         <aliyun.sms.version>2.0.16</aliyun.sms.version>
         <tencent.sms.version>3.1.555</tencent.sms.version>
-
-        <!-- docker 配置 -->
-        <docker.registry.url>localhost</docker.registry.url>
-        <docker.registry.host>http://${docker.registry.url}:2375</docker.registry.host>
-        <docker.namespace>ruoyi</docker.namespace>
-        <docker.plugin.version>1.2.2</docker.plugin.version>
     </properties>
 
     <profiles>
@@ -365,29 +359,6 @@
                 </configuration>
             </plugin>
         </plugins>
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <groupId>com.spotify</groupId>
-                    <artifactId>docker-maven-plugin</artifactId>
-                    <version>${docker.plugin.version}</version>
-                    <configuration>
-                        <imageName>${docker.namespace}/${project.artifactId}:${project.version}</imageName>
-                        <dockerDirectory>${project.basedir}</dockerDirectory>
-                        <dockerHost>${docker.registry.host}</dockerHost>
-                        <registryUrl>${docker.registry.url}</registryUrl>
-                        <serverId>${docker.registry.url}</serverId>
-                        <resources>
-                            <resource>
-                                <targetPath>/</targetPath>
-                                <directory>${project.build.directory}</directory>
-                                <include>${project.build.finalName}.jar</include>
-                            </resource>
-                        </resources>
-                    </configuration>
-                </plugin>
-            </plugins>
-        </pluginManagement>
         <resources>
             <resource>
                 <directory>src/main/resources</directory>
