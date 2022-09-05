@@ -16,7 +16,9 @@ xxl:
     # 执行器开关
     enabled: true
     # 调度中心地址：如调度中心集群部署存在多个地址则用逗号分隔。
-    admin-addresses: http://localhost:9900
+    # admin-addresses: http://localhost:9900
+    # 调度中心应用名 通过服务名连接调度中心(启用admin-appname会导致admin-addresses不生效)
+    admin-appname: ruoyi-xxl-job-admin
     # 执行器通讯TOKEN：非空时启用
     access-token: xxl-job
     # 执行器配置

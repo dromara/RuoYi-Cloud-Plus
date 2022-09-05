@@ -17,6 +17,8 @@ public class XxlJobProperties {
 
     private String adminAddresses;
 
+    private String adminAppname;
+
     private String accessToken;
 
     private Executor executor;
