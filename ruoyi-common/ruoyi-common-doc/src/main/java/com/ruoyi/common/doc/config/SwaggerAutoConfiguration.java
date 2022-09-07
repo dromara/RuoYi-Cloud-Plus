@@ -110,7 +110,10 @@ public class SwaggerAutoConfiguration {
         // 对所有路径增加前置上下文路径
         return openApi -> {
             Paths oldPaths = openApi.getPaths();
-            Paths newPaths = new Paths();
+            if (oldPaths instanceof PlusPaths) {
+                return;
+            }
+            PlusPaths newPaths = new PlusPaths();
             oldPaths.forEach((k,v) -> newPaths.addPathItem(finalContextPath + k, v));
             openApi.setPaths(newPaths);
         };
