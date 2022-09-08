@@ -88,11 +88,18 @@ spring:
   cloud:
     # sentinel 配置
     sentinel:
+      # sentinel 开关
+      enabled: true
       # 取消控制台懒加载
       eager: true
       transport:
-        # 控制台地址
-        dashboard: localhost:8718
+        # dashboard控制台服务名 用于服务发现
+        # 如无此配置将默认使用下方 dashboard 配置直接注册
+        server-name: ruoyi-sentinel-dashboard
+        # 客户端指定注册的ip 用于多网卡ip不稳点使用
+        # client-ip:
+        # 控制台地址 从1.3.0开始使用 server-name 注册
+        # dashboard: localhost:8718
 
   # redis通用配置 子服务可以自行配置进行覆盖
   redis:

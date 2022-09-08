@@ -44,22 +44,10 @@
             <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
         </dependency>
 
-        <!-- SpringCloud Alibaba Sentinel -->
-        <dependency>
-            <groupId>com.alibaba.cloud</groupId>
-            <artifactId>spring-cloud-starter-alibaba-sentinel</artifactId>
-        </dependency>
-
         <!-- SpringCloud Alibaba Sentinel Gateway -->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-alibaba-sentinel-gateway</artifactId>
-        </dependency>
-
-        <!-- Sentinel Datasource Nacos -->
-        <dependency>
-            <groupId>com.alibaba.csp</groupId>
-            <artifactId>sentinel-datasource-nacos</artifactId>
         </dependency>
 
         <!-- SpringBoot Actuator -->
@@ -89,6 +77,17 @@
             <groupId>cn.dev33</groupId>
             <artifactId>sa-token-reactor-spring-boot-starter</artifactId>
             <version>${satoken.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.ruoyi</groupId>
+            <artifactId>ruoyi-common-sentinel</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.alibaba.csp</groupId>
+                    <artifactId>sentinel-apache-dubbo3-adapter</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>
