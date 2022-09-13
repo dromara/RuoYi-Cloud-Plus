@@ -18,40 +18,40 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
         <spring-boot.version>2.7.3</spring-boot.version>
-        <spring-cloud.version>2021.0.3</spring-cloud.version>
+        <spring-cloud.version>2021.0.4</spring-cloud.version>
         <spring-boot-admin.version>2.7.4</spring-boot-admin.version>
         <spring-boot.mybatis>2.2.2</spring-boot.mybatis>
         <mybatis.version>3.5.10</mybatis.version>
         <mybatis-plus.version>3.5.2</mybatis-plus.version>
         <p6spy.version>3.9.1</p6spy.version>
-        <druid.version>1.2.11</druid.version>
-        <dynamic-ds.version>3.5.1</dynamic-ds.version>
+        <druid.version>1.2.12</druid.version>
+        <dynamic-ds.version>3.5.2</dynamic-ds.version>
         <velocity.version>2.3</velocity.version>
         <fastjson.version>1.2.83</fastjson.version>
         <swagger.core.version>2.2.0</swagger.core.version>
         <springdoc.version>1.6.11</springdoc.version>
         <poi.version>5.2.2</poi.version>
         <easyexcel.version>3.1.1</easyexcel.version>
-        <hutool.version>5.8.5</hutool.version>
-        <redisson.version>3.17.5</redisson.version>
+        <hutool.version>5.8.6</hutool.version>
+        <redisson.version>3.17.6</redisson.version>
         <lock4j.version>2.2.2</lock4j.version>
         <xxl-job.version>2.3.1</xxl-job.version>
         <satoken.version>1.30.0</satoken.version>
         <lombok.version>1.18.24</lombok.version>
         <logstash.version>7.1.1</logstash.version>
-        <easy-es.version>1.0.0</easy-es.version>
+        <easy-es.version>1.0.1</easy-es.version>
         <elasticsearch.version>7.14.0</elasticsearch.version>
 
         <!-- 统一 guava 版本 解决隐式漏洞问题 -->
         <guava.version>31.1-jre</guava.version>
 
         <!-- OSS 配置 -->
-        <aws-java-sdk-s3.version>1.12.264</aws-java-sdk-s3.version>
+        <aws-java-sdk-s3.version>1.12.300</aws-java-sdk-s3.version>
         <okhttp.version>4.10.0</okhttp.version>
 
         <!-- SMS 配置 -->
-        <aliyun.sms.version>2.0.16</aliyun.sms.version>
-        <tencent.sms.version>3.1.555</tencent.sms.version>
+        <aliyun.sms.version>2.0.18</aliyun.sms.version>
+        <tencent.sms.version>3.1.591</tencent.sms.version>
     </properties>
 
     <profiles>
