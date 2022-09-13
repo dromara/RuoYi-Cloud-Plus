@@ -6,6 +6,7 @@ import cn.hutool.core.util.ObjectUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.exc.MismatchedInputException;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
@@ -77,6 +78,9 @@ public class JsonUtils {
         }
         try {
             return OBJECT_MAPPER.readValue(text, OBJECT_MAPPER.getTypeFactory().constructType(Dict.class));
+        } catch (MismatchedInputException e) {
+            // 类型不匹配说明不是json
+            return null;
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
