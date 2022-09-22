@@ -25,12 +25,12 @@ public class AuthFilter {
         return new SaReactorFilter()
             // 拦截地址
             .addInclude("/**")
+            .setExcludeList(ignoreWhite.getWhites())
             .addExclude("/favicon.ico", "/actuator/**")
             // 鉴权方法：每次访问进入
             .setAuth(obj -> {
                 // 登录校验 -- 拦截所有路由
                 SaRouter.match("/**")
-                    .notMatch(ignoreWhite.getWhites())
                     .check(r -> {
                         // 检查是否登录 是否有token
                         StpUtil.checkLogin();
