@@ -19,7 +19,7 @@
         <seata.version>1.5.2</seata.version>
         <nacos.client.version>2.1.1</nacos.client.version>
         <nacos.config.version>2.0.4</nacos.config.version>
-        <dubbo.version>3.1.0</dubbo.version>
+        <dubbo.version>3.1.1</dubbo.version>
         <spring.context.support.version>1.0.11</spring.context.support.version>
     </properties>
     <dependencyManagement>
