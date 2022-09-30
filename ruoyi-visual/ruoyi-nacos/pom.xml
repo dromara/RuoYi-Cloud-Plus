@@ -30,6 +30,18 @@
         <nacos.version>2.1.1</nacos.version>
     </properties>
 
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>io.springboot.nacos</groupId>
+                <artifactId>nacos-all</artifactId>
+                <version>${nacos.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
     <dependencies>
         <dependency>
             <groupId>io.springboot.nacos</groupId>
