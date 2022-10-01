@@ -90,9 +90,9 @@ public class SysLoginService {
      */
     public void logout() {
         try {
-            String username = LoginHelper.getUsername();
+            LoginUser loginUser = LoginHelper.getLoginUser();
             StpUtil.logout();
-            recordLogininfor(username, Constants.LOGOUT, MessageUtils.message("user.logout.success"));
+            recordLogininfor(loginUser.getUsername(), Constants.LOGOUT, MessageUtils.message("user.logout.success"));
         } catch (NotLoginException e) {
         }
     }
