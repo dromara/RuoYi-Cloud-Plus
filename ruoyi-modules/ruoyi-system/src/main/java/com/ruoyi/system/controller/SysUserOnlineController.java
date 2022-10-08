@@ -40,7 +40,7 @@ public class SysUserOnlineController extends BaseController {
     @GetMapping("/list")
     public TableDataInfo<SysUserOnline> list(String ipaddr, String userName) {
         // 获取所有未过期的 token
-        List<String> keys = StpUtil.searchTokenValue("", -1, 0);
+        List<String> keys = StpUtil.searchTokenValue("", -1, 0, false);
         List<SysUserOnline> userOnlineList = new ArrayList<SysUserOnline>();
         for (String key : keys) {
             String token = key.replace(CacheConstants.LOGIN_TOKEN_KEY, "");

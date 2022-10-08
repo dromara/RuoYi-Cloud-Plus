@@ -2,7 +2,7 @@ package com.ruoyi.common.security.config;
 
 import cn.dev33.satoken.filter.SaServletFilter;
 import cn.dev33.satoken.id.SaIdUtil;
-import cn.dev33.satoken.interceptor.SaAnnotationInterceptor;
+import cn.dev33.satoken.interceptor.SaInterceptor;
 import cn.dev33.satoken.util.SaResult;
 import com.ruoyi.common.core.constant.HttpStatus;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
@@ -23,8 +23,8 @@ public class SecurityConfiguration implements WebMvcConfigurer {
      */
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        // 注解拦截器
-        registry.addInterceptor(new SaAnnotationInterceptor()).addPathPatterns("/**");
+        // 注册路由拦截器，自定义验证规则
+        registry.addInterceptor(new SaInterceptor()).addPathPatterns("/**");
     }
 
     /**
