@@ -263,7 +263,7 @@ services:
 #################################################################################################
 
   elasticsearch:
-    image: elasticsearch:7.17.2
+    image: elasticsearch:7.17.6
     container_name: elasticsearch
     ports:
       - "9200:9200"
@@ -281,7 +281,7 @@ services:
     network_mode: "host"
 
   kibana:
-    image: kibana:7.17.2
+    image: kibana:7.17.6
     container_name: kibana
     ports:
       - "5601:5601"
@@ -298,7 +298,7 @@ services:
     network_mode: "host"
 
   logstash:
-    image: logstash:7.17.2
+    image: logstash:7.17.6
     container_name: logstash
     ports:
       - "4560:4560"
