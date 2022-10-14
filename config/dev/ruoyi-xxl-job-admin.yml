@@ -41,6 +41,15 @@ management:
   health:
     mail:
       enabled: false
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: ALWAYS
+    logfile:
+      external-file: ./logs/${spring.application.name}/console.log
 
 # xxljob系统配置
 xxl:
