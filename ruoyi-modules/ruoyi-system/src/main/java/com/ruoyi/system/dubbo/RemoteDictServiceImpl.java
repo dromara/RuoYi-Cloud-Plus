@@ -1,6 +1,7 @@
 package com.ruoyi.system.dubbo;
 
 import cn.hutool.core.collection.CollUtil;
+import com.ruoyi.common.core.utils.SpringUtils;
 import com.ruoyi.common.core.utils.StringUtils;
 import com.ruoyi.system.api.RemoteDictService;
 import com.ruoyi.system.api.domain.SysDictData;
@@ -27,7 +28,7 @@ public class RemoteDictServiceImpl implements RemoteDictService {
     @Override
     public String getDictLabel(String dictType, String dictValue, String separator) {
         StringBuilder propertyString = new StringBuilder();
-        List<SysDictData> datas = sysDictTypeService.selectDictDataByType(dictType);
+        List<SysDictData> datas = SpringUtils.getAopProxy(sysDictTypeService).selectDictDataByType(dictType);
 
         if (StringUtils.containsAny(dictValue, separator) && CollUtil.isNotEmpty(datas)) {
             for (SysDictData dict : datas) {
@@ -51,7 +52,7 @@ public class RemoteDictServiceImpl implements RemoteDictService {
     @Override
     public String getDictValue(String dictType, String dictLabel, String separator) {
         StringBuilder propertyString = new StringBuilder();
-        List<SysDictData> datas = sysDictTypeService.selectDictDataByType(dictType);
+        List<SysDictData> datas = SpringUtils.getAopProxy(sysDictTypeService).selectDictDataByType(dictType);
 
         if (StringUtils.containsAny(dictLabel, separator) && CollUtil.isNotEmpty(datas)) {
             for (SysDictData dict : datas) {

@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ruoyi.common.core.constant.CacheNames;
 import com.ruoyi.common.core.exception.ServiceException;
+import com.ruoyi.common.core.utils.SpringUtils;
 import com.ruoyi.common.core.utils.StringUtils;
 import com.ruoyi.common.mybatis.core.page.PageQuery;
 import com.ruoyi.common.mybatis.core.page.TableDataInfo;
@@ -50,7 +51,7 @@ public class SysOssServiceImpl implements ISysOssService {
     public List<SysOssVo> listByIds(Collection<Long> ossIds) {
         List<SysOssVo> list = new ArrayList<>();
         for (Long id : ossIds) {
-            SysOssVo vo = getById(id);
+            SysOssVo vo = SpringUtils.getAopProxy(this).getById(id);
             if (ObjectUtil.isNotNull(vo)) {
                 list.add(vo);
             }
