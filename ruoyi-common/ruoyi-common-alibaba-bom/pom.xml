@@ -15,7 +15,7 @@
 
     <properties>
         <spring-cloud-alibaba.version>2021.0.4.0</spring-cloud-alibaba.version>
-        <sentinel.version>1.8.5</sentinel.version>
+        <sentinel.version>1.8.6</sentinel.version>
         <seata.version>1.5.2</seata.version>
         <nacos.client.version>2.1.1</nacos.client.version>
         <nacos.config.version>2.0.4</nacos.config.version>
