@@ -118,7 +118,7 @@ public class TestDemoController extends BaseController {
         // 使用校验工具对标 @Validated(AddGroup.class) 注解
         // 用于在非 Controller 的地方校验对象
         ValidatorUtils.validate(bo, AddGroup.class);
-        return toAjax(iTestDemoService.insertByBo(bo) ? 1 : 0);
+        return toAjax(iTestDemoService.insertByBo(bo));
     }
 
     /**
@@ -129,7 +129,7 @@ public class TestDemoController extends BaseController {
     @RepeatSubmit
     @PutMapping()
     public R<Void> edit(@Validated(EditGroup.class) @RequestBody TestDemoBo bo) {
-        return toAjax(iTestDemoService.updateByBo(bo) ? 1 : 0);
+        return toAjax(iTestDemoService.updateByBo(bo));
     }
 
     /**
@@ -141,6 +141,6 @@ public class TestDemoController extends BaseController {
     @Log(title = "测试单表", businessType = BusinessType.DELETE)
     @DeleteMapping("/{ids}")
     public R<Void> remove(@NotEmpty(message = "主键不能为空") @PathVariable Long[] ids) {
-        return toAjax(iTestDemoService.deleteWithValidByIds(Arrays.asList(ids), true) ? 1 : 0);
+        return toAjax(iTestDemoService.deleteWithValidByIds(Arrays.asList(ids), true));
     }
 }

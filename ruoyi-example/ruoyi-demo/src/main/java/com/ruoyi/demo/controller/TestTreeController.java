@@ -76,7 +76,7 @@ public class TestTreeController extends BaseController {
     @RepeatSubmit
     @PostMapping()
     public R<Void> add(@Validated(AddGroup.class) @RequestBody TestTreeBo bo) {
-        return toAjax(iTestTreeService.insertByBo(bo) ? 1 : 0);
+        return toAjax(iTestTreeService.insertByBo(bo));
     }
 
     /**
@@ -87,7 +87,7 @@ public class TestTreeController extends BaseController {
     @RepeatSubmit
     @PutMapping()
     public R<Void> edit(@Validated(EditGroup.class) @RequestBody TestTreeBo bo) {
-        return toAjax(iTestTreeService.updateByBo(bo) ? 1 : 0);
+        return toAjax(iTestTreeService.updateByBo(bo));
     }
 
     /**
@@ -99,6 +99,6 @@ public class TestTreeController extends BaseController {
     @Log(title = "测试树表", businessType = BusinessType.DELETE)
     @DeleteMapping("/{ids}")
     public R<Void> remove(@NotEmpty(message = "主键不能为空") @PathVariable Long[] ids) {
-        return toAjax(iTestTreeService.deleteWithValidByIds(Arrays.asList(ids), true) ? 1 : 0);
+        return toAjax(iTestTreeService.deleteWithValidByIds(Arrays.asList(ids), true));
     }
 }
