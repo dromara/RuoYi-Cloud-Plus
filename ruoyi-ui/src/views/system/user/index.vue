@@ -20,6 +20,7 @@
             :expand-on-click-node="false"
             :filter-node-method="filterNode"
             ref="tree"
+            node-key="id"
             default-expand-all
             highlight-current
             @node-click="handleNodeClick"
