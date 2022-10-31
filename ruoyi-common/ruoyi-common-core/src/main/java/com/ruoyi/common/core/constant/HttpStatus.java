@@ -89,5 +89,5 @@ public interface HttpStatus {
     /**
      * 系统警告消息
      */
-    public static final int WARN = 601;
+    int WARN = 601;
 }
