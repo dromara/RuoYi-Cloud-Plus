@@ -2,8 +2,9 @@ FROM anapsix/alpine-java:8_server-jre_unlimited
 
 MAINTAINER Lion Li
 
-RUN mkdir -p /ruoyi/seata-server
-RUN mkdir -p /ruoyi/seata-server/logs
+RUN mkdir -p /ruoyi/seata-server \
+    /ruoyi/seata-server/logs \
+    /ruoyi/skywalking/agent
 
 WORKDIR /ruoyi/seata-server
 
@@ -15,4 +16,9 @@ EXPOSE 8091
 
 ADD ./target/ruoyi-seata-server.jar ./app.jar
 
-ENTRYPOINT ["java", "-Djava.security.egd=file:/dev/./urandom", "-jar", "app.jar"]
+ENTRYPOINT ["java", \
+            "-Djava.security.egd=file:/dev/./urandom", \
+#            "-Dskywalking.agent.service_name=ruoyi-seata-server", \
+#            "-Dskywalking.plugin.seata.server=true", \
+#            "-javaagent:/ruoyi/skywalking/agent/skywalking-agent.jar", \
+            "-jar", "app.jar"]

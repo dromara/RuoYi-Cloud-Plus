@@ -2,8 +2,9 @@ FROM anapsix/alpine-java:8_server-jre_unlimited
 
 MAINTAINER Lion Li
 
-RUN mkdir -p /ruoyi/xxl-job-admin
-RUN mkdir -p /ruoyi/xxl-job-admin/logs
+RUN mkdir -p /ruoyi/xxl-job-admin \
+    /ruoyi/xxl-job-admin/logs \
+    /ruoyi/skywalking/agent
 
 WORKDIR /ruoyi/xxl-job-admin
 
@@ -14,4 +15,8 @@ EXPOSE 9900
 
 ADD ./target/ruoyi-xxl-job-admin.jar ./app.jar
 
-ENTRYPOINT ["java", "-Djava.security.egd=file:/dev/./urandom", "-jar", "app.jar"]
+ENTRYPOINT ["java",
+            "-Djava.security.egd=file:/dev/./urandom",
+#            "-Dskywalking.agent.service_name=ruoyi-xxl-job-admin", \
+#            "-javaagent:/ruoyi/skywalking/agent/skywalking-agent.jar", \
+            "-jar", "app.jar"]

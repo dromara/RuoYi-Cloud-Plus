@@ -108,6 +108,8 @@ services:
       SEATA_PORT: 8091
     volumes:
       - /docker/ruoyi-seata-server/logs/:/ruoyi/seata-server/logs
+      # skywalking 探针
+      - /docker/skywalking/agent/:/ruoyi/skywalking/agent
     privileged: true
     network_mode: "host"
 
@@ -142,6 +144,8 @@ services:
     volumes:
       # 配置文件
       - /docker/ruoyi-sentinel-dashboard/logs/:/ruoyi/sentinel-dashboard/logs
+      # skywalking 探针
+      - /docker/skywalking/agent/:/ruoyi/skywalking/agent
     restart: always
     network_mode: "host"
 
@@ -156,6 +160,8 @@ services:
     volumes:
       # 配置文件
       - /docker/ruoyi-monitor/logs/:/ruoyi/monitor/logs
+      # skywalking 探针
+      - /docker/skywalking/agent/:/ruoyi/skywalking/agent
     privileged: true
     network_mode: "host"
 
@@ -170,6 +176,8 @@ services:
     volumes:
       # 配置文件
       - /docker/ruoyi-xxl-job-admin/logs/:/ruoyi/xxl-job-admin/logs
+      # skywalking 探针
+      - /docker/skywalking/agent/:/ruoyi/skywalking/agent
     privileged: true
     network_mode: "host"
 
@@ -184,6 +192,8 @@ services:
     volumes:
       # 配置文件
       - /docker/ruoyi-gateway/logs/:/ruoyi/gateway/logs
+      # skywalking 探针
+      - /docker/skywalking/agent/:/ruoyi/skywalking/agent
     privileged: true
     network_mode: "host"
 
@@ -198,6 +208,8 @@ services:
     volumes:
       # 配置文件
       - /docker/ruoyi-auth/logs/:/ruoyi/auth/logs
+      # skywalking 探针
+      - /docker/skywalking/agent/:/ruoyi/skywalking/agent
     privileged: true
     network_mode: "host"
 
@@ -212,6 +224,8 @@ services:
     volumes:
       # 配置文件
       - /docker/ruoyi-system/logs/:/ruoyi/system/logs
+      # skywalking 探针
+      - /docker/skywalking/agent/:/ruoyi/skywalking/agent
     privileged: true
     network_mode: "host"
 
@@ -226,6 +240,8 @@ services:
     volumes:
       # 配置文件
       - /docker/ruoyi-gen/logs/:/ruoyi/gen/logs
+      # skywalking 探针
+      - /docker/skywalking/agent/:/ruoyi/skywalking/agent
     privileged: true
     network_mode: "host"
 
@@ -240,6 +256,8 @@ services:
     volumes:
       # 配置文件
       - /docker/ruoyi-job/logs/:/ruoyi/job/logs
+      # skywalking 探针
+      - /docker/skywalking/agent/:/ruoyi/skywalking/agent
     privileged: true
     network_mode: "host"
 
@@ -254,6 +272,8 @@ services:
     volumes:
       # 配置文件
       - /docker/ruoyi-resource/logs/:/ruoyi/resource/logs
+      # skywalking 探针
+      - /docker/skywalking/agent/:/ruoyi/skywalking/agent
     privileged: true
     network_mode: "host"
 
@@ -412,4 +432,34 @@ services:
       KM_ARGS: -Dhttp.port=19092
     depends_on:
       - kafka
+    network_mode: "host"
+
+  sky-oap:
+    image: apache/skywalking-oap-server:8.9.1
+    container_name: sky-oap
+    ports:
+      - "11800:11800"
+      - "12800:12800"
+    environment:
+      JAVA_OPTS: -Xms512m -Xmx1g
+      #记录数据的有效期，单位天
+      SW_CORE_RECORD_DATA_TTL: 7
+      #分析指标数据的有效期，单位天
+      SW_CORE_METRICS_DATA_TTL: 7
+      SW_STORAGE: elasticsearch
+      SW_STORAGE_ES_CLUSTER_NODES: 127.0.0.1:9200
+      TZ: Asia/Shanghai
+    network_mode: "host"
+
+  sky-ui:
+    image: apache/skywalking-ui:8.9.1
+    container_name: sky-ui
+    ports:
+      - "18080:18080"
+    environment:
+      SW_OAP_ADDRESS: http://127.0.0.1:12800
+      TZ: Asia/Shanghai
+      JAVA_OPTS: "-Dserver.port=18080"
+    depends_on:
+      - sky-oap
     network_mode: "host"
