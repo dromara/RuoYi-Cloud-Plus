@@ -15,8 +15,8 @@ EXPOSE 9900
 
 ADD ./target/ruoyi-xxl-job-admin.jar ./app.jar
 
-ENTRYPOINT ["java",
-            "-Djava.security.egd=file:/dev/./urandom",
+ENTRYPOINT ["java", \
+            "-Djava.security.egd=file:/dev/./urandom", \
 #            "-Dskywalking.agent.service_name=ruoyi-xxl-job-admin", \
 #            "-javaagent:/ruoyi/skywalking/agent/skywalking-agent.jar", \
             "-jar", "app.jar"]
