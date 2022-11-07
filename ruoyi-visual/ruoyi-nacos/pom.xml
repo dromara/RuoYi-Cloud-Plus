@@ -27,13 +27,14 @@
     <packaging>jar</packaging>
 
     <properties>
-        <nacos.version>2.1.1</nacos.version>
+        <nacos.version>2.1.2</nacos.version>
+        <nacos.lib.path>${project.basedir}/src/main/resources/lib</nacos.lib.path>
     </properties>
 
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>io.springboot.nacos</groupId>
+                <groupId>com.alibaba.nacos</groupId>
                 <artifactId>nacos-all</artifactId>
                 <version>${nacos.version}</version>
                 <type>pom</type>
@@ -44,25 +45,174 @@
 
     <dependencies>
         <dependency>
-            <groupId>io.springboot.nacos</groupId>
+            <groupId>com.alibaba.nacos</groupId>
+            <artifactId>nacos-auth</artifactId>
+            <version>${nacos.version}</version>
+            <scope>system</scope>
+            <systemPath>${nacos.lib.path}/nacos-auth-${nacos.version}.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba.nacos</groupId>
+            <artifactId>nacos-cmdb</artifactId>
+            <version>${nacos.version}</version>
+            <scope>system</scope>
+            <systemPath>${nacos.lib.path}/nacos-cmdb-${nacos.version}.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba.nacos</groupId>
             <artifactId>nacos-config</artifactId>
+            <version>${nacos.version}</version>
+            <scope>system</scope>
+            <systemPath>${nacos.lib.path}/nacos-config-${nacos.version}.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba.nacos</groupId>
+            <artifactId>nacos-consistency</artifactId>
+            <version>${nacos.version}</version>
+            <scope>system</scope>
+            <systemPath>${nacos.lib.path}/nacos-consistency-${nacos.version}.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba.nacos</groupId>
+            <artifactId>nacos-core</artifactId>
+            <version>${nacos.version}</version>
+            <scope>system</scope>
+            <systemPath>${nacos.lib.path}/nacos-core-${nacos.version}.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba.nacos</groupId>
+            <artifactId>nacos-istio</artifactId>
+            <version>${nacos.version}</version>
+            <scope>system</scope>
+            <systemPath>${nacos.lib.path}/nacos-istio-${nacos.version}.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba.nacos</groupId>
+            <artifactId>nacos-naming</artifactId>
+            <version>${nacos.version}</version>
+            <scope>system</scope>
+            <systemPath>${nacos.lib.path}/nacos-naming-${nacos.version}.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba.nacos</groupId>
+            <artifactId>nacos-plugin-default-impl</artifactId>
+            <version>${nacos.version}</version>
+            <scope>system</scope>
+            <systemPath>${nacos.lib.path}/nacos-plugin-default-impl-${nacos.version}.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba.nacos</groupId>
+            <artifactId>nacos-sys</artifactId>
+            <version>${nacos.version}</version>
+            <scope>system</scope>
+            <systemPath>${nacos.lib.path}/nacos-sys-${nacos.version}.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba.nacos</groupId>
+            <artifactId>nacos-common</artifactId>
             <version>${nacos.version}</version>
         </dependency>
         <dependency>
-            <groupId>io.springboot.nacos</groupId>
-            <artifactId>nacos-naming</artifactId>
-            <version>${nacos.version}</version>
+            <groupId>com.alibaba.nacos</groupId>
+            <artifactId>nacos-client</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>io.springboot.nacos</groupId>
-            <artifactId>nacos-plugin-default-impl</artifactId>
-            <version>${nacos.version}</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
         <dependency>
-            <groupId>io.springboot.nacos</groupId>
-            <artifactId>nacos-istio</artifactId>
-            <version>${nacos.version}</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-jdbc</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.ldap</groupId>
+            <artifactId>spring-ldap-core</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.caucho</groupId>
+            <artifactId>hessian</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>commons-collections</groupId>
+            <artifactId>commons-collections</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.derby</groupId>
+            <artifactId>derby</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.alipay.sofa</groupId>
+            <artifactId>jraft-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.alipay.sofa</groupId>
+            <artifactId>rpc-grpc-impl</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.codehaus.jackson</groupId>
+            <artifactId>jackson-core-asl</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-impl</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-jackson</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.javatuples</groupId>
+            <artifactId>javatuples</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.micrometer</groupId>
+            <artifactId>micrometer-registry-prometheus</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.micrometer</groupId>
+            <artifactId>micrometer-registry-influx</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.micrometer</groupId>
+            <artifactId>micrometer-registry-elastic</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>io.envoyproxy.controlplane</groupId>
+            <artifactId>api</artifactId>
+            <version>0.1.27</version>
         </dependency>
 
         <!-- log -->
@@ -106,6 +256,10 @@
                         </goals>
                     </execution>
                 </executions>
+                <configuration>
+                    <!-- 作用:项目打成jar的同时将本地jar包也引入进去 -->
+                    <includeSystemScope>true</includeSystemScope>
+                </configuration>
             </plugin>
         </plugins>
     </build>
