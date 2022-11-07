@@ -156,11 +156,9 @@ public class SysOssServiceImpl implements ISysOssService {
      */
     private SysOssVo matchingUrl(SysOssVo oss) {
         OssClient storage = OssFactory.instance(oss.getService());
-        /**
-         * 仅修改桶类型为 private 的URL，临时URL时长为100s
-         */
+        // 仅修改桶类型为 private 的URL，临时URL时长为120s
         if (AccessPolicyType.PRIVATE == storage.getAccessPolicy()) {
-            oss.setUrl(storage.getPrivateUrl(oss.getFileName(), 100));
+            oss.setUrl(storage.getPrivateUrl(oss.getFileName(), 120));
         }
         return oss;
     }
