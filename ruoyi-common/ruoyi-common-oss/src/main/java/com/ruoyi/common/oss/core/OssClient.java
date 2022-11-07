@@ -2,6 +2,7 @@ package com.ruoyi.common.oss.core;
 
 import cn.hutool.core.util.IdUtil;
 import com.amazonaws.ClientConfiguration;
+import com.amazonaws.HttpMethod;
 import com.amazonaws.Protocol;
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.AWSCredentialsProvider;
@@ -16,13 +17,15 @@ import com.ruoyi.common.core.utils.DateUtils;
 import com.ruoyi.common.core.utils.StringUtils;
 import com.ruoyi.common.oss.constant.OssConstant;
 import com.ruoyi.common.oss.entity.UploadResult;
+import com.ruoyi.common.oss.enumd.AccessPolicyType;
 import com.ruoyi.common.oss.enumd.PolicyType;
 import com.ruoyi.common.oss.exception.OssException;
 import com.ruoyi.common.oss.properties.OssProperties;
 
-
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.net.URL;
+import java.util.Date;
 
 /**
  * S3 存储协议 所有兼容S3协议的云厂商均支持
@@ -80,9 +83,10 @@ public class OssClient {
                 return;
             }
             CreateBucketRequest createBucketRequest = new CreateBucketRequest(bucketName);
-            createBucketRequest.setCannedAcl(CannedAccessControlList.PublicRead);
+            AccessPolicyType accessPolicy = getAccessPolicy();
+            createBucketRequest.setCannedAcl(accessPolicy.getAcl());
             client.createBucket(createBucketRequest);
-            client.setBucketPolicy(bucketName, getPolicy(bucketName, PolicyType.READ));
+            client.setBucketPolicy(bucketName, getPolicy(bucketName, accessPolicy.getPolicyType()));
         } catch (Exception e) {
             throw new OssException("创建Bucket失败, 请核对配置信息:[" + e.getMessage() + "]");
         }
@@ -99,7 +103,7 @@ public class OssClient {
             metadata.setContentLength(inputStream.available());
             PutObjectRequest putObjectRequest = new PutObjectRequest(properties.getBucketName(), path, inputStream, metadata);
             // 设置上传对象的 Acl 为公共读
-            putObjectRequest.setCannedAcl(CannedAccessControlList.PublicRead);
+            putObjectRequest.setCannedAcl(getAccessPolicy().getAcl());
             client.putObject(putObjectRequest);
         } catch (Exception e) {
             throw new OssException("上传文件失败，请检查配置信息:[" + e.getMessage() + "]");
@@ -112,7 +116,7 @@ public class OssClient {
         try {
             client.deleteObject(properties.getBucketName(), path);
         } catch (Exception e) {
-            throw new OssException("上传文件失败，请检查配置信息:[" + e.getMessage() + "]");
+            throw new OssException("删除文件失败，请检查配置信息:[" + e.getMessage() + "]");
         }
     }
 
@@ -167,6 +171,25 @@ public class OssClient {
     public String getConfigKey() {
         return configKey;
     }
+
+    public String getPrivateUrl(String objectKey, Integer second) {
+        GeneratePresignedUrlRequest generatePresignedUrlRequest =
+            new GeneratePresignedUrlRequest(properties.getBucketName(), objectKey)
+                .withMethod(HttpMethod.GET)
+                .withExpiration(new Date(System.currentTimeMillis() + 1000L * second));
+        URL url = client.generatePresignedUrl(generatePresignedUrlRequest);
+        return url.toString();
+    }
+
+    /**
+     * 获取当前桶权限类型
+     *
+     * @return 当前桶权限类型code
+     */
+    public AccessPolicyType getAccessPolicy() {
+        return AccessPolicyType.getByType(properties.getAccessPolicy());
+    }
+
 
     private static String getPolicy(String bucketName, PolicyType policyType) {
         StringBuilder builder = new StringBuilder();
