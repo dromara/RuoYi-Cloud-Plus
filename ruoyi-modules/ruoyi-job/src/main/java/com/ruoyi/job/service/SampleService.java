@@ -39,7 +39,6 @@ public class SampleService {
 
         for (int i = 0; i < 5; i++) {
             XxlJobHelper.log("beat at:" + i);
-            TimeUnit.SECONDS.sleep(2);
         }
         // default success
     }
