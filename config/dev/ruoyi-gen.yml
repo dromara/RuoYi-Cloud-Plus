@@ -6,6 +6,7 @@ spring:
       datasource:
         # 主库数据源
         master:
+          type: ${spring.datasource.type}
           driver-class-name: com.mysql.cj.jdbc.Driver
           url: ${datasource.system-master.url}
           username: ${datasource.system-master.username}
@@ -13,6 +14,7 @@ spring:
         # 从库数据源
         #slave:
         #  lazy: true
+        #  type: ${spring.datasource.type}
         #  driver-class-name:
         #  url:
         #  username:

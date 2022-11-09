@@ -6,6 +6,7 @@ spring:
       datasource:
         # 主库数据源
         master:
+          type: ${spring.datasource.type}
           driver-class-name: com.mysql.cj.jdbc.Driver
           url: ${datasource.job.url}
           username: ${datasource.job.username}
