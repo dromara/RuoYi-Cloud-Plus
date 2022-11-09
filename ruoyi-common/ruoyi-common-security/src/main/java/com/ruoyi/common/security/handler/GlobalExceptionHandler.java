@@ -1,6 +1,6 @@
 package com.ruoyi.common.security.handler;
 
-import cn.dev33.satoken.exception.IdTokenInvalidException;
+import cn.dev33.satoken.exception.SameTokenInvalidException;
 import cn.dev33.satoken.exception.NotLoginException;
 import cn.dev33.satoken.exception.NotPermissionException;
 import cn.dev33.satoken.exception.NotRoleException;
@@ -60,8 +60,8 @@ public class GlobalExceptionHandler {
     /**
      * 无效认证
      */
-    @ExceptionHandler(IdTokenInvalidException.class)
-    public R<Void> handleIdTokenInvalidException(IdTokenInvalidException e, HttpServletRequest request) {
+    @ExceptionHandler(SameTokenInvalidException.class)
+    public R<Void> handleSameTokenInvalidException(SameTokenInvalidException e, HttpServletRequest request) {
         String requestURI = request.getRequestURI();
         log.error("请求地址'{}',内网认证失败'{}',无法访问系统资源", requestURI, e.getMessage());
         return R.fail(HttpStatus.UNAUTHORIZED, "认证失败，无法访问系统资源");
