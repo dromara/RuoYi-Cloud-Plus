@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ruoyi.common.core.constant.CacheNames;
 import com.ruoyi.common.core.exception.ServiceException;
 import com.ruoyi.common.core.utils.BeanCopyUtils;
+import com.ruoyi.common.core.utils.SpringUtils;
 import com.ruoyi.common.core.utils.StringUtils;
 import com.ruoyi.common.core.utils.file.FileUtils;
 import com.ruoyi.common.mybatis.core.page.PageQuery;
@@ -90,7 +91,7 @@ public class SysOssServiceImpl implements ISysOssService {
 
     @Override
     public void download(Long ossId, HttpServletResponse response) throws IOException {
-        SysOssVo sysOss = this.getById(ossId);
+        SysOssVo sysOss = SpringUtils.getAopProxy(this).getById(ossId);
         if (ObjectUtil.isNull(sysOss)) {
             throw new ServiceException("文件数据不存在!");
         }
