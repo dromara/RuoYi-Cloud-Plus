@@ -1,8 +1,8 @@
 package com.ruoyi.common.security.config;
 
 import cn.dev33.satoken.filter.SaServletFilter;
-import cn.dev33.satoken.id.SaIdUtil;
 import cn.dev33.satoken.interceptor.SaInterceptor;
+import cn.dev33.satoken.same.SaSameUtil;
 import cn.dev33.satoken.util.SaResult;
 import com.ruoyi.common.core.constant.HttpStatus;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
@@ -35,7 +35,7 @@ public class SecurityConfiguration implements WebMvcConfigurer {
         return new SaServletFilter()
             .addInclude("/**")
             .addExclude("/actuator/**")
-            .setAuth(obj -> SaIdUtil.checkCurrentRequestToken())
+            .setAuth(obj -> SaSameUtil.checkCurrentRequestToken())
             .setError(e -> SaResult.error("认证失败，无法访问系统资源").setCode(HttpStatus.UNAUTHORIZED));
     }
 

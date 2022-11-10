@@ -172,8 +172,8 @@ sa-token:
   activity-timeout: 1800
   # 开启内网服务调用鉴权
   check-same-token: true
-  # Id-Token的有效期 (单位: 秒)
-  id-token-timeout: 600
+  # Same-Token的有效期 (单位: 秒)
+  same-token-timeout: 600
   # 是否允许同一账号并发登录 (为true时允许一起登录, 为false时新登录挤掉旧登录)
   is-concurrent: true
   # 在多人登录同一账号时，是否共用一个token (为true时所有登录共用一个token, 为false时每次登录新建一个token)
