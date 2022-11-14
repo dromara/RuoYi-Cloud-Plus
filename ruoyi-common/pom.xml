@@ -33,6 +33,7 @@
         <module>ruoyi-common-elasticsearch</module>
         <module>ruoyi-common-sentinel</module>
         <module>ruoyi-common-skylog</module>
+        <module>ruoyi-common-prometheus</module>
     </modules>
 
     <artifactId>ruoyi-common</artifactId>
