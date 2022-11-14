@@ -463,3 +463,28 @@ services:
     depends_on:
       - sky-oap
     network_mode: "host"
+
+  prometheus:
+    image: prom/prometheus:v2.40.1
+    container_name: prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - /docker/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    network_mode: "host"
+
+  grafana:
+    image: grafana/grafana:9.2.4
+    container_name: grafana
+    environment:
+      TZ: Asia/Shanghai
+      # 服务地址 用于指定外网ip或域名
+      GF_SERVER_ROOT_URL: ""
+      # admin 管理员密码
+      GF_SECURITY_ADMIN_PASSWORD: 123456
+    ports:
+      - "3000:3000"
+    volumes:
+      - /docker/grafana/grafana.ini:/etc/grafana/grafana.ini
+      - /docker/grafana:/var/lib/grafana
+    network_mode: "host"
