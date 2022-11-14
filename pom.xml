@@ -40,6 +40,7 @@
         <logstash.version>7.1.1</logstash.version>
         <easy-es.version>1.0.3</easy-es.version>
         <elasticsearch.version>7.14.0</elasticsearch.version>
+        <skywalking-toolkit.version>8.13.0</skywalking-toolkit.version>
 
         <!-- 统一 guava 版本 解决隐式漏洞问题 -->
         <guava.version>31.1-jre</guava.version>
@@ -272,6 +273,18 @@
                 <groupId>org.elasticsearch.client</groupId>
                 <artifactId>elasticsearch-rest-high-level-client</artifactId>
                 <version>${elasticsearch.version}</version>
+            </dependency>
+
+            <!-- skywalking 整合 logback -->
+            <dependency>
+                <groupId>org.apache.skywalking</groupId>
+                <artifactId>apm-toolkit-logback-1.x</artifactId>
+                <version>${skywalking-toolkit.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.skywalking</groupId>
+                <artifactId>apm-toolkit-trace</artifactId>
+                <version>${skywalking-toolkit.version}</version>
             </dependency>
 
             <dependency>

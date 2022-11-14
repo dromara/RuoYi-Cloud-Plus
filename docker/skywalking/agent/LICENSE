@@ -216,7 +216,7 @@ The following components are provided under the Apache License. See project link
 The text of each license is the standard Apache 2.0 license.
 
     raphw (byte-buddy) 1.12.13: http://bytebuddy.net/ , Apache 2.0
-    Google: grpc-java 1.44.0: https://github.com/grpc/grpc-java, Apache 2.0
+    Google: grpc-java 1.50.0: https://github.com/grpc/grpc-java, Apache 2.0
     Google: gson 2.8.9: https://github.com/google/gson , Apache 2.0
     Google: proto-google-common-protos 2.0.1: https://github.com/googleapis/googleapis , Apache 2.0
     Google: jsr305 3.0.2: http://central.maven.org/maven2/com/google/code/findbugs/jsr305/3.0.0/jsr305-3.0.0.pom , Apache 2.0
