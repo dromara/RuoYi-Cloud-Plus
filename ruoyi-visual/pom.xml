@@ -37,10 +37,10 @@
 <!--        </dependency>-->
 
         <!-- prometheus 监控 -->
-        <dependency>
-            <groupId>com.ruoyi</groupId>
-            <artifactId>ruoyi-common-prometheus</artifactId>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>com.ruoyi</groupId>-->
+<!--            <artifactId>ruoyi-common-prometheus</artifactId>-->
+<!--        </dependency>-->
     </dependencies>
 
 </project>
