@@ -46,7 +46,7 @@
 | 分布式消息队列      | RabbitMQ                 | [RabbitMQ文档](https://www.rabbitmq.com/)                                                           | 支持各种扩展插件功能多样性                     |
 | 分布式搜索引擎      | ElasticSearch、Easy-Es    | [Easy-Es官网](https://www.easy-es.cn/)                                                              | 以 Mybatis-Plus 方式操作 ElasticSearch |
 | 分布式数据同步(未完成) | Alibaba Canal            | [Alibaba Canal官网](https://github.com/alibaba/canal/wiki)                                          | 采集数据同步各种数据库 ES Redis Mysql        |
-| 分布式链路追踪(未完成) | Apache SkyWalking        | [Apache SkyWalking文档](https://skywalking.apache.org/docs/)                                        | 链路追踪、网格分析、度量聚合、可视化                |
+| 分布式链路追踪      | Apache SkyWalking        | [Apache SkyWalking文档](https://skywalking.apache.org/docs/)                                        | 链路追踪、网格分析、度量聚合、可视化                |
 | 分布式日志中心      | ELK                      | [ElasticSearch官网](https://www.elastic.co/cn/elasticsearch/)                                       | ELK业界成熟解决方案                       |
 | 分布式锁         | Lock4j                   | [Lock4j官网](https://gitee.com/baomidou/lock4j)                                                     | 注解锁、工具锁 多种多样                      |
 | 分布式幂等        | Redisson                 | [Lock4j文档](https://gitee.com/baomidou/lock4j)                                                     | 拦截重复提交                            |
@@ -54,7 +54,7 @@
 | 分布式文件存储      | Minio                    | [Minio文档](https://docs.min.io/)                                                                   | 本地存储                              |
 | 分布式云存储       | 七牛、阿里、腾讯                 | [OSS使用文档](https://gitee.com/JavaLionLi/RuoYi-Vue-Plus/wikis/pages?sort_id=4359146&doc_id=1469725) | 云存储                               |
 | 短信模块         | 阿里、腾讯                    | [短信使用文档](https://gitee.com/JavaLionLi/RuoYi-Vue-Plus/wikis/pages?sort_id=5578491&doc_id=1469725)  | 短信发送                              |
-| 分布式监控(未完成)   | Prometheus、Grafana       | [Prometheus文档](https://prometheus.io/docs/introduction/overview/)                                 | 全方位性能监控                           |
+| 分布式监控        | Prometheus、Grafana       | [Prometheus文档](https://prometheus.io/docs/introduction/overview/)                                 | 全方位性能监控                           |
 | 服务监控         | SpringBoot-Admin         | [SpringBoot-Admin文档](https://codecentric.github.io/spring-boot-admin/current/)                    | 全方位服务监控                           |
 | 数据库框架        | Mybatis-Plus             | [Mybatis-Plus文档](https://baomidou.com/guide/)                                                     | 快速 CRUD 增加开发效率                    |
 | 数据库框架        | P6spy                    | [p6spy官网](https://p6spy.readthedocs.io/)                                                          | 更强劲的 SQL 分析                       |
