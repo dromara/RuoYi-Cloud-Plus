@@ -40,5 +40,11 @@
             <optional>true</optional>
         </dependency>
 
+        <dependency>
+            <groupId>net.dreamlu</groupId>
+            <artifactId>mica-metrics</artifactId>
+            <version>2.7.5</version>
+        </dependency>
+
     </dependencies>
 </project>
