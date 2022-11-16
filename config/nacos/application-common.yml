@@ -186,8 +186,6 @@ sa-token:
   token-prefix: "Bearer"
   # jwt秘钥
   jwt-secret-key: abcdefghijklmnopqrstuvwxyz
-  # 是否输出操作日志
-  is-log: true
 
 # MyBatisPlus配置
 # https://baomidou.com/config/
