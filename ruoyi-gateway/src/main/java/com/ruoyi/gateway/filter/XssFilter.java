@@ -3,6 +3,7 @@ package com.ruoyi.gateway.filter;
 import cn.hutool.http.HtmlUtil;
 import com.ruoyi.common.core.utils.StringUtils;
 import com.ruoyi.gateway.config.properties.XssProperties;
+import com.ruoyi.gateway.utils.WebFluxUtils;
 import io.netty.buffer.ByteBufAllocator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -12,7 +13,6 @@ import org.springframework.core.Ordered;
 import org.springframework.core.io.buffer.*;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpRequestDecorator;
 import org.springframework.stereotype.Component;
@@ -43,7 +43,7 @@ public class XssFilter implements GlobalFilter, Ordered {
             return chain.filter(exchange);
         }
         // 非json类型，不过滤
-        if (!isJsonRequest(exchange)) {
+        if (!WebFluxUtils.isJsonRequest(exchange)) {
             return chain.filter(exchange);
         }
         // excludeUrls 不过滤
@@ -91,16 +91,6 @@ public class XssFilter implements GlobalFilter, Ordered {
 
         };
         return serverHttpRequestDecorator;
-    }
-
-    /**
-     * 是否是Json请求
-     *
-     * @param exchange HTTP请求
-     */
-    public boolean isJsonRequest(ServerWebExchange exchange) {
-        String header = exchange.getRequest().getHeaders().getFirst(HttpHeaders.CONTENT_TYPE);
-        return StringUtils.startsWithIgnoreCase(header, MediaType.APPLICATION_JSON_VALUE);
     }
 
     @Override
