@@ -24,7 +24,7 @@ public class GlobalCacheRequestFilter implements GlobalFilter, Ordered {
         if (method == null || method == HttpMethod.GET || method == HttpMethod.DELETE) {
             return chain.filter(exchange);
         }
-        return ServerWebExchangeUtils.cacheRequestBodyAndRequest(exchange, (serverHttpRequest) -> {
+        return ServerWebExchangeUtils.cacheRequestBody(exchange, (serverHttpRequest) -> {
             if (serverHttpRequest == exchange.getRequest()) {
                 return chain.filter(exchange);
             }
