@@ -1,5 +1,6 @@
 package com.ruoyi.gateway.utils;
 
+import cn.hutool.core.util.ObjectUtil;
 import com.ruoyi.common.core.domain.R;
 import com.ruoyi.common.core.utils.JsonUtils;
 import com.ruoyi.common.core.utils.StringUtils;
@@ -79,7 +80,11 @@ public class WebFluxUtils {
      * @return body
      */
     public static String resolveBodyFromCacheRequest(ServerWebExchange exchange) {
-        DataBuffer buffer = (DataBuffer) exchange.getAttributes().get(ServerWebExchangeUtils.CACHED_REQUEST_BODY_ATTR);
+        Object obj = exchange.getAttributes().get(ServerWebExchangeUtils.CACHED_REQUEST_BODY_ATTR);
+        if (ObjectUtil.isNull(obj)) {
+            return null;
+        }
+        DataBuffer buffer = (DataBuffer) obj;
         CharBuffer charBuffer = StandardCharsets.UTF_8.decode(buffer.asByteBuffer());
         return charBuffer.toString();
     }
