@@ -2,8 +2,7 @@ FROM anapsix/alpine-java:8_server-jre_unlimited
 
 MAINTAINER Lion Li
 
-RUN mkdir -p /ruoyi/sentinel-dashboard \
-    /ruoyi/sentinel-dashboard/logs \
+RUN mkdir -p /ruoyi/sentinel-dashboard/logs \    
     /ruoyi/skywalking/agent
 
 WORKDIR /ruoyi/sentinel-dashboard
