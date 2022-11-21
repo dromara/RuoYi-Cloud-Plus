@@ -2,7 +2,7 @@ FROM anapsix/alpine-java:8_server-jre_unlimited
 
 MAINTAINER Lion Li
 
-RUN mkdir -p /ruoyi/system/logs \    
+RUN mkdir -p /ruoyi/system/logs \
     /ruoyi/system/temp \
     /ruoyi/skywalking/agent
 

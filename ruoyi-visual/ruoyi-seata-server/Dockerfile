@@ -2,7 +2,7 @@ FROM anapsix/alpine-java:8_server-jre_unlimited
 
 MAINTAINER Lion Li
 
-RUN mkdir -p /ruoyi/seata-server/logs \    
+RUN mkdir -p /ruoyi/seata-server/logs \
     /ruoyi/skywalking/agent
 
 WORKDIR /ruoyi/seata-server
