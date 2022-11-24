@@ -148,6 +148,12 @@
                 <version>${satoken.version}</version>
             </dependency>
 
+            <dependency>
+                <groupId>cn.dev33</groupId>
+                <artifactId>sa-token-spring-boot-starter</artifactId>
+                <version>${satoken.version}</version>
+            </dependency>
+
             <!-- Mybatis 依赖配置 -->
             <dependency>
                 <groupId>org.mybatis.spring.boot</groupId>

@@ -44,7 +44,6 @@
         <dependency>
             <groupId>cn.dev33</groupId>
             <artifactId>sa-token-spring-boot-starter</artifactId>
-            <version>${satoken.version}</version>
         </dependency>
 
         <!-- Sa-Token 整合 Dubbo -->

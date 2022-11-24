@@ -18,7 +18,7 @@
 	<dependencies>
         <dependency>
             <groupId>com.ruoyi</groupId>
-            <artifactId>ruoyi-common-security</artifactId>
+            <artifactId>ruoyi-common-satoken</artifactId>
         </dependency>
 
         <dependency>
