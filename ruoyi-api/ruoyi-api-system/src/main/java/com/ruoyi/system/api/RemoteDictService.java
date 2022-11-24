@@ -1,5 +1,9 @@
 package com.ruoyi.system.api;
 
+import com.ruoyi.system.api.domain.SysDictData;
+
+import java.util.List;
+
 /**
  * 字典服务
  *
@@ -8,22 +12,10 @@ package com.ruoyi.system.api;
 public interface RemoteDictService {
 
     /**
-     * 根据字典类型和字典值获取字典标签
+     * 根据字典类型查询字典数据
      *
-     * @param dictType  字典类型
-     * @param dictValue 字典值
-     * @param separator 分隔符
-     * @return 字典标签
+     * @param dictType 字典类型
+     * @return 字典数据集合信息
      */
-    String getDictLabel(String dictType, String dictValue, String separator);
-
-    /**
-     * 根据字典类型和字典标签获取字典值
-     *
-     * @param dictType  字典类型
-     * @param dictLabel 字典标签
-     * @param separator 分隔符
-     * @return 字典值
-     */
-    String getDictValue(String dictType, String dictLabel, String separator);
+    List<SysDictData> selectDictDataByType(String dictType);
 }

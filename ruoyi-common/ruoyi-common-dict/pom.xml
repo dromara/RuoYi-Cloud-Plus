@@ -33,6 +33,10 @@
             <artifactId>dubbo-spring-boot-starter</artifactId>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>cn.dev33</groupId>
+            <artifactId>sa-token-core</artifactId>
+        </dependency>
 
     </dependencies>
 </project>
