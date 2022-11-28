@@ -41,12 +41,6 @@
             <artifactId>velocity-engine-core</artifactId>
         </dependency>
 
-        <!-- Mysql Connector -->
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-        </dependency>
-
         <!-- RuoYi Common Log -->
         <dependency>
             <groupId>com.ruoyi</groupId>
