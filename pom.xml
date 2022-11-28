@@ -17,7 +17,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
-        <spring-boot.version>2.7.5</spring-boot.version>
+        <spring-boot.version>2.7.6</spring-boot.version>
         <spring-cloud.version>2021.0.5</spring-cloud.version>
         <spring-boot-admin.version>2.7.7</spring-boot-admin.version>
         <spring-boot.mybatis>2.2.2</spring-boot.mybatis>
@@ -33,7 +33,7 @@
         <easyexcel.version>3.1.3</easyexcel.version>
         <hutool.version>5.8.10</hutool.version>
         <redisson.version>3.18.0</redisson.version>
-        <lock4j.version>2.2.2</lock4j.version>
+        <lock4j.version>2.2.3</lock4j.version>
         <xxl-job.version>2.3.1</xxl-job.version>
         <satoken.version>1.33.0</satoken.version>
         <lombok.version>1.18.24</lombok.version>
@@ -48,7 +48,7 @@
         <snakeyaml.version>1.32</snakeyaml.version>
 
         <!-- OSS 配置 -->
-        <aws-java-sdk-s3.version>1.12.324</aws-java-sdk-s3.version>
+        <aws-java-sdk-s3.version>1.12.349</aws-java-sdk-s3.version>
         <okhttp.version>4.10.0</okhttp.version>
 
         <!-- SMS 配置 -->
