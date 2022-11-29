@@ -4320,8 +4320,8 @@
         "allValue": "",
         "current": {
           "selected": false,
-          "text": "101.42.248.151:8848",
-          "value": "101.42.248.151:8848"
+          "text": "127.0.0.1:8848",
+          "value": "127.0.0.1:8848"
         },
         "datasource": {
           "type": "prometheus",
