@@ -2,9 +2,9 @@ FROM anapsix/alpine-java:8_server-jre_unlimited
 
 MAINTAINER Lion Li
 
-RUN mkdir -p /ruoyi/system
-RUN mkdir -p /ruoyi/system/logs
-RUN mkdir -p /ruoyi/system/temp
+RUN mkdir -p /ruoyi/system/logs \
+    /ruoyi/system/temp \
+    /ruoyi/skywalking/agent
 
 WORKDIR /ruoyi/system
 
@@ -14,4 +14,9 @@ EXPOSE ${SERVER_PORT}
 
 ADD ./target/ruoyi-system.jar ./app.jar
 
-ENTRYPOINT ["java", "-Djava.security.egd=file:/dev/./urandom", "-Dserver.port=${SERVER_PORT}", "-jar", "app.jar"]
+ENTRYPOINT ["java", \
+            "-Djava.security.egd=file:/dev/./urandom", \
+            "-Dserver.port=${SERVER_PORT}", \
+#            "-Dskywalking.agent.service_name=ruoyi-system", \
+#            "-javaagent:/ruoyi/skywalking/agent/skywalking-agent.jar", \
+            "-jar", "app.jar"]

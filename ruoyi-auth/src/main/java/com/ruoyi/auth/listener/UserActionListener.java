@@ -95,14 +95,28 @@ public class UserActionListener implements SaTokenListener {
      * 每次被封禁时触发
      */
     @Override
-    public void doDisable(String loginType, Object loginId, long disableTime) {
+    public void doDisable(String loginType, Object loginId, String service, int level, long disableTime) {
     }
 
     /**
      * 每次被解封时触发
      */
     @Override
-    public void doUntieDisable(String loginType, Object loginId) {
+    public void doUntieDisable(String loginType, Object loginId, String service) {
+    }
+
+    /**
+     * 每次打开二级认证时触发
+     */
+    @Override
+    public void doOpenSafe(String loginType, String tokenValue, String service, long safeTime) {
+    }
+
+    /**
+     * 每次创建Session时触发
+     */
+    @Override
+    public void doCloseSafe(String loginType, String tokenValue, String service) {
     }
 
     /**
@@ -119,5 +133,11 @@ public class UserActionListener implements SaTokenListener {
     public void doLogoutSession(String id) {
     }
 
+    /**
+     * 每次Token续期时触发
+     */
+    @Override
+    public void doRenewTimeout(String tokenValue, Object loginId, long timeout) {
+    }
 
 }

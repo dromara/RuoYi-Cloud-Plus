@@ -94,7 +94,7 @@ public class RemoteUserServiceImpl implements RemoteUserService {
         if (!("true".equals(configService.selectConfigByKey("sys.account.registerUser")))) {
             throw new ServiceException("当前系统没有开启注册功能");
         }
-        if (UserConstants.NOT_UNIQUE.equals(userService.checkUserNameUnique(username))) {
+        if (UserConstants.NOT_UNIQUE.equals(userService.checkUserNameUnique(sysUser))) {
             throw new UserException("user.register.save.error", username);
         }
         return userService.registerUser(sysUser);

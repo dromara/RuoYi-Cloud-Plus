@@ -95,7 +95,6 @@ public class LogAspect {
             asyncLogService.saveSysLog(operLog);
         } catch (Exception exp) {
             // 记录本地异常日志
-            log.error("==前置通知异常==");
             log.error("异常信息:{}", exp.getMessage());
             exp.printStackTrace();
         }
@@ -137,6 +136,10 @@ public class LogAspect {
         if (HttpMethod.PUT.name().equals(requestMethod) || HttpMethod.POST.name().equals(requestMethod)) {
             String params = argsArrayToString(joinPoint.getArgs());
             operLog.setOperParam(StringUtils.substring(params, 0, 2000));
+        } else {
+            Map<String, String> paramsMap = ServletUtils.getParamMap(ServletUtils.getRequest());
+            MapUtil.removeAny(paramsMap, EXCLUDE_PROPERTIES);
+            operLog.setOperParam(StringUtils.substring(JsonUtils.toJsonString(paramsMap), 0, 2000));
         }
     }
 

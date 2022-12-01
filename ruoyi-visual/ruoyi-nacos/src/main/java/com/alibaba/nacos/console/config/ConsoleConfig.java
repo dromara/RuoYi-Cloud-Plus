@@ -42,10 +42,10 @@ import java.time.ZoneId;
 @EnableScheduling
 @PropertySource("/application.properties")
 public class ConsoleConfig {
-
+    
     @Autowired
     private ControllerMethodsCache methodsCache;
-
+    
     /**
      * Init.
      */
@@ -56,7 +56,7 @@ public class ConsoleConfig {
         methodsCache.initClassMethod("com.alibaba.nacos.config.server.controller");
         methodsCache.initClassMethod("com.alibaba.nacos.console.controller");
     }
-
+    
     @Bean
     public CorsFilter corsFilter() {
         CorsConfiguration config = new CorsConfiguration();
@@ -69,12 +69,12 @@ public class ConsoleConfig {
         source.registerCorsConfiguration("/**", config);
         return new CorsFilter(source);
     }
-
+    
     @Bean
     public XssFilter xssFilter() {
         return new XssFilter();
     }
-
+    
     @Bean
     public Jackson2ObjectMapperBuilderCustomizer jacksonObjectMapperCustomization() {
         return jacksonObjectMapperBuilder -> jacksonObjectMapperBuilder.timeZone(ZoneId.systemDefault().toString());

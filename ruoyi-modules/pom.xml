@@ -4,7 +4,7 @@
     <parent>
         <groupId>com.ruoyi</groupId>
         <artifactId>ruoyi-cloud-plus</artifactId>
-        <version>1.3.0</version>
+        <version>1.4.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -34,6 +34,19 @@
 <!--            <groupId>com.ruoyi</groupId>-->
 <!--            <artifactId>ruoyi-common-logstash</artifactId>-->
 <!--        </dependency>-->
+
+        <!-- skywalking 日志收集 -->
+<!--        <dependency>-->
+<!--            <groupId>com.ruoyi</groupId>-->
+<!--            <artifactId>ruoyi-common-skylog</artifactId>-->
+<!--        </dependency>-->
+
+        <!-- prometheus 监控 -->
+<!--        <dependency>-->
+<!--            <groupId>com.ruoyi</groupId>-->
+<!--            <artifactId>ruoyi-common-prometheus</artifactId>-->
+<!--        </dependency>-->
+
     </dependencies>
 
 </project>

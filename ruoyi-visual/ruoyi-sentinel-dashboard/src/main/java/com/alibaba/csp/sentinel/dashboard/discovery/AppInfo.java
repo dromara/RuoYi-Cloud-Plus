@@ -15,14 +15,10 @@
  */
 package com.alibaba.csp.sentinel.dashboard.discovery;
 
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Iterator;
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
-
 import com.alibaba.csp.sentinel.dashboard.config.DashboardConfig;
+
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class AppInfo {
 
@@ -93,6 +89,12 @@ public class AppInfo {
     public Optional<MachineInfo> getMachine(String ip, int port) {
         return machines.stream()
             .filter(e -> e.getIp().equals(ip) && e.getPort().equals(port))
+            .findFirst();
+    }
+
+    public Optional<MachineInfo> getMachine(String ip) {
+        return machines.stream()
+            .filter(e -> e.getIp().equals(ip))
             .findFirst();
     }
 

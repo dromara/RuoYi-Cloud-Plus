@@ -1,0 +1,38 @@
+spring:
+  datasource:
+    dynamic:
+      # 设置默认的数据源或者数据源组,默认值即为 master
+      primary: master
+      datasource:
+        # 主库数据源
+        master:
+          type: ${spring.datasource.type}
+          driver-class-name: com.mysql.cj.jdbc.Driver
+          url: ${datasource.job.url}
+          username: ${datasource.job.username}
+          password: ${datasource.job.password}
+
+xxl:
+  job:
+    # 执行器开关
+    enabled: true
+    # 调度中心地址：如调度中心集群部署存在多个地址则用逗号分隔。
+    # admin-addresses: http://localhost:9900
+    # 调度中心应用名 通过服务名连接调度中心(启用admin-appname会导致admin-addresses不生效)
+    admin-appname: ruoyi-xxl-job-admin
+    # 执行器通讯TOKEN：非空时启用
+    access-token: xxl-job
+    # 执行器配置
+    executor:
+      # 执行器AppName：执行器心跳注册分组依据；为空则关闭自动注册
+      appname: ${spring.application.name}-executor
+      # 执行器端口号 执行器从19901开始往后写
+      port: 9901
+      # 执行器注册：默认IP:PORT
+      address:
+      # 执行器IP：默认自动获取IP
+      ip:
+      # 执行器运行日志文件存储磁盘路径
+      logpath: ./logs/${spring.application.name}/xxl-job
+      # 执行器日志文件保存天数：大于3生效
+      logretentiondays: 30

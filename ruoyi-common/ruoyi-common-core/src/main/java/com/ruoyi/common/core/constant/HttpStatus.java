@@ -85,4 +85,9 @@ public interface HttpStatus {
      * 接口未实现
      */
     int NOT_IMPLEMENTED = 501;
+
+    /**
+     * 系统警告消息
+     */
+    int WARN = 601;
 }

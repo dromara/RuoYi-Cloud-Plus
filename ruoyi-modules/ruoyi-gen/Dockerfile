@@ -2,7 +2,6 @@ FROM anapsix/alpine-java:8_server-jre_unlimited
 
 MAINTAINER Lion Li
 
-RUN mkdir -p /ruoyi/gen
 RUN mkdir -p /ruoyi/gen/logs
 
 WORKDIR /ruoyi/gen

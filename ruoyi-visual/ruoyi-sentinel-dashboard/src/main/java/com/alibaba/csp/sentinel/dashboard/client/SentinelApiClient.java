@@ -15,28 +15,23 @@
  */
 package com.alibaba.csp.sentinel.dashboard.client;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Optional;
-import java.util.Set;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
-import java.util.stream.Collectors;
-
 import com.alibaba.csp.sentinel.adapter.gateway.common.rule.GatewayFlowRule;
 import com.alibaba.csp.sentinel.command.CommandConstants;
-import com.alibaba.csp.sentinel.config.SentinelConfig;
 import com.alibaba.csp.sentinel.command.vo.NodeVo;
+import com.alibaba.csp.sentinel.config.SentinelConfig;
+import com.alibaba.csp.sentinel.dashboard.datasource.entity.SentinelVersion;
 import com.alibaba.csp.sentinel.dashboard.datasource.entity.gateway.ApiDefinitionEntity;
 import com.alibaba.csp.sentinel.dashboard.datasource.entity.gateway.GatewayFlowRuleEntity;
+import com.alibaba.csp.sentinel.dashboard.datasource.entity.rule.*;
+import com.alibaba.csp.sentinel.dashboard.discovery.AppManagement;
+import com.alibaba.csp.sentinel.dashboard.domain.cluster.ClusterClientInfoVO;
+import com.alibaba.csp.sentinel.dashboard.domain.cluster.config.ClusterClientConfig;
+import com.alibaba.csp.sentinel.dashboard.domain.cluster.config.ServerFlowConfig;
+import com.alibaba.csp.sentinel.dashboard.domain.cluster.config.ServerTransportConfig;
+import com.alibaba.csp.sentinel.dashboard.domain.cluster.state.ClusterServerStateVO;
+import com.alibaba.csp.sentinel.dashboard.domain.cluster.state.ClusterStateSimpleEntity;
 import com.alibaba.csp.sentinel.dashboard.util.AsyncUtils;
+import com.alibaba.csp.sentinel.dashboard.util.VersionUtils;
 import com.alibaba.csp.sentinel.slots.block.Rule;
 import com.alibaba.csp.sentinel.slots.block.authority.AuthorityRule;
 import com.alibaba.csp.sentinel.slots.block.degrade.DegradeRule;
@@ -46,22 +41,6 @@ import com.alibaba.csp.sentinel.slots.system.SystemRule;
 import com.alibaba.csp.sentinel.util.AssertUtil;
 import com.alibaba.csp.sentinel.util.StringUtil;
 import com.alibaba.fastjson.JSON;
-import com.alibaba.csp.sentinel.dashboard.datasource.entity.SentinelVersion;
-import com.alibaba.csp.sentinel.dashboard.datasource.entity.rule.AuthorityRuleEntity;
-import com.alibaba.csp.sentinel.dashboard.datasource.entity.rule.DegradeRuleEntity;
-import com.alibaba.csp.sentinel.dashboard.datasource.entity.rule.FlowRuleEntity;
-import com.alibaba.csp.sentinel.dashboard.datasource.entity.rule.ParamFlowRuleEntity;
-import com.alibaba.csp.sentinel.dashboard.datasource.entity.rule.RuleEntity;
-import com.alibaba.csp.sentinel.dashboard.datasource.entity.rule.SystemRuleEntity;
-import com.alibaba.csp.sentinel.dashboard.discovery.AppManagement;
-import com.alibaba.csp.sentinel.dashboard.domain.cluster.ClusterClientInfoVO;
-import com.alibaba.csp.sentinel.dashboard.domain.cluster.state.ClusterServerStateVO;
-import com.alibaba.csp.sentinel.dashboard.domain.cluster.state.ClusterStateSimpleEntity;
-import com.alibaba.csp.sentinel.dashboard.domain.cluster.config.ClusterClientConfig;
-import com.alibaba.csp.sentinel.dashboard.domain.cluster.config.ServerFlowConfig;
-import com.alibaba.csp.sentinel.dashboard.domain.cluster.config.ServerTransportConfig;
-import com.alibaba.csp.sentinel.dashboard.util.VersionUtils;
-
 import org.apache.http.Consts;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -71,6 +50,7 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.concurrent.FutureCallback;
+import org.apache.http.conn.util.InetAddressUtils;
 import org.apache.http.entity.ContentType;
 import org.apache.http.impl.client.DefaultRedirectStrategy;
 import org.apache.http.impl.nio.client.CloseableHttpAsyncClient;
@@ -83,6 +63,15 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.Charset;
+import java.util.*;
+import java.util.Map.Entry;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+import java.util.stream.Collectors;
 
 /**
  * Communicate with Sentinel client.
@@ -130,7 +119,7 @@ public class SentinelApiClient {
 
     private static final SentinelVersion version160 = new SentinelVersion(1, 6, 0);
     private static final SentinelVersion version171 = new SentinelVersion(1, 7, 1);
-    
+
     @Autowired
     private AppManagement appManagement;
 
@@ -149,11 +138,11 @@ public class SentinelApiClient {
     private boolean isSuccess(int statusCode) {
         return statusCode >= 200 && statusCode < 300;
     }
-    
+
     private boolean isCommandNotFound(int statusCode, String body) {
         return statusCode == 400 && StringUtil.isNotEmpty(body) && body.contains(CommandConstants.MSG_UNKNOWN_COMMAND_PREFIX);
     }
-    
+
     protected boolean isSupportPost(String app, String ip, int port) {
         return StringUtil.isNotEmpty(app) && Optional.ofNullable(appManagement.getDetailApp(app))
                 .flatMap(e -> e.getMachine(ip, port))
@@ -161,11 +150,11 @@ public class SentinelApiClient {
                     .map(v -> v.greaterOrEqual(version160)))
                 .orElse(false);
     }
-    
+
     /**
      * Check whether target instance (identified by tuple of app-ip:port)
      * supports the form of "xxxxx; xx=xx" in "Content-Type" header.
-     * 
+     *
      * @param app target app name
      * @param ip target node's address
      * @param port target node's port
@@ -177,7 +166,7 @@ public class SentinelApiClient {
                     .map(v -> v.greaterOrEqual(version171)))
                 .orElse(false);
     }
-    
+
     private StringBuilder queryString(Map<String, String> params) {
         StringBuilder queryStringBuilder = new StringBuilder();
         for (Entry<String, String> entry : params.entrySet()) {
@@ -195,10 +184,10 @@ public class SentinelApiClient {
         }
         return queryStringBuilder;
     }
-    
+
     /**
      * Build an `HttpUriRequest` in POST way.
-     * 
+     *
      * @param url
      * @param params
      * @param supportEnhancedContentType see {@link #isSupportEnhancedContentType(String, String, int)}
@@ -218,7 +207,7 @@ public class SentinelApiClient {
         }
         return httpPost;
     }
-    
+
     private String urlEncode(String str) {
         try {
             return URLEncoder.encode(str, DEFAULT_CHARSET.name());
@@ -227,7 +216,7 @@ public class SentinelApiClient {
             return null;
         }
     }
-    
+
     private String getBody(HttpResponse response) throws Exception {
         Charset charset = null;
         try {
@@ -240,10 +229,10 @@ public class SentinelApiClient {
         }
         return EntityUtils.toString(response.getEntity(), charset != null ? charset : DEFAULT_CHARSET);
     }
-    
+
     /**
      * With no param
-     * 
+     *
      * @param ip
      * @param port
      * @param api
@@ -252,10 +241,10 @@ public class SentinelApiClient {
     private CompletableFuture<String> executeCommand(String ip, int port, String api, boolean useHttpPost) {
         return executeCommand(ip, port, api, null, useHttpPost);
     }
-    
+
     /**
      * No app specified, force to GET
-     * 
+     *
      * @param ip
      * @param port
      * @param api
@@ -268,7 +257,7 @@ public class SentinelApiClient {
 
     /**
      * Prefer to execute request using POST
-     * 
+     *
      * @param app
      * @param ip
      * @param port
@@ -280,6 +269,14 @@ public class SentinelApiClient {
         CompletableFuture<String> future = new CompletableFuture<>();
         if (StringUtil.isBlank(ip) || StringUtil.isBlank(api)) {
             future.completeExceptionally(new IllegalArgumentException("Bad URL or command name"));
+            return future;
+        }
+        if (!InetAddressUtils.isIPv4Address(ip) && !InetAddressUtils.isIPv6Address(ip)) {
+            future.completeExceptionally(new IllegalArgumentException("Bad IP"));
+            return future;
+        }
+        if (!StringUtil.isEmpty(app) && !appManagement.isValidMachineOfApp(app, ip)) {
+            future.completeExceptionally(new IllegalArgumentException("Given ip does not belong to given app"));
             return future;
         }
         StringBuilder urlBuilder = new StringBuilder();
@@ -305,7 +302,7 @@ public class SentinelApiClient {
                     postRequest(urlBuilder.toString(), params, isSupportEnhancedContentType(app, ip, port)));
         }
     }
-    
+
     private CompletableFuture<String> executeCommand(HttpUriRequest request) {
         CompletableFuture<String> future = new CompletableFuture<>();
         httpClient.execute(request, new FutureCallback<HttpResponse>() {
@@ -343,11 +340,11 @@ public class SentinelApiClient {
         });
         return future;
     }
-    
+
     public void close() throws Exception {
         httpClient.close();
     }
-    
+
     @Nullable
     private <T> CompletableFuture<List<T>> fetchItemsAsync(String ip, int port, String api, String type, Class<T> ruleType) {
         AssertUtil.notEmpty(ip, "Bad machine IP");
@@ -360,7 +357,7 @@ public class SentinelApiClient {
         return executeCommand(ip, port, api, params, false)
                 .thenApply(json -> JSON.parseArray(json, ruleType));
     }
-    
+
     @Nullable
     private <T> List<T> fetchItems(String ip, int port, String api, String type, Class<T> ruleType) {
         try {
@@ -380,11 +377,11 @@ public class SentinelApiClient {
             return null;
         }
     }
-    
+
     private <T extends Rule> List<T> fetchRules(String ip, int port, String type, Class<T> ruleType) {
         return fetchItems(ip, port, GET_RULES_PATH, type, ruleType);
     }
-    
+
     private boolean setRules(String app, String ip, int port, String type, List<? extends RuleEntity> entities) {
         if (entities == null) {
             return true;

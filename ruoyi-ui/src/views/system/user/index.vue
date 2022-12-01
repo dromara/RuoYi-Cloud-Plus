@@ -20,6 +20,7 @@
             :expand-on-click-node="false"
             :filter-node-method="filterNode"
             ref="tree"
+            node-key="id"
             default-expand-all
             highlight-current
             @node-click="handleNodeClick"
@@ -179,9 +180,7 @@
                 v-hasPermi="['system:user:remove']"
               >删除</el-button>
               <el-dropdown size="mini" @command="(command) => handleCommand(command, scope.row)" v-hasPermi="['system:user:resetPwd', 'system:user:edit']">
-                <span class="el-dropdown-link">
-                  <i class="el-icon-d-arrow-right el-icon--right"></i>更多
-                </span>
+                <el-button size="mini" type="text" icon="el-icon-d-arrow-right">更多</el-button>
                 <el-dropdown-menu slot="dropdown">
                   <el-dropdown-item command="handleResetPwd" icon="el-icon-key"
                     v-hasPermi="['system:user:resetPwd']">重置密码</el-dropdown-item>
@@ -576,8 +575,8 @@ export default {
         this.form = response.data.user;
         this.postOptions = response.data.posts;
         this.roleOptions = response.data.roles;
-        this.form.postIds = response.data.postIds;
-        this.form.roleIds = response.data.roleIds;
+        this.$set(this.form, "postIds", response.data.postIds);
+        this.$set(this.form, "roleIds", response.data.roleIds);
         this.open = true;
         this.title = "修改用户";
         this.form.password = "";
@@ -667,4 +666,3 @@ export default {
   }
 };
 </script>
-

@@ -2,7 +2,7 @@ package cn.dev33.satoken.context.dubbo.filter;
 
 import cn.dev33.satoken.SaManager;
 import cn.dev33.satoken.context.SaTokenContextDefaultImpl;
-import cn.dev33.satoken.id.SaIdUtil;
+import cn.dev33.satoken.same.SaSameUtil;
 import cn.dev33.satoken.spring.SaBeanInject;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.dev33.satoken.util.SaTokenConsts;
@@ -29,8 +29,8 @@ public class SaTokenDubboConsumerFilter implements Filter {
         SpringUtils.getBean(SaBeanInject.class);
 
         // 追加 Id-Token 参数
-		if(SaManager.getConfig().getCheckIdToken()) {
-            RpcContext.getServiceContext().setAttachment(SaIdUtil.ID_TOKEN, SaIdUtil.getToken());
+		if(SaManager.getConfig().getCheckSameToken()) {
+            RpcContext.getServiceContext().setAttachment(SaSameUtil.SAME_TOKEN, SaSameUtil.getToken());
 		}
 
 		// 1. 调用前，向下传递会话Token

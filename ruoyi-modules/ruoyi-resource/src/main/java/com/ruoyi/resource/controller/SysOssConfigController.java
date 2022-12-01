@@ -63,7 +63,7 @@ public class SysOssConfigController extends BaseController {
     @Log(title = "对象存储配置", businessType = BusinessType.INSERT)
     @PostMapping()
     public R<Void> add(@Validated(AddGroup.class) @RequestBody SysOssConfigBo bo) {
-        return toAjax(iSysOssConfigService.insertByBo(bo) ? 1 : 0);
+        return toAjax(iSysOssConfigService.insertByBo(bo));
     }
 
     /**
@@ -73,7 +73,7 @@ public class SysOssConfigController extends BaseController {
     @Log(title = "对象存储配置", businessType = BusinessType.UPDATE)
     @PutMapping()
     public R<Void> edit(@Validated(EditGroup.class) @RequestBody SysOssConfigBo bo) {
-        return toAjax(iSysOssConfigService.updateByBo(bo) ? 1 : 0);
+        return toAjax(iSysOssConfigService.updateByBo(bo));
     }
 
     /**
@@ -85,7 +85,7 @@ public class SysOssConfigController extends BaseController {
     @Log(title = "对象存储配置", businessType = BusinessType.DELETE)
     @DeleteMapping("/{ossConfigIds}")
     public R<Void> remove(@NotEmpty(message = "主键不能为空") @PathVariable Long[] ossConfigIds) {
-        return toAjax(iSysOssConfigService.deleteWithValidByIds(Arrays.asList(ossConfigIds), true) ? 1 : 0);
+        return toAjax(iSysOssConfigService.deleteWithValidByIds(Arrays.asList(ossConfigIds), true));
     }
 
     /**

@@ -6,7 +6,7 @@
 
     <groupId>com.ruoyi</groupId>
     <artifactId>ruoyi-common-bom</artifactId>
-    <version>1.3.0</version>
+    <version>1.4.0</version>
     <packaging>pom</packaging>
 
     <description>
@@ -147,6 +147,18 @@
             <dependency>
                 <groupId>com.ruoyi</groupId>
                 <artifactId>ruoyi-common-sentinel</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.ruoyi</groupId>
+                <artifactId>ruoyi-common-skylog</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.ruoyi</groupId>
+                <artifactId>ruoyi-common-prometheus</artifactId>
                 <version>${project.version}</version>
             </dependency>
         </dependencies>

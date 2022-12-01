@@ -1,6 +1,7 @@
 package com.ruoyi.common.core.domain;
 
 import com.ruoyi.common.core.constant.Constants;
+import com.ruoyi.common.core.constant.HttpStatus;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -77,6 +78,27 @@ public class R<T> implements Serializable {
         return restResult(null, code, msg);
     }
 
+    /**
+     * 返回警告消息
+     *
+     * @param msg 返回内容
+     * @return 警告消息
+     */
+    public static <T> R<T> warn(String msg) {
+        return restResult(null, HttpStatus.WARN, msg);
+    }
+
+    /**
+     * 返回警告消息
+     *
+     * @param msg 返回内容
+     * @param data 数据对象
+     * @return 警告消息
+     */
+    public static <T> R<T> warn(String msg, T data) {
+        return restResult(data, HttpStatus.WARN, msg);
+    }
+
     private static <T> R<T> restResult(T data, int code, String msg) {
         R<T> r = new R<>();
         r.setCode(code);
@@ -85,12 +107,12 @@ public class R<T> implements Serializable {
         return r;
     }
 
-    public Boolean isError() {
-        return !isSuccess();
+    public static <T> Boolean isError(R<T> ret) {
+        return !isSuccess(ret);
     }
 
-    public Boolean isSuccess() {
-        return R.SUCCESS == getCode();
+    public static <T> Boolean isSuccess(R<T> ret) {
+        return R.SUCCESS == ret.getCode();
     }
 
 }

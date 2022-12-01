@@ -6,14 +6,14 @@
     <parent>
         <groupId>com.ruoyi</groupId>
         <artifactId>ruoyi-visual</artifactId>
-        <version>1.3.0</version>
+        <version>1.4.0</version>
     </parent>
 
     <artifactId>ruoyi-sentinel-dashboard</artifactId>
     <packaging>jar</packaging>
 
     <properties>
-        <sentinel.version>1.8.5</sentinel.version>
+        <sentinel.version>1.8.6</sentinel.version>
         <curator.version>4.0.1</curator.version>
     </properties>
 

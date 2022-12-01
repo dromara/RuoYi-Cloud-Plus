@@ -1,0 +1,279 @@
+server:
+  # undertow 配置
+  undertow:
+    # HTTP post内容的最大大小。当值为-1时，默认值为大小是无限的
+    max-http-post-size: -1
+    # 以下的配置会影响buffer,这些buffer会用于服务器连接的IO操作,有点类似netty的池化内存管理
+    # 每块buffer的空间大小,越小的空间被利用越充分
+    buffer-size: 512
+    # 是否分配的直接内存
+    direct-buffers: true
+    threads:
+      # 设置IO线程数, 它主要执行非阻塞的任务,它们会负责多个连接, 默认设置每个CPU核心一个线程
+      io: 8
+      # 阻塞任务线程池, 当执行类似servlet请求阻塞操作, undertow会从这个线程池中取得线程,它的值设置取决于系统的负载
+      worker: 256
+
+dubbo:
+  application:
+    logger: slf4j
+    # 元数据中心 local 本地 remote 远程 这里使用远程便于其他服务获取
+    metadataType: remote
+    # 可选值 interface、instance、all，默认是 all，即接口级地址、应用级地址都注册
+    register-mode: instance
+    service-discovery:
+      # FORCE_INTERFACE，只消费接口级地址，如无地址则报错，单订阅 2.x 地址
+      # APPLICATION_FIRST，智能决策接口级/应用级地址，双订阅
+      # FORCE_APPLICATION，只消费应用级地址，如无地址则报错，单订阅 3.x 地址
+      migration: FORCE_APPLICATION
+    qos-enable: false
+  protocol:
+    # 设置为 tri 即可使用 Triple 3.0 新协议
+    # 性能对比 dubbo 协议并没有提升 但基于 http2 用于多语言异构等 http 交互场景
+    # 使用 dubbo 协议通信
+    name: dubbo
+    # dubbo 协议端口(-1表示自增端口,从20880开始)
+    port: -1
+    # 指定dubbo协议注册ip
+    # host: 192.168.0.100
+  # 注册中心配置
+  registry:
+    address: nacos://${spring.cloud.nacos.server-addr}
+    group: DUBBO_GROUP
+    parameters:
+      namespace: ${spring.profiles.active}
+  # 消费者相关配置
+  consumer:
+    # 结果缓存(LRU算法)
+    # 会有数据不一致问题 建议在注解局部开启
+    cache: false
+    # 支持校验注解
+    validation: true
+    # 超时时间
+    timeout: 3000
+    # 初始化检查
+    check: false
+  scan:
+    # 接口实现类扫描
+    base-packages: com.ruoyi.**.dubbo
+  # 自定义配置
+  custom:
+    # 全局请求log
+    request-log: true
+    # info 基础信息 param 参数信息 full 全部
+    log-level: info
+
+spring:
+  # 资源信息
+  messages:
+    # 国际化资源文件路径
+    basename: i18n/messages
+  servlet:
+    multipart:
+      # 整个请求大小限制
+      max-request-size: 20MB
+      # 上传单个文件大小限制
+      max-file-size: 10MB
+  #jackson配置
+  jackson:
+    # 日期格式化
+    date-format: yyyy-MM-dd HH:mm:ss
+    serialization:
+      # 格式化输出
+      INDENT_OUTPUT: false
+      # 忽略无法转换的对象
+      fail_on_empty_beans: false
+    deserialization:
+      # 允许对象忽略json中不存在的属性
+      fail_on_unknown_properties: false
+  cloud:
+    # sentinel 配置
+    sentinel:
+      # sentinel 开关
+      enabled: true
+      # 取消控制台懒加载
+      eager: true
+      transport:
+        # dashboard控制台服务名 用于服务发现
+        # 如无此配置将默认使用下方 dashboard 配置直接注册
+        server-name: ruoyi-sentinel-dashboard
+        # 客户端指定注册的ip 用于多网卡ip不稳点使用
+        # client-ip:
+        # 控制台地址 从1.3.0开始使用 server-name 注册
+        # dashboard: localhost:8718
+
+  # redis通用配置 子服务可以自行配置进行覆盖
+  redis:
+    host: localhost
+    port: 6379
+    # 密码(如没有密码请注释掉)
+    # password:
+    database: 0
+    timeout: 10s
+    ssl: false
+
+# redisson 配置
+redisson:
+  # redis key前缀
+  keyPrefix:
+  # 线程池数量
+  threads: 4
+  # Netty线程池数量
+  nettyThreads: 8
+  # 单节点配置
+  singleServerConfig:
+    # 客户端名称
+    clientName: ${spring.application.name}
+    # 最小空闲连接数
+    connectionMinimumIdleSize: 8
+    # 连接池大小
+    connectionPoolSize: 32
+    # 连接空闲超时，单位：毫秒
+    idleConnectionTimeout: 10000
+    # 命令等待超时，单位：毫秒
+    timeout: 3000
+    # 发布和订阅连接池大小
+    subscriptionConnectionPoolSize: 50
+
+# 分布式锁 lock4j 全局配置
+lock4j:
+  # 获取分布式锁超时时间，默认为 3000 毫秒
+  acquire-timeout: 3000
+  # 分布式锁的超时时间，默认为 30 秒
+  expire: 30000
+
+# 暴露监控端点
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: ALWAYS
+    logfile:
+      external-file: ./logs/${spring.application.name}/console.log
+
+# 日志配置
+logging:
+  level:
+    org.springframework: warn
+    org.apache.dubbo: warn
+    com.alibaba.nacos: warn
+  config: classpath:logback.xml
+
+# Sa-Token配置
+sa-token:
+  # token名称 (同时也是cookie名称)
+  token-name: Authorization
+  # token有效期 设为一天 (必定过期) 单位: 秒
+  timeout: 86400
+  # token临时有效期 (指定时间无操作就过期) 单位: 秒
+  activity-timeout: 1800
+  # 开启内网服务调用鉴权
+  check-same-token: true
+  # Same-Token的有效期 (单位: 秒)
+  same-token-timeout: 600
+  # 是否允许同一账号并发登录 (为true时允许一起登录, 为false时新登录挤掉旧登录)
+  is-concurrent: true
+  # 在多人登录同一账号时，是否共用一个token (为true时所有登录共用一个token, 为false时每次登录新建一个token)
+  is-share: false
+  # 是否尝试从header里读取token
+  is-read-header: true
+  # 是否尝试从cookie里读取token
+  is-read-cookie: false
+  # token前缀
+  token-prefix: "Bearer"
+  # jwt秘钥
+  jwt-secret-key: abcdefghijklmnopqrstuvwxyz
+
+# MyBatisPlus配置
+# https://baomidou.com/config/
+mybatis-plus:
+  # 不支持多包, 如有需要可在注解配置 或 提升扫包等级
+  # 例如 com.**.**.mapper
+  mapperPackage: com.ruoyi.**.mapper
+  # 对应的 XML 文件位置
+  mapperLocations: classpath*:mapper/**/*Mapper.xml
+  # 实体扫描，多个package用逗号或者分号分隔
+  typeAliasesPackage: com.ruoyi.**.domain
+  # 启动时是否检查 MyBatis XML 文件的存在，默认不检查
+  checkConfigLocation: false
+  configuration:
+    # 自动驼峰命名规则（camel case）映射
+    mapUnderscoreToCamelCase: true
+    # MyBatis 自动映射策略
+    # NONE：不启用 PARTIAL：只对非嵌套 resultMap 自动映射 FULL：对所有 resultMap 自动映射
+    autoMappingBehavior: PARTIAL
+    # MyBatis 自动映射时未知列或未知属性处理策
+    # NONE：不做处理 WARNING：打印相关警告 FAILING：抛出异常和详细信息
+    autoMappingUnknownColumnBehavior: NONE
+    # 更详细的日志输出 会有性能损耗 org.apache.ibatis.logging.stdout.StdOutImpl
+    # 关闭日志记录 (可单纯使用 p6spy 分析) org.apache.ibatis.logging.nologging.NoLoggingImpl
+    # 默认日志输出 org.apache.ibatis.logging.slf4j.Slf4jImpl
+    logImpl: org.apache.ibatis.logging.nologging.NoLoggingImpl
+  global-config:
+    # 是否打印 Logo banner
+    banner: true
+    dbConfig:
+      # 主键类型
+      # AUTO 自增 NONE 空 INPUT 用户输入 ASSIGN_ID 雪花 ASSIGN_UUID 唯一 UUID
+      idType: ASSIGN_ID
+      # 逻辑已删除值
+      logicDeleteValue: 2
+      # 逻辑未删除值
+      logicNotDeleteValue: 0
+      insertStrategy: NOT_NULL
+      updateStrategy: NOT_NULL
+      where-strategy: NOT_NULL
+
+# swagger配置
+swagger:
+  # 是否开启swagger
+  enabled: true
+  info:
+    # 标题
+    title: '标题：RuoYi-Cloud-Plus微服务权限管理系统_接口文档'
+    # 描述
+    description: '描述：微服务权限管理系统, 具体包括XXX,XXX模块...'
+    # 版本
+    version: '版本号：系统版本...'
+    # 作者信息
+    contact:
+      name: Lion Li
+      email: crazylionli@163.com
+      url: https://gitee.com/JavaLionLi/RuoYi-Cloud-Plus
+  components:
+    # 鉴权方式配置
+    security-schemes:
+      apiKey:
+        type: APIKEY
+        in: HEADER
+        name: ${sa-token.token-name}
+  # 服务文档路径映射 参考 gateway router 配置
+  # 默认为服务名去除前缀转换为path 此处填特殊的配置
+  service-mapping:
+    ruoyi-gen: /code
+
+# seata配置
+seata:
+  # 默认关闭，如需启用spring.datasource.dynami.seata需要同时开启
+  enabled: true
+  # Seata 应用编号，默认为 ${spring.application.name}
+  application-id: ${spring.application.name}
+  # Seata 事务组编号，用于 TC 集群名
+  tx-service-group: ${spring.application.name}-group
+  config:
+    type: nacos
+    nacos:
+      server-addr: ${spring.cloud.nacos.server-addr}
+      group: ${spring.cloud.nacos.config.group}
+      namespace: ${spring.profiles.active}
+      data-id: seata-server.properties
+  registry:
+    type: nacos
+    nacos:
+      application: ruoyi-seata-server
+      server-addr: ${spring.cloud.nacos.server-addr}
+      group: ${spring.cloud.nacos.discovery.group}
+      namespace: ${spring.profiles.active}
