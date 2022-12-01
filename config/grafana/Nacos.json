@@ -42,8 +42,7 @@
     {
       "collapsed": false,
       "datasource": {
-        "type": "prometheus",
-        "uid": "mK4PV-D4z"
+        "type": "prometheus"
       },
       "gridPos": {
         "h": 1,
@@ -56,8 +55,7 @@
       "targets": [
         {
           "datasource": {
-            "type": "prometheus",
-            "uid": "mK4PV-D4z"
+            "type": "prometheus"
           },
           "refId": "A"
         }
@@ -67,8 +65,7 @@
     },
     {
       "datasource": {
-        "type": "prometheus",
-        "uid": "mK4PV-D4z"
+        "type": "prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -130,8 +127,7 @@
       "targets": [
         {
           "datasource": {
-            "type": "prometheus",
-            "uid": "mK4PV-D4z"
+            "type": "prometheus"
           },
           "expr": "count(nacos_monitor{name=\"configCount\"})",
           "format": "time_series",
@@ -144,8 +140,7 @@
     },
     {
       "datasource": {
-        "type": "prometheus",
-        "uid": "mK4PV-D4z"
+        "type": "prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -207,8 +202,7 @@
       "targets": [
         {
           "datasource": {
-            "type": "prometheus",
-            "uid": "mK4PV-D4z"
+            "type": "prometheus"
           },
           "expr": "max(nacos_monitor{name='serviceCount'})",
           "format": "time_series",
@@ -221,8 +215,7 @@
     },
     {
       "datasource": {
-        "type": "prometheus",
-        "uid": "mK4PV-D4z"
+        "type": "prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -284,8 +277,7 @@
       "targets": [
         {
           "datasource": {
-            "type": "prometheus",
-            "uid": "mK4PV-D4z"
+            "type": "prometheus"
           },
           "expr": "max(nacos_monitor{name='ipCount'})",
           "format": "time_series",
@@ -298,8 +290,7 @@
     },
     {
       "datasource": {
-        "type": "prometheus",
-        "uid": "mK4PV-D4z"
+        "type": "prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -361,8 +352,7 @@
       "targets": [
         {
           "datasource": {
-            "type": "prometheus",
-            "uid": "mK4PV-D4z"
+            "type": "prometheus"
           },
           "expr": "max(nacos_monitor{name='configCount', instance=~'$instance'})",
           "format": "time_series",
@@ -375,8 +365,7 @@
     },
     {
       "datasource": {
-        "type": "prometheus",
-        "uid": "mK4PV-D4z"
+        "type": "prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -438,8 +427,7 @@
       "targets": [
         {
           "datasource": {
-            "type": "prometheus",
-            "uid": "mK4PV-D4z"
+            "type": "prometheus"
           },
           "expr": "sum(nacos_monitor{name='longPolling'})",
           "format": "time_series",
@@ -452,8 +440,7 @@
     },
     {
       "datasource": {
-        "type": "prometheus",
-        "uid": "mK4PV-D4z"
+        "type": "prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -515,8 +502,7 @@
       "targets": [
         {
           "datasource": {
-            "type": "prometheus",
-            "uid": "mK4PV-D4z"
+            "type": "prometheus"
           },
           "expr": "sum(nacos_monitor{name='getConfig', instance=~'$instance'}) by (name)",
           "format": "time_series",
@@ -529,8 +515,7 @@
     },
     {
       "datasource": {
-        "type": "prometheus",
-        "uid": "mK4PV-D4z"
+        "type": "prometheus"
       },
       "gridPos": {
         "h": 3,
@@ -553,8 +538,7 @@
       "targets": [
         {
           "datasource": {
-            "type": "prometheus",
-            "uid": "mK4PV-D4z"
+            "type": "prometheus"
           },
           "refId": "A"
         }
@@ -563,8 +547,7 @@
     },
     {
       "datasource": {
-        "type": "prometheus",
-        "uid": "mK4PV-D4z"
+        "type": "prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -632,8 +615,7 @@
       "targets": [
         {
           "datasource": {
-            "type": "prometheus",
-            "uid": "mK4PV-D4z"
+            "type": "prometheus"
           },
           "expr": "max(system_cpu_usage{instance=~'$instance'}) * 100",
           "format": "time_series",
@@ -648,8 +630,7 @@
     },
     {
       "datasource": {
-        "type": "prometheus",
-        "uid": "mK4PV-D4z"
+        "type": "prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -715,8 +696,7 @@
       "targets": [
         {
           "datasource": {
-            "type": "prometheus",
-            "uid": "mK4PV-D4z"
+            "type": "prometheus"
           },
           "expr": "sum(jvm_memory_used_bytes{area=\"heap\", instance=~'$instance'})/sum(jvm_memory_max_bytes{area=\"heap\", instance=~'$instance'}) * 100",
           "format": "time_series",
@@ -730,8 +710,7 @@
     {
       "dashboardFilter": "",
       "datasource": {
-        "type": "prometheus",
-        "uid": "mK4PV-D4z"
+        "type": "prometheus"
       },
       "gridPos": {
         "h": 16,
@@ -767,8 +746,7 @@
       "targets": [
         {
           "datasource": {
-            "type": "prometheus",
-            "uid": "mK4PV-D4z"
+            "type": "prometheus"
           },
           "refId": "A"
         }
@@ -778,8 +756,7 @@
     },
     {
       "datasource": {
-        "type": "prometheus",
-        "uid": "mK4PV-D4z"
+        "type": "prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -845,8 +822,7 @@
       "targets": [
         {
           "datasource": {
-            "type": "prometheus",
-            "uid": "mK4PV-D4z"
+            "type": "prometheus"
           },
           "expr": "max(jvm_threads_daemon_threads{instance=~'$instance'})",
           "format": "time_series",
@@ -859,8 +835,7 @@
     },
     {
       "datasource": {
-        "type": "prometheus",
-        "uid": "mK4PV-D4z"
+        "type": "prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -926,8 +901,7 @@
       "targets": [
         {
           "datasource": {
-            "type": "prometheus",
-            "uid": "mK4PV-D4z"
+            "type": "prometheus"
           },
           "expr": "max(system_load_average_1m{instance=~'$instance'})",
           "format": "time_series",
@@ -940,8 +914,7 @@
     },
     {
       "datasource": {
-        "type": "prometheus",
-        "uid": "mK4PV-D4z"
+        "type": "prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -1007,8 +980,7 @@
       "targets": [
         {
           "datasource": {
-            "type": "prometheus",
-            "uid": "mK4PV-D4z"
+            "type": "prometheus"
           },
           "expr": "sum(rate(nacos_timer_seconds_sum{instance=~'$instance'}[1m]))/sum(rate(nacos_timer_seconds_count{instance=~'$instance'}[1m])) * 1000",
           "format": "time_series",
@@ -1022,8 +994,7 @@
     },
     {
       "datasource": {
-        "type": "prometheus",
-        "uid": "mK4PV-D4z"
+        "type": "prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -1089,8 +1060,7 @@
       "targets": [
         {
           "datasource": {
-            "type": "prometheus",
-            "uid": "mK4PV-D4z"
+            "type": "prometheus"
           },
           "expr": "sum(rate(http_server_requests_seconds_sum{instance=~'$instance'}[1m]))/sum(rate(http_server_requests_seconds_count{instance=~'$instance'}[1m])) * 1000",
           "format": "time_series",
@@ -1104,8 +1074,7 @@
     },
     {
       "datasource": {
-        "type": "prometheus",
-        "uid": "mK4PV-D4z"
+        "type": "prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -1171,8 +1140,7 @@
       "targets": [
         {
           "datasource": {
-            "type": "prometheus",
-            "uid": "mK4PV-D4z"
+            "type": "prometheus"
           },
           "expr": "sum(rate(http_server_requests_seconds_count{instance=~'$instance'}[1m]))",
           "format": "time_series",
@@ -1186,8 +1154,7 @@
     },
     {
       "datasource": {
-        "type": "prometheus",
-        "uid": "mK4PV-D4z"
+        "type": "prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -1253,8 +1220,7 @@
       "targets": [
         {
           "datasource": {
-            "type": "prometheus",
-            "uid": "mK4PV-D4z"
+            "type": "prometheus"
           },
           "expr": "max(nacos_monitor{name='avgPushCost', instance=~'$instance'})",
           "format": "time_series",
@@ -1268,8 +1234,7 @@
     {
       "collapsed": false,
       "datasource": {
-        "type": "prometheus",
-        "uid": "mK4PV-D4z"
+        "type": "prometheus"
       },
       "gridPos": {
         "h": 1,
@@ -1282,8 +1247,7 @@
       "targets": [
         {
           "datasource": {
-            "type": "prometheus",
-            "uid": "mK4PV-D4z"
+            "type": "prometheus"
           },
           "refId": "A"
         }
@@ -1297,8 +1261,7 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": {
-        "type": "prometheus",
-        "uid": "mK4PV-D4z"
+        "type": "prometheus"
       },
       "fill": 1,
       "fillGradient": 0,
@@ -1338,8 +1301,7 @@
       "targets": [
         {
           "datasource": {
-            "type": "prometheus",
-            "uid": "mK4PV-D4z"
+            "type": "prometheus"
           },
           "expr": "sum(rate(http_server_requests_seconds_sum{uri=~'/v1/cs/configs|/nacos/v1/ns', instance=~'$instance'}[1m])/rate(http_server_requests_seconds_count{uri=~'/v1/cs/configs|/nacos/v1/ns/instance|/nacos/v1/ns/health', instance=~'$instance'}[1m])) by (method,uri) * 1000",
           "format": "time_series",
@@ -1348,8 +1310,7 @@
         },
         {
           "datasource": {
-            "type": "prometheus",
-            "uid": "mK4PV-D4z"
+            "type": "prometheus"
           },
           "expr": "sum(rate(http_server_requests_seconds_sum{instance=~'$instance'}[1m]))/sum(rate(http_server_requests_seconds_count{instance=~'$instance'}[1m])) * 1000",
           "format": "time_series",
@@ -1395,8 +1356,7 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": {
-        "type": "prometheus",
-        "uid": "mK4PV-D4z"
+        "type": "prometheus"
       },
       "fill": 1,
       "fillGradient": 0,
@@ -1438,8 +1398,7 @@
       "targets": [
         {
           "datasource": {
-            "type": "prometheus",
-            "uid": "mK4PV-D4z"
+            "type": "prometheus"
           },
           "expr": "sum(nacos_monitor{name='longPolling', instance=~'$instance'})",
           "format": "time_series",
@@ -1485,8 +1444,7 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": {
-        "type": "prometheus",
-        "uid": "mK4PV-D4z"
+        "type": "prometheus"
       },
       "fill": 1,
       "fillGradient": 0,
@@ -1526,8 +1484,7 @@
       "targets": [
         {
           "datasource": {
-            "type": "prometheus",
-            "uid": "mK4PV-D4z"
+            "type": "prometheus"
           },
           "expr": "max(system_load_average_1m{instance=~'$instance'})",
           "format": "time_series",
@@ -1571,8 +1528,7 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": {
-        "type": "prometheus",
-        "uid": "mK4PV-D4z"
+        "type": "prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -1618,8 +1574,7 @@
       "targets": [
         {
           "datasource": {
-            "type": "prometheus",
-            "uid": "mK4PV-D4z"
+            "type": "prometheus"
           },
           "expr": "sum(rate(http_server_requests_seconds_count{uri=~'/v1/cs/configs|/nacos/v1/ns/instance|/nacos/v1/ns/health', instance=~'$instance'}[1m])) by (method,uri)",
           "format": "time_series",
@@ -1628,8 +1583,7 @@
         },
         {
           "datasource": {
-            "type": "prometheus",
-            "uid": "mK4PV-D4z"
+            "type": "prometheus"
           },
           "expr": "sum(rate(http_server_requests_seconds_count[1m]))",
           "format": "time_series",
@@ -1673,8 +1627,7 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": {
-        "type": "prometheus",
-        "uid": "mK4PV-D4z"
+        "type": "prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -1720,8 +1673,7 @@
       "targets": [
         {
           "datasource": {
-            "type": "prometheus",
-            "uid": "mK4PV-D4z"
+            "type": "prometheus"
           },
           "expr": "sum(nacos_monitor{name='leaderStatus', instance=~'$instance'})",
           "format": "time_series",
@@ -1765,8 +1717,7 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": {
-        "type": "prometheus",
-        "uid": "mK4PV-D4z"
+        "type": "prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -1812,8 +1763,7 @@
       "targets": [
         {
           "datasource": {
-            "type": "prometheus",
-            "uid": "mK4PV-D4z"
+            "type": "prometheus"
           },
           "expr": "sum(nacos_monitor{name='avgPushCost', instance=~'$instance'})",
           "format": "time_series",
@@ -1857,8 +1807,7 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": {
-        "type": "prometheus",
-        "uid": "mK4PV-D4z"
+        "type": "prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -1904,8 +1853,7 @@
       "targets": [
         {
           "datasource": {
-            "type": "prometheus",
-            "uid": "mK4PV-D4z"
+            "type": "prometheus"
           },
           "expr": "max(nacos_monitor{name='maxPushCost', instance=~'$instance'})",
           "format": "time_series",
@@ -1949,8 +1897,7 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": {
-        "type": "prometheus",
-        "uid": "mK4PV-D4z"
+        "type": "prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -1996,8 +1943,7 @@
       "targets": [
         {
           "datasource": {
-            "type": "prometheus",
-            "uid": "mK4PV-D4z"
+            "type": "prometheus"
           },
           "expr": "sum(nacos_monitor{name='publish', instance=~'$instance'}) by (name)",
           "format": "time_series",
@@ -2007,8 +1953,7 @@
         },
         {
           "datasource": {
-            "type": "prometheus",
-            "uid": "mK4PV-D4z"
+            "type": "prometheus"
           },
           "expr": "sum(nacos_monitor{name='getConfig', instance=~'$instance'}) by (name)",
           "format": "time_series",
@@ -2053,8 +1998,7 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": {
-        "type": "prometheus",
-        "uid": "mK4PV-D4z"
+        "type": "prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -2100,8 +2044,7 @@
       "targets": [
         {
           "datasource": {
-            "type": "prometheus",
-            "uid": "mK4PV-D4z"
+            "type": "prometheus"
           },
           "expr": "sum(rate(nacos_monitor{name=~'.*HealthCheck', instance=~'$instance'}[1m])) by (name) * 60",
           "format": "time_series",
@@ -2143,8 +2086,7 @@
     {
       "collapsed": false,
       "datasource": {
-        "type": "prometheus",
-        "uid": "mK4PV-D4z"
+        "type": "prometheus"
       },
       "gridPos": {
         "h": 1,
@@ -2157,8 +2099,7 @@
       "targets": [
         {
           "datasource": {
-            "type": "prometheus",
-            "uid": "mK4PV-D4z"
+            "type": "prometheus"
           },
           "refId": "A"
         }
@@ -2210,8 +2151,7 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": {
-        "type": "prometheus",
-        "uid": "mK4PV-D4z"
+        "type": "prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -2257,8 +2197,7 @@
       "targets": [
         {
           "datasource": {
-            "type": "prometheus",
-            "uid": "mK4PV-D4z"
+            "type": "prometheus"
           },
           "expr": "max(system_cpu_usage) * 100",
           "format": "time_series",
@@ -2343,8 +2282,7 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": {
-        "type": "prometheus",
-        "uid": "mK4PV-D4z"
+        "type": "prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -2390,8 +2328,7 @@
       "targets": [
         {
           "datasource": {
-            "type": "prometheus",
-            "uid": "mK4PV-D4z"
+            "type": "prometheus"
           },
           "expr": "max(system_load_average_1m)",
           "format": "time_series",
@@ -2476,8 +2413,7 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": {
-        "type": "prometheus",
-        "uid": "mK4PV-D4z"
+        "type": "prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -2523,8 +2459,7 @@
       "targets": [
         {
           "datasource": {
-            "type": "prometheus",
-            "uid": "mK4PV-D4z"
+            "type": "prometheus"
           },
           "expr": "sum(jvm_memory_used_bytes{area=\"heap\"})/sum(jvm_memory_max_bytes{area=\"heap\"}) * 100",
           "format": "time_series",
@@ -2609,8 +2544,7 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": {
-        "type": "prometheus",
-        "uid": "mK4PV-D4z"
+        "type": "prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -2656,8 +2590,7 @@
       "targets": [
         {
           "datasource": {
-            "type": "prometheus",
-            "uid": "mK4PV-D4z"
+            "type": "prometheus"
           },
           "expr": "max(jvm_threads_daemon_threads)",
           "format": "time_series",
@@ -2748,8 +2681,7 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": {
-        "type": "prometheus",
-        "uid": "mK4PV-D4z"
+        "type": "prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -2795,8 +2727,7 @@
       "targets": [
         {
           "datasource": {
-            "type": "prometheus",
-            "uid": "mK4PV-D4z"
+            "type": "prometheus"
           },
           "expr": "max(rate(jvm_gc_pause_seconds_count{action=\"end of major GC\"}[5m])) * 300",
           "format": "time_series",
@@ -2881,8 +2812,7 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": {
-        "type": "prometheus",
-        "uid": "mK4PV-D4z"
+        "type": "prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -2928,8 +2858,7 @@
       "targets": [
         {
           "datasource": {
-            "type": "prometheus",
-            "uid": "mK4PV-D4z"
+            "type": "prometheus"
           },
           "expr": "sum(nacos_monitor{name='notifyTask'})",
           "format": "time_series",
@@ -3014,8 +2943,7 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": {
-        "type": "prometheus",
-        "uid": "mK4PV-D4z"
+        "type": "prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -3061,8 +2989,7 @@
       "targets": [
         {
           "datasource": {
-            "type": "prometheus",
-            "uid": "mK4PV-D4z"
+            "type": "prometheus"
           },
           "expr": "sum(rate(http_server_requests_seconds_sum[1m]))/sum(rate(http_server_requests_seconds_count[1m])) * 1000",
           "format": "time_series",
@@ -3148,8 +3075,7 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": {
-        "type": "prometheus",
-        "uid": "mK4PV-D4z"
+        "type": "prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -3196,8 +3122,7 @@
       "targets": [
         {
           "datasource": {
-            "type": "prometheus",
-            "uid": "mK4PV-D4z"
+            "type": "prometheus"
           },
           "expr": "max(nacos_monitor{name='longPolling'})",
           "format": "time_series",
@@ -3284,8 +3209,7 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": {
-        "type": "prometheus",
-        "uid": "mK4PV-D4z"
+        "type": "prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -3331,8 +3255,7 @@
       "targets": [
         {
           "datasource": {
-            "type": "prometheus",
-            "uid": "mK4PV-D4z"
+            "type": "prometheus"
           },
           "expr": "sum(rate(nacos_exception_total{name='unhealth'}[1m])) * 60",
           "format": "time_series",
@@ -3417,8 +3340,7 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": {
-        "type": "prometheus",
-        "uid": "mK4PV-D4z"
+        "type": "prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -3464,8 +3386,7 @@
       "targets": [
         {
           "datasource": {
-            "type": "prometheus",
-            "uid": "mK4PV-D4z"
+            "type": "prometheus"
           },
           "expr": "sum(rate(nacos_exception_total{name='db'}[1m])) * 60",
           "format": "time_series",
@@ -3550,8 +3471,7 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": {
-        "type": "prometheus",
-        "uid": "mK4PV-D4z"
+        "type": "prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -3597,8 +3517,7 @@
       "targets": [
         {
           "datasource": {
-            "type": "prometheus",
-            "uid": "mK4PV-D4z"
+            "type": "prometheus"
           },
           "expr": "sum(nacos_monitor{name='failedPush'})",
           "format": "time_series",
@@ -3683,8 +3602,7 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": {
-        "type": "prometheus",
-        "uid": "mK4PV-D4z"
+        "type": "prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -3730,8 +3648,7 @@
       "targets": [
         {
           "datasource": {
-            "type": "prometheus",
-            "uid": "mK4PV-D4z"
+            "type": "prometheus"
           },
           "expr": "sum(rate(nacos_exception_total{name='illegalArgument'}[1m])) * 60",
           "format": "time_series",
@@ -3816,8 +3733,7 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": {
-        "type": "prometheus",
-        "uid": "mK4PV-D4z"
+        "type": "prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -3863,8 +3779,7 @@
       "targets": [
         {
           "datasource": {
-            "type": "prometheus",
-            "uid": "mK4PV-D4z"
+            "type": "prometheus"
           },
           "expr": "sum(rate(nacos_exception_total{name='disk'}[1m])) * 60",
           "format": "time_series",
@@ -3949,8 +3864,7 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": {
-        "type": "prometheus",
-        "uid": "mK4PV-D4z"
+        "type": "prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -3996,8 +3910,7 @@
       "targets": [
         {
           "datasource": {
-            "type": "prometheus",
-            "uid": "mK4PV-D4z"
+            "type": "prometheus"
           },
           "expr": "sum(rate(nacos_exception_total{name='configNotify'}[1m])) * 60",
           "format": "time_series",
@@ -4082,8 +3995,7 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": {
-        "type": "prometheus",
-        "uid": "mK4PV-D4z"
+        "type": "prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -4129,8 +4041,7 @@
       "targets": [
         {
           "datasource": {
-            "type": "prometheus",
-            "uid": "mK4PV-D4z"
+            "type": "prometheus"
           },
           "expr": "sum(rate(nacos_exception_total{name='leaderSendBeatFailed'}[1m])) * 60",
           "format": "time_series",
@@ -4215,8 +4126,7 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": {
-        "type": "prometheus",
-        "uid": "mK4PV-D4z"
+        "type": "prometheus"
       },
       "fieldConfig": {
         "defaults": {
@@ -4262,8 +4172,7 @@
       "targets": [
         {
           "datasource": {
-            "type": "prometheus",
-            "uid": "mK4PV-D4z"
+            "type": "prometheus"
           },
           "expr": "sum(rate(nacos_exception_total{name='nacos'}[1m])) * 60",
           "format": "time_series",
@@ -4324,8 +4233,7 @@
           "value": "127.0.0.1:8848"
         },
         "datasource": {
-          "type": "prometheus",
-          "uid": "mK4PV-D4z"
+          "type": "prometheus"
         },
         "definition": "label_values(jvm_classes_loaded_classes{job=\"Nacos\"},instance)",
         "hide": 0,
