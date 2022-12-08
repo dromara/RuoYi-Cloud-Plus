@@ -45,6 +45,12 @@
             <artifactId>ruoyi-common-security</artifactId>
         </dependency>
 
+        <!-- RuoYi Common Log -->
+        <dependency>
+            <groupId>com.ruoyi</groupId>
+            <artifactId>ruoyi-common-log</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>com.ruoyi</groupId>
             <artifactId>ruoyi-common-doc</artifactId>
