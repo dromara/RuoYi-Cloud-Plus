@@ -45,7 +45,6 @@
 | 分布式消息队列      | Apache RocketMQ          | [Apache RocketMQ文档](http://rocketmq.apache.org/)                                                   | 高可用功能多样                           |
 | 分布式消息队列      | RabbitMQ                 | [RabbitMQ文档](https://www.rabbitmq.com/)                                                            | 支持各种扩展插件功能多样性                     |
 | 分布式搜索引擎      | ElasticSearch、Easy-Es    | [Easy-Es官网](https://www.easy-es.cn/)                                                               | 以 Mybatis-Plus 方式操作 ElasticSearch |
-| 分布式数据同步(未完成) | Alibaba Canal            | [Alibaba Canal官网](https://github.com/alibaba/canal/wiki)                                           | 采集数据同步各种数据库 ES Redis Mysql        |
 | 分布式链路追踪      | Apache SkyWalking        | [Apache SkyWalking文档](https://skywalking.apache.org/docs/)                                         | 链路追踪、网格分析、度量聚合、可视化                |
 | 分布式日志中心      | ELK                      | [ElasticSearch官网](https://www.elastic.co/cn/elasticsearch/)                                        | ELK业界成熟解决方案                       |
 | 分布式锁         | Lock4j                   | [Lock4j官网](https://gitee.com/baomidou/lock4j)                                                      | 注解锁、工具锁 多种多样                      |
