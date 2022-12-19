@@ -17,7 +17,7 @@
         <spring-cloud-alibaba.version>2021.0.4.0</spring-cloud-alibaba.version>
         <sentinel.version>1.8.6</sentinel.version>
         <seata.version>1.6.0</seata.version>
-        <nacos.client.version>2.1.2</nacos.client.version>
+        <nacos.client.version>2.2.0</nacos.client.version>
         <dubbo.version>3.1.3</dubbo.version>
         <spring.context.support.version>1.0.11</spring.context.support.version>
     </properties>
