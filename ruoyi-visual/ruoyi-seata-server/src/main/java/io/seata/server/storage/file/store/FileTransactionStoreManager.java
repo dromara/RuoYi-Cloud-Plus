@@ -15,6 +15,24 @@
  */
 package io.seata.server.storage.file.store;
 
+import io.seata.common.exception.StoreException;
+import io.seata.common.thread.NamedThreadFactory;
+import io.seata.common.util.CollectionUtils;
+import io.seata.server.session.BranchSession;
+import io.seata.server.session.GlobalSession;
+import io.seata.server.session.SessionCondition;
+import io.seata.server.session.SessionManager;
+import io.seata.server.storage.file.FlushDiskMode;
+import io.seata.server.storage.file.ReloadableStore;
+import io.seata.server.storage.file.TransactionWriteStore;
+import io.seata.server.store.AbstractTransactionStoreManager;
+import io.seata.server.store.SessionStorable;
+import io.seata.server.store.StoreConfig;
+import io.seata.server.store.TransactionStoreManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
@@ -24,31 +42,9 @@ import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.locks.ReentrantLock;
-
-import io.seata.common.exception.StoreException;
-import io.seata.common.thread.NamedThreadFactory;
-import io.seata.common.util.CollectionUtils;
-import io.seata.server.session.BranchSession;
-import io.seata.server.session.GlobalSession;
-import io.seata.server.session.SessionCondition;
-import io.seata.server.session.SessionManager;
-import io.seata.server.store.AbstractTransactionStoreManager;
-import io.seata.server.storage.file.FlushDiskMode;
-import io.seata.server.storage.file.ReloadableStore;
-import io.seata.server.store.SessionStorable;
-import io.seata.server.store.StoreConfig;
-import io.seata.server.store.TransactionStoreManager;
-import io.seata.server.storage.file.TransactionWriteStore;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.slf4j.MDC;
 
 import static io.seata.core.context.RootContext.MDC_KEY_BRANCH_ID;
 
@@ -335,7 +331,9 @@ public class FileTransactionStoreManager extends AbstractTransactionStoreManager
             }
         }
         try {
-            currFileChannel.force(true);
+            if (currFileChannel.isOpen()) {
+                currFileChannel.force(true);
+            }
         } catch (IOException e) {
             LOGGER.error("fileChannel force error: {}", e.getMessage(), e);
         }

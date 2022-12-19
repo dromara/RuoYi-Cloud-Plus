@@ -15,20 +15,16 @@
  */
 package io.seata.server.env;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Map;
-import java.util.Properties;
-
 import io.seata.common.util.CollectionUtils;
 import io.seata.common.util.MapUtil;
 import io.seata.common.util.NumberUtils;
 import io.seata.common.util.StringUtils;
 import org.springframework.util.ResourceUtils;
 import org.yaml.snakeyaml.Yaml;
+
+import java.io.*;
+import java.util.Map;
+import java.util.Properties;
 
 /**
  * @author wang.liang
@@ -54,8 +50,8 @@ public class PortHelper {
      * get config from configFile
      * -Dspring.config.location > classpath:application.properties > classpath:application.yml
      *
-     * @return
-     * @throws IOException
+     * @return the port
+     * @throws IOException the io exception
      */
     public static int getPortFromConfigFile() throws IOException {
 

@@ -16,16 +16,16 @@
 package io.seata.server.console.impl.file;
 
 import io.seata.common.exception.NotSupportYetException;
-import io.seata.server.console.vo.BranchSessionVO;
 import io.seata.console.result.PageResult;
 import io.seata.server.console.service.BranchSessionService;
+import io.seata.server.console.vo.BranchSessionVO;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.stereotype.Component;
 
 /**
  * Branch Session File ServiceImpl
  *
- * @author: zhongxiang.wang
+ * @author zhongxiang.wang
  */
 @Component
 @org.springframework.context.annotation.Configuration

@@ -15,7 +15,6 @@
  */
 package io.seata.server.storage.db.lock;
 
-import javax.sql.DataSource;
 import io.seata.common.executor.Initialize;
 import io.seata.common.loader.EnhancedServiceLoader;
 import io.seata.common.loader.LoadLevel;
@@ -27,6 +26,8 @@ import io.seata.core.store.db.DataSourceProvider;
 import io.seata.server.lock.AbstractLockManager;
 import io.seata.server.session.BranchSession;
 import io.seata.server.session.GlobalSession;
+
+import javax.sql.DataSource;
 
 /**
  * The type db lock manager.

@@ -15,10 +15,6 @@
  */
 package io.seata.server.storage.redis;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
-
 import io.seata.common.exception.RedisException;
 import io.seata.common.util.ConfigTools;
 import io.seata.common.util.StringUtils;
@@ -27,11 +23,11 @@ import io.seata.config.ConfigurationFactory;
 import io.seata.core.constants.ConfigurationKeys;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import redis.clients.jedis.Jedis;
-import redis.clients.jedis.JedisPool;
-import redis.clients.jedis.JedisPoolAbstract;
-import redis.clients.jedis.JedisPoolConfig;
-import redis.clients.jedis.JedisSentinelPool;
+import redis.clients.jedis.*;
+
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * @author funkye
@@ -62,7 +58,7 @@ public class JedisPooledFactory {
 
     /**
      * get the RedisPool instance (singleton)
-     * 
+     *
      * @return redisPool
      */
     public static JedisPoolAbstract getJedisPoolInstance(JedisPoolAbstract... jedisPools) {
@@ -122,7 +118,7 @@ public class JedisPooledFactory {
 
     /**
      * get an instance of Jedis (connection) from the connection pool
-     * 
+     *
      * @return jedis
      */
     public static Jedis getJedisInstance() {

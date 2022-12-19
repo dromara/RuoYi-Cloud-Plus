@@ -15,15 +15,12 @@
  */
 package io.seata.server.console.impl.redis;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
 import io.seata.common.util.CollectionUtils;
 import io.seata.console.result.PageResult;
-import io.seata.server.console.param.GlobalSessionParam;
-import io.seata.server.console.vo.GlobalSessionVO;
 import io.seata.core.model.GlobalStatus;
+import io.seata.server.console.param.GlobalSessionParam;
 import io.seata.server.console.service.GlobalSessionService;
+import io.seata.server.console.vo.GlobalSessionVO;
 import io.seata.server.session.GlobalSession;
 import io.seata.server.session.SessionCondition;
 import io.seata.server.storage.redis.store.RedisTransactionStoreManager;
@@ -31,6 +28,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import static io.seata.common.exception.FrameworkErrorCode.ParameterRequired;
 import static io.seata.common.util.StringUtils.isBlank;
 import static io.seata.common.util.StringUtils.isNotBlank;
@@ -39,8 +41,8 @@ import static io.seata.server.storage.SessionConverter.convertToGlobalSessionVo;
 
 /**
  * Global Session Redis ServiceImpl
- * @author: zhongxiang.wang
- * @author: doubleDimple
+ * @author zhongxiang.wang
+ * @author doubleDimple
  */
 @Component
 @org.springframework.context.annotation.Configuration
