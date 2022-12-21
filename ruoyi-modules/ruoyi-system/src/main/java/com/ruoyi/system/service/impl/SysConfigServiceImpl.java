@@ -117,12 +117,12 @@ public class SysConfigServiceImpl implements ISysConfigService {
     @CachePut(cacheNames = CacheNames.SYS_CONFIG, key = "#config.configKey")
     @Override
     public String updateConfig(SysConfig config) {
-        SysConfig temp = baseMapper.selectById(config.getConfigId());
-        if (!StringUtils.equals(temp.getConfigKey(), config.getConfigKey())) {
-            CacheUtils.evict(CacheNames.SYS_CONFIG, temp.getConfigKey());
-        }
         int row = 0;
         if (config.getConfigId() != null) {
+            SysConfig temp = baseMapper.selectById(config.getConfigId());
+            if (!StringUtils.equals(temp.getConfigKey(), config.getConfigKey())) {
+                CacheUtils.evict(CacheNames.SYS_CONFIG, temp.getConfigKey());
+            }
             row = baseMapper.updateById(config);
         } else {
             row = baseMapper.update(config, new LambdaQueryWrapper<SysConfig>()
