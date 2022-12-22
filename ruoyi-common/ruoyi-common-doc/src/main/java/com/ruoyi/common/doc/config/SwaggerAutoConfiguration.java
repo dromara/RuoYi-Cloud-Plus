@@ -21,10 +21,7 @@ import org.springframework.boot.autoconfigure.web.ServerProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * Swagger 文档配置
@@ -57,8 +54,11 @@ public class SwaggerAutoConfiguration {
         openApi.tags(swaggerProperties.getTags());
         openApi.paths(swaggerProperties.getPaths());
         openApi.components(swaggerProperties.getComponents());
+        Set<String> keySet = swaggerProperties.getComponents().getSecuritySchemes().keySet();
         List<SecurityRequirement> list = new ArrayList<>();
-        list.add(new SecurityRequirement().addList("apikey"));
+        SecurityRequirement securityRequirement = new SecurityRequirement();
+        keySet.forEach(securityRequirement::addList);
+        list.add(securityRequirement);
         openApi.security(list);
 
         return openApi;
