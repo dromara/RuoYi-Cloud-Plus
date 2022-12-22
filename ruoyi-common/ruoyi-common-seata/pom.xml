@@ -15,6 +15,18 @@
         ruoyi-common-seata 分布式事务
     </description>
 
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>io.seata</groupId>
+                <artifactId>seata-dependencies</artifactId>
+                <version>${seata.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
 	<dependencies>
 
         <!-- SpringBoot Seata -->
@@ -48,13 +60,11 @@
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>druid</artifactId>
-            <version>1.2.6</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
-            <version>1.2.83</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>

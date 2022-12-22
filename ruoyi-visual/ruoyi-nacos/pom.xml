@@ -27,7 +27,6 @@
     <packaging>jar</packaging>
 
     <properties>
-        <nacos.version>2.2.0</nacos.version>
         <nacos.lib.path>${project.basedir}/src/main/resources/lib</nacos.lib.path>
     </properties>
 

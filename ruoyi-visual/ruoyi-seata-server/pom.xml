@@ -27,7 +27,6 @@
     <packaging>jar</packaging>
 
     <properties>
-        <seata.version>1.6.0</seata.version>
         <jcommander.version>1.72</jcommander.version>
         <druid.version>1.2.12</druid.version>
     </properties>
