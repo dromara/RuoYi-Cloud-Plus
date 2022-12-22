@@ -44,6 +44,19 @@
             <groupId>net.dreamlu</groupId>
             <artifactId>mica-metrics</artifactId>
             <version>2.7.6</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>net.dreamlu</groupId>
+                    <artifactId>mica-core</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>net.dreamlu</groupId>
+            <artifactId>mica-core</artifactId>
+            <version>2.7.6</version>
+            <scope>provided</scope>
         </dependency>
 
     </dependencies>
