@@ -38,7 +38,7 @@ import javax.sql.DataSource;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static io.seata.core.constants.RedisKeyConstants.DEFAULT_LOG_QUERY_LIMIT;
+import static io.seata.common.DefaultValues.DEFAULT_QUERY_LIMIT;
 
 /**
  * The type Database transaction store manager.
@@ -83,7 +83,7 @@ public class DataBaseTransactionStoreManager extends AbstractTransactionStoreMan
      * Instantiates a new Database transaction store manager.
      */
     private DataBaseTransactionStoreManager() {
-        logQueryLimit = CONFIG.getInt(ConfigurationKeys.STORE_DB_LOG_QUERY_LIMIT, DEFAULT_LOG_QUERY_LIMIT);
+        logQueryLimit = CONFIG.getInt(ConfigurationKeys.STORE_DB_LOG_QUERY_LIMIT, DEFAULT_QUERY_LIMIT);
         String datasourceType = CONFIG.getConfig(ConfigurationKeys.STORE_DB_DATASOURCE_TYPE);
         //init dataSource
         DataSource logStoreDataSource = EnhancedServiceLoader.load(DataSourceProvider.class, datasourceType).provide();

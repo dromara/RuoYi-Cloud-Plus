@@ -47,6 +47,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static io.seata.common.ConfigurationKeys.STORE_REDIS_QUERY_LIMIT;
+import static io.seata.common.DefaultValues.DEFAULT_QUERY_LIMIT;
 import static io.seata.core.constants.RedisKeyConstants.*;
 
 /**
@@ -110,7 +111,7 @@ public class RedisTransactionStoreManager extends AbstractTransactionStoreManage
         super();
         initGlobalMap();
         initBranchMap();
-        logQueryLimit = CONFIG.getInt(STORE_REDIS_QUERY_LIMIT, DEFAULT_LOG_QUERY_LIMIT);
+        logQueryLimit = CONFIG.getInt(STORE_REDIS_QUERY_LIMIT, DEFAULT_QUERY_LIMIT);
     }
 
     /**
