@@ -13,8 +13,8 @@
     <packaging>jar</packaging>
 
     <properties>
+        <sentinel.version>1.8.6</sentinel.version>
         <curator.version>4.0.1</curator.version>
-        <fastjson.version>1.2.83</fastjson.version>
     </properties>
 
     <dependencies>
@@ -94,7 +94,6 @@
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
-            <version>${fastjson.version}</version>
         </dependency>
     </dependencies>
 
