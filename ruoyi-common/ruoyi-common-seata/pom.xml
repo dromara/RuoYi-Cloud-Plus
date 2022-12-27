@@ -17,6 +17,18 @@
 
 	<dependencies>
 
+        <dependency>
+            <groupId>org.apache.dubbo.extensions</groupId>
+            <artifactId>dubbo-filter-seata</artifactId>
+            <version>1.0.1</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>io.seata</groupId>
+                    <artifactId>seata-core</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
         <!-- SpringBoot Seata -->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
@@ -29,6 +41,10 @@
                 <exclusion>
                     <groupId>com.alibaba</groupId>
                     <artifactId>druid</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.apache.dubbo.extensions</groupId>
+                    <artifactId>dubbo-filter-seata</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
