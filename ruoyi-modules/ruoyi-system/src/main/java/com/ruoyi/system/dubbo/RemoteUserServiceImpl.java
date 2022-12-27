@@ -2,6 +2,7 @@ package com.ruoyi.system.dubbo;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.ObjectUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.ruoyi.common.core.constant.UserConstants;
 import com.ruoyi.common.core.enums.UserStatus;
 import com.ruoyi.common.core.exception.ServiceException;
@@ -11,6 +12,7 @@ import com.ruoyi.system.api.domain.SysUser;
 import com.ruoyi.system.api.model.LoginUser;
 import com.ruoyi.system.api.model.RoleDTO;
 import com.ruoyi.system.api.model.XcxLoginUser;
+import com.ruoyi.system.mapper.SysUserMapper;
 import com.ruoyi.system.service.ISysConfigService;
 import com.ruoyi.system.service.ISysPermissionService;
 import com.ruoyi.system.service.ISysUserService;
@@ -33,37 +35,36 @@ public class RemoteUserServiceImpl implements RemoteUserService {
     private final ISysUserService userService;
     private final ISysPermissionService permissionService;
     private final ISysConfigService configService;
+    private final SysUserMapper userMapper;
 
     @Override
     public LoginUser getUserInfo(String username) throws UserException {
-        SysUser sysUser = userService.selectUserByUserName(username);
+        SysUser sysUser = userMapper.selectOne(new LambdaQueryWrapper<SysUser>()
+                .select(SysUser::getUserName, SysUser::getStatus)
+                .eq(SysUser::getUserName, username));
         if (ObjectUtil.isNull(sysUser)) {
             throw new UserException("user.not.exists", username);
-        }
-        if (UserStatus.DELETED.getCode().equals(sysUser.getDelFlag())) {
-            throw new UserException("user.password.delete", username);
         }
         if (UserStatus.DISABLE.getCode().equals(sysUser.getStatus())) {
             throw new UserException("user.blocked", username);
         }
         // 此处可根据登录用户的数据不同 自行创建 loginUser
-        return buildLoginUser(sysUser);
+        return buildLoginUser(userMapper.selectUserByUserName(username));
     }
 
     @Override
     public LoginUser getUserInfoByPhonenumber(String phonenumber) throws UserException {
-        SysUser sysUser = userService.selectUserByPhonenumber(phonenumber);
+        SysUser sysUser = userMapper.selectOne(new LambdaQueryWrapper<SysUser>()
+                .select(SysUser::getPhonenumber, SysUser::getStatus)
+                .eq(SysUser::getPhonenumber, phonenumber));
         if (ObjectUtil.isNull(sysUser)) {
             throw new UserException("user.not.exists", phonenumber);
-        }
-        if (UserStatus.DELETED.getCode().equals(sysUser.getDelFlag())) {
-            throw new UserException("user.password.delete", phonenumber);
         }
         if (UserStatus.DISABLE.getCode().equals(sysUser.getStatus())) {
             throw new UserException("user.blocked", phonenumber);
         }
         // 此处可根据登录用户的数据不同 自行创建 loginUser
-        return buildLoginUser(sysUser);
+        return buildLoginUser(userMapper.selectUserByPhonenumber(phonenumber));
     }
 
     @Override
@@ -72,9 +73,6 @@ public class RemoteUserServiceImpl implements RemoteUserService {
         SysUser sysUser = new SysUser();
         if (ObjectUtil.isNull(sysUser)) {
             // todo 用户不存在 业务逻辑自行实现
-        }
-        if (UserStatus.DELETED.getCode().equals(sysUser.getDelFlag())) {
-            // todo 用户已被删除 业务逻辑自行实现
         }
         if (UserStatus.DISABLE.getCode().equals(sysUser.getStatus())) {
             // todo 用户已被停用 业务逻辑自行实现
