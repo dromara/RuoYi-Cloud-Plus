@@ -15,6 +15,7 @@ import com.ruoyi.common.core.utils.StreamUtils;
 import com.ruoyi.common.core.utils.StringUtils;
 import com.ruoyi.common.mybatis.core.page.PageQuery;
 import com.ruoyi.common.mybatis.core.page.TableDataInfo;
+import com.ruoyi.common.mybatis.helper.DataBaseHelper;
 import com.ruoyi.common.satoken.utils.LoginHelper;
 import com.ruoyi.system.api.domain.SysDept;
 import com.ruoyi.system.api.domain.SysRole;
@@ -82,7 +83,7 @@ public class SysUserServiceImpl implements ISysUserService {
             .and(ObjectUtil.isNotNull(user.getDeptId()), w -> {
                 List<SysDept> deptList = deptMapper.selectList(new LambdaQueryWrapper<SysDept>()
                     .select(SysDept::getDeptId)
-                    .apply("find_in_set({0},ancestors) <> 0", user.getDeptId()));
+                    .apply(DataBaseHelper.findInSet(user.getDeptId(), "ancestors")));
                 List<Long> ids = StreamUtils.toList(deptList, SysDept::getDeptId);
                 ids.add(user.getDeptId());
                 w.in("u.dept_id", ids);

@@ -4,6 +4,7 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.convert.Convert;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.ruoyi.common.core.utils.StreamUtils;
+import com.ruoyi.common.mybatis.helper.DataBaseHelper;
 import com.ruoyi.system.api.RemoteDataScopeService;
 import com.ruoyi.system.api.domain.SysDept;
 import com.ruoyi.system.domain.SysRoleDept;
@@ -47,7 +48,7 @@ public class RemoteDataScopeServiceImpl implements RemoteDataScopeService {
     public String getDeptAndChild(Long deptId) {
         List<SysDept> deptList = deptMapper.selectList(new LambdaQueryWrapper<SysDept>()
             .select(SysDept::getDeptId)
-            .apply("find_in_set({0},ancestors) <> 0", deptId));
+            .apply(DataBaseHelper.findInSet(deptId, "ancestors")));
         List<Long> ids = StreamUtils.toList(deptList, SysDept::getDeptId);
         ids.add(deptId);
         List<SysDept> list = deptMapper.selectList(new LambdaQueryWrapper<SysDept>()

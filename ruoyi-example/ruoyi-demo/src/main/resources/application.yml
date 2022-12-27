@@ -41,10 +41,25 @@ spring:
       datasource:
         # 主库数据源
         master:
+          type: ${spring.datasource.type}
           driver-class-name: com.mysql.cj.jdbc.Driver
           url: ${datasource.system-master.url}
           username: ${datasource.system-master.username}
           password: ${datasource.system-master.password}
+#        oracle:
+#          type: ${spring.datasource.type}
+#          driverClassName: oracle.jdbc.OracleDriver
+#          url: ${datasource.system-oracle.url}
+#          username: ${datasource.system-oracle.username}
+#          password: ${datasource.system-oracle.password}
+#          hikari:
+#            connectionTestQuery: SELECT 1 FROM DUAL
+#        postgres:
+#          type: ${spring.datasource.type}
+#          driverClassName: org.postgresql.Driver
+#          url: ${datasource.system-postgres.url}
+#          username: ${datasource.system-postgres.url}
+#          password: ${datasource.system-postgres.url}
 
 --- # elasticsearch 功能配置
 # 文档地址: https://www.easy-es.cn/
