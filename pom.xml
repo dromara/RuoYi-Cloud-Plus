@@ -30,14 +30,14 @@
         <springdoc.version>1.6.14</springdoc.version>
         <poi.version>5.2.3</poi.version>
         <easyexcel.version>3.1.4</easyexcel.version>
-        <hutool.version>5.8.10</hutool.version>
+        <hutool.version>5.8.11</hutool.version>
         <redisson.version>3.19.0</redisson.version>
         <lock4j.version>2.2.3</lock4j.version>
         <xxl-job.version>2.3.1</xxl-job.version>
         <satoken.version>1.33.0</satoken.version>
         <lombok.version>1.18.24</lombok.version>
         <logstash.version>7.1.1</logstash.version>
-        <easy-es.version>1.1.0</easy-es.version>
+        <easy-es.version>1.1.1</easy-es.version>
         <elasticsearch.version>7.14.0</elasticsearch.version>
         <skywalking-toolkit.version>8.13.0</skywalking-toolkit.version>
 
@@ -47,12 +47,12 @@
         <fastjson.version>1.2.83</fastjson.version>
 
         <!-- OSS 配置 -->
-        <aws-java-sdk-s3.version>1.12.349</aws-java-sdk-s3.version>
+        <aws-java-sdk-s3.version>1.12.373</aws-java-sdk-s3.version>
         <okhttp.version>4.10.0</okhttp.version>
 
         <!-- SMS 配置 -->
-        <aliyun.sms.version>2.0.22</aliyun.sms.version>
-        <tencent.sms.version>3.1.635</tencent.sms.version>
+        <aliyun.sms.version>2.0.23</aliyun.sms.version>
+        <tencent.sms.version>3.1.660</tencent.sms.version>
     </properties>
 
     <profiles>
