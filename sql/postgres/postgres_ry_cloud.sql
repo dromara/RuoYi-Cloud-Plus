@@ -250,30 +250,27 @@ insert into sys_menu values('2', '系统监控', '0', '2', 'monitor',          n
 insert into sys_menu values('3', '系统工具', '0', '3', 'tool',             null, '', '1', '0', 'M', '0', '0', '', 'tool',     'admin', now(), '', null, '系统工具目录');
 insert into sys_menu values('4', 'PLUS官网', '0', '4', 'https://gitee.com/JavaLionLi/RuoYi-Cloud-Plus', null, '', '0', '0', 'M', '0', '0', '', 'guide',    'admin', now(), '', null, 'RuoYi-Cloud-Plus官网地址');
 -- 二级菜单
-insert into sys_menu values('100',  '用户管理', '1',   '1', 'user',       'system/user/index',        '', '1', '0', 'C', '0', '0', 'system:user:list',        'user',          'admin', now(), '', null, '用户管理菜单');
-insert into sys_menu values('101',  '角色管理', '1',   '2', 'role',       'system/role/index',        '', '1', '0', 'C', '0', '0', 'system:role:list',        'peoples',       'admin', now(), '', null, '角色管理菜单');
-insert into sys_menu values('102',  '菜单管理', '1',   '3', 'menu',       'system/menu/index',        '', '1', '0', 'C', '0', '0', 'system:menu:list',        'tree-table',    'admin', now(), '', null, '菜单管理菜单');
-insert into sys_menu values('103',  '部门管理', '1',   '4', 'dept',       'system/dept/index',        '', '1', '0', 'C', '0', '0', 'system:dept:list',        'tree',          'admin', now(), '', null, '部门管理菜单');
-insert into sys_menu values('104',  '岗位管理', '1',   '5', 'post',       'system/post/index',        '', '1', '0', 'C', '0', '0', 'system:post:list',        'post',          'admin', now(), '', null, '岗位管理菜单');
-insert into sys_menu values('105',  '字典管理', '1',   '6', 'dict',       'system/dict/index',        '', '1', '0', 'C', '0', '0', 'system:dict:list',        'dict',          'admin', now(), '', null, '字典管理菜单');
-insert into sys_menu values('106',  '参数设置', '1',   '7', 'config',     'system/config/index',      '', '1', '0', 'C', '0', '0', 'system:config:list',      'edit',          'admin', now(), '', null, '参数设置菜单');
-insert into sys_menu values('107',  '通知公告', '1',   '8', 'notice',     'system/notice/index',      '', '1', '0', 'C', '0', '0', 'system:notice:list',      'message',       'admin', now(), '', null, '通知公告菜单');
-insert into sys_menu values('108',  '日志管理', '1',   '9', 'log',        '',                         '', '1', '0', 'M', '0', '0', '',                        'log',           'admin', now(), '', null, '日志管理菜单');
-insert into sys_menu values('109',  '在线用户', '2',   '1', 'online',     'monitor/online/index',     '', '1', '0', 'C', '0', '0', 'monitor:online:list',     'online',        'admin', now(), '', null, '在线用户菜单');
-insert into sys_menu values('112',  '缓存列表', '2',   '6', 'cacheList',  'monitor/cache/list',       '', '1', '0', 'C', '0', '0', 'monitor:cache:list',      'redis-list',    'admin', now(), '', null, '缓存列表菜单');
-insert into sys_menu values('113',  '缓存监控', '2',   '5', 'cache',      'monitor/cache/index',      '', '1', '0', 'C', '0', '0', 'monitor:cache:list',      'redis',         'admin', now(), '', null, '缓存监控菜单');
-insert into sys_menu values('114',  '表单构建', '3',   '1', 'build',      'tool/build/index',         '', '1', '0', 'C', '0', '0', 'tool:build:list',         'build',         'admin', now(), '', null, '表单构建菜单');
-insert into sys_menu values('115',  '代码生成', '3',   '2', 'gen',        'tool/gen/index',           '', '1', '0', 'C', '0', '0', 'tool:gen:list',           'code',          'admin', now(), '', null, '代码生成菜单');
--- springboot-admin监控
-insert into sys_menu values('117',  'Admin监控', '2',  '5', 'Admin',      'monitor/admin/index',      '', '1', '0', 'C', '0', '0', 'monitor:admin:list',      'dashboard',     'admin', now(), '', null, 'Admin监控菜单');
+insert into sys_menu values('100',  '用户管理',         '1',   '1', 'user',       'system/user/index',        '', '1', '0', 'C', '0', '0', 'system:user:list',        'user',          'admin', now(), '', null, '用户管理菜单');
+insert into sys_menu values('101',  '角色管理',         '1',   '2', 'role',       'system/role/index',        '', '1', '0', 'C', '0', '0', 'system:role:list',        'peoples',       'admin', now(), '', null, '角色管理菜单');
+insert into sys_menu values('102',  '菜单管理',         '1',   '3', 'menu',       'system/menu/index',        '', '1', '0', 'C', '0', '0', 'system:menu:list',        'tree-table',    'admin', now(), '', null, '菜单管理菜单');
+insert into sys_menu values('103',  '部门管理',         '1',   '4', 'dept',       'system/dept/index',        '', '1', '0', 'C', '0', '0', 'system:dept:list',        'tree',          'admin', now(), '', null, '部门管理菜单');
+insert into sys_menu values('104',  '岗位管理',         '1',   '5', 'post',       'system/post/index',        '', '1', '0', 'C', '0', '0', 'system:post:list',        'post',          'admin', now(), '', null, '岗位管理菜单');
+insert into sys_menu values('105',  '字典管理',         '1',   '6', 'dict',       'system/dict/index',        '', '1', '0', 'C', '0', '0', 'system:dict:list',        'dict',          'admin', now(), '', null, '字典管理菜单');
+insert into sys_menu values('106',  '参数设置',         '1',   '7', 'config',     'system/config/index',      '', '1', '0', 'C', '0', '0', 'system:config:list',      'edit',          'admin', now(), '', null, '参数设置菜单');
+insert into sys_menu values('107',  '通知公告',         '1',   '8', 'notice',     'system/notice/index',      '', '1', '0', 'C', '0', '0', 'system:notice:list',      'message',       'admin', now(), '', null, '通知公告菜单');
+insert into sys_menu values('108',  '日志管理',         '1',   '9', 'log',        '',                         '', '1', '0', 'M', '0', '0', '',                        'log',           'admin', now(), '', null, '日志管理菜单');
+insert into sys_menu values('109',  '在线用户',         '2',   '1', 'online',     'monitor/online/index',     '', '1', '0', 'C', '0', '0', 'monitor:online:list',     'online',        'admin', now(), '', null, '在线用户菜单');
+insert into sys_menu values('110',  'XxlJob控制台',     '2',   '2', 'http://localhost:9900',        '',       '', '0', '0', 'C', '0', '0', 'monitor:job:list',        'job',           'admin', now(), '', null, '定时任务菜单');
+insert into sys_menu values('111',  'Sentinel控制台',   '2',   '3', 'http://localhost:8718',        '',       '', '0', '0', 'C', '0', '0', 'monitor:sentinel:list',   'sentinel',      'admin', now(), '', null, '流量控制菜单');
+insert into sys_menu values('112',  'Nacos控制台',      '2',   '4', 'http://localhost:8848/nacos',  '',       '', '0', '0', 'C', '0', '0', 'monitor:nacos:list',      'nacos',         'admin', now(), '', null, '服务治理菜单');
+insert into sys_menu values('113',  'Admin控制台',      '2',   '5', 'http://localhost:9100/login',  '',       '', '0', '0', 'C', '0', '0', 'monitor:server:list',     'server',        'admin', now(), '', null, '服务监控菜单');
+insert into sys_menu values('114',  '表单构建',         '3',   '1', 'build',      'tool/build/index',         '', '1', '0', 'C', '0', '0', 'tool:build:list',         'build',         'admin', now(), '', null, '表单构建菜单');
+insert into sys_menu values('115',  '代码生成',         '3',   '2', 'gen',        'tool/gen/index',           '', '1', '0', 'C', '0', '0', 'tool:gen:list',           'code',          'admin', now(), '', null, '代码生成菜单');
 -- oss菜单
-insert into sys_menu values('118',  '文件管理', '1', '10', 'oss', 'system/oss/index', '', '1', '0', 'C', '0', '0', 'system:oss:list', 'upload', 'admin', now(), '', null, '文件管理菜单');
--- xxl-job-admin控制台
-insert into sys_menu values('120',  '任务调度中心', '2',  '5', 'XxlJob',      'monitor/xxljob/index',      '', '1', '0', 'C', '0', '0', 'monitor:xxljob:list',      'job',     'admin', now(), '', null, 'Xxl-Job控制台菜单');
-
+insert into sys_menu values('118',  '文件管理',         '1',   '10', 'oss',       'system/oss/index',         '', '1', '0', 'C', '0', '0', 'system:oss:list',         'upload',        'admin', now(), '', null, '文件管理菜单');
 -- 三级菜单
-insert into sys_menu values('500',  '操作日志', '108', '1', 'operlog',    'monitor/operlog/index',    '', '1', '0', 'C', '0', '0', 'monitor:operlog:list',    'form',          'admin', now(), '', null, '操作日志菜单');
-insert into sys_menu values('501',  '登录日志', '108', '2', 'logininfor', 'monitor/logininfor/index', '', '1', '0', 'C', '0', '0', 'monitor:logininfor:list', 'logininfor',    'admin', now(), '', null, '登录日志菜单');
+insert into sys_menu values('500',  '操作日志',         '108', '1', 'operlog',    'system/operlog/index',     '', '1', '0', 'C', '0', '0', 'system:operlog:list',     'form',          'admin', now(), '', null, '操作日志菜单');
+insert into sys_menu values('501',  '登录日志',         '108', '2', 'logininfor', 'system/logininfor/index',  '', '1', '0', 'C', '0', '0', 'system:logininfor:list',  'logininfor',    'admin', now(), '', null, '登录日志菜单');
 -- 用户管理按钮
 insert into sys_menu values('1001', '用户查询', '100', '1',  '', '', '', '1', '0', 'F', '0', '0', 'system:user:query',          '#', 'admin', now(), '', null, '');
 insert into sys_menu values('1002', '用户新增', '100', '2',  '', '', '', '1', '0', 'F', '0', '0', 'system:user:add',            '#', 'admin', now(), '', null, '');
@@ -322,14 +319,14 @@ insert into sys_menu values('1037', '公告新增', '107', '2', '#', '', '', '1'
 insert into sys_menu values('1038', '公告修改', '107', '3', '#', '', '', '1', '0', 'F', '0', '0', 'system:notice:edit',         '#', 'admin', now(), '', null, '');
 insert into sys_menu values('1039', '公告删除', '107', '4', '#', '', '', '1', '0', 'F', '0', '0', 'system:notice:remove',       '#', 'admin', now(), '', null, '');
 -- 操作日志按钮
-insert into sys_menu values('1040', '操作查询', '500', '1', '#', '', '', '1', '0', 'F', '0', '0', 'monitor:operlog:query',      '#', 'admin', now(), '', null, '');
-insert into sys_menu values('1041', '操作删除', '500', '2', '#', '', '', '1', '0', 'F', '0', '0', 'monitor:operlog:remove',     '#', 'admin', now(), '', null, '');
-insert into sys_menu values('1042', '日志导出', '500', '4', '#', '', '', '1', '0', 'F', '0', '0', 'monitor:operlog:export',     '#', 'admin', now(), '', null, '');
+insert into sys_menu values('1040', '操作查询', '500', '1', '#', '', '', '1', '0', 'F', '0', '0', 'system:operlog:query',      '#', 'admin', now(), '', null, '');
+insert into sys_menu values('1041', '操作删除', '500', '2', '#', '', '', '1', '0', 'F', '0', '0', 'system:operlog:remove',     '#', 'admin', now(), '', null, '');
+insert into sys_menu values('1042', '日志导出', '500', '4', '#', '', '', '1', '0', 'F', '0', '0', 'system:operlog:export',     '#', 'admin', now(), '', null, '');
 -- 登录日志按钮
-insert into sys_menu values('1043', '登录查询', '501', '1', '#', '', '', '1', '0', 'F', '0', '0', 'monitor:logininfor:query',   '#', 'admin', now(), '', null, '');
-insert into sys_menu values('1044', '登录删除', '501', '2', '#', '', '', '1', '0', 'F', '0', '0', 'monitor:logininfor:remove',  '#', 'admin', now(), '', null, '');
-insert into sys_menu values('1045', '日志导出', '501', '3', '#', '', '', '1', '0', 'F', '0', '0', 'monitor:logininfor:export',  '#', 'admin', now(), '', null, '');
-insert into sys_menu values('1050', '账户解锁', '501', '4', '#', '', '', '1', '0', 'F', '0', '0', 'monitor:logininfor:unlock',  '#', 'admin', now(), '', null, '');
+insert into sys_menu values('1043', '登录查询', '501', '1', '#', '', '', '1', '0', 'F', '0', '0', 'system:logininfor:query',   '#', 'admin', now(), '', null, '');
+insert into sys_menu values('1044', '登录删除', '501', '2', '#', '', '', '1', '0', 'F', '0', '0', 'system:logininfor:remove',  '#', 'admin', now(), '', null, '');
+insert into sys_menu values('1045', '日志导出', '501', '3', '#', '', '', '1', '0', 'F', '0', '0', 'system:logininfor:export',  '#', 'admin', now(), '', null, '');
+insert into sys_menu values('1050', '账户解锁', '501', '4', '#', '', '', '1', '0', 'F', '0', '0', 'system:logininfor:unlock',  '#', 'admin', now(), '', null, '');
 -- 在线用户按钮
 insert into sys_menu values('1046', '在线查询', '109', '1', '#', '', '', '1', '0', 'F', '0', '0', 'monitor:online:query',       '#', 'admin', now(), '', null, '');
 insert into sys_menu values('1047', '批量强退', '109', '2', '#', '', '', '1', '0', 'F', '0', '0', 'monitor:online:batchLogout', '#', 'admin', now(), '', null, '');
@@ -716,12 +713,9 @@ create table if not exists sys_logininfor
     info_id        int8,
     user_name      varchar(50)  default ''::varchar,
     ipaddr         varchar(128) default ''::varchar,
-    login_location varchar(255) default ''::varchar,
-    browser        varchar(50)  default ''::varchar,
-    os             varchar(50)  default ''::varchar,
     status         char         default '0'::bpchar,
     msg            varchar(255) default ''::varchar,
-    login_time     timestamp,
+    access_time    timestamp,
     constraint sys_logininfor_pk primary key (info_id)
 );
 
@@ -729,12 +723,9 @@ comment on table sys_logininfor is '系统访问记录';
 comment on column sys_logininfor.info_id is '访问ID';
 comment on column sys_logininfor.user_name is '用户账号';
 comment on column sys_logininfor.ipaddr is '登录IP地址';
-comment on column sys_logininfor.login_location is '登录地点';
-comment on column sys_logininfor.browser is '浏览器类型';
-comment on column sys_logininfor.os is '操作系统';
 comment on column sys_logininfor.status is '登录状态（0成功 1失败）';
 comment on column sys_logininfor.msg is '提示消息';
-comment on column sys_logininfor.login_time is '访问时间';
+comment on column sys_logininfor.access_time is '访问时间';
 
 -- ----------------------------
 -- 17、通知公告表

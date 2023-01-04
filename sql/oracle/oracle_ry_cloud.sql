@@ -264,11 +264,10 @@ insert into sys_menu values('113',  'Admin控制台',      '2',   '5', 'http://l
 insert into sys_menu values('114',  '表单构建',         '3',   '1', 'build',      'tool/build/index',         '', 1, 0, 'C', '0', '0', 'tool:build:list',         'build',         'admin', sysdate, '', null, '表单构建菜单');
 insert into sys_menu values('115',  '代码生成',         '3',   '2', 'gen',        'tool/gen/index',           '', 1, 0, 'C', '0', '0', 'tool:gen:list',           'code',          'admin', sysdate, '', null, '代码生成菜单');
 -- oss菜单
-insert into sys_menu values('118',  '文件管理', '1', '10', 'oss', 'system/oss/index', '', 1, 0, 'C', '0', '0', 'system:oss:list', 'upload', 'admin', sysdate, '', null, '文件管理菜单');
-
+insert into sys_menu values('118',  '文件管理',         '1',   '10', 'oss',       'system/oss/index',         '', 1, 0, 'C', '0', '0', 'system:oss:list',         'upload',        'admin', sysdate, '', null, '文件管理菜单');
 -- 三级菜单
-insert into sys_menu values('500',  '操作日志', '108', '1', 'operlog',    'monitor/operlog/index',    '', 1, 0, 'C', '0', '0', 'monitor:operlog:list',    'form',          'admin', sysdate, '', null, '操作日志菜单');
-insert into sys_menu values('501',  '登录日志', '108', '2', 'logininfor', 'monitor/logininfor/index', '', 1, 0, 'C', '0', '0', 'monitor:logininfor:list', 'logininfor',    'admin', sysdate, '', null, '登录日志菜单');
+insert into sys_menu values('500',  '操作日志',         '108', '1', 'operlog',    'system/operlog/index',     '', 1, 0, 'C', '0', '0', 'system:operlog:list',     'form',          'admin', sysdate, '', null, '操作日志菜单');
+insert into sys_menu values('501',  '登录日志',         '108', '2', 'logininfor', 'system/logininfor/index',  '', 1, 0, 'C', '0', '0', 'system:logininfor:list',  'logininfor',    'admin', sysdate, '', null, '登录日志菜单');
 -- 用户管理按钮
 insert into sys_menu values('1001', '用户查询', '100', '1',  '', '', '', 1, 0, 'F', '0', '0', 'system:user:query',          '#', 'admin', sysdate, '', null, '');
 insert into sys_menu values('1002', '用户新增', '100', '2',  '', '', '', 1, 0, 'F', '0', '0', 'system:user:add',            '#', 'admin', sysdate, '', null, '');
@@ -317,14 +316,14 @@ insert into sys_menu values('1037', '公告新增', '107', '2', '#', '', '', 1, 
 insert into sys_menu values('1038', '公告修改', '107', '3', '#', '', '', 1, 0, 'F', '0', '0', 'system:notice:edit',         '#', 'admin', sysdate, '', null, '');
 insert into sys_menu values('1039', '公告删除', '107', '4', '#', '', '', 1, 0, 'F', '0', '0', 'system:notice:remove',       '#', 'admin', sysdate, '', null, '');
 -- 操作日志按钮
-insert into sys_menu values('1040', '操作查询', '500', '1', '#', '', '', 1, 0, 'F', '0', '0', 'monitor:operlog:query',      '#', 'admin', sysdate, '', null, '');
-insert into sys_menu values('1041', '操作删除', '500', '2', '#', '', '', 1, 0, 'F', '0', '0', 'monitor:operlog:remove',     '#', 'admin', sysdate, '', null, '');
-insert into sys_menu values('1042', '日志导出', '500', '4', '#', '', '', 1, 0, 'F', '0', '0', 'monitor:operlog:export',     '#', 'admin', sysdate, '', null, '');
+insert into sys_menu values('1040', '操作查询', '500', '1', '#', '', '', 1, 0, 'F', '0', '0', 'system:operlog:query',      '#', 'admin', sysdate, '', null, '');
+insert into sys_menu values('1041', '操作删除', '500', '2', '#', '', '', 1, 0, 'F', '0', '0', 'system:operlog:remove',     '#', 'admin', sysdate, '', null, '');
+insert into sys_menu values('1042', '日志导出', '500', '4', '#', '', '', 1, 0, 'F', '0', '0', 'system:operlog:export',     '#', 'admin', sysdate, '', null, '');
 -- 登录日志按钮
-insert into sys_menu values('1043', '登录查询', '501', '1', '#', '', '', 1, 0, 'F', '0', '0', 'monitor:logininfor:query',   '#', 'admin', sysdate, '', null, '');
-insert into sys_menu values('1044', '登录删除', '501', '2', '#', '', '', 1, 0, 'F', '0', '0', 'monitor:logininfor:remove',  '#', 'admin', sysdate, '', null, '');
-insert into sys_menu values('1045', '日志导出', '501', '3', '#', '', '', 1, 0, 'F', '0', '0', 'monitor:logininfor:export',  '#', 'admin', sysdate, '', null, '');
-insert into sys_menu values('1050', '账户解锁', '501', '4', '#', '', '', 1, 0, 'F', '0', '0', 'monitor:logininfor:unlock',  '#', 'admin', sysdate, '', null, '');
+insert into sys_menu values('1043', '登录查询', '501', '1', '#', '', '', 1, 0, 'F', '0', '0', 'system:logininfor:query',   '#', 'admin', sysdate, '', null, '');
+insert into sys_menu values('1044', '登录删除', '501', '2', '#', '', '', 1, 0, 'F', '0', '0', 'system:logininfor:remove',  '#', 'admin', sysdate, '', null, '');
+insert into sys_menu values('1045', '日志导出', '501', '3', '#', '', '', 1, 0, 'F', '0', '0', 'system:logininfor:export',  '#', 'admin', sysdate, '', null, '');
+insert into sys_menu values('1050', '账户解锁', '501', '4', '#', '', '', 1, 0, 'F', '0', '0', 'system:logininfor:unlock',  '#', 'admin', sysdate, '', null, '');
 -- 在线用户按钮
 insert into sys_menu values('1046', '在线查询', '109', '1', '#', '', '', 1, 0, 'F', '0', '0', 'monitor:online:query',       '#', 'admin', sysdate, '', null, '');
 insert into sys_menu values('1047', '批量强退', '109', '2', '#', '', '', 1, 0, 'F', '0', '0', 'monitor:online:batchLogout', '#', 'admin', sysdate, '', null, '');
@@ -702,12 +701,9 @@ create table sys_logininfor (
   info_id         number(20)     not null,
   user_name       varchar2(50)   default '',
   ipaddr          varchar2(128)  default '',
-  login_location  varchar2(255)  default '',
-  browser         varchar2(50)   default '',
-  os              varchar2(50)   default '',
   status          char(1)        default '0',
   msg             varchar2(255)  default '',
-  login_time      date
+  access_time     date
 );
 
 alter table sys_logininfor add constraint pk_sys_logininfor primary key (info_id);
@@ -716,12 +712,9 @@ comment on table  sys_logininfor                is '系统访问记录';
 comment on column sys_logininfor.info_id        is '访问ID';
 comment on column sys_logininfor.user_name      is '登录账号';
 comment on column sys_logininfor.ipaddr         is '登录IP地址';
-comment on column sys_logininfor.login_location is '登录地点';
-comment on column sys_logininfor.browser        is '浏览器类型';
-comment on column sys_logininfor.os             is '操作系统';
 comment on column sys_logininfor.status         is '登录状态（0成功 1失败）';
 comment on column sys_logininfor.msg            is '提示消息';
-comment on column sys_logininfor.login_time     is '访问时间';
+comment on column sys_logininfor.access_time    is '访问时间';
 
 
 -- ----------------------------
