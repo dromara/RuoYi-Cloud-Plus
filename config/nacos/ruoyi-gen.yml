@@ -23,8 +23,8 @@ spring:
 #          type: ${spring.datasource.type}
 #          driverClassName: org.postgresql.Driver
 #          url: ${datasource.system-postgres.url}
-#          username: ${datasource.system-postgres.url}
-#          password: ${datasource.system-postgres.url}
+#          username: ${datasource.system-postgres.username}
+#          password: ${datasource.system-postgres.password}
 
 # 代码生成
 gen:
