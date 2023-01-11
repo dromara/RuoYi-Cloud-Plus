@@ -34,7 +34,7 @@
         <redisson.version>3.19.1</redisson.version>
         <lock4j.version>2.2.3</lock4j.version>
         <xxl-job.version>2.3.1</xxl-job.version>
-        <satoken.version>1.33.0</satoken.version>
+        <satoken.version>1.34.0</satoken.version>
         <lombok.version>1.18.24</lombok.version>
         <logstash.version>7.1.1</logstash.version>
         <easy-es.version>1.1.1</easy-es.version>
