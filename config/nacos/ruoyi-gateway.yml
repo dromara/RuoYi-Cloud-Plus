@@ -97,4 +97,4 @@ spring:
             groupId: ${spring.cloud.nacos.config.group}
             namespace: ${spring.profiles.active}
             data-type: json
-            rule-type: flow
+            rule-type: gw-flow
