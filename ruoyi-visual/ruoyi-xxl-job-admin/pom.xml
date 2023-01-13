@@ -4,25 +4,10 @@
 	<parent>
 		<groupId>com.ruoyi</groupId>
 		<artifactId>ruoyi-visual</artifactId>
-		<version>1.4.0</version>
+		<version>1.5.0</version>
 	</parent>
 	<artifactId>ruoyi-xxl-job-admin</artifactId>
 	<packaging>jar</packaging>
-
-	<properties>
-	</properties>
-
-	<dependencyManagement>
-		<dependencies>
-			<dependency>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-starter-parent</artifactId>
-				<version>${spring-boot.version}</version>
-				<type>pom</type>
-				<scope>import</scope>
-			</dependency>
-		</dependencies>
-	</dependencyManagement>
 
 	<dependencies>
 		<!-- SpringCloud Alibaba Nacos -->

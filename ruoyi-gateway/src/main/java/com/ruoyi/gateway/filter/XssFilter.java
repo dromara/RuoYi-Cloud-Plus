@@ -95,6 +95,6 @@ public class XssFilter implements GlobalFilter, Ordered {
 
     @Override
     public int getOrder() {
-        return -100;
+        return Ordered.HIGHEST_PRECEDENCE;
     }
 }

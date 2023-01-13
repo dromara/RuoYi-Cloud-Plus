@@ -15,24 +15,21 @@
  */
 package io.seata.server.storage;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.Collections;
 import io.seata.common.util.CollectionUtils;
 import io.seata.common.util.StringUtils;
-import io.seata.server.console.vo.BranchSessionVO;
-import io.seata.server.console.vo.GlobalSessionVO;
 import io.seata.core.model.BranchStatus;
 import io.seata.core.model.BranchType;
 import io.seata.core.model.GlobalStatus;
 import io.seata.core.store.BranchTransactionDO;
 import io.seata.core.store.GlobalTransactionDO;
+import io.seata.server.console.vo.BranchSessionVO;
+import io.seata.server.console.vo.GlobalSessionVO;
 import io.seata.server.session.BranchSession;
 import io.seata.server.session.GlobalSession;
 import io.seata.server.store.SessionStorable;
 import org.springframework.beans.BeanUtils;
+
+import java.util.*;
 
 /**
  * The session converter

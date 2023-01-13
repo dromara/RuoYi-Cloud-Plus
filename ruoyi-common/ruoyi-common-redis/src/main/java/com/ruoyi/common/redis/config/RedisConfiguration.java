@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cache.CacheManager;
-import org.springframework.cache.annotation.CachingConfigurerSupport;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 
@@ -25,7 +24,7 @@ import org.springframework.context.annotation.Bean;
 @AutoConfiguration
 @EnableCaching
 @EnableConfigurationProperties(RedissonProperties.class)
-public class RedisConfiguration extends CachingConfigurerSupport {
+public class RedisConfiguration {
 
     @Autowired
     private RedissonProperties redissonProperties;

@@ -15,19 +15,6 @@
  */
 package io.seata.server.storage.file.session;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.Arrays;
-import java.util.Objects;
-import java.util.concurrent.ConcurrentHashMap;
-
 import io.seata.common.exception.ShouldNeverHappenException;
 import io.seata.common.loader.LoadLevel;
 import io.seata.common.loader.Scope;
@@ -37,17 +24,20 @@ import io.seata.config.ConfigurationFactory;
 import io.seata.core.constants.ConfigurationKeys;
 import io.seata.core.exception.TransactionException;
 import io.seata.core.model.GlobalStatus;
-import io.seata.server.session.AbstractSessionManager;
-import io.seata.server.session.BranchSession;
-import io.seata.server.session.GlobalSession;
-import io.seata.server.session.Reloadable;
-import io.seata.server.session.SessionCondition;
+import io.seata.server.session.*;
 import io.seata.server.storage.file.ReloadableStore;
 import io.seata.server.storage.file.TransactionWriteStore;
 import io.seata.server.storage.file.store.FileTransactionStoreManager;
 import io.seata.server.store.AbstractTransactionStoreManager;
 import io.seata.server.store.SessionStorable;
 import io.seata.server.store.TransactionStoreManager;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+
+import static io.seata.common.DefaultValues.DEFAULT_SERVICE_SESSION_RELOAD_READ_SIZE;
 
 
 /**
@@ -59,7 +49,7 @@ import io.seata.server.store.TransactionStoreManager;
 public class FileSessionManager extends AbstractSessionManager implements Reloadable {
 
     private static final int READ_SIZE = ConfigurationFactory.getInstance().getInt(
-        ConfigurationKeys.SERVICE_SESSION_RELOAD_READ_SIZE, 100);
+        ConfigurationKeys.SERVICE_SESSION_RELOAD_READ_SIZE, DEFAULT_SERVICE_SESSION_RELOAD_READ_SIZE);
     /**
      * The Session map.
      */

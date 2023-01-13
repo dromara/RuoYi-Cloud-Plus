@@ -15,12 +15,13 @@ import com.ruoyi.common.core.exception.user.CaptchaExpireException;
 import com.ruoyi.common.core.exception.user.UserException;
 import com.ruoyi.common.core.utils.MessageUtils;
 import com.ruoyi.common.core.utils.ServletUtils;
+import com.ruoyi.common.core.utils.SpringUtils;
 import com.ruoyi.common.core.utils.StringUtils;
+import com.ruoyi.common.log.event.LogininforEvent;
 import com.ruoyi.common.redis.utils.RedisUtils;
 import com.ruoyi.common.satoken.utils.LoginHelper;
 import com.ruoyi.system.api.RemoteLogService;
 import com.ruoyi.system.api.RemoteUserService;
-import com.ruoyi.system.api.domain.SysLogininfor;
 import com.ruoyi.system.api.domain.SysUser;
 import com.ruoyi.system.api.model.LoginUser;
 import com.ruoyi.system.api.model.XcxLoginUser;
@@ -128,7 +129,7 @@ public class SysLoginService {
      * @return
      */
     public void recordLogininfor(String username, String status, String message) {
-        SysLogininfor logininfor = new SysLogininfor();
+        LogininforEvent logininfor = new LogininforEvent();
         logininfor.setUserName(username);
         logininfor.setIpaddr(ServletUtils.getClientIP());
         logininfor.setMsg(message);
@@ -138,7 +139,7 @@ public class SysLoginService {
         } else if (Constants.LOGIN_FAIL.equals(status)) {
             logininfor.setStatus(Constants.LOGIN_FAIL_STATUS);
         }
-        remoteLogService.saveLogininfor(logininfor);
+        SpringUtils.context().publishEvent(logininfor);
     }
 
     /**

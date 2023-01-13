@@ -15,10 +15,6 @@
  */
 package io.seata.server.storage.redis;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
-
 import io.seata.common.exception.RedisException;
 import io.seata.common.util.ConfigTools;
 import io.seata.common.util.StringUtils;
@@ -27,11 +23,13 @@ import io.seata.config.ConfigurationFactory;
 import io.seata.core.constants.ConfigurationKeys;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import redis.clients.jedis.Jedis;
-import redis.clients.jedis.JedisPool;
-import redis.clients.jedis.JedisPoolAbstract;
-import redis.clients.jedis.JedisPoolConfig;
-import redis.clients.jedis.JedisSentinelPool;
+import redis.clients.jedis.*;
+
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
+import static io.seata.common.DefaultValues.*;
 
 /**
  * @author funkye
@@ -47,13 +45,6 @@ public class JedisPooledFactory {
     private static final String HOST = "127.0.0.1";
 
     private static final int PORT = 6379;
-
-    private static final int MINCONN = 1;
-
-    private static final int MAXCONN = 10;
-
-    private static final int MAXTOTAL = 100;
-
     private static final int DATABASE = 0;
 
     private static final int SENTINEL_HOST_NUMBER = 3;
@@ -62,7 +53,7 @@ public class JedisPooledFactory {
 
     /**
      * get the RedisPool instance (singleton)
-     * 
+     *
      * @return redisPool
      */
     public static JedisPoolAbstract getJedisPoolInstance(JedisPoolAbstract... jedisPools) {
@@ -87,9 +78,11 @@ public class JedisPooledFactory {
                             }
                         }
                         JedisPoolConfig poolConfig = new JedisPoolConfig();
-                        poolConfig.setMinIdle(CONFIGURATION.getInt(ConfigurationKeys.STORE_REDIS_MIN_CONN, MINCONN));
-                        poolConfig.setMaxIdle(CONFIGURATION.getInt(ConfigurationKeys.STORE_REDIS_MAX_CONN, MAXCONN));
-                        poolConfig.setMaxTotal(CONFIGURATION.getInt(ConfigurationKeys.STORE_REDIS_MAX_TOTAL, MAXTOTAL));
+                        poolConfig.setMinIdle(CONFIGURATION.getInt(ConfigurationKeys.STORE_REDIS_MIN_CONN,
+                            DEFAULT_REDIS_MIN_IDLE));
+                        poolConfig.setMaxIdle(CONFIGURATION.getInt(ConfigurationKeys.STORE_REDIS_MAX_CONN,
+                            DEFAULT_REDIS_MAX_IDLE));
+                        poolConfig.setMaxTotal(CONFIGURATION.getInt(ConfigurationKeys.STORE_REDIS_MAX_TOTAL, DEFAULT_REDIS_MAX_TOTAL));
                         String mode = CONFIGURATION.getConfig(ConfigurationKeys.STORE_REDIS_MODE,ConfigurationKeys.REDIS_SINGLE_MODE);
                         if (mode.equals(ConfigurationKeys.REDIS_SENTINEL_MODE)) {
                             String masterName = CONFIGURATION.getConfig(ConfigurationKeys.STORE_REDIS_SENTINEL_MASTERNAME);
@@ -122,7 +115,7 @@ public class JedisPooledFactory {
 
     /**
      * get an instance of Jedis (connection) from the connection pool
-     * 
+     *
      * @return jedis
      */
     public static Jedis getJedisInstance() {

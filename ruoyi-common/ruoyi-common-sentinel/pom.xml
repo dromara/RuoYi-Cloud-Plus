@@ -4,7 +4,7 @@
     <parent>
         <groupId>com.ruoyi</groupId>
         <artifactId>ruoyi-common</artifactId>
-        <version>1.4.0</version>
+        <version>1.5.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -20,6 +20,7 @@
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-sentinel</artifactId>
         </dependency>
+
         <!-- Sentinel Datasource Nacos -->
         <dependency>
             <groupId>com.alibaba.csp</groupId>

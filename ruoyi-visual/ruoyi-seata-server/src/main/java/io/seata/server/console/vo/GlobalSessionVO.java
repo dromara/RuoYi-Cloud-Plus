@@ -15,16 +15,16 @@
  */
 package io.seata.server.console.vo;
 
+import io.seata.core.constants.ServerTableColumnsName;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.Set;
 
-import io.seata.core.constants.ServerTableColumnsName;
-
 /**
  * GlobalSessionVO
- * @author: zhongxiang.wang
+ * @author zhongxiang.wang
  */
 public class GlobalSessionVO {
 

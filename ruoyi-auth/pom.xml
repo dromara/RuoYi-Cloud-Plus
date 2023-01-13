@@ -4,7 +4,7 @@
     <parent>
         <groupId>com.ruoyi</groupId>
         <artifactId>ruoyi-cloud-plus</artifactId>
-        <version>1.4.0</version>
+        <version>1.5.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -28,12 +28,6 @@
             <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
         </dependency>
 
-        <!-- SpringBoot Actuator -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-actuator</artifactId>
-        </dependency>
-
         <dependency>
             <groupId>com.ruoyi</groupId>
             <artifactId>ruoyi-common-sentinel</artifactId>
@@ -43,6 +37,12 @@
         <dependency>
             <groupId>com.ruoyi</groupId>
             <artifactId>ruoyi-common-security</artifactId>
+        </dependency>
+
+        <!-- RuoYi Common Log -->
+        <dependency>
+            <groupId>com.ruoyi</groupId>
+            <artifactId>ruoyi-common-log</artifactId>
         </dependency>
 
         <dependency>

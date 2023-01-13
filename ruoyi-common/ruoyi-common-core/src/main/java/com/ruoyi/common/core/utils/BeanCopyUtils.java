@@ -12,6 +12,7 @@ import org.springframework.cglib.beans.BeanCopier;
 import org.springframework.cglib.beans.BeanMap;
 import org.springframework.cglib.core.Converter;
 
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -129,6 +130,25 @@ public class BeanCopyUtils {
         }
         BeanMap.create(bean).putAll(map);
         return bean;
+    }
+
+    /**
+     * map拷贝到map
+     *
+     * @param map   数据来源
+     * @param clazz 返回的对象类型
+     * @return map对象
+     */
+    public static <T, V> Map<String, V> mapToMap(Map<String, T> map, Class<V> clazz) {
+        if (MapUtil.isEmpty(map)) {
+            return null;
+        }
+        if (ObjectUtil.isNull(clazz)) {
+            return null;
+        }
+        Map<String, V> copyMap = new LinkedHashMap<>(map.size());
+        map.forEach((k, v) -> copyMap.put(k, copy(v, clazz)));
+        return copyMap;
     }
 
     /**

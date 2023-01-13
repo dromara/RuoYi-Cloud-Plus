@@ -10,6 +10,7 @@ import com.ruoyi.common.core.constant.UserConstants;
 import com.ruoyi.common.core.exception.ServiceException;
 import com.ruoyi.common.core.utils.StringUtils;
 import com.ruoyi.common.core.utils.TreeBuildUtils;
+import com.ruoyi.common.mybatis.helper.DataBaseHelper;
 import com.ruoyi.common.satoken.utils.LoginHelper;
 import com.ruoyi.system.api.domain.SysDept;
 import com.ruoyi.system.api.domain.SysRole;
@@ -124,7 +125,7 @@ public class SysDeptServiceImpl implements ISysDeptService {
     public long selectNormalChildrenDeptById(Long deptId) {
         return baseMapper.selectCount(new LambdaQueryWrapper<SysDept>()
             .eq(SysDept::getStatus, UserConstants.DEPT_NORMAL)
-            .apply("find_in_set({0}, ancestors) <> 0", deptId));
+            .apply(DataBaseHelper.findInSet(deptId, "ancestors")));
     }
 
     /**
@@ -250,7 +251,7 @@ public class SysDeptServiceImpl implements ISysDeptService {
      */
     public void updateDeptChildren(Long deptId, String newAncestors, String oldAncestors) {
         List<SysDept> children = baseMapper.selectList(new LambdaQueryWrapper<SysDept>()
-            .apply("find_in_set({0},ancestors) <> 0", deptId));
+            .apply(DataBaseHelper.findInSet(deptId, "ancestors")));
         List<SysDept> list = new ArrayList<>();
         for (SysDept child : children) {
             SysDept dept = new SysDept();

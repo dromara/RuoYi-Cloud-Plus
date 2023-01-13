@@ -74,6 +74,9 @@ spring:
       max-request-size: 20MB
       # 上传单个文件大小限制
       max-file-size: 10MB
+  mvc:
+    format:
+      date-time: yyyy-MM-dd HH:mm:ss
   #jackson配置
   jackson:
     # 日期格式化
@@ -254,6 +257,11 @@ swagger:
   # 默认为服务名去除前缀转换为path 此处填特殊的配置
   service-mapping:
     ruoyi-gen: /code
+
+springdoc:
+  swagger-ui:
+    # 持久化认证数据
+    persistAuthorization: true
 
 # seata配置
 seata:

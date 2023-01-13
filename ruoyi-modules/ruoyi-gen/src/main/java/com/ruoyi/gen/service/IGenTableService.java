@@ -28,22 +28,6 @@ public interface IGenTableService {
     TableDataInfo<GenTable> selectPageDbTableList(GenTable genTable, PageQuery pageQuery);
 
     /**
-     * 查询业务列表
-     *
-     * @param genTable 业务信息
-     * @return 业务集合
-     */
-    List<GenTable> selectGenTableList(GenTable genTable);
-
-    /**
-     * 查询据库列表
-     *
-     * @param genTable 业务信息
-     * @return 数据库表集合
-     */
-    List<GenTable> selectDbTableList(GenTable genTable);
-
-    /**
      * 查询据库列表
      *
      * @param tableNames 表名称组

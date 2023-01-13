@@ -15,8 +15,8 @@
  */
 package io.seata.server.metrics;
 
-import io.seata.metrics.IdConstants;
 import io.seata.metrics.Id;
+import io.seata.metrics.IdConstants;
 
 /**
  * Constants for meter id in tc

@@ -15,16 +15,15 @@
  */
 package io.seata.server;
 
-import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
-
 import io.seata.core.rpc.Disposable;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 
 /**

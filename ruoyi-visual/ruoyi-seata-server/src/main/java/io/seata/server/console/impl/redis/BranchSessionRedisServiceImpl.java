@@ -15,24 +15,25 @@
  */
 package io.seata.server.console.impl.redis;
 
-import java.util.ArrayList;
-import java.util.List;
 import io.seata.common.util.CollectionUtils;
 import io.seata.common.util.StringUtils;
 import io.seata.console.result.PageResult;
-import io.seata.server.console.vo.BranchSessionVO;
 import io.seata.core.store.BranchTransactionDO;
 import io.seata.server.console.service.BranchSessionService;
+import io.seata.server.console.vo.BranchSessionVO;
 import io.seata.server.storage.redis.store.RedisTransactionStoreManager;
 import org.springframework.beans.BeanUtils;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Branch Session Redis ServiceImpl
  *
- * @author: zhongxiang.wang
- * @author: doubleDimple
+ * @author zhongxiang.wang
+ * @author doubleDimple
  */
 @Component
 @org.springframework.context.annotation.Configuration

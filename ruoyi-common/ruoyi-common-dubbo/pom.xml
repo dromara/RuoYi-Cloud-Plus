@@ -5,7 +5,7 @@
     <parent>
         <groupId>com.ruoyi</groupId>
         <artifactId>ruoyi-common</artifactId>
-        <version>1.4.0</version>
+        <version>1.5.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -34,6 +34,21 @@
         <dependency>
             <groupId>org.apache.dubbo</groupId>
             <artifactId>dubbo-spring-boot-actuator</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.dubbo</groupId>
+            <artifactId>dubbo</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.alibaba</groupId>
+                    <artifactId>fastjson</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>com.google.code.gson</groupId>
+                    <artifactId>gson</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>

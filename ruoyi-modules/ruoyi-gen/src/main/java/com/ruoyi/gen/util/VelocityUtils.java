@@ -8,6 +8,7 @@ import com.ruoyi.common.core.constant.GenConstants;
 import com.ruoyi.common.core.utils.DateUtils;
 import com.ruoyi.common.core.utils.JsonUtils;
 import com.ruoyi.common.core.utils.StringUtils;
+import com.ruoyi.common.mybatis.helper.DataBaseHelper;
 import com.ruoyi.gen.domain.GenTable;
 import com.ruoyi.gen.domain.GenTableColumn;
 import lombok.AccessLevel;
@@ -138,7 +139,13 @@ public class VelocityUtils {
         templates.add("vm/java/serviceImpl.java.vm");
         templates.add("vm/java/controller.java.vm");
         templates.add("vm/xml/mapper.xml.vm");
-        templates.add("vm/sql/sql.vm");
+        if (DataBaseHelper.isOracle()) {
+            templates.add("vm/sql/oracle/sql.vm");
+        } else if (DataBaseHelper.isPostgerSql()) {
+            templates.add("vm/sql/postgres/sql.vm");
+        } else {
+            templates.add("vm/sql/sql.vm");
+        }
         templates.add("vm/js/api.js.vm");
         if (GenConstants.TPL_CRUD.equals(tplCategory)) {
             templates.add("vm/vue/index.vue.vm");
@@ -263,8 +270,8 @@ public class VelocityUtils {
     public static void addDicts(Set<String> dicts, List<GenTableColumn> columns) {
         for (GenTableColumn column : columns) {
             if (!column.isSuperColumn() && StringUtils.isNotEmpty(column.getDictType()) && StringUtils.equalsAny(
-                column.getHtmlType(),
-                new String[]{GenConstants.HTML_SELECT, GenConstants.HTML_RADIO, GenConstants.HTML_CHECKBOX})) {
+                    column.getHtmlType(),
+                    new String[] { GenConstants.HTML_SELECT, GenConstants.HTML_RADIO, GenConstants.HTML_CHECKBOX })) {
                 dicts.add("'" + column.getDictType() + "'");
             }
         }
@@ -289,7 +296,7 @@ public class VelocityUtils {
      */
     public static String getParentMenuId(Dict paramsObj) {
         if (CollUtil.isNotEmpty(paramsObj) && paramsObj.containsKey(GenConstants.PARENT_MENU_ID)
-            && StringUtils.isNotEmpty(paramsObj.getStr(GenConstants.PARENT_MENU_ID))) {
+                && StringUtils.isNotEmpty(paramsObj.getStr(GenConstants.PARENT_MENU_ID))) {
             return paramsObj.getStr(GenConstants.PARENT_MENU_ID);
         }
         return DEFAULT_PARENT_MENU_ID;

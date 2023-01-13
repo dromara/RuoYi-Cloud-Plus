@@ -15,14 +15,6 @@
  */
 package io.seata.server.coordinator;
 
-import java.time.Duration;
-import java.util.Collection;
-import java.util.Map;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.ScheduledThreadPoolExecutor;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
-
 import io.netty.channel.Channel;
 import io.seata.common.thread.NamedThreadFactory;
 import io.seata.common.util.CollectionUtils;
@@ -34,25 +26,7 @@ import io.seata.core.exception.TransactionException;
 import io.seata.core.model.GlobalStatus;
 import io.seata.core.protocol.AbstractMessage;
 import io.seata.core.protocol.AbstractResultMessage;
-import io.seata.core.protocol.transaction.AbstractTransactionRequestToTC;
-import io.seata.core.protocol.transaction.AbstractTransactionResponse;
-import io.seata.core.protocol.transaction.BranchRegisterRequest;
-import io.seata.core.protocol.transaction.BranchRegisterResponse;
-import io.seata.core.protocol.transaction.BranchReportRequest;
-import io.seata.core.protocol.transaction.BranchReportResponse;
-import io.seata.core.protocol.transaction.GlobalBeginRequest;
-import io.seata.core.protocol.transaction.GlobalBeginResponse;
-import io.seata.core.protocol.transaction.GlobalCommitRequest;
-import io.seata.core.protocol.transaction.GlobalCommitResponse;
-import io.seata.core.protocol.transaction.GlobalLockQueryRequest;
-import io.seata.core.protocol.transaction.GlobalLockQueryResponse;
-import io.seata.core.protocol.transaction.GlobalReportRequest;
-import io.seata.core.protocol.transaction.GlobalReportResponse;
-import io.seata.core.protocol.transaction.GlobalRollbackRequest;
-import io.seata.core.protocol.transaction.GlobalRollbackResponse;
-import io.seata.core.protocol.transaction.GlobalStatusRequest;
-import io.seata.core.protocol.transaction.GlobalStatusResponse;
-import io.seata.core.protocol.transaction.UndoLogDeleteRequest;
+import io.seata.core.protocol.transaction.*;
 import io.seata.core.rpc.Disposable;
 import io.seata.core.rpc.RemotingServer;
 import io.seata.core.rpc.RpcContext;
@@ -61,20 +35,21 @@ import io.seata.core.rpc.netty.ChannelManager;
 import io.seata.core.rpc.netty.NettyRemotingServer;
 import io.seata.server.AbstractTCInboundHandler;
 import io.seata.server.metrics.MetricsPublisher;
-import io.seata.server.session.BranchSession;
-import io.seata.server.session.GlobalSession;
-import io.seata.server.session.SessionCondition;
-import io.seata.server.session.SessionHelper;
-import io.seata.server.session.SessionHolder;
+import io.seata.server.session.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
 
-import static io.seata.common.Constants.ASYNC_COMMITTING;
-import static io.seata.common.Constants.RETRY_COMMITTING;
-import static io.seata.common.Constants.RETRY_ROLLBACKING;
-import static io.seata.common.Constants.TX_TIMEOUT_CHECK;
-import static io.seata.common.Constants.UNDOLOG_DELETE;
+import java.time.Duration;
+import java.util.Collection;
+import java.util.Map;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
+
+import static io.seata.common.Constants.*;
+import static io.seata.common.DefaultValues.*;
 
 /**
  * The type Default coordinator.
@@ -89,30 +64,31 @@ public class DefaultCoordinator extends AbstractTCInboundHandler implements Tran
      * The constant COMMITTING_RETRY_PERIOD.
      */
     protected static final long COMMITTING_RETRY_PERIOD = CONFIG.getLong(ConfigurationKeys.COMMITING_RETRY_PERIOD,
-        1000L);
+            DEFAULT_COMMITING_RETRY_PERIOD);
 
     /**
      * The constant ASYNC_COMMITTING_RETRY_PERIOD.
      */
     protected static final long ASYNC_COMMITTING_RETRY_PERIOD = CONFIG.getLong(
-        ConfigurationKeys.ASYN_COMMITING_RETRY_PERIOD, 1000L);
+            ConfigurationKeys.ASYNC_COMMITING_RETRY_PERIOD, DEFAULT_ASYNC_COMMITTING_RETRY_PERIOD);
 
     /**
      * The constant ROLLBACKING_RETRY_PERIOD.
      */
     protected static final long ROLLBACKING_RETRY_PERIOD = CONFIG.getLong(ConfigurationKeys.ROLLBACKING_RETRY_PERIOD,
-        1000L);
+            DEFAULT_ROLLBACKING_RETRY_PERIOD);
 
     /**
      * The constant TIMEOUT_RETRY_PERIOD.
      */
-    protected static final long TIMEOUT_RETRY_PERIOD = CONFIG.getLong(ConfigurationKeys.TIMEOUT_RETRY_PERIOD, 1000L);
+    protected static final long TIMEOUT_RETRY_PERIOD = CONFIG.getLong(ConfigurationKeys.TIMEOUT_RETRY_PERIOD,
+            DEFAULT_TIMEOUT_RETRY_PERIOD);
 
     /**
      * The Transaction undo log delete period.
      */
     protected static final long UNDO_LOG_DELETE_PERIOD = CONFIG.getLong(
-            ConfigurationKeys.TRANSACTION_UNDO_LOG_DELETE_PERIOD, 24 * 60 * 60 * 1000);
+            ConfigurationKeys.TRANSACTION_UNDO_LOG_DELETE_PERIOD, DEFAULT_UNDO_LOG_DELETE_PERIOD);
 
     /**
      * The Transaction undo log delay delete period
@@ -132,13 +108,13 @@ public class DefaultCoordinator extends AbstractTCInboundHandler implements Tran
     private static final int BRANCH_ASYNC_POOL_SIZE = Runtime.getRuntime().availableProcessors();
 
     private static final Duration MAX_COMMIT_RETRY_TIMEOUT = ConfigurationFactory.getInstance().getDuration(
-            ConfigurationKeys.MAX_COMMIT_RETRY_TIMEOUT, DurationUtil.DEFAULT_DURATION, 100);
+            ConfigurationKeys.MAX_COMMIT_RETRY_TIMEOUT, DurationUtil.DEFAULT_DURATION, DEFAULT_MAX_COMMIT_RETRY_TIMEOUT);
 
     private static final Duration MAX_ROLLBACK_RETRY_TIMEOUT = ConfigurationFactory.getInstance().getDuration(
-            ConfigurationKeys.MAX_ROLLBACK_RETRY_TIMEOUT, DurationUtil.DEFAULT_DURATION, 100);
+            ConfigurationKeys.MAX_ROLLBACK_RETRY_TIMEOUT, DurationUtil.DEFAULT_DURATION, DEFAULT_MAX_ROLLBACK_RETRY_TIMEOUT);
 
     private static final boolean ROLLBACK_RETRY_TIMEOUT_UNLOCK_ENABLE = ConfigurationFactory.getInstance().getBoolean(
-            ConfigurationKeys.ROLLBACK_RETRY_TIMEOUT_UNLOCK_ENABLE, false);
+            ConfigurationKeys.ROLLBACK_RETRY_TIMEOUT_UNLOCK_ENABLE, DEFAULT_ROLLBACK_RETRY_TIMEOUT_UNLOCK_ENABLE);
 
     private final ScheduledThreadPoolExecutor retryRollbacking =
         new ScheduledThreadPoolExecutor(1, new NamedThreadFactory(RETRY_ROLLBACKING, 1));
@@ -357,7 +333,7 @@ public class DefaultCoordinator extends AbstractTCInboundHandler implements Tran
         SessionHelper.forEach(rollbackingSessions, rollbackingSession -> {
             try {
                 // prevent repeated rollback
-                if (rollbackingSession.getStatus().equals(GlobalStatus.Rollbacking)
+                if (rollbackingSession.getStatus() == GlobalStatus.Rollbacking
                     && !rollbackingSession.isDeadSession()) {
                     // The function of this 'return' is 'continue'.
                     return;
@@ -370,10 +346,7 @@ public class DefaultCoordinator extends AbstractTCInboundHandler implements Tran
                     SessionHolder.getRetryRollbackingSessionManager().removeGlobalSession(rollbackingSession);
                     LOGGER.error("Global transaction rollback retry timeout and has removed [{}]", rollbackingSession.getXid());
 
-                    SessionHelper.endRollbackFailed(rollbackingSession, true);
-
-                    // rollback retry timeout event
-                    MetricsPublisher.postSessionDoneEvent(rollbackingSession, GlobalStatus.RollbackRetryTimeout, true, false);
+                    SessionHelper.endRollbackFailed(rollbackingSession, true, true);
 
                     //The function of this 'return' is 'continue'.
                     return;
@@ -401,7 +374,7 @@ public class DefaultCoordinator extends AbstractTCInboundHandler implements Tran
         SessionHelper.forEach(committingSessions, committingSession -> {
             try {
                 // prevent repeated commit
-                if (committingSession.getStatus().equals(GlobalStatus.Committing)
+                if (committingSession.getStatus() == GlobalStatus.Committing
                     && !committingSession.isDeadSession()) {
                     // The function of this 'return' is 'continue'.
                     return;
@@ -412,7 +385,7 @@ public class DefaultCoordinator extends AbstractTCInboundHandler implements Tran
                     LOGGER.error("Global transaction commit retry timeout and has removed [{}]", committingSession.getXid());
 
                     // commit retry timeout event
-                    MetricsPublisher.postSessionDoneEvent(committingSession, GlobalStatus.CommitRetryTimeout, true, false);
+                    SessionHelper.endCommitFailed(committingSession, true, true);
 
                     //The function of this 'return' is 'continue'.
                     return;

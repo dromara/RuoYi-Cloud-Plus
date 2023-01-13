@@ -15,10 +15,6 @@
  */
 package io.seata.server.coordinator;
 
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-
 import io.seata.common.DefaultValues;
 import io.seata.common.exception.NotSupportYetException;
 import io.seata.common.loader.EnhancedServiceLoader;
@@ -39,6 +35,10 @@ import io.seata.server.session.SessionHolder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
+
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import static io.seata.core.constants.ConfigurationKeys.XAER_NOTA_RETRY_TIMEOUT;
 import static io.seata.server.session.BranchSessionHandler.CONTINUE;
@@ -128,8 +128,7 @@ public class DefaultCore implements Core {
     @Override
     public String begin(String applicationId, String transactionServiceGroup, String name, int timeout)
         throws TransactionException {
-        GlobalSession session = GlobalSession.createGlobalSession(applicationId, transactionServiceGroup, name,
-            timeout);
+        GlobalSession session = GlobalSession.createGlobalSession(applicationId, transactionServiceGroup, name, timeout);
         MDC.put(RootContext.MDC_KEY_XID, session.getXid());
         session.addSessionLifecycleListener(SessionHolder.getRootSessionManager());
 
@@ -141,12 +140,20 @@ public class DefaultCore implements Core {
         return session.getXid();
     }
 
+
+
     @Override
     public GlobalStatus commit(String xid) throws TransactionException {
         GlobalSession globalSession = SessionHolder.findGlobalSession(xid);
         if (globalSession == null) {
             return GlobalStatus.Finished;
         }
+
+        if (globalSession.isTimeout()) {
+            LOGGER.info("TC detected timeout, xid = {}", globalSession.getXid());
+            return GlobalStatus.TimeoutRollbacking;
+        }
+
         globalSession.addSessionLifecycleListener(SessionHolder.getRootSessionManager());
         // just lock changeStatus
 
@@ -251,14 +258,14 @@ public class DefaultCore implements Core {
                 LOGGER.info("Committing global transaction is NOT done, xid = {}.", globalSession.getXid());
                 return false;
             }
-            if (!retrying) {
-                //contains not AT branch
-                globalSession.setStatus(GlobalStatus.Committed);
-            }
         }
         // if it succeeds and there is no branch, retrying=true is the asynchronous state when retrying. EndCommitted is
         // executed to improve concurrency performance, and the global transaction ends..
         if (success && globalSession.getBranchSessions().isEmpty()) {
+            if (!retrying) {
+                //contains not AT branch
+                globalSession.setStatus(GlobalStatus.Committed);
+            }
             SessionHelper.endCommitted(globalSession, retrying);
             LOGGER.info("Committing global transaction is successfully done, xid = {}.", globalSession.getXid());
         }
@@ -284,7 +291,7 @@ public class DefaultCore implements Core {
         if (!shouldRollBack) {
             return globalSession.getStatus();
         }
-        
+
         boolean rollbackSuccess = doGlobalRollback(globalSession, false);
         return rollbackSuccess ? GlobalStatus.Rollbacked : globalSession.getStatus();
     }
@@ -388,5 +395,4 @@ public class DefaultCore implements Core {
             return false;
         }
     }
-
 }

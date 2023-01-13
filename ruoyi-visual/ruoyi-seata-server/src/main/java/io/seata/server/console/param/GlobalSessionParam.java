@@ -15,13 +15,13 @@
  */
 package io.seata.server.console.param;
 
-import java.io.Serializable;
-
 import io.seata.console.param.BaseParam;
 
+import java.io.Serializable;
+
 /**
- * @description: Global session param
- * @author: zhongxiang.wang
+ * Global session param
+ * @author zhongxiang.wang
  */
 public class GlobalSessionParam extends BaseParam implements Serializable {
 

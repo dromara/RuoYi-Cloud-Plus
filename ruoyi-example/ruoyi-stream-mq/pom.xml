@@ -5,7 +5,7 @@
     <parent>
         <groupId>com.ruoyi</groupId>
         <artifactId>ruoyi-example</artifactId>
-        <version>1.4.0</version>
+        <version>1.5.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -42,12 +42,6 @@
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-stream-kafka</artifactId>
-        </dependency>
-
-        <!-- SpringBoot Actuator -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
 
         <dependency>
