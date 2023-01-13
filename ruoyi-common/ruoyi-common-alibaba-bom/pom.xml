@@ -6,7 +6,7 @@
 
     <groupId>com.ruoyi</groupId>
     <artifactId>ruoyi-common-alibaba-bom</artifactId>
-    <version>1.4.0</version>
+    <version>1.5.0</version>
     <packaging>pom</packaging>
 
     <description>
