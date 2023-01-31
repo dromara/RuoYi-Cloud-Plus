@@ -30,8 +30,8 @@
 
 		<!-- starter-web：spring-webmvc + autoconfigure + logback + yaml + tomcat -->
 		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
+			<groupId>com.ruoyi</groupId>
+			<artifactId>ruoyi-common-web</artifactId>
 		</dependency>
 		<!-- starter-test：junit + spring-test + mockito -->
 		<dependency>
