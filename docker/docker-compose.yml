@@ -396,6 +396,10 @@ services:
       ALLOW_ANONYMOUS_LOGIN: "yes"
       ZOO_SERVER_ID: 1
       ZOO_PORT_NUMBER: 2181
+      # 自带的控制台 一般用不上可自行开启
+      ZOO_ENABLE_ADMIN_SERVER: no
+      # 自带控制台的端口
+      ZOO_ADMIN_SERVER_PORT_NUMBER: 8080
     network_mode: "host"
 
   kafka:
