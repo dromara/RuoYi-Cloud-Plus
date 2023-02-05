@@ -6,11 +6,14 @@ import cn.hutool.core.lang.tree.Tree;
 import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
+import com.ruoyi.common.core.constant.CacheNames;
 import com.ruoyi.common.core.constant.UserConstants;
 import com.ruoyi.common.core.exception.ServiceException;
+import com.ruoyi.common.core.utils.SpringUtils;
 import com.ruoyi.common.core.utils.StringUtils;
 import com.ruoyi.common.core.utils.TreeBuildUtils;
 import com.ruoyi.common.mybatis.helper.DataBaseHelper;
+import com.ruoyi.common.redis.utils.CacheUtils;
 import com.ruoyi.common.satoken.utils.LoginHelper;
 import com.ruoyi.system.api.domain.SysDept;
 import com.ruoyi.system.api.domain.SysRole;
@@ -20,11 +23,14 @@ import com.ruoyi.system.mapper.SysRoleMapper;
 import com.ruoyi.system.mapper.SysUserMapper;
 import com.ruoyi.system.service.ISysDeptService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 部门管理 服务实现
@@ -106,6 +112,7 @@ public class SysDeptServiceImpl implements ISysDeptService {
      * @param deptId 部门ID
      * @return 部门信息
      */
+    @Cacheable(cacheNames = CacheNames.SYS_DEPT, key = "#deptId")
     @Override
     public SysDept selectDeptById(Long deptId) {
         SysDept dept = baseMapper.selectById(deptId);
@@ -113,6 +120,24 @@ public class SysDeptServiceImpl implements ISysDeptService {
             .select(SysDept::getDeptName).eq(SysDept::getDeptId, dept.getParentId()));
         dept.setParentName(ObjectUtil.isNotNull(parentDept) ? parentDept.getDeptName() : null);
         return dept;
+    }
+
+    /**
+     * 通过部门ID查询部门名称
+     *
+     * @param deptIds 部门ID串逗号分隔
+     * @return 部门名称串逗号分隔
+     */
+    @Override
+    public String selectDeptNameByIds(String deptIds) {
+        List<String> list = new ArrayList<>();
+        for (Long id : Arrays.stream(deptIds.split(",")).map(Long::parseLong).collect(Collectors.toList())) {
+            SysDept dept = SpringUtils.getAopProxy(this).selectDeptById(id);
+            if (ObjectUtil.isNotNull(dept)) {
+                list.add(dept.getDeptName());
+            }
+        }
+        return String.join(",", list);
     }
 
     /**
@@ -210,6 +235,7 @@ public class SysDeptServiceImpl implements ISysDeptService {
      * @param dept 部门信息
      * @return 结果
      */
+    @CacheEvict(cacheNames = CacheNames.SYS_DEPT, key = "#dept.deptId")
     @Override
     public int updateDept(SysDept dept) {
         SysDept newParentDept = baseMapper.selectById(dept.getParentId());
@@ -260,7 +286,9 @@ public class SysDeptServiceImpl implements ISysDeptService {
             list.add(dept);
         }
         if (list.size() > 0) {
-            baseMapper.updateBatchById(list);
+            if (baseMapper.updateBatchById(list)) {
+                list.forEach(dept -> CacheUtils.evict(CacheNames.SYS_DEPT, dept.getDeptId()));
+            }
         }
     }
 
@@ -270,6 +298,7 @@ public class SysDeptServiceImpl implements ISysDeptService {
      * @param deptId 部门ID
      * @return 结果
      */
+    @CacheEvict(cacheNames = CacheNames.SYS_DEPT, key = "#deptId")
     @Override
     public int deleteDeptById(Long deptId) {
         return baseMapper.deleteById(deptId);

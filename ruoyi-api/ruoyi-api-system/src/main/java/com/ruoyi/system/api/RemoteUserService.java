@@ -44,4 +44,11 @@ public interface RemoteUserService {
      */
     Boolean registerUserInfo(SysUser sysUser);
 
+    /**
+     * 通过userId查询用户账户
+     *
+     * @param userId 用户id
+     * @return 结果
+     */
+    String selectUserNameById(Long userId);
 }

@@ -52,6 +52,14 @@ public interface ISysDeptService {
     SysDept selectDeptById(Long deptId);
 
     /**
+     * 通过部门ID查询部门名称
+     *
+     * @param deptIds 部门ID串逗号分隔
+     * @return 部门名称串逗号分隔
+     */
+    String selectDeptNameByIds(String deptIds);
+
+    /**
      * 根据ID查询所有子部门（正常状态）
      *
      * @param deptId 部门ID

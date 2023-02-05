@@ -7,11 +7,11 @@ import com.ruoyi.common.oss.entity.UploadResult;
 import com.ruoyi.common.oss.factory.OssFactory;
 import com.ruoyi.resource.api.RemoteFileService;
 import com.ruoyi.resource.api.domain.SysFile;
-import com.ruoyi.resource.domain.SysOss;
-import com.ruoyi.resource.mapper.SysOssMapper;
+import com.ruoyi.resource.domain.bo.SysOssBo;
+import com.ruoyi.resource.service.ISysOssService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,11 +22,11 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Slf4j
 @Service
+@RequiredArgsConstructor
 @DubboService
 public class RemoteFileServiceImpl implements RemoteFileService {
 
-    @Autowired
-    private SysOssMapper sysOssMapper;
+    private final ISysOssService sysOssService;
 
     /**
      * 文件上传请求
@@ -39,13 +39,13 @@ public class RemoteFileServiceImpl implements RemoteFileService {
             OssClient storage = OssFactory.instance();
             UploadResult uploadResult = storage.uploadSuffix(file, suffix, contentType);
             // 保存文件信息
-            SysOss oss = new SysOss();
+            SysOssBo oss = new SysOssBo();
             oss.setUrl(uploadResult.getUrl());
             oss.setFileSuffix(suffix);
             oss.setFileName(uploadResult.getFilename());
             oss.setOriginalName(originalFilename);
             oss.setService(storage.getConfigKey());
-            sysOssMapper.insert(oss);
+            sysOssService.insertByBo(oss);
             SysFile sysFile = new SysFile();
             sysFile.setOssId(oss.getOssId());
             sysFile.setName(uploadResult.getFilename());
@@ -55,6 +55,17 @@ public class RemoteFileServiceImpl implements RemoteFileService {
             log.error("上传文件失败", e);
             throw new ServiceException("上传文件失败");
         }
+    }
+
+    /**
+     * 通过ossId查询对应的url
+     *
+     * @param ossIds ossId串逗号分隔
+     * @return url串逗号分隔
+     */
+    @Override
+    public String selectUrlByIds(String ossIds) {
+        return sysOssService.selectUrlByIds(ossIds);
     }
 
 }

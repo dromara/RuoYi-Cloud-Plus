@@ -23,7 +23,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
- * 操作日志记录
+ * 用户服务
  *
  * @author Lion Li
  */
@@ -96,6 +96,11 @@ public class RemoteUserServiceImpl implements RemoteUserService {
             throw new UserException("user.register.save.error", username);
         }
         return userService.registerUser(sysUser);
+    }
+
+    @Override
+    public String selectUserNameById(Long userId) {
+        return userService.selectUserNameById(userId);
     }
 
     /**
