@@ -40,6 +40,7 @@
         <easy-es.version>1.1.1</easy-es.version>
         <elasticsearch.version>7.14.0</elasticsearch.version>
         <skywalking-toolkit.version>8.13.0</skywalking-toolkit.version>
+        <bouncycastle.version>1.72</bouncycastle.version>
 
         <!-- 临时修复 snakeyaml 漏洞 -->
         <snakeyaml.version>1.33</snakeyaml.version>
@@ -266,6 +267,13 @@
                 <groupId>com.xuxueli</groupId>
                 <artifactId>xxl-job-core</artifactId>
                 <version>${xxl-job.version}</version>
+            </dependency>
+
+            <!-- 加密包引入 -->
+            <dependency>
+                <groupId>org.bouncycastle</groupId>
+                <artifactId>bcprov-jdk15to18</artifactId>
+                <version>${bouncycastle.version}</version>
             </dependency>
 
             <!-- logstash -->

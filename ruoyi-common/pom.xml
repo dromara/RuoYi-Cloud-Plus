@@ -35,6 +35,7 @@
         <module>ruoyi-common-skylog</module>
         <module>ruoyi-common-prometheus</module>
         <module>ruoyi-common-translation</module>
+        <module>ruoyi-common-encrypt</module>
     </modules>
 
     <artifactId>ruoyi-common</artifactId>
