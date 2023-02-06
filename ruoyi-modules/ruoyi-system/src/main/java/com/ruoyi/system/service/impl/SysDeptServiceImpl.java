@@ -30,7 +30,6 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * 部门管理 服务实现
@@ -131,13 +130,13 @@ public class SysDeptServiceImpl implements ISysDeptService {
     @Override
     public String selectDeptNameByIds(String deptIds) {
         List<String> list = new ArrayList<>();
-        for (Long id : Arrays.stream(deptIds.split(",")).map(Long::parseLong).collect(Collectors.toList())) {
+        for (Long id : StringUtils.splitTo(deptIds, Convert::toLong)) {
             SysDept dept = SpringUtils.getAopProxy(this).selectDeptById(id);
             if (ObjectUtil.isNotNull(dept)) {
                 list.add(dept.getDeptName());
             }
         }
-        return String.join(",", list);
+        return String.join(StringUtils.SEPARATOR, list);
     }
 
     /**
@@ -225,7 +224,7 @@ public class SysDeptServiceImpl implements ISysDeptService {
         if (!UserConstants.DEPT_NORMAL.equals(info.getStatus())) {
             throw new ServiceException("部门停用，不允许新增");
         }
-        dept.setAncestors(info.getAncestors() + "," + dept.getParentId());
+        dept.setAncestors(info.getAncestors() + StringUtils.SEPARATOR + dept.getParentId());
         return baseMapper.insert(dept);
     }
 
@@ -241,7 +240,7 @@ public class SysDeptServiceImpl implements ISysDeptService {
         SysDept newParentDept = baseMapper.selectById(dept.getParentId());
         SysDept oldDept = baseMapper.selectById(dept.getDeptId());
         if (ObjectUtil.isNotNull(newParentDept) && ObjectUtil.isNotNull(oldDept)) {
-            String newAncestors = newParentDept.getAncestors() + "," + newParentDept.getDeptId();
+            String newAncestors = newParentDept.getAncestors() + StringUtils.SEPARATOR + newParentDept.getDeptId();
             String oldAncestors = oldDept.getAncestors();
             dept.setAncestors(newAncestors);
             updateDeptChildren(dept.getDeptId(), newAncestors, oldAncestors);
