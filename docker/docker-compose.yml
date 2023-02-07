@@ -439,13 +439,13 @@ services:
     network_mode: "host"
 
   sky-oap:
-    image: apache/skywalking-oap-server:8.9.1
+    image: apache/skywalking-oap-server:9.3.0
     container_name: sky-oap
     ports:
       - "11800:11800"
       - "12800:12800"
     environment:
-      JAVA_OPTS: -Xms512m -Xmx1g
+      JAVA_OPTS: -Xms1G -Xmx2G
       #记录数据的有效期，单位天
       SW_CORE_RECORD_DATA_TTL: 7
       #分析指标数据的有效期，单位天
@@ -456,14 +456,14 @@ services:
     network_mode: "host"
 
   sky-ui:
-    image: apache/skywalking-ui:8.9.1
+    image: apache/skywalking-ui:9.3.0
     container_name: sky-ui
     ports:
       - "18080:18080"
     environment:
+      SW_SERVER_PORT: 18080
       SW_OAP_ADDRESS: http://127.0.0.1:12800
       TZ: Asia/Shanghai
-      JAVA_OPTS: "-Dserver.port=18080"
     depends_on:
       - sky-oap
     network_mode: "host"
