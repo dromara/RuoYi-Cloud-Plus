@@ -39,7 +39,7 @@
         <logstash.version>7.1.1</logstash.version>
         <easy-es.version>1.1.1</easy-es.version>
         <elasticsearch.version>7.14.0</elasticsearch.version>
-        <skywalking-toolkit.version>8.13.0</skywalking-toolkit.version>
+        <skywalking-toolkit.version>8.14.0</skywalking-toolkit.version>
         <bouncycastle.version>1.72</bouncycastle.version>
 
         <!-- 临时修复 snakeyaml 漏洞 -->
