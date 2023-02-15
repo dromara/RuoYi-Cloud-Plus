@@ -9,11 +9,9 @@ import com.ruoyi.common.log.annotation.Log;
 import com.ruoyi.common.log.enums.BusinessType;
 import com.ruoyi.common.mybatis.core.page.PageQuery;
 import com.ruoyi.common.mybatis.core.page.TableDataInfo;
-import com.ruoyi.common.satoken.utils.LoginHelper;
 import com.ruoyi.system.api.domain.SysDept;
 import com.ruoyi.system.api.domain.SysRole;
 import com.ruoyi.system.api.domain.SysUser;
-import com.ruoyi.system.api.model.LoginUser;
 import com.ruoyi.system.domain.SysUserRole;
 import com.ruoyi.system.service.ISysDeptService;
 import com.ruoyi.system.service.ISysPermissionService;
@@ -107,15 +105,6 @@ public class SysRoleController extends BaseController {
             return R.fail("修改角色'" + role.getRoleName() + "'失败，角色权限已存在");
         }
         if (roleService.updateRole(role) > 0) {
-            // 更新缓存用户权限
-            LoginUser loginUser = LoginHelper.getLoginUser();
-            Long userId = loginUser.getUserId();
-            if (!LoginHelper.isAdmin(userId)) {
-                SysUser sysUser = new SysUser();
-                sysUser.setUserId(userId);
-                loginUser.setMenuPermission(permissionService.getMenuPermission(sysUser));
-                LoginHelper.setLoginUser(loginUser);
-            }
             return R.ok();
         }
         return R.fail("修改角色'" + role.getRoleName() + "'失败，请联系管理员");
