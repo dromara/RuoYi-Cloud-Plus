@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 @Component
 @AllArgsConstructor
 @TranslationType(type = TransConstant.OSS_ID_TO_URL)
-public class OssUrlTranslationImpl implements TranslationInterface {
+public class OssUrlTranslationImpl implements TranslationInterface<String> {
 
     @DubboReference
     private RemoteFileService ossService;

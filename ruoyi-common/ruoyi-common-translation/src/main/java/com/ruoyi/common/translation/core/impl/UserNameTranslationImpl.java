@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 @Component
 @AllArgsConstructor
 @TranslationType(type = TransConstant.USER_ID_TO_NAME)
-public class UserNameTranslationImpl implements TranslationInterface {
+public class UserNameTranslationImpl implements TranslationInterface<String> {
 
     @DubboReference
     private RemoteUserService remoteUserService;

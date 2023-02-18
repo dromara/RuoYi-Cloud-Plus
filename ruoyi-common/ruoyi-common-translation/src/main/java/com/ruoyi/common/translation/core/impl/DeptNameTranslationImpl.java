@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 @Component
 @AllArgsConstructor
 @TranslationType(type = TransConstant.DEPT_ID_TO_NAME)
-public class DeptNameTranslationImpl implements TranslationInterface {
+public class DeptNameTranslationImpl implements TranslationInterface<String> {
 
     @DubboReference
     private RemoteDeptService remoteDeptService;
