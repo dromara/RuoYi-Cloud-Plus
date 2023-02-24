@@ -13,7 +13,6 @@ import org.springframework.stereotype.Component;
  *
  * @author Lion Li
  */
-@Component
 @AllArgsConstructor
 @TranslationType(type = TransConstant.USER_ID_TO_NAME)
 public class UserNameTranslationImpl implements TranslationInterface<String> {
