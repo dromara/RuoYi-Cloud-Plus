@@ -200,14 +200,11 @@ public class SysUserServiceImpl implements ISysUserService {
      * @return 结果
      */
     @Override
-    public String checkUserNameUnique(SysUser user) {
+    public boolean checkUserNameUnique(SysUser user) {
         boolean exist = baseMapper.exists(new LambdaQueryWrapper<SysUser>()
             .eq(SysUser::getUserName, user.getUserName())
             .ne(ObjectUtil.isNotNull(user.getUserId()), SysUser::getUserId, user.getUserId()));
-        if (exist) {
-            return UserConstants.NOT_UNIQUE;
-        }
-        return UserConstants.UNIQUE;
+        return !exist;
     }
 
     /**
@@ -217,14 +214,11 @@ public class SysUserServiceImpl implements ISysUserService {
      * @return
      */
     @Override
-    public String checkPhoneUnique(SysUser user) {
+    public boolean checkPhoneUnique(SysUser user) {
         boolean exist = baseMapper.exists(new LambdaQueryWrapper<SysUser>()
             .eq(SysUser::getPhonenumber, user.getPhonenumber())
             .ne(ObjectUtil.isNotNull(user.getUserId()), SysUser::getUserId, user.getUserId()));
-        if (exist) {
-            return UserConstants.NOT_UNIQUE;
-        }
-        return UserConstants.UNIQUE;
+        return !exist;
     }
 
     /**
@@ -234,14 +228,11 @@ public class SysUserServiceImpl implements ISysUserService {
      * @return
      */
     @Override
-    public String checkEmailUnique(SysUser user) {
+    public boolean checkEmailUnique(SysUser user) {
         boolean exist = baseMapper.exists(new LambdaQueryWrapper<SysUser>()
             .eq(SysUser::getEmail, user.getEmail())
             .ne(ObjectUtil.isNotNull(user.getUserId()), SysUser::getUserId, user.getUserId()));
-        if (exist) {
-            return UserConstants.NOT_UNIQUE;
-        }
-        return UserConstants.UNIQUE;
+        return !exist;
     }
 
     /**
