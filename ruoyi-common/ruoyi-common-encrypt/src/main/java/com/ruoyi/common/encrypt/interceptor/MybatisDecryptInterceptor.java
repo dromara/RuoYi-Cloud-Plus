@@ -1,6 +1,7 @@
 package com.ruoyi.common.encrypt.interceptor;
 
 import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.util.ObjectUtil;
 import com.ruoyi.common.core.utils.StringUtils;
 import com.ruoyi.common.encrypt.annotation.EncryptField;
 import com.ruoyi.common.encrypt.core.EncryptContext;
@@ -55,13 +56,20 @@ public class MybatisDecryptInterceptor implements Interceptor {
      * @param sourceObject 待加密对象
      */
     private void decryptHandler(Object sourceObject) {
+        if (ObjectUtil.isNull(sourceObject)) {
+            return;
+        }
         if (sourceObject instanceof Map<?, ?>) {
             ((Map<?, ?>) sourceObject).values().forEach(this::decryptHandler);
             return;
         }
         if (sourceObject instanceof List<?>) {
+            List<?> sourceList = (List<?>) sourceObject;
+            if(CollectionUtil.isEmpty(sourceList)) {
+                return;
+            }
             // 判断第一个元素是否含有注解。如果没有直接返回，提高效率
-            Object firstItem = ((List<?>) sourceObject).get(0);
+            Object firstItem = sourceList.get(0);
             if (CollectionUtil.isEmpty(encryptorManager.getFieldCache(firstItem.getClass()))) {
                 return;
             }
