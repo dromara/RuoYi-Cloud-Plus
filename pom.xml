@@ -30,7 +30,7 @@
         <springdoc.version>1.6.14</springdoc.version>
         <poi.version>5.2.3</poi.version>
         <easyexcel.version>3.2.1</easyexcel.version>
-        <hutool.version>5.8.14</hutool.version>
+        <hutool.version>5.8.12</hutool.version>
         <redisson.version>3.20.0</redisson.version>
         <lock4j.version>2.2.3</lock4j.version>
         <xxl-job.version>2.3.1</xxl-job.version>
