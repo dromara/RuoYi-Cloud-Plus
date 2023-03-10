@@ -26,11 +26,11 @@
         <p6spy.version>3.9.1</p6spy.version>
         <dynamic-ds.version>3.5.2</dynamic-ds.version>
         <velocity.version>2.3</velocity.version>
-        <swagger.core.version>2.2.7</swagger.core.version>
-        <springdoc.version>1.6.14</springdoc.version>
+        <swagger.core.version>2.2.8</swagger.core.version>
+        <springdoc.version>1.6.15</springdoc.version>
         <poi.version>5.2.3</poi.version>
         <easyexcel.version>3.2.1</easyexcel.version>
-        <hutool.version>5.8.12</hutool.version>
+        <hutool.version>5.8.15</hutool.version>
         <redisson.version>3.20.0</redisson.version>
         <lock4j.version>2.2.3</lock4j.version>
         <xxl-job.version>2.3.1</xxl-job.version>
