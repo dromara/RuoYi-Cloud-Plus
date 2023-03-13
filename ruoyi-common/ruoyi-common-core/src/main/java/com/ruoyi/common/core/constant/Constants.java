@@ -81,4 +81,6 @@ public interface Constants {
      */
     String REPEAT_SUBMIT_KEY = "repeat_submit:";
 
+    String ACCESS_TOKEN = "access_token";
+
 }

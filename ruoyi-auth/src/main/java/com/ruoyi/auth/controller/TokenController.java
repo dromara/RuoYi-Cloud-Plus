@@ -1,10 +1,10 @@
 package com.ruoyi.auth.controller;
 
-import com.alibaba.nacos.api.common.Constants;
 import com.ruoyi.auth.form.LoginBody;
 import com.ruoyi.auth.form.RegisterBody;
 import com.ruoyi.auth.form.SmsLoginBody;
 import com.ruoyi.auth.service.SysLoginService;
+import com.ruoyi.common.core.constant.Constants;
 import com.ruoyi.common.core.domain.R;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
@@ -38,8 +38,8 @@ public class TokenController {
         String accessToken = sysLoginService.login(form.getUsername(), form.getPassword());
 
         // 接口返回信息
-        Map<String, Object> rspMap = new HashMap<String, Object>();
-        rspMap.put("access_token", accessToken);
+        Map<String, Object> rspMap = new HashMap<>();
+        rspMap.put(Constants.ACCESS_TOKEN, accessToken);
         return R.ok(rspMap);
     }
 
@@ -54,7 +54,7 @@ public class TokenController {
         Map<String, Object> ajax = new HashMap<>();
         // 生成令牌
         String token = sysLoginService.smsLogin(smsLoginBody.getPhonenumber(), smsLoginBody.getSmsCode());
-        ajax.put(Constants.TOKEN, token);
+        ajax.put(Constants.ACCESS_TOKEN, token);
         return R.ok(ajax);
     }
 
@@ -69,7 +69,7 @@ public class TokenController {
         Map<String, Object> ajax = new HashMap<>();
         // 生成令牌
         String token = sysLoginService.xcxLogin(xcxCode);
-        ajax.put(Constants.TOKEN, token);
+        ajax.put(Constants.ACCESS_TOKEN, token);
         return R.ok(ajax);
     }
 
