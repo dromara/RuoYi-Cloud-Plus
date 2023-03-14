@@ -83,5 +83,5 @@ public interface ISysConfigService {
      * @param config 参数信息
      * @return 结果
      */
-    String checkConfigKeyUnique(SysConfig config);
+    boolean checkConfigKeyUnique(SysConfig config);
 }

@@ -88,6 +88,8 @@ spring:
 
     # sentinel 配置
     sentinel:
+      filter:
+        enabled: false
       # nacos配置持久化
       datasource:
         ds1:

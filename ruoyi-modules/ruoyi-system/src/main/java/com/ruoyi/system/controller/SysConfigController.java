@@ -1,7 +1,6 @@
 package com.ruoyi.system.controller;
 
 import cn.dev33.satoken.annotation.SaCheckPermission;
-import com.ruoyi.common.core.constant.UserConstants;
 import com.ruoyi.common.core.domain.R;
 import com.ruoyi.common.core.web.controller.BaseController;
 import com.ruoyi.common.excel.utils.ExcelUtil;
@@ -78,7 +77,7 @@ public class SysConfigController extends BaseController {
     @Log(title = "参数管理", businessType = BusinessType.INSERT)
     @PostMapping
     public R<Void> add(@Validated @RequestBody SysConfig config) {
-        if (UserConstants.NOT_UNIQUE.equals(configService.checkConfigKeyUnique(config))) {
+        if (!configService.checkConfigKeyUnique(config)) {
             return R.fail("新增参数'" + config.getConfigName() + "'失败，参数键名已存在");
         }
         configService.insertConfig(config);
@@ -92,7 +91,7 @@ public class SysConfigController extends BaseController {
     @Log(title = "参数管理", businessType = BusinessType.UPDATE)
     @PutMapping
     public R<Void> edit(@Validated @RequestBody SysConfig config) {
-        if (UserConstants.NOT_UNIQUE.equals(configService.checkConfigKeyUnique(config))) {
+        if (!configService.checkConfigKeyUnique(config)) {
             return R.fail("修改参数'" + config.getConfigName() + "'失败，参数键名已存在");
         }
         configService.updateConfig(config);

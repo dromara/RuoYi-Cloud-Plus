@@ -1,5 +1,7 @@
 package com.ruoyi.resource.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.convert.Convert;
 import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -31,10 +33,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -67,6 +66,18 @@ public class SysOssServiceImpl implements ISysOssService {
             }
         }
         return list;
+    }
+
+    @Override
+    public String selectUrlByIds(String ossIds) {
+        List<String> list = new ArrayList<>();
+        for (Long id : StringUtils.splitTo(ossIds, Convert::toLong)) {
+            SysOssVo vo = SpringUtils.getAopProxy(this).getById(id);
+            if (ObjectUtil.isNotNull(vo)) {
+                list.add(this.matchingUrl(vo).getUrl());
+            }
+        }
+        return String.join(StringUtils.SEPARATOR, list);
     }
 
     private LambdaQueryWrapper<SysOss> buildQueryWrapper(SysOssBo bo) {
@@ -129,6 +140,16 @@ public class SysOssServiceImpl implements ISysOssService {
         SysOssVo sysOssVo = new SysOssVo();
         BeanCopyUtils.copy(oss, sysOssVo);
         return this.matchingUrl(sysOssVo);
+    }
+
+    @Override
+    public Boolean insertByBo(SysOssBo bo) {
+        SysOss oss = BeanUtil.toBean(bo, SysOss.class);
+        boolean flag = baseMapper.insert(oss) > 0;
+        if (flag) {
+            bo.setOssId(oss.getOssId());
+        }
+        return flag;
     }
 
     @Override

@@ -1,16 +1,13 @@
 package com.ruoyi.common.core.service;
 
+import com.ruoyi.common.core.utils.StringUtils;
+
 /**
  * 字典服务服务
  *
  * @author Lion Li
  */
 public interface DictService {
-
-    /**
-     * 分隔符
-     */
-    String SEPARATOR = ",";
 
     /**
      * 根据字典类型和字典值获取字典标签
@@ -20,7 +17,7 @@ public interface DictService {
      * @return 字典标签
      */
     default String getDictLabel(String dictType, String dictValue) {
-        return getDictLabel(dictType, dictValue, SEPARATOR);
+        return getDictLabel(dictType, dictValue, StringUtils.SEPARATOR);
     }
 
     /**
@@ -31,7 +28,7 @@ public interface DictService {
      * @return 字典值
      */
     default String getDictValue(String dictType, String dictLabel) {
-        return getDictValue(dictType, dictLabel, SEPARATOR);
+        return getDictValue(dictType, dictLabel, StringUtils.SEPARATOR);
     }
 
     /**

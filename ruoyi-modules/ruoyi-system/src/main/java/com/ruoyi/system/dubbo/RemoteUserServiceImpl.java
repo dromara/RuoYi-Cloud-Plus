@@ -3,7 +3,6 @@ package com.ruoyi.system.dubbo;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.ruoyi.common.core.constant.UserConstants;
 import com.ruoyi.common.core.enums.UserStatus;
 import com.ruoyi.common.core.exception.ServiceException;
 import com.ruoyi.common.core.exception.user.UserException;
@@ -23,7 +22,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
- * 操作日志记录
+ * 用户服务
  *
  * @author Lion Li
  */
@@ -92,10 +91,15 @@ public class RemoteUserServiceImpl implements RemoteUserService {
         if (!("true".equals(configService.selectConfigByKey("sys.account.registerUser")))) {
             throw new ServiceException("当前系统没有开启注册功能");
         }
-        if (UserConstants.NOT_UNIQUE.equals(userService.checkUserNameUnique(sysUser))) {
+        if (!userService.checkUserNameUnique(sysUser)) {
             throw new UserException("user.register.save.error", username);
         }
         return userService.registerUser(sysUser);
+    }
+
+    @Override
+    public String selectUserNameById(Long userId) {
+        return userService.selectUserNameById(userId);
     }
 
     /**

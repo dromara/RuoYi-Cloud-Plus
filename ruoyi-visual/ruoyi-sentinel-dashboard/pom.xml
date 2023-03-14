@@ -6,7 +6,7 @@
     <parent>
         <groupId>com.ruoyi</groupId>
         <artifactId>ruoyi-visual</artifactId>
-        <version>1.5.0</version>
+        <version>1.6.0</version>
     </parent>
 
     <artifactId>ruoyi-sentinel-dashboard</artifactId>
@@ -53,8 +53,8 @@
         </dependency>
 
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
+            <groupId>com.ruoyi</groupId>
+            <artifactId>ruoyi-common-web</artifactId>
             <exclusions>
                 <exclusion>
                     <groupId>org.apache.logging.log4j</groupId>
@@ -95,6 +95,7 @@
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
         </dependency>
+
     </dependencies>
 
     <build>

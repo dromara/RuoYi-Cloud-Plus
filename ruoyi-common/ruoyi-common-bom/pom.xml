@@ -6,7 +6,7 @@
 
     <groupId>com.ruoyi</groupId>
     <artifactId>ruoyi-common-bom</artifactId>
-    <version>1.5.0</version>
+    <version>1.6.0</version>
     <packaging>pom</packaging>
 
     <description>
@@ -161,6 +161,19 @@
                 <artifactId>ruoyi-common-prometheus</artifactId>
                 <version>${project.version}</version>
             </dependency>
+
+            <dependency>
+                <groupId>com.ruoyi</groupId>
+                <artifactId>ruoyi-common-translation</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.ruoyi</groupId>
+                <artifactId>ruoyi-common-encrypt</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 </project>

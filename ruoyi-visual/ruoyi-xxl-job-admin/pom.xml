@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>com.ruoyi</groupId>
 		<artifactId>ruoyi-visual</artifactId>
-		<version>1.5.0</version>
+		<version>1.6.0</version>
 	</parent>
 	<artifactId>ruoyi-xxl-job-admin</artifactId>
 	<packaging>jar</packaging>
@@ -30,8 +30,8 @@
 
 		<!-- starter-web：spring-webmvc + autoconfigure + logback + yaml + tomcat -->
 		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
+			<groupId>com.ruoyi</groupId>
+			<artifactId>ruoyi-common-web</artifactId>
 		</dependency>
 		<!-- starter-test：junit + spring-test + mockito -->
 		<dependency>
@@ -71,8 +71,8 @@
 
 		<!-- xxl-job-core -->
 		<dependency>
-			<groupId>com.xuxueli</groupId>
-			<artifactId>xxl-job-core</artifactId>
+			<groupId>com.ruoyi</groupId>
+			<artifactId>ruoyi-common-job</artifactId>
 		</dependency>
 
 	</dependencies>

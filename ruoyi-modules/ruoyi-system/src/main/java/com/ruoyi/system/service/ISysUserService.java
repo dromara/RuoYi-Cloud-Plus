@@ -84,7 +84,7 @@ public interface ISysUserService {
      * @param user 用户信息
      * @return 结果
      */
-    String checkUserNameUnique(SysUser user);
+    boolean checkUserNameUnique(SysUser user);
 
     /**
      * 校验手机号码是否唯一
@@ -92,7 +92,7 @@ public interface ISysUserService {
      * @param user 用户信息
      * @return 结果
      */
-    String checkPhoneUnique(SysUser user);
+    boolean checkPhoneUnique(SysUser user);
 
     /**
      * 校验email是否唯一
@@ -100,7 +100,7 @@ public interface ISysUserService {
      * @param user 用户信息
      * @return 结果
      */
-    String checkEmailUnique(SysUser user);
+    boolean checkEmailUnique(SysUser user);
 
     /**
      * 校验用户是否允许操作
@@ -205,5 +205,13 @@ public interface ISysUserService {
      * @return 结果
      */
     int deleteUserByIds(Long[] userIds);
+
+    /**
+     * 通过用户ID查询用户账户
+     *
+     * @param userId 用户ID
+     * @return 用户账户
+     */
+    String selectUserNameById(Long userId);
 
 }

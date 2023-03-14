@@ -5,11 +5,11 @@ import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ruoyi.common.core.constant.UserConstants;
 import com.ruoyi.common.core.exception.ServiceException;
+import com.ruoyi.common.core.utils.StringUtils;
 import com.ruoyi.common.mybatis.core.page.PageQuery;
 import com.ruoyi.common.mybatis.core.page.TableDataInfo;
 import com.ruoyi.common.satoken.utils.LoginHelper;
@@ -106,7 +106,7 @@ public class SysRoleServiceImpl implements ISysRoleService {
         Set<String> permsSet = new HashSet<>();
         for (SysRole perm : perms) {
             if (ObjectUtil.isNotNull(perm)) {
-                permsSet.addAll(Arrays.asList(perm.getRoleKey().trim().split(",")));
+                permsSet.addAll(StringUtils.splitList(perm.getRoleKey().trim()));
             }
         }
         return permsSet;
@@ -151,14 +151,11 @@ public class SysRoleServiceImpl implements ISysRoleService {
      * @return 结果
      */
     @Override
-    public String checkRoleNameUnique(SysRole role) {
+    public boolean checkRoleNameUnique(SysRole role) {
         boolean exist = baseMapper.exists(new LambdaQueryWrapper<SysRole>()
             .eq(SysRole::getRoleName, role.getRoleName())
             .ne(ObjectUtil.isNotNull(role.getRoleId()), SysRole::getRoleId, role.getRoleId()));
-        if (exist) {
-            return UserConstants.NOT_UNIQUE;
-        }
-        return UserConstants.UNIQUE;
+        return !exist;
     }
 
     /**
@@ -168,14 +165,11 @@ public class SysRoleServiceImpl implements ISysRoleService {
      * @return 结果
      */
     @Override
-    public String checkRoleKeyUnique(SysRole role) {
+    public boolean checkRoleKeyUnique(SysRole role) {
         boolean exist = baseMapper.exists(new LambdaQueryWrapper<SysRole>()
             .eq(SysRole::getRoleKey, role.getRoleKey())
             .ne(ObjectUtil.isNotNull(role.getRoleId()), SysRole::getRoleId, role.getRoleId()));
-        if (exist) {
-            return UserConstants.NOT_UNIQUE;
-        }
-        return UserConstants.UNIQUE;
+        return !exist;
     }
 
     /**

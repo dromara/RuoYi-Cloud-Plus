@@ -29,7 +29,7 @@ services:
     network_mode: "host"
 
   nacos:
-    image: ruoyi/ruoyi-nacos:1.5.0
+    image: ruoyi/ruoyi-nacos:1.6.0
     container_name: nacos
     ports:
       - "8848:8848"
@@ -96,7 +96,7 @@ services:
     network_mode: "host"
 
   seata-server:
-    image: ruoyi/ruoyi-seata-server:1.5.0
+    image: ruoyi/ruoyi-seata-server:1.6.0
     container_name: seata-server
     ports:
       - "7091:7091"
@@ -135,7 +135,7 @@ services:
     network_mode: "host"
 
   sentinel:
-    image: ruoyi/ruoyi-sentinel-dashboard:1.5.0
+    image: ruoyi/ruoyi-sentinel-dashboard:1.6.0
     container_name: sentinel
     environment:
       TZ: Asia/Shanghai
@@ -150,7 +150,7 @@ services:
     network_mode: "host"
 
   ruoyi-monitor:
-    image: ruoyi/ruoyi-monitor:1.5.0
+    image: ruoyi/ruoyi-monitor:1.6.0
     container_name: ruoyi-monitor
     environment:
       # 时区上海
@@ -166,7 +166,7 @@ services:
     network_mode: "host"
 
   ruoyi-xxl-job-admin:
-    image: ruoyi/ruoyi-xxl-job-admin:1.5.0
+    image: ruoyi/ruoyi-xxl-job-admin:1.6.0
     container_name: ruoyi-xxl-job-admin
     environment:
       # 时区上海
@@ -182,7 +182,7 @@ services:
     network_mode: "host"
 
   ruoyi-gateway:
-    image: ruoyi/ruoyi-gateway:1.5.0
+    image: ruoyi/ruoyi-gateway:1.6.0
     container_name: ruoyi-gateway
     environment:
       # 时区上海
@@ -198,7 +198,7 @@ services:
     network_mode: "host"
 
   ruoyi-auth:
-    image: ruoyi/ruoyi-auth:1.5.0
+    image: ruoyi/ruoyi-auth:1.6.0
     container_name: ruoyi-auth
     environment:
       # 时区上海
@@ -214,7 +214,7 @@ services:
     network_mode: "host"
 
   ruoyi-system:
-    image: ruoyi/ruoyi-system:1.5.0
+    image: ruoyi/ruoyi-system:1.6.0
     container_name: ruoyi-system
     environment:
       # 时区上海
@@ -230,7 +230,7 @@ services:
     network_mode: "host"
 
   ruoyi-gen:
-    image: ruoyi/ruoyi-gen:1.5.0
+    image: ruoyi/ruoyi-gen:1.6.0
     container_name: ruoyi-gen
     environment:
       # 时区上海
@@ -246,7 +246,7 @@ services:
     network_mode: "host"
 
   ruoyi-job:
-    image: ruoyi/ruoyi-job:1.5.0
+    image: ruoyi/ruoyi-job:1.6.0
     container_name: ruoyi-job
     environment:
       # 时区上海
@@ -262,7 +262,7 @@ services:
     network_mode: "host"
 
   ruoyi-resource:
-    image: ruoyi/ruoyi-resource:1.5.0
+    image: ruoyi/ruoyi-resource:1.6.0
     container_name: ruoyi-resource
     environment:
       # 时区上海
@@ -396,6 +396,10 @@ services:
       ALLOW_ANONYMOUS_LOGIN: "yes"
       ZOO_SERVER_ID: 1
       ZOO_PORT_NUMBER: 2181
+      # 自带的控制台 一般用不上可自行开启
+      ZOO_ENABLE_ADMIN_SERVER: "no"
+      # 自带控制台的端口
+      ZOO_ADMIN_SERVER_PORT_NUMBER: 8080
     network_mode: "host"
 
   kafka:
@@ -435,13 +439,13 @@ services:
     network_mode: "host"
 
   sky-oap:
-    image: apache/skywalking-oap-server:8.9.1
+    image: apache/skywalking-oap-server:9.3.0
     container_name: sky-oap
     ports:
       - "11800:11800"
       - "12800:12800"
     environment:
-      JAVA_OPTS: -Xms512m -Xmx1g
+      JAVA_OPTS: -Xms1G -Xmx2G
       #记录数据的有效期，单位天
       SW_CORE_RECORD_DATA_TTL: 7
       #分析指标数据的有效期，单位天
@@ -452,14 +456,14 @@ services:
     network_mode: "host"
 
   sky-ui:
-    image: apache/skywalking-ui:8.9.1
+    image: apache/skywalking-ui:9.3.0
     container_name: sky-ui
     ports:
       - "18080:18080"
     environment:
+      SW_SERVER_PORT: 18080
       SW_OAP_ADDRESS: http://127.0.0.1:12800
       TZ: Asia/Shanghai
-      JAVA_OPTS: "-Dserver.port=18080"
     depends_on:
       - sky-oap
     network_mode: "host"

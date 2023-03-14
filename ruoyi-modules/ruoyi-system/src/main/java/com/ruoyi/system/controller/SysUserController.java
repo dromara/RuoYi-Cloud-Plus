@@ -5,7 +5,6 @@ import cn.dev33.satoken.secure.BCrypt;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.lang.tree.Tree;
 import cn.hutool.core.util.ObjectUtil;
-import com.ruoyi.common.core.constant.UserConstants;
 import com.ruoyi.common.core.domain.R;
 import com.ruoyi.common.core.utils.StreamUtils;
 import com.ruoyi.common.core.utils.StringUtils;
@@ -34,7 +33,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 用户信息
@@ -149,13 +151,13 @@ public class SysUserController extends BaseController {
     @Log(title = "用户管理", businessType = BusinessType.INSERT)
     @PostMapping
     public R<Void> add(@Validated @RequestBody SysUser user) {
-        if (UserConstants.NOT_UNIQUE.equals(userService.checkUserNameUnique(user))) {
+        if (!userService.checkUserNameUnique(user)) {
             return R.fail("新增用户'" + user.getUserName() + "'失败，登录账号已存在");
         } else if (StringUtils.isNotEmpty(user.getPhonenumber())
-            && UserConstants.NOT_UNIQUE.equals(userService.checkPhoneUnique(user))) {
+            && !userService.checkPhoneUnique(user)) {
             return R.fail("新增用户'" + user.getUserName() + "'失败，手机号码已存在");
         } else if (StringUtils.isNotEmpty(user.getEmail())
-            && UserConstants.NOT_UNIQUE.equals(userService.checkEmailUnique(user))) {
+            && !userService.checkEmailUnique(user)) {
             return R.fail("新增用户'" + user.getUserName() + "'失败，邮箱账号已存在");
         }
         user.setPassword(BCrypt.hashpw(user.getPassword()));
@@ -171,13 +173,13 @@ public class SysUserController extends BaseController {
     public R<Void> edit(@Validated @RequestBody SysUser user) {
         userService.checkUserAllowed(user);
         userService.checkUserDataScope(user.getUserId());
-        if (UserConstants.NOT_UNIQUE.equals(userService.checkUserNameUnique(user))) {
+        if (!userService.checkUserNameUnique(user)) {
             return R.fail("修改用户'" + user.getUserName() + "'失败，登录账号已存在");
         } else if (StringUtils.isNotEmpty(user.getPhonenumber())
-            && UserConstants.NOT_UNIQUE.equals(userService.checkPhoneUnique(user))) {
+            && !userService.checkPhoneUnique(user)) {
             return R.fail("修改用户'" + user.getUserName() + "'失败，手机号码已存在");
         } else if (StringUtils.isNotEmpty(user.getEmail())
-            && UserConstants.NOT_UNIQUE.equals(userService.checkEmailUnique(user))) {
+            && !userService.checkEmailUnique(user)) {
             return R.fail("修改用户'" + user.getUserName() + "'失败，邮箱账号已存在");
         }
         return toAjax(userService.updateUser(user));
