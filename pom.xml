@@ -337,6 +337,13 @@
                 <version>${tencent.sms.version}</version>
             </dependency>
 
+            <!-- 离线IP地址定位库 ip2region -->
+            <dependency>
+                <groupId>org.lionsoul</groupId>
+                <artifactId>ip2region</artifactId>
+                <version>${ip2region.version}</version>
+            </dependency>
+
             <!-- 临时修复 snakeyaml 漏洞 -->
             <dependency>
                 <groupId>org.yaml</groupId>
@@ -348,13 +355,6 @@
                 <groupId>com.alibaba</groupId>
                 <artifactId>fastjson</artifactId>
                 <version>${fastjson.version}</version>
-            </dependency>
-
-            <!-- 离线IP地址定位库 ip2region -->
-            <dependency>
-                <groupId>org.lionsoul</groupId>
-                <artifactId>ip2region</artifactId>
-                <version>${ip2region.version}</version>
             </dependency>
 
         </dependencies>

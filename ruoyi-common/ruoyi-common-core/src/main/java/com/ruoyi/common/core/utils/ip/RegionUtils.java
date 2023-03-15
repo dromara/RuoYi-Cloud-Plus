@@ -1,16 +1,14 @@
 package com.ruoyi.common.core.utils.ip;
 
 import cn.hutool.core.io.FileUtil;
-import cn.hutool.core.net.Ipv4Util;
+import cn.hutool.core.io.resource.ClassPathResource;
 import cn.hutool.core.util.ObjectUtil;
-import cn.hutool.extra.servlet.ServletUtil;
 import com.ruoyi.common.core.exception.ServiceException;
+import com.ruoyi.common.core.utils.file.FileUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.lionsoul.ip2region.xdb.Searcher;
 
-import javax.servlet.http.HttpServletRequest;
 import java.io.File;
-import java.io.InputStream;
 
 /**
  * 根据ip地址定位工具类，离线方式
@@ -21,35 +19,17 @@ import java.io.InputStream;
 @Slf4j
 public class RegionUtils {
 
-    private static final String LOCAL_REMOTE_HOST = "0:0:0:0:0:0:0:1";
-
-    private static final Searcher searcher;
-
-    /**
-     * 获取客户端ip
-     */
-    public static String getIp(HttpServletRequest request) {
-        if (ObjectUtil.isEmpty(request)) {
-            return Ipv4Util.LOCAL_IP;
-        } else {
-            try {
-                String remoteHost = ServletUtil.getClientIP(request);
-                return LOCAL_REMOTE_HOST.equals(remoteHost) ? Ipv4Util.LOCAL_IP : remoteHost;
-            } catch (Exception e) {
-                return Ipv4Util.LOCAL_IP;
-            }
-        }
-    }
+    private static final Searcher SEARCHER;
 
     static {
         String fileName = "/ip2region.xdb";
-        File existFile = FileUtil.file(FileUtil.getTmpDir() + FileUtil.FILE_SEPARATOR + fileName);
-        if (!FileUtil.exist(existFile)) {
-            InputStream resourceAsStream = RegionUtils.class.getResourceAsStream(fileName);
-            if (ObjectUtil.isEmpty(resourceAsStream)) {
-                throw new ServiceException(">>>>>>>> IpAddressUtil初始化失败，原因：IP地址库数据不存在！");
+        File existFile = FileUtils.file(FileUtil.getTmpDir() + FileUtil.FILE_SEPARATOR + fileName);
+        if (!FileUtils.exist(existFile)) {
+            ClassPathResource fileStream = new ClassPathResource(fileName);
+            if (ObjectUtil.isEmpty(fileStream.getStream())) {
+                throw new ServiceException("RegionUtils初始化失败，原因：IP地址库数据不存在！");
             }
-            FileUtil.writeFromStream(resourceAsStream, existFile);
+            FileUtils.writeFromStream(fileStream.getStream(), existFile);
         }
 
         String dbPath = existFile.getPath();
@@ -59,13 +39,13 @@ public class RegionUtils {
         try {
             cBuff = Searcher.loadContentFromFile(dbPath);
         } catch (Exception e) {
-            throw new ServiceException(">>>>>>>> IpAddressUtil初始化失败，原因：从ip2region.xdb文件加载内容失败！" + e.getMessage());
+            throw new ServiceException("RegionUtils初始化失败，原因：从ip2region.xdb文件加载内容失败！" + e.getMessage());
         }
         // 2、使用上述的 cBuff 创建一个完全基于内存的查询对象。
         try {
-            searcher = Searcher.newWithBuffer(cBuff);
+            SEARCHER = Searcher.newWithBuffer(cBuff);
         } catch (Exception e) {
-            throw new ServiceException(">>>>>>>> IpAddressUtil初始化失败，原因：" + e.getMessage());
+            throw new ServiceException("RegionUtils初始化失败，原因：" + e.getMessage());
         }
     }
 
@@ -76,7 +56,7 @@ public class RegionUtils {
         try {
             ip = ip.trim();
             // 3、执行查询
-            String region = searcher.search(ip);
+            String region = SEARCHER.search(ip);
             return region.replace("0|", "").replace("|0", "");
         } catch (Exception e) {
             log.error("IP地址离线获取城市异常 {}", ip);
