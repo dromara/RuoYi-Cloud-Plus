@@ -55,6 +55,24 @@ public class SysLogininfor implements Serializable {
     private String ipaddr;
 
     /**
+     * 登录地点
+     */
+    @ExcelProperty(value = "登录地点")
+    private String loginLocation;
+
+    /**
+     * 浏览器类型
+     */
+    @ExcelProperty(value = "浏览器类型")
+    private String browser;
+
+    /**
+     * 操作系统
+     */
+    @ExcelProperty(value = "操作系统")
+    private String os;
+
+    /**
      * 描述
      */
     @ExcelProperty(value = "描述")
@@ -64,7 +82,7 @@ public class SysLogininfor implements Serializable {
      * 访问时间
      */
     @ExcelProperty(value = "访问时间")
-    private Date accessTime;
+    private Date loginTime;
 
     /**
      * 请求参数

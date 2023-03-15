@@ -704,22 +704,28 @@ create table sys_logininfor (
   info_id         number(20)     not null,
   user_name       varchar2(50)   default '',
   ipaddr          varchar2(128)  default '',
+  login_location  varchar2(255)  default '',
+  browser         varchar2(50)   default '',
+  os              varchar2(50)   default '',
   status          char(1)        default '0',
   msg             varchar2(255)  default '',
-  access_time     date
+  login_time      date
 );
 
 alter table sys_logininfor add constraint pk_sys_logininfor primary key (info_id);
 create unique index idx_sys_logininfor_s on sys_logininfor (status);
-create unique index idx_sys_logininfor_lt on sys_logininfor (access_time);
+create unique index idx_sys_logininfor_lt on sys_logininfor (login_time);
 
 comment on table  sys_logininfor                is '系统访问记录';
 comment on column sys_logininfor.info_id        is '访问ID';
 comment on column sys_logininfor.user_name      is '登录账号';
 comment on column sys_logininfor.ipaddr         is '登录IP地址';
+comment on column sys_logininfor.login_location is '登录地点';
+comment on column sys_logininfor.browser        is '浏览器类型';
+comment on column sys_logininfor.os             is '操作系统';
 comment on column sys_logininfor.status         is '登录状态（0成功 1失败）';
 comment on column sys_logininfor.msg            is '提示消息';
-comment on column sys_logininfor.access_time    is '访问时间';
+comment on column sys_logininfor.login_time     is '访问时间';
 
 
 -- ----------------------------

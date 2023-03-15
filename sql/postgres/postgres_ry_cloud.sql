@@ -719,22 +719,28 @@ create table if not exists sys_logininfor
     info_id        int8,
     user_name      varchar(50)  default ''::varchar,
     ipaddr         varchar(128) default ''::varchar,
+    login_location varchar(255) default ''::varchar,
+    browser        varchar(50)  default ''::varchar,
+    os             varchar(50)  default ''::varchar,
     status         char         default '0'::bpchar,
     msg            varchar(255) default ''::varchar,
-    access_time    timestamp,
+    login_time     timestamp,
     constraint sys_logininfor_pk primary key (info_id)
 );
 
 create unique index idx_sys_logininfor_s ON sys_logininfor (status);
-create unique index idx_sys_logininfor_lt ON sys_logininfor (access_time);
+create unique index idx_sys_logininfor_lt ON sys_logininfor (login_time);
 
-comment on table sys_logininfor is '系统访问记录';
-comment on column sys_logininfor.info_id is '访问ID';
-comment on column sys_logininfor.user_name is '用户账号';
-comment on column sys_logininfor.ipaddr is '登录IP地址';
-comment on column sys_logininfor.status is '登录状态（0成功 1失败）';
-comment on column sys_logininfor.msg is '提示消息';
-comment on column sys_logininfor.access_time is '访问时间';
+comment on table sys_logininfor                 is '系统访问记录';
+comment on column sys_logininfor.info_id        is '访问ID';
+comment on column sys_logininfor.user_name      is '用户账号';
+comment on column sys_logininfor.ipaddr         is '登录IP地址';
+comment on column sys_logininfor.login_location is '登录地点';
+comment on column sys_logininfor.browser        is '浏览器类型';
+comment on column sys_logininfor.os             is '操作系统';
+comment on column sys_logininfor.status         is '登录状态（0成功 1失败）';
+comment on column sys_logininfor.msg            is '提示消息';
+comment on column sys_logininfor.login_time     is '访问时间';
 
 -- ----------------------------
 -- 17、通知公告表
