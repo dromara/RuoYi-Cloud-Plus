@@ -41,6 +41,8 @@
         <elasticsearch.version>7.14.0</elasticsearch.version>
         <skywalking-toolkit.version>8.14.0</skywalking-toolkit.version>
         <bouncycastle.version>1.72</bouncycastle.version>
+        <!-- 离线IP地址定位库 -->
+        <ip2region.version>2.6.6</ip2region.version>
 
         <!-- 临时修复 snakeyaml 漏洞 -->
         <snakeyaml.version>1.33</snakeyaml.version>
@@ -346,6 +348,13 @@
                 <groupId>com.alibaba</groupId>
                 <artifactId>fastjson</artifactId>
                 <version>${fastjson.version}</version>
+            </dependency>
+
+            <!-- 离线IP地址定位库 ip2region -->
+            <dependency>
+                <groupId>org.lionsoul</groupId>
+                <artifactId>ip2region</artifactId>
+                <version>${ip2region.version}</version>
             </dependency>
 
         </dependencies>
