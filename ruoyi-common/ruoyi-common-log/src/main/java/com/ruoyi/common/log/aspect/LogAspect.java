@@ -7,7 +7,7 @@ import com.ruoyi.common.core.utils.JsonUtils;
 import com.ruoyi.common.core.utils.ServletUtils;
 import com.ruoyi.common.core.utils.SpringUtils;
 import com.ruoyi.common.core.utils.StringUtils;
-import com.ruoyi.common.core.utils.ip.IpAddressUtil;
+import com.ruoyi.common.core.utils.ip.AddressUtils;
 import com.ruoyi.common.log.annotation.Log;
 import com.ruoyi.common.log.enums.BusinessStatus;
 import com.ruoyi.common.log.event.OperLogEvent;
@@ -69,9 +69,9 @@ public class LogAspect {
             OperLogEvent operLog = new OperLogEvent();
             operLog.setStatus(BusinessStatus.SUCCESS.ordinal());
             // 请求的地址
-            String ip = IpAddressUtil.getIp(ServletUtils.getRequest());
+            String ip = ServletUtils.getClientIP();
             operLog.setOperIp(ip);
-            operLog.setOperLocation(IpAddressUtil.getCityInfo(ip));
+            operLog.setOperLocation(AddressUtils.getRealAddressByIP(ip));
             operLog.setOperUrl(StringUtils.substring(ServletUtils.getRequest().getRequestURI(), 0, 255));
             operLog.setOperName(LoginHelper.getUsername());
 

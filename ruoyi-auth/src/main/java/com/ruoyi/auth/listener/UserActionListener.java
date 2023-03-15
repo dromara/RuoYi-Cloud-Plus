@@ -9,7 +9,7 @@ import cn.hutool.http.useragent.UserAgentUtil;
 import com.ruoyi.common.core.constant.CacheConstants;
 import com.ruoyi.common.core.enums.UserType;
 import com.ruoyi.common.core.utils.ServletUtils;
-import com.ruoyi.common.core.utils.ip.IpAddressUtil;
+import com.ruoyi.common.core.utils.ip.AddressUtils;
 import com.ruoyi.common.redis.utils.RedisUtils;
 import com.ruoyi.common.satoken.utils.LoginHelper;
 import com.ruoyi.system.api.domain.SysUserOnline;
@@ -18,7 +18,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
-import javax.servlet.http.HttpServletRequest;
 import java.time.Duration;
 
 /**
@@ -40,13 +39,12 @@ public class UserActionListener implements SaTokenListener {
     public void doLogin(String loginType, Object loginId, String tokenValue, SaLoginModel loginModel) {
         UserType userType = UserType.getUserType(loginId.toString());
         if (userType == UserType.SYS_USER) {
-            HttpServletRequest request = ServletUtils.getRequest();
-            UserAgent userAgent = UserAgentUtil.parse(request.getHeader("User-Agent"));
-            String ip = IpAddressUtil.getIp(request);
+            UserAgent userAgent = UserAgentUtil.parse(ServletUtils.getRequest().getHeader("User-Agent"));
+            String ip = ServletUtils.getClientIP();
             LoginUser user = LoginHelper.getLoginUser();
             SysUserOnline userOnline = new SysUserOnline();
             userOnline.setIpaddr(ip);
-            userOnline.setLoginLocation(IpAddressUtil.getCityInfo(ip));
+            userOnline.setLoginLocation(AddressUtils.getRealAddressByIP(ip));
             userOnline.setBrowser(userAgent.getBrowser().getName());
             userOnline.setOs(userAgent.getOs().getName());
             userOnline.setLoginTime(System.currentTimeMillis());

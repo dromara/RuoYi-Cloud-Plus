@@ -19,7 +19,7 @@ import java.io.InputStream;
  * @author lishuyan
  */
 @Slf4j
-public class IpAddressUtil {
+public class RegionUtils {
 
     private static final String LOCAL_REMOTE_HOST = "0:0:0:0:0:0:0:1";
 
@@ -45,7 +45,7 @@ public class IpAddressUtil {
         String fileName = "/ip2region.xdb";
         File existFile = FileUtil.file(FileUtil.getTmpDir() + FileUtil.FILE_SEPARATOR + fileName);
         if (!FileUtil.exist(existFile)) {
-            InputStream resourceAsStream = IpAddressUtil.class.getResourceAsStream(fileName);
+            InputStream resourceAsStream = RegionUtils.class.getResourceAsStream(fileName);
             if (ObjectUtil.isEmpty(resourceAsStream)) {
                 throw new ServiceException(">>>>>>>> IpAddressUtil初始化失败，原因：IP地址库数据不存在！");
             }
