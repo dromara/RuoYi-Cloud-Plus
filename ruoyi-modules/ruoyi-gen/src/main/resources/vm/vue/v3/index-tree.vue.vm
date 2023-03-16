@@ -2,7 +2,7 @@
   <div class="app-container">
     <el-form :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch" label-width="68px">
 #foreach($column in $columns)
-#if($column.query)
+#if($column.query == 1)
 #set($dictType=$column.dictType)
 #set($AttrName=$column.javaField.substring(0,1).toUpperCase() + ${column.javaField.substring(1)})
 #set($parentheseIndex=$column.columnComment.indexOf("（"))
@@ -104,7 +104,7 @@
 #else
 #set($comment=$column.columnComment)
 #end
-#if($column.pk)
+#if($column.pk == 1)
 #elseif($column.list && $column.htmlType == "datetime")
       <el-table-column label="${comment}" align="center" prop="${javaField}" width="180">
         <template #default="scope">
@@ -149,7 +149,7 @@
       <el-form ref="${businessName}Ref" :model="form" :rules="rules" label-width="80px">
 #foreach($column in $columns)
 #set($field=$column.javaField)
-#if($column.insert && !$column.pk)
+#if($column.insert == 1 && !$column.pk == 1)
 #set($parentheseIndex=$column.columnComment.indexOf("（"))
 #if($parentheseIndex != -1)
 #set($comment=$column.columnComment.substring(0, $parentheseIndex))
@@ -298,14 +298,14 @@ const data = reactive({
   form: {},
   queryParams: {
 #foreach ($column in $columns)
-#if($column.query)
+#if($column.query == 1)
     $column.javaField: undefined#if($foreach.count != $columns.size()),#end
 #end
 #end
   },
   rules: {
 #foreach ($column in $columns)
-#if($column.required)
+#if($column.required == 1)
 #set($parentheseIndex=$column.columnComment.indexOf("（"))
 #if($parentheseIndex != -1)
 #set($comment=$column.columnComment.substring(0, $parentheseIndex))
