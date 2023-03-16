@@ -34,15 +34,15 @@ import com.ruoyi.common.core.web.domain.TreeEntity;
 public class ${ClassName}Bo extends ${Entity} {
 
 #foreach ($column in $columns)
-#if(!$table.isSuperColumn($column.javaField) && ($column.query || $column.isInsert || $column.isEdit))
+#if(!$table.isSuperColumn($column.javaField) && ($column.query == 1 || $column.isInsert == 1 || $column.isEdit == 1))
     /**
      * $column.columnComment
      */
-#if($column.isInsert && $column.isEdit)
+#if($column.isInsert == 1 && $column.isEdit == 1)
 #set($Group="AddGroup.class, EditGroup.class")
-#elseif($column.isInsert)
+#elseif($column.isInsert == 1)
 #set($Group="AddGroup.class")
-#elseif($column.isEdit)
+#elseif($column.isEdit == 1)
 #set($Group="EditGroup.class")
 #end
 #if($column.isRequired == 1)
