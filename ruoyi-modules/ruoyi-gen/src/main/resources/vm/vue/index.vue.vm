@@ -2,7 +2,7 @@
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
 #foreach($column in $columns)
-#if($column.query == 1)
+#if($column.query)
 #set($dictType=$column.dictType)
 #set($AttrName=$column.javaField.substring(0,1).toUpperCase() + ${column.javaField.substring(1)})
 #set($parentheseIndex=$column.columnComment.indexOf("（"))
@@ -124,7 +124,7 @@
 #else
 #set($comment=$column.columnComment)
 #end
-#if($column.pk == 1)
+#if($column.pk)
       <el-table-column label="${comment}" align="center" prop="${javaField}" v-if="${column.list}"/>
 #elseif($column.list && $column.htmlType == "datetime")
       <el-table-column label="${comment}" align="center" prop="${javaField}" width="180">
@@ -185,7 +185,7 @@
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
 #foreach($column in $columns)
 #set($field=$column.javaField)
-#if($column.insert == 1 && !$column.pk == 1)
+#if($column.insert && !$column.pk)
 #set($parentheseIndex=$column.columnComment.indexOf("（"))
 #if($parentheseIndex != -1)
 #set($comment=$column.columnComment.substring(0, $parentheseIndex))
@@ -304,7 +304,7 @@
 #else
 #set($comment=$column.columnComment)
 #end
-#if($column.pk == 1 || $javaField == ${subTableFkclassName})
+#if($column.pk || $javaField == ${subTableFkclassName})
 #elseif($column.list && $column.htmlType == "input")
           <el-table-column label="$comment" prop="${javaField}" width="150">
             <template slot-scope="scope">
@@ -401,7 +401,7 @@ export default {
         pageNum: 1,
         pageSize: 10,
 #foreach ($column in $columns)
-#if($column.query == 1)
+#if($column.query)
         $column.javaField: undefined#if($foreach.count != $columns.size()),#end
 #end
 #end
@@ -411,7 +411,7 @@ export default {
       // 表单校验
       rules: {
 #foreach ($column in $columns)
-#if($column.required == 1)
+#if($column.required)
 #set($parentheseIndex=$column.columnComment.indexOf("（"))
 #if($parentheseIndex != -1)
 #set($comment=$column.columnComment.substring(0, $parentheseIndex))
