@@ -66,7 +66,7 @@ public class ${ClassName}ServiceImpl implements I${ClassName}Service {
         Map<String, Object> params = bo.getParams();
         LambdaQueryWrapper<${ClassName}> lqw = Wrappers.lambdaQuery();
 #foreach($column in $columns)
-#if($column.query == 1)
+#if($column.query)
 #set($queryType=$column.queryType)
 #set($javaField=$column.javaField)
 #set($javaType=$column.javaType)
