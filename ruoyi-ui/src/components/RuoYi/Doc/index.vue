@@ -9,7 +9,7 @@ export default {
   name: 'RuoYi-Cloud-Plus-Wiki',
   data() {
     return {
-      url: 'https://gitee.com/JavaLionLi/RuoYi-Cloud-Plus/wikis'
+      url: 'https://gitee.com/dromara/RuoYi-Cloud-Plus/wikis'
     }
   },
   methods: {

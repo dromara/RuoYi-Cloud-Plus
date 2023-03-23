@@ -257,7 +257,7 @@ swagger:
     contact:
       name: Lion Li
       email: crazylionli@163.com
-      url: https://gitee.com/JavaLionLi/RuoYi-Cloud-Plus
+      url: https://gitee.com/dromara/RuoYi-Cloud-Plus
   components:
     # 鉴权方式配置
     security-schemes:
