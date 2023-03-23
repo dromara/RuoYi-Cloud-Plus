@@ -1,11 +1,11 @@
 ## 平台简介
 
-[![码云Gitee](https://gitee.com/JavaLionLi/RuoYi-Cloud-Plus/badge/star.svg?theme=blue)](https://gitee.com/JavaLionLi/RuoYi-Cloud-Plus)
-[![GitHub](https://img.shields.io/github/stars/JavaLionLi/RuoYi-Cloud-Plus.svg?style=social&label=Stars)](https://github.com/JavaLionLi/RuoYi-Cloud-Plus)
-[![License](https://img.shields.io/badge/License-MIT-blue.svg)](https://gitee.com/JavaLionLi/RuoYi-Cloud-Plus/blob/master/LICENSE)
+[![码云Gitee](https://gitee.com/dromara/RuoYi-Cloud-Plus/badge/star.svg?theme=blue)](https://gitee.com/dromara/RuoYi-Cloud-Plus)
+[![GitHub](https://img.shields.io/github/stars/JavaLionLi/RuoYi-Cloud-Plus.svg?style=social&label=Stars)](https://github.com/dromara/RuoYi-Cloud-Plus)
+[![License](https://img.shields.io/badge/License-MIT-blue.svg)](https://gitee.com/dromara/RuoYi-Cloud-Plus/blob/master/LICENSE)
 [![使用IntelliJ IDEA开发维护](https://img.shields.io/badge/IntelliJ%20IDEA-提供支持-blue.svg)](https://www.jetbrains.com/?from=RuoYi-Cloud-Plus)
 <br>
-[![RuoYi-Cloud-Plus](https://img.shields.io/badge/RuoYi_Cloud_Plus-1.6.0-success.svg)](https://gitee.com/JavaLionLi/RuoYi-Cloud-Plus)
+[![RuoYi-Cloud-Plus](https://img.shields.io/badge/RuoYi_Cloud_Plus-1.6.0-success.svg)](https://gitee.com/dromara/RuoYi-Cloud-Plus)
 [![Spring Boot](https://img.shields.io/badge/Spring%20Boot-2.7-blue.svg)]()
 [![JDK-8+](https://img.shields.io/badge/JDK-8-green.svg)]()
 [![JDK-11](https://img.shields.io/badge/JDK-11-green.svg)]()
@@ -19,9 +19,9 @@
 
 | 功能介绍      | 使用技术                     | 文档地址                                                                                               | 特性注意事项                            |
 |-----------|--------------------------|----------------------------------------------------------------------------------------------------|-----------------------------------|
-| 微服务权限管理系统 | RuoYi-Cloud-Plus         | [RuoYi-Cloud-Plus官网](https://gitee.com/JavaLionLi/RuoYi-Cloud-Plus)                                | 重写 RuoYi-Cloud 全方位升级(不兼容原框架)      |
+| 微服务权限管理系统 | RuoYi-Cloud-Plus         | [RuoYi-Cloud-Plus官网](https://gitee.com/dromara/RuoYi-Cloud-Plus)                                | 重写 RuoYi-Cloud 全方位升级(不兼容原框架)      |
 | 分布式集群分支   | RuoYi-Vue-Plus           | [RuoYi-Vue-Plus官网](https://gitee.com/JavaLionLi/RuoYi-Vue-Plus)                                    | 重写 RuoYi-Vue (不兼容原框架)             |
-| Vue3分支    | RuoYi-Cloud-Plus-UI      | [UI地址](https://gitee.com/JavaLionLi/RuoYi-Cloud-Plus-UI)                                           | 由于组件还未完善 仅供学习                     |
+| Vue3分支    | RuoYi-Cloud-Plus-UI      | [UI地址](https://gitee.com/dromara/RuoYi-Cloud-Plus-UI)                                           | 由于组件还未完善 仅供学习                     |
 | 前端开发框架    | Vue、Element UI           | [Element UI官网](https://element.eleme.cn/#/zh-CN)                                                   |                                   |
 | 后端开发框架    | SpringBoot               | [SpringBoot官网](https://spring.io/projects/spring-boot/#learn)                                      |                                   |
 | 微服务开发框架   | SpringCloud              | [SpringCloud官网](https://spring.io/projects/spring-cloud)                                           |                                   |
@@ -61,9 +61,9 @@
 | Redis客户端  | Redisson                 | [Redisson文档](https://github.com/redisson/redisson/wiki/%E7%9B%AE%E5%BD%95)                         | 支持单机、集群配置                         |
 | 校验框架      | Validation               | [Validation文档](https://docs.jboss.org/hibernate/stable/validator/reference/en-US/html_single/)     | 增强接口安全性、严谨性 支持国际化                 |
 | Excel框架   | Alibaba EasyExcel        | [EasyExcel文档](https://www.yuque.com/easyexcel/doc/easyexcel)                                       | 性能优异 扩展性强                         |
-| 文档框架      | SpringDoc、javadoc        | [接口文档](https://gitee.com/JavaLionLi/RuoYi-Cloud-Plus/wikis/pages?sort_id=5877829&doc_id=2056143)   | 无注解零入侵基于java注释                    |
+| 文档框架      | SpringDoc、javadoc        | [接口文档](https://gitee.com/dromara/RuoYi-Cloud-Plus/wikis/pages?sort_id=5877829&doc_id=2056143)   | 无注解零入侵基于java注释                    |
 | 工具类框架     | Hutool、Lombok            | [Hutool文档](https://www.hutool.cn/docs/)                                                            | 减少代码冗余 增加安全性                      |
-| 代码生成器     | 适配MP、SpringDoc规范化代码      | [代码生成文档](https://gitee.com/JavaLionLi/RuoYi-Cloud-Plus/wikis/pages?sort_id=5522467&doc_id=2056143) | 一键生成前后端代码                         |
+| 代码生成器     | 适配MP、SpringDoc规范化代码      | [代码生成文档](https://gitee.com/dromara/RuoYi-Cloud-Plus/wikis/pages?sort_id=5522467&doc_id=2056143) | 一键生成前后端代码                         |
 | 部署方式      | Docker                   | [Docker文档](https://docs.docker.com/)                                                               | 容器编排 一键部署业务集群                     |
 | 国际化       | SpringMessage            | [SpringMVC文档](https://docs.spring.io/spring-framework/docs/current/reference/html/web.html#mvc)    | Spring标准国际化方案                     |
 
@@ -71,17 +71,17 @@
 
 使用框架前请仔细阅读文档重点注意事项
 <br>
->[初始化项目 必看](https://gitee.com/JavaLionLi/RuoYi-Cloud-Plus/wikis/pages?sort_id=5279751&doc_id=2056143)
->>[https://gitee.com/JavaLionLi/RuoYi-Cloud-Plus/wikis/pages?sort_id=5279751&doc_id=2056143](https://gitee.com/JavaLionLi/RuoYi-Cloud-Plus/wikis/pages?sort_id=5279751&doc_id=2056143)
+>[初始化项目 必看](https://gitee.com/dromara/RuoYi-Cloud-Plus/wikis/pages?sort_id=5279751&doc_id=2056143)
+>>[https://gitee.com/dromara/RuoYi-Cloud-Plus/wikis/pages?sort_id=5279751&doc_id=2056143](https://gitee.com/dromara/RuoYi-Cloud-Plus/wikis/pages?sort_id=5279751&doc_id=2056143)
 >
->[专栏与视频 入门必看](https://gitee.com/JavaLionLi/RuoYi-Cloud-Plus/wikis/pages?sort_id=5873351&doc_id=2056143)
->>[https://gitee.com/JavaLionLi/RuoYi-Cloud-Plus/wikis/pages?sort_id=5873351&doc_id=2056143](https://gitee.com/JavaLionLi/RuoYi-Cloud-Plus/wikis/pages?sort_id=5873351&doc_id=2056143)
+>[专栏与视频 入门必看](https://gitee.com/dromara/RuoYi-Cloud-Plus/wikis/pages?sort_id=5873351&doc_id=2056143)
+>>[https://gitee.com/dromara/RuoYi-Cloud-Plus/wikis/pages?sort_id=5873351&doc_id=2056143](https://gitee.com/dromara/RuoYi-Cloud-Plus/wikis/pages?sort_id=5873351&doc_id=2056143)
 >
->[部署项目 必看](https://gitee.com/JavaLionLi/RuoYi-Cloud-Plus/wikis/pages?sort_id=5305504&doc_id=2056143)
->>[https://gitee.com/JavaLionLi/RuoYi-Cloud-Plus/wikis/pages?sort_id=5305504&doc_id=2056143](https://gitee.com/JavaLionLi/RuoYi-Cloud-Plus/wikis/pages?sort_id=5305504&doc_id=2056143)
+>[部署项目 必看](https://gitee.com/dromara/RuoYi-Cloud-Plus/wikis/pages?sort_id=5305504&doc_id=2056143)
+>>[https://gitee.com/dromara/RuoYi-Cloud-Plus/wikis/pages?sort_id=5305504&doc_id=2056143](https://gitee.com/dromara/RuoYi-Cloud-Plus/wikis/pages?sort_id=5305504&doc_id=2056143)
 >
->[参考文档 Wiki](https://gitee.com/JavaLionLi/RuoYi-Cloud-Plus/wikis/pages)
->>[https://gitee.com/JavaLionLi/RuoYi-Cloud-Plus/wikis/pages](https://gitee.com/JavaLionLi/RuoYi-Cloud-Plus/wikis/pages)
+>[参考文档 Wiki](https://gitee.com/dromara/RuoYi-Cloud-Plus/wikis/pages)
+>>[https://gitee.com/dromara/RuoYi-Cloud-Plus/wikis/pages](https://gitee.com/dromara/RuoYi-Cloud-Plus/wikis/pages)
 
 
 ## 软件架构图
@@ -95,7 +95,7 @@
 ### 其他
 
 * 同步升级 RuoYi-Cloud
-* github 地址 [RuoYi-Cloud-Plus-github](https://github.com/JavaLionLi/RuoYi-Cloud-Plus)
+* github 地址 [RuoYi-Cloud-Plus-github](https://github.com/dromara/RuoYi-Cloud-Plus)
 * 分离版分支 [RuoYi-Vue-Plus](https://gitee.com/JavaLionLi/RuoYi-Vue-Plus)
 * 单模块 fast 分支 [RuoYi-Vue-Plus-fast](https://gitee.com/JavaLionLi/RuoYi-Vue-Plus/tree/fast/)
 

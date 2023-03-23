@@ -62,14 +62,14 @@
             size="mini"
             icon="el-icon-cloudy"
             plain
-            @click="goTarget('https://gitee.com/JavaLionLi/RuoYi-Cloud-Plus')"
+            @click="goTarget('https://gitee.com/dromara/RuoYi-Cloud-Plus')"
             >访问码云</el-button
           >
           <el-button
             size="mini"
             icon="el-icon-s-home"
             plain
-            @click="goTarget('https://github.com/JavaLionLi/RuoYi-Cloud-Plus')"
+            @click="goTarget('https://github.com/dromara/RuoYi-Cloud-Plus')"
             >访问主页</el-button
           >
           <el-button
@@ -77,7 +77,7 @@
             size="mini"
             icon="el-icon-cloudy"
             plain
-            @click="goTarget('https://gitee.com/JavaLionLi/RuoYi-Cloud-Plus/wikis/pages?sort_id=5303316&doc_id=2056143')"
+            @click="goTarget('https://gitee.com/dromara/RuoYi-Cloud-Plus/wikis/pages?sort_id=5303316&doc_id=2056143')"
           >更新日志</el-button
           >
         </p>
@@ -127,9 +127,9 @@
           <div class="body">
             <p>
               <i class="el-icon-s-promotion"></i> 官网：<el-link
-                href="https://gitee.com/JavaLionLi/RuoYi-Cloud-Plus"
+                href="https://gitee.com/dromara/RuoYi-Cloud-Plus"
                 target="_blank"
-                >https://gitee.com/JavaLionLi/RuoYi-Cloud-Plus</el-link
+                >https://gitee.com/dromara/RuoYi-Cloud-Plus</el-link
               >
             </p>
           </div>

@@ -9,7 +9,7 @@ export default {
   name: 'RuoYi-Cloud-Plus-Git',
   data() {
     return {
-      url: 'https://gitee.com/JavaLionLi/RuoYi-Cloud-Plus'
+      url: 'https://gitee.com/dromara/RuoYi-Cloud-Plus'
     }
   },
   methods: {
