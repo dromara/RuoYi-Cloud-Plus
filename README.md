@@ -1,3 +1,7 @@
+<img src="https://foruda.gitee.com/images/1679673780944866919/d908a86f_1766278.png" width="56%" height="56%">
+<div style="height: 10px; clear: both;"></div>
+
+- - -
 ## 平台简介
 
 [![码云Gitee](https://gitee.com/dromara/RuoYi-Cloud-Plus/badge/star.svg?theme=blue)](https://gitee.com/dromara/RuoYi-Cloud-Plus)
