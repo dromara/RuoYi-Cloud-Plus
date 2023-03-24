@@ -31,7 +31,13 @@ import com.alibaba.nacos.plugin.auth.constant.ActionTypes;
 import com.alibaba.nacos.plugin.auth.constant.SignType;
 import com.alibaba.nacos.plugin.auth.impl.constant.AuthConstants;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.UUID;
@@ -45,19 +51,19 @@ import java.util.regex.Pattern;
  */
 @NacosApi
 @RestController
-@RequestMapping(path = "/v2/console/namespace")
+@RequestMapping("/v2/console/namespace")
 public class NamespaceControllerV2 {
-
+    
     private final NamespaceOperationService namespaceOperationService;
-
+    
     public NamespaceControllerV2(NamespaceOperationService namespaceOperationService) {
         this.namespaceOperationService = namespaceOperationService;
     }
-
+    
     private final Pattern namespaceIdCheckPattern = Pattern.compile("^[\\w-]+");
-
+    
     private static final int NAMESPACE_ID_MAX_LENGTH = 128;
-
+    
     /**
      * Get namespace list.
      *
@@ -67,7 +73,7 @@ public class NamespaceControllerV2 {
     public Result<List<Namespace>> getNamespaceList() {
         return Result.success(namespaceOperationService.getNamespaceList());
     }
-
+    
     /**
      * get namespace all info by namespace id.
      *
@@ -81,7 +87,7 @@ public class NamespaceControllerV2 {
             throws NacosException {
         return Result.success(namespaceOperationService.getNamespace(namespaceId));
     }
-
+    
     /**
      * create namespace.
      *
@@ -92,13 +98,13 @@ public class NamespaceControllerV2 {
     @Secured(resource = AuthConstants.CONSOLE_RESOURCE_NAME_PREFIX
             + "namespaces", action = ActionTypes.WRITE, signType = SignType.CONSOLE)
     public Result<Boolean> createNamespace(NamespaceForm namespaceForm) throws NacosException {
-
+        
         namespaceForm.validate();
-
+        
         String namespaceId = namespaceForm.getNamespaceId();
         String namespaceName = namespaceForm.getNamespaceName();
         String namespaceDesc = namespaceForm.getNamespaceDesc();
-
+        
         if (StringUtils.isBlank(namespaceId)) {
             namespaceId = UUID.randomUUID().toString();
         } else {
@@ -114,7 +120,7 @@ public class NamespaceControllerV2 {
         }
         return Result.success(namespaceOperationService.createNamespace(namespaceId, namespaceName, namespaceDesc));
     }
-
+    
     /**
      * edit namespace.
      *
@@ -130,7 +136,7 @@ public class NamespaceControllerV2 {
                 .editNamespace(namespaceForm.getNamespaceId(), namespaceForm.getNamespaceName(),
                         namespaceForm.getNamespaceDesc()));
     }
-
+    
     /**
      * delete namespace by id.
      *
