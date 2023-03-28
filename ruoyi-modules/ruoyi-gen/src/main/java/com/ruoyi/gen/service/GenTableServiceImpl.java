@@ -296,6 +296,7 @@ public class GenTableServiceImpl implements IGenTableService {
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void synchDb(String tableName) {
+
         GenTable table = baseMapper.selectGenTableByName(tableName);
         List<GenTableColumn> tableColumns = table.getColumns();
         Map<String, GenTableColumn> tableColumnMap = StreamUtils.toIdentityMap(tableColumns, GenTableColumn::getColumnName);
@@ -324,13 +325,12 @@ public class GenTableServiceImpl implements IGenTableService {
                     column.setIsRequired(prevColumn.getIsRequired());
                     column.setHtmlType(prevColumn.getHtmlType());
                 }
-                genTableColumnMapper.updateById(column);
-            } else {
-                genTableColumnMapper.insert(column);
             }
+            saveColumns.add(column);
         });
+
         if (CollUtil.isNotEmpty(saveColumns)) {
-            genTableColumnMapper.insertBatch(saveColumns);
+            genTableColumnMapper.insertOrUpdateBatch(saveColumns);
         }
 
         List<GenTableColumn> delColumns = StreamUtils.filter(tableColumns, column -> !dbTableColumnNames.contains(column.getColumnName()));
