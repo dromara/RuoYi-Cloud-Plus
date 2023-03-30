@@ -1,6 +1,6 @@
 package com.ruoyi.common.loadbalance.core;
 
-import com.ruoyi.common.loadbalance.constant.LoadBalancerConstant;
+import cn.hutool.core.net.NetUtil;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.ObjectProvider;
@@ -54,7 +54,7 @@ public class CustomSpringCloudLoadBalancer implements ReactorServiceInstanceLoad
             return new EmptyResponse();
         }
         for (ServiceInstance instance : instances) {
-            if (instance.getHost().equals(LoadBalancerConstant.getHost())) {
+            if (NetUtil.localIpv4s().contains(instance.getHost())) {
                 return new DefaultResponse(instance);
             }
         }
