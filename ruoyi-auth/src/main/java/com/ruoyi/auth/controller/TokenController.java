@@ -1,5 +1,6 @@
 package com.ruoyi.auth.controller;
 
+import com.ruoyi.auth.form.EmailLoginBody;
 import com.ruoyi.auth.form.LoginBody;
 import com.ruoyi.auth.form.RegisterBody;
 import com.ruoyi.auth.form.SmsLoginBody;
@@ -54,6 +55,21 @@ public class TokenController {
         Map<String, Object> ajax = new HashMap<>();
         // 生成令牌
         String token = sysLoginService.smsLogin(smsLoginBody.getPhonenumber(), smsLoginBody.getSmsCode());
+        ajax.put(Constants.ACCESS_TOKEN, token);
+        return R.ok(ajax);
+    }
+
+    /**
+     * 邮件登录
+     *
+     * @param body 登录信息
+     * @return 结果
+     */
+    @PostMapping("/emailLogin")
+    public R<Map<String, Object>> emailLogin(@Validated @RequestBody EmailLoginBody body) {
+        Map<String, Object> ajax = new HashMap<>();
+        // 生成令牌
+        String token = sysLoginService.emailLogin(body.getEmail(), body.getEmailCode());
         ajax.put(Constants.ACCESS_TOKEN, token);
         return R.ok(ajax);
     }

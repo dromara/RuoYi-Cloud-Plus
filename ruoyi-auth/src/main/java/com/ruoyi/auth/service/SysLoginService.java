@@ -78,6 +78,18 @@ public class SysLoginService {
         return StpUtil.getTokenValue();
     }
 
+    public String emailLogin(String email, String emailCode) {
+        // 通过邮箱查找用户
+        LoginUser userInfo = remoteUserService.getUserInfoByEmail(email);
+
+        checkLogin(LoginType.EMAIL, userInfo.getUsername(), () -> !validateEmailCode(email, emailCode));
+        // 生成token
+        LoginHelper.loginByDevice(userInfo, DeviceType.APP);
+
+        recordLogininfor(userInfo.getUsername(), Constants.LOGIN_SUCCESS, MessageUtils.message("user.login.success"));
+        return StpUtil.getTokenValue();
+    }
+
     public String xcxLogin(String xcxCode) {
         // xcxCode 为 小程序调用 wx.login 授权后获取
         // todo 自行实现 校验 appid + appsrcret + xcxCode 调用登录凭证校验接口 获取 session_key 与 openid
@@ -169,6 +181,18 @@ public class SysLoginService {
             throw new CaptchaExpireException();
         }
         return code.equals(smsCode);
+    }
+
+    /**
+     * 校验邮箱验证码
+     */
+    private boolean validateEmailCode(String email, String emailCode) {
+        String code = RedisUtils.getCacheObject(CacheConstants.CAPTCHA_CODE_KEY + email);
+        if (StringUtils.isBlank(code)) {
+            recordLogininfor(email, Constants.LOGIN_FAIL, MessageUtils.message("user.jcaptcha.expire"));
+            throw new CaptchaExpireException();
+        }
+        return code.equals(emailCode);
     }
 
     /**

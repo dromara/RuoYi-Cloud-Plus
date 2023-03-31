@@ -29,6 +29,14 @@ public interface RemoteUserService {
     LoginUser getUserInfoByPhonenumber(String phonenumber) throws UserException;
 
     /**
+     * 通过邮箱查询用户信息
+     *
+     * @param email 邮箱
+     * @return 结果
+     */
+    LoginUser getUserInfoByEmail(String email) throws UserException;
+
+    /**
      * 通过openid查询用户信息
      *
      * @param openid openid
