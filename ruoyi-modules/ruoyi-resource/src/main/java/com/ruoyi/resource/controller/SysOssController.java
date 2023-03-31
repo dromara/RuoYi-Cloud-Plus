@@ -4,7 +4,6 @@ package com.ruoyi.resource.controller;
 import cn.dev33.satoken.annotation.SaCheckPermission;
 import cn.hutool.core.util.ObjectUtil;
 import com.ruoyi.common.core.domain.R;
-import com.ruoyi.common.core.exception.ServiceException;
 import com.ruoyi.common.core.validate.QueryGroup;
 import com.ruoyi.common.core.web.controller.BaseController;
 import com.ruoyi.common.log.annotation.Log;
@@ -72,7 +71,7 @@ public class SysOssController extends BaseController {
     @PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public R<Map<String, String>> upload(@RequestPart("file") MultipartFile file) {
         if (ObjectUtil.isNull(file)) {
-            throw new ServiceException("上传文件不能为空");
+            return R.fail("上传文件不能为空");
         }
         SysOssVo oss = iSysOssService.upload(file);
         Map<String, String> map = new HashMap<>(2);
