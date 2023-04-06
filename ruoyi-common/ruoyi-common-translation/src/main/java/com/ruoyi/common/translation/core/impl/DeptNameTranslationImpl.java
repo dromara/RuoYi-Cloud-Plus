@@ -19,6 +19,7 @@ public class DeptNameTranslationImpl implements TranslationInterface<String> {
     @DubboReference
     private RemoteDeptService remoteDeptService;
 
+    @Override
     public String translation(Object key, String other) {
         return remoteDeptService.selectDeptNameByIds(key.toString());
     }
