@@ -72,6 +72,18 @@ export default {
     height: 100%;
     width: 100%;
 
+    .el-scrollbar{
+      height: 100%;
+    }
+
+    ::v-deep .el-scrollbar__bar.is-vertical {
+      z-index: 10;
+    }
+
+    ::v-deep .el-scrollbar__wrap {
+      overflow-x: hidden;
+    }
+
     &.mobile.openSidebar {
       position: fixed;
       top: 0;
