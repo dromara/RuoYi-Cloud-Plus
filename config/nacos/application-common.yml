@@ -163,7 +163,7 @@ logging:
     org.springframework: warn
     org.apache.dubbo: warn
     com.alibaba.nacos: warn
-  config: classpath:logback.xml
+  config: classpath:logback-plus.xml
 
 # Sa-Token配置
 sa-token:
