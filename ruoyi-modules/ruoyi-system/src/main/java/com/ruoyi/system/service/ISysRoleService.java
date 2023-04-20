@@ -174,4 +174,7 @@ public interface ISysRoleService {
      * @return 结果
      */
     int insertAuthUsers(Long roleId, Long[] userIds);
+
+    void cleanOnlineUserByRole(Long roleId);
+
 }

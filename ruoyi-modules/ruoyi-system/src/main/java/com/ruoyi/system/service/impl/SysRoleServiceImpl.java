@@ -1,5 +1,7 @@
 package com.ruoyi.system.service.impl;
 
+import cn.dev33.satoken.exception.NotLoginException;
+import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
@@ -14,6 +16,7 @@ import com.ruoyi.common.mybatis.core.page.PageQuery;
 import com.ruoyi.common.mybatis.core.page.TableDataInfo;
 import com.ruoyi.common.satoken.utils.LoginHelper;
 import com.ruoyi.system.api.domain.SysRole;
+import com.ruoyi.system.api.model.LoginUser;
 import com.ruoyi.system.domain.SysRoleDept;
 import com.ruoyi.system.domain.SysRoleMenu;
 import com.ruoyi.system.domain.SysUserRole;
@@ -361,9 +364,13 @@ public class SysRoleServiceImpl implements ISysRoleService {
      */
     @Override
     public int deleteAuthUser(SysUserRole userRole) {
-        return userRoleMapper.delete(new LambdaQueryWrapper<SysUserRole>()
+        int rows = userRoleMapper.delete(new LambdaQueryWrapper<SysUserRole>()
             .eq(SysUserRole::getRoleId, userRole.getRoleId())
             .eq(SysUserRole::getUserId, userRole.getUserId()));
+        if (rows > 0) {
+            cleanOnlineUserByRole(userRole.getRoleId());
+        }
+        return rows;
     }
 
     /**
@@ -375,9 +382,13 @@ public class SysRoleServiceImpl implements ISysRoleService {
      */
     @Override
     public int deleteAuthUsers(Long roleId, Long[] userIds) {
-        return userRoleMapper.delete(new LambdaQueryWrapper<SysUserRole>()
+        int rows = userRoleMapper.delete(new LambdaQueryWrapper<SysUserRole>()
             .eq(SysUserRole::getRoleId, roleId)
             .in(SysUserRole::getUserId, Arrays.asList(userIds)));
+        if (rows > 0) {
+            cleanOnlineUserByRole(roleId);
+        }
+        return rows;
     }
 
     /**
@@ -401,6 +412,33 @@ public class SysRoleServiceImpl implements ISysRoleService {
         if (list.size() > 0) {
             rows = userRoleMapper.insertBatch(list) ? list.size() : 0;
         }
+        if (rows > 0) {
+            cleanOnlineUserByRole(roleId);
+        }
         return rows;
     }
+
+    @Override
+    public void cleanOnlineUserByRole(Long roleId) {
+        List<String> keys = StpUtil.searchTokenValue("", 0, -1, false);
+        if (CollUtil.isEmpty(keys)) {
+            return;
+        }
+        // 角色关联的在线用户量过大会导致redis阻塞卡顿 谨慎操作
+        keys.parallelStream().forEach(key -> {
+            String token = StringUtils.substringAfterLast(key, ":");
+            // 如果已经过期则跳过
+            if (StpUtil.stpLogic.getTokenActivityTimeoutByToken(token) < -1) {
+                return;
+            }
+            LoginUser loginUser = LoginHelper.getLoginUser(token);
+            if (loginUser.getRoles().stream().anyMatch(r -> r.getRoleId().equals(roleId))) {
+                try {
+                    StpUtil.logoutByTokenValue(token);
+                } catch (NotLoginException ignored) {
+                }
+            }
+        });
+    }
+
 }
