@@ -42,6 +42,8 @@
         <skywalking-toolkit.version>8.14.0</skywalking-toolkit.version>
         <bouncycastle.version>1.72</bouncycastle.version>
         <alibaba-ttl.version>2.14.2</alibaba-ttl.version>
+        <mapstruct-plus.version>1.2.1</mapstruct-plus.version>
+        <mapstruct-plus.lombok.version>0.2.0</mapstruct-plus.lombok.version>
         <!-- 离线IP地址定位库 -->
         <ip2region.version>2.7.0</ip2region.version>
 
@@ -364,6 +366,13 @@
                 <version>${alibaba-ttl.version}</version>
             </dependency>
 
+            <dependency>
+                <groupId>io.github.linpeilie</groupId>
+                <artifactId>mapstruct-plus-spring-boot-starter</artifactId>
+                <version>${mapstruct-plus.version}</version>
+            </dependency>
+
+
 
         </dependencies>
     </dependencyManagement>
@@ -408,6 +417,16 @@
                             <groupId>org.springframework.boot</groupId>
                             <artifactId>spring-boot-configuration-processor</artifactId>
                             <version>${spring-boot.version}</version>
+                        </path>
+                        <path>
+                            <groupId>io.github.linpeilie</groupId>
+                            <artifactId>mapstruct-plus-processor</artifactId>
+                            <version>${mapstruct-plus.version}</version>
+                        </path>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok-mapstruct-binding</artifactId>
+                            <version>${mapstruct-plus.lombok.version}</version>
                         </path>
                     </annotationProcessorPaths>
                 </configuration>
