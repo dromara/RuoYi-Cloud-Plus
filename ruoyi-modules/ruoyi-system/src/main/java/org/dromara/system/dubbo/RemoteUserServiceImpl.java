@@ -127,6 +127,7 @@ public class RemoteUserServiceImpl implements RemoteUserService {
      */
     private LoginUser buildLoginUser(SysUserVo userVo) {
         LoginUser loginUser = new LoginUser();
+        loginUser.setTenantId(userVo.getTenantId());
         loginUser.setUserId(userVo.getUserId());
         loginUser.setDeptId(userVo.getDeptId());
         loginUser.setUsername(userVo.getUserName());

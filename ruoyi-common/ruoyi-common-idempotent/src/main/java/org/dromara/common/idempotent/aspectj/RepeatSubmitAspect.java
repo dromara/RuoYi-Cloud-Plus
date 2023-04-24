@@ -3,7 +3,12 @@ package org.dromara.common.idempotent.aspectj;
 import cn.dev33.satoken.SaManager;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.crypto.SecureUtil;
-import org.dromara.common.core.constant.Constants;
+import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.annotation.AfterReturning;
+import org.aspectj.lang.annotation.AfterThrowing;
+import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
+import org.dromara.common.core.constant.GlobalConstants;
 import org.dromara.common.core.domain.R;
 import org.dromara.common.core.exception.ServiceException;
 import org.dromara.common.core.utils.JsonUtils;
@@ -12,11 +17,6 @@ import org.dromara.common.core.utils.ServletUtils;
 import org.dromara.common.core.utils.StringUtils;
 import org.dromara.common.idempotent.annotation.RepeatSubmit;
 import org.dromara.common.redis.utils.RedisUtils;
-import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.annotation.AfterReturning;
-import org.aspectj.lang.annotation.AfterThrowing;
-import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -55,7 +55,7 @@ public class RepeatSubmitAspect {
 
         submitKey = SecureUtil.md5(submitKey + ":" + nowParams);
         // 唯一标识（指定key + url + 消息头）
-        String cacheRepeatKey = Constants.REPEAT_SUBMIT_KEY + url + submitKey;
+        String cacheRepeatKey = GlobalConstants.REPEAT_SUBMIT_KEY + url + submitKey;
         String key = RedisUtils.getCacheObject(cacheRepeatKey);
         if (key == null) {
             RedisUtils.setCacheObject(cacheRepeatKey, "", Duration.ofMillis(interval));

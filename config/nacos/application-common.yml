@@ -207,7 +207,7 @@ mybatis-plus:
     mapUnderscoreToCamelCase: true
     # MyBatis 自动映射策略
     # NONE：不启用 PARTIAL：只对非嵌套 resultMap 自动映射 FULL：对所有 resultMap 自动映射
-    autoMappingBehavior: PARTIAL
+    autoMappingBehavior: FULL
     # MyBatis 自动映射时未知列或未知属性处理策
     # NONE：不做处理 WARNING：打印相关警告 FAILING：抛出异常和详细信息
     autoMappingUnknownColumnBehavior: NONE
@@ -300,3 +300,17 @@ seata:
       server-addr: ${spring.cloud.nacos.server-addr}
       group: ${spring.cloud.nacos.discovery.group}
       namespace: ${spring.profiles.active}
+
+# 多租户配置
+tenant:
+  # 是否开启
+  enable: true
+  # 排除表
+  excludes:
+    - sys_menu
+    - sys_tenant
+    - sys_tenant_package
+    - sys_role_dept
+    - sys_role_menu
+    - sys_user_post
+    - sys_user_role

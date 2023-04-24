@@ -3,6 +3,7 @@ package org.dromara.auth.controller;
 import cn.hutool.core.collection.CollUtil;
 import lombok.RequiredArgsConstructor;
 import org.apache.dubbo.config.annotation.DubboReference;
+import org.dromara.auth.domain.convert.TenantVoConvert;
 import org.dromara.auth.domain.vo.LoginTenantVo;
 import org.dromara.auth.domain.vo.LoginVo;
 import org.dromara.auth.domain.vo.TenantListVo;
@@ -12,14 +13,16 @@ import org.dromara.auth.form.RegisterBody;
 import org.dromara.auth.form.SmsLoginBody;
 import org.dromara.auth.service.SysLoginService;
 import org.dromara.common.core.domain.R;
-import org.dromara.common.core.utils.MapstructUtils;
 import org.dromara.common.core.utils.StreamUtils;
 import org.dromara.common.core.utils.StringUtils;
 import org.dromara.common.tenant.helper.TenantHelper;
 import org.dromara.system.api.RemoteTenantService;
 import org.dromara.system.api.domain.vo.RemoteTenantVo;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.NotBlank;
@@ -104,7 +107,7 @@ public class TokenController {
     /**
      * 登出方法
      */
-    @DeleteMapping("logout")
+    @PostMapping("logout")
     public R<Void> logout() {
         sysLoginService.logout();
         return R.ok();
@@ -128,7 +131,7 @@ public class TokenController {
     @GetMapping("/tenant/list")
     public R<LoginTenantVo> tenantList(HttpServletRequest request) throws Exception {
         List<RemoteTenantVo> tenantList = remoteTenantService.queryList();
-        List<TenantListVo> voList = MapstructUtils.convert(tenantList, TenantListVo.class);
+        List<TenantListVo> voList = TenantVoConvert.INSTANCE.convertList(tenantList);
         // 获取域名
         String host = new URL(request.getRequestURL().toString()).getHost();
         // 根据域名进行筛选

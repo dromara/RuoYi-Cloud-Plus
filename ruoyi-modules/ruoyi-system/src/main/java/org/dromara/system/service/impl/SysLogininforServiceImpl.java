@@ -1,17 +1,11 @@
 package org.dromara.system.service.impl;
 
-import cn.hutool.http.useragent.UserAgent;
-import cn.hutool.http.useragent.UserAgentUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.dromara.common.core.constant.Constants;
 import org.dromara.common.core.utils.MapstructUtils;
-import org.dromara.common.core.utils.ServletUtils;
 import org.dromara.common.core.utils.StringUtils;
-import org.dromara.common.core.utils.ip.AddressUtils;
-import org.dromara.common.log.event.LogininforEvent;
 import org.dromara.common.mybatis.core.page.PageQuery;
 import org.dromara.common.mybatis.core.page.TableDataInfo;
 import org.dromara.system.domain.SysLogininfor;
@@ -19,11 +13,8 @@ import org.dromara.system.domain.bo.SysLogininforBo;
 import org.dromara.system.domain.vo.SysLogininforVo;
 import org.dromara.system.mapper.SysLogininforMapper;
 import org.dromara.system.service.ISysLogininforService;
-import org.springframework.context.event.EventListener;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -41,49 +32,6 @@ public class SysLogininforServiceImpl implements ISysLogininforService {
 
     private final SysLogininforMapper baseMapper;
 
-    /**
-     * 记录登录信息
-     *
-     * @param logininforEvent 登录事件
-     */
-    @Async
-    @EventListener
-    public void recordLogininfor(LogininforEvent logininforEvent) {
-        HttpServletRequest request = logininforEvent.getRequest();
-        final UserAgent userAgent = UserAgentUtil.parse(request.getHeader("User-Agent"));
-        final String ip = ServletUtils.getClientIP(request);
-
-        String address = AddressUtils.getRealAddressByIP(ip);
-        StringBuilder s = new StringBuilder();
-        s.append(getBlock(ip));
-        s.append(address);
-        s.append(getBlock(logininforEvent.getUsername()));
-        s.append(getBlock(logininforEvent.getStatus()));
-        s.append(getBlock(logininforEvent.getMessage()));
-        // 打印信息到日志
-        log.info(s.toString(), logininforEvent.getArgs());
-        // 获取客户端操作系统
-        String os = userAgent.getOs().getName();
-        // 获取客户端浏览器
-        String browser = userAgent.getBrowser().getName();
-        // 封装对象
-        SysLogininforBo logininfor = new SysLogininforBo();
-        logininfor.setTenantId(logininforEvent.getTenantId());
-        logininfor.setUserName(logininforEvent.getUsername());
-        logininfor.setIpaddr(ip);
-        logininfor.setLoginLocation(address);
-        logininfor.setBrowser(browser);
-        logininfor.setOs(os);
-        logininfor.setMsg(logininforEvent.getMessage());
-        // 日志状态
-        if (StringUtils.equalsAny(logininforEvent.getStatus(), Constants.LOGIN_SUCCESS, Constants.LOGOUT, Constants.REGISTER)) {
-            logininfor.setStatus(Constants.SUCCESS);
-        } else if (Constants.LOGIN_FAIL.equals(logininforEvent.getStatus())) {
-            logininfor.setStatus(Constants.FAIL);
-        }
-        // 插入数据
-        insertLogininfor(logininfor);
-    }
 
     private String getBlock(Object msg) {
         if (msg == null) {

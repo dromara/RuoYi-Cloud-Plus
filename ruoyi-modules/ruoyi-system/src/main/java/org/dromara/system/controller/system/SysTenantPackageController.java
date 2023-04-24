@@ -34,7 +34,7 @@ import java.util.List;
 @Validated
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/system/tenant/package")
+@RequestMapping("/tenant/package")
 public class SysTenantPackageController extends BaseController {
 
     private final ISysTenantPackageService tenantPackageService;

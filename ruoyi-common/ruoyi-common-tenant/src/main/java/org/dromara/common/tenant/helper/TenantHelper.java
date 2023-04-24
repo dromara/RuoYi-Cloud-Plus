@@ -1,7 +1,6 @@
 package org.dromara.common.tenant.helper;
 
 import cn.dev33.satoken.context.SaHolder;
-import cn.dev33.satoken.spring.SpringMVCUtil;
 import cn.hutool.core.convert.Convert;
 import com.alibaba.ttl.TransmittableThreadLocal;
 import com.baomidou.mybatisplus.core.plugins.IgnoreStrategy;
@@ -14,6 +13,7 @@ import org.dromara.common.core.utils.SpringUtils;
 import org.dromara.common.core.utils.StringUtils;
 import org.dromara.common.redis.utils.RedisUtils;
 import org.dromara.common.satoken.utils.LoginHelper;
+import org.springframework.web.context.request.RequestContextHolder;
 
 import java.util.function.Supplier;
 
@@ -85,7 +85,7 @@ public class TenantHelper {
      * 如果为非web环境 那么只在当前线程内生效
      */
     public static void setDynamic(String tenantId) {
-        if (!SpringMVCUtil.isWeb()) {
+        if (!isWeb()) {
             TEMP_DYNAMIC_TENANT.set(tenantId);
             return;
         }
@@ -100,7 +100,7 @@ public class TenantHelper {
      * 如果为非web环境 那么只在当前线程内生效
      */
     public static String getDynamic() {
-        if (!SpringMVCUtil.isWeb()) {
+        if (!isWeb()) {
             return TEMP_DYNAMIC_TENANT.get();
         }
         String cacheKey = DYNAMIC_TENANT_KEY + ":" + LoginHelper.getUserId();
@@ -117,7 +117,7 @@ public class TenantHelper {
      * 清除动态租户
      */
     public static void clearDynamic() {
-        if (!SpringMVCUtil.isWeb()) {
+        if (!isWeb()) {
             TEMP_DYNAMIC_TENANT.remove();
             return;
         }
@@ -135,6 +135,13 @@ public class TenantHelper {
             tenantId = LoginHelper.getTenantId();
         }
         return tenantId;
+    }
+
+    /**
+     * 判断是否web环境
+     */
+    private static boolean isWeb() {
+        return RequestContextHolder.getRequestAttributes() != null;
     }
 
 }
