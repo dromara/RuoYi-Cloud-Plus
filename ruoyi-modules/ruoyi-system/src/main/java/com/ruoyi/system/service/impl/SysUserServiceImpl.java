@@ -254,7 +254,7 @@ public class SysUserServiceImpl implements ISysUserService {
      */
     @Override
     public void checkUserDataScope(Long userId) {
-        if (!LoginHelper.isAdmin()) {
+        if (!LoginHelper.isSuperAdmin()) {
             SysUser user = new SysUser();
             user.setUserId(userId);
             List<SysUser> users = this.selectUserList(user);

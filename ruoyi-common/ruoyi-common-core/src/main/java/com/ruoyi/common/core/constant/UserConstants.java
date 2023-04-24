@@ -128,5 +128,5 @@ public interface UserConstants {
     /**
      * 管理员ID
      */
-    Long ADMIN_ID = 1L;
+    Long SUPER_ADMIN_ID = 1L;
 }

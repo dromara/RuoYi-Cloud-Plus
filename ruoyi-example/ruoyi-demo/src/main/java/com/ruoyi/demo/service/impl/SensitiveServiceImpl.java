@@ -19,7 +19,7 @@ public class SensitiveServiceImpl implements SensitiveService {
      */
     @Override
     public boolean isSensitive() {
-        return !LoginHelper.isAdmin();
+        return !LoginHelper.isSuperAdmin();
     }
 
 }

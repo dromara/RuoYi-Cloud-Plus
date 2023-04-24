@@ -194,7 +194,7 @@ public class SysRoleServiceImpl implements ISysRoleService {
      */
     @Override
     public void checkRoleDataScope(Long roleId) {
-        if (!LoginHelper.isAdmin()) {
+        if (!LoginHelper.isSuperAdmin()) {
             SysRole role = new SysRole();
             role.setRoleId(roleId);
             List<SysRole> roles = this.selectRoleList(role);

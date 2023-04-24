@@ -133,7 +133,7 @@ public class SysUserController extends BaseController {
         userService.checkUserDataScope(userId);
         Map<String, Object> ajax = new HashMap<>();
         List<SysRole> roles = roleService.selectRoleAll();
-        ajax.put("roles", LoginHelper.isAdmin(userId) ? roles : StreamUtils.filter(roles, r -> !r.isAdmin()));
+        ajax.put("roles", LoginHelper.isSuperAdmin(userId) ? roles : StreamUtils.filter(roles, r -> !r.isAdmin()));
         ajax.put("posts", postService.selectPostAll());
         if (ObjectUtil.isNotNull(userId)) {
             SysUser sysUser = userService.selectUserById(userId);
@@ -237,7 +237,7 @@ public class SysUserController extends BaseController {
         SysUser user = userService.selectUserById(userId);
         List<SysRole> roles = roleService.selectRolesByUserId(userId);
         ajax.put("user", user);
-        ajax.put("roles", LoginHelper.isAdmin(userId) ? roles : StreamUtils.filter(roles, r -> !r.isAdmin()));
+        ajax.put("roles", LoginHelper.isSuperAdmin(userId) ? roles : StreamUtils.filter(roles, r -> !r.isAdmin()));
         return R.ok(ajax);
     }
 

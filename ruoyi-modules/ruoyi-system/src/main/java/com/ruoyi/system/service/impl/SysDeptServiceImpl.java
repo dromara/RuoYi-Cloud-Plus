@@ -201,7 +201,7 @@ public class SysDeptServiceImpl implements ISysDeptService {
      */
     @Override
     public void checkDeptDataScope(Long deptId) {
-        if (!LoginHelper.isAdmin()) {
+        if (!LoginHelper.isSuperAdmin()) {
             SysDept dept = new SysDept();
             dept.setDeptId(deptId);
             List<SysDept> depts = this.selectDeptList(dept);

@@ -41,6 +41,7 @@
         <elasticsearch.version>7.14.0</elasticsearch.version>
         <skywalking-toolkit.version>8.14.0</skywalking-toolkit.version>
         <bouncycastle.version>1.72</bouncycastle.version>
+        <alibaba-ttl.version>2.14.2</alibaba-ttl.version>
         <!-- 离线IP地址定位库 -->
         <ip2region.version>2.7.0</ip2region.version>
 
@@ -356,6 +357,13 @@
                 <artifactId>fastjson</artifactId>
                 <version>${fastjson.version}</version>
             </dependency>
+
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>transmittable-thread-local</artifactId>
+                <version>${alibaba-ttl.version}</version>
+            </dependency>
+
 
         </dependencies>
     </dependencyManagement>

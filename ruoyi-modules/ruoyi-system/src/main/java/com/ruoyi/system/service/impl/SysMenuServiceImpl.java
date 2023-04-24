@@ -60,7 +60,7 @@ public class SysMenuServiceImpl implements ISysMenuService {
     public List<SysMenu> selectMenuList(SysMenu menu, Long userId) {
         List<SysMenu> menuList = null;
         // 管理员显示所有菜单信息
-        if (LoginHelper.isAdmin(userId)) {
+        if (LoginHelper.isSuperAdmin(userId)) {
             menuList = baseMapper.selectList(new LambdaQueryWrapper<SysMenu>()
                 .like(StringUtils.isNotBlank(menu.getMenuName()), SysMenu::getMenuName, menu.getMenuName())
                 .eq(StringUtils.isNotBlank(menu.getVisible()), SysMenu::getVisible, menu.getVisible())
@@ -125,7 +125,7 @@ public class SysMenuServiceImpl implements ISysMenuService {
     @Override
     public List<SysMenu> selectMenuTreeByUserId(Long userId) {
         List<SysMenu> menus = null;
-        if (LoginHelper.isAdmin(userId)) {
+        if (LoginHelper.isSuperAdmin(userId)) {
             menus = baseMapper.selectMenuTreeAll();
         } else {
             menus = baseMapper.selectMenuTreeByUserId(userId);

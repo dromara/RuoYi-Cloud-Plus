@@ -165,7 +165,7 @@ public class SysUser extends BaseEntity {
      * 是否管理员
      */
     public boolean isAdmin() {
-        return UserConstants.ADMIN_ID.equals(this.userId);
+        return UserConstants.SUPER_ADMIN_ID.equals(this.userId);
     }
 
 }

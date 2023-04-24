@@ -79,7 +79,7 @@ public class PlusDataPermissionHandler {
             DataPermissionHelper.setVariable("user", currentUser);
         }
         // 如果是超级管理员，则不过滤数据
-        if (ObjectUtil.isNull(currentUser) || LoginHelper.isAdmin(currentUser.getUserId())) {
+        if (ObjectUtil.isNull(currentUser) || LoginHelper.isSuperAdmin(currentUser.getUserId())) {
             return where;
         }
         String dataFilterSql = buildDataFilter(dataColumns, isSelect);
