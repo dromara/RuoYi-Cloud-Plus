@@ -6,42 +6,40 @@ import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.core.toolkit.*;
+import com.baomidou.mybatisplus.core.toolkit.ReflectionKit;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.toolkit.Db;
-import org.dromara.common.core.utils.BeanCopyUtils;
 import org.apache.ibatis.logging.Log;
 import org.apache.ibatis.logging.LogFactory;
+import org.dromara.common.core.utils.MapstructUtils;
 
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
  * 自定义 Mapper 接口, 实现 自定义扩展
  *
- * @param <M> mapper 泛型
  * @param <T> table 泛型
  * @param <V> vo 泛型
  * @author Lion Li
  * @since 2021-05-13
  */
 @SuppressWarnings("unchecked")
-public interface BaseMapperPlus<M, T, V> extends BaseMapper<T> {
+public interface BaseMapperPlus<T, V> extends BaseMapper<T> {
 
     Log log = LogFactory.getLog(BaseMapperPlus.class);
 
     default Class<V> currentVoClass() {
-        return (Class<V>) ReflectionKit.getSuperClassGenericType(this.getClass(), BaseMapperPlus.class, 2);
+        return (Class<V>) ReflectionKit.getSuperClassGenericType(this.getClass(), BaseMapperPlus.class, 1);
     }
 
     default Class<T> currentModelClass() {
-        return (Class<T>) ReflectionKit.getSuperClassGenericType(this.getClass(), BaseMapperPlus.class, 1);
-    }
-
-    default Class<M> currentMapperClass() {
-        return (Class<M>) ReflectionKit.getSuperClassGenericType(this.getClass(), BaseMapperPlus.class, 0);
+        return (Class<T>) ReflectionKit.getSuperClassGenericType(this.getClass(), BaseMapperPlus.class, 0);
     }
 
     default List<T> selectList() {
@@ -109,7 +107,7 @@ public interface BaseMapperPlus<M, T, V> extends BaseMapper<T> {
         if (ObjectUtil.isNull(obj)) {
             return null;
         }
-        return BeanCopyUtils.copy(obj, voClass);
+        return MapstructUtils.convert(obj, voClass);
     }
 
     default List<V> selectVoBatchIds(Collection<? extends Serializable> idList) {
@@ -124,7 +122,7 @@ public interface BaseMapperPlus<M, T, V> extends BaseMapper<T> {
         if (CollUtil.isEmpty(list)) {
             return CollUtil.newArrayList();
         }
-        return BeanCopyUtils.copyList(list, voClass);
+        return MapstructUtils.convert(list, voClass);
     }
 
     default List<V> selectVoByMap(Map<String, Object> map) {
@@ -139,7 +137,7 @@ public interface BaseMapperPlus<M, T, V> extends BaseMapper<T> {
         if (CollUtil.isEmpty(list)) {
             return CollUtil.newArrayList();
         }
-        return BeanCopyUtils.copyList(list, voClass);
+        return MapstructUtils.convert(list, voClass);
     }
 
     default V selectVoOne(Wrapper<T> wrapper) {
@@ -154,7 +152,11 @@ public interface BaseMapperPlus<M, T, V> extends BaseMapper<T> {
         if (ObjectUtil.isNull(obj)) {
             return null;
         }
-        return BeanCopyUtils.copy(obj, voClass);
+        return MapstructUtils.convert(obj, voClass);
+    }
+
+    default List<V> selectVoList() {
+        return selectVoList(new QueryWrapper<>(), this.currentVoClass());
     }
 
     default List<V> selectVoList(Wrapper<T> wrapper) {
@@ -169,7 +171,7 @@ public interface BaseMapperPlus<M, T, V> extends BaseMapper<T> {
         if (CollUtil.isEmpty(list)) {
             return CollUtil.newArrayList();
         }
-        return BeanCopyUtils.copyList(list, voClass);
+        return MapstructUtils.convert(list, voClass);
     }
 
     default <P extends IPage<V>> P selectVoPage(IPage<T> page, Wrapper<T> wrapper) {
@@ -185,8 +187,12 @@ public interface BaseMapperPlus<M, T, V> extends BaseMapper<T> {
         if (CollUtil.isEmpty(pageData.getRecords())) {
             return (P) voPage;
         }
-        voPage.setRecords(BeanCopyUtils.copyList(pageData.getRecords(), voClass));
+        voPage.setRecords(MapstructUtils.convert(pageData.getRecords(), voClass));
         return (P) voPage;
+    }
+
+    default <C> List<C> selectObjs(Wrapper<T> wrapper, Function<? super Object, C> mapper) {
+        return this.selectObjs(wrapper).stream().filter(Objects::nonNull).map(mapper).collect(Collectors.toList());
     }
 
 }

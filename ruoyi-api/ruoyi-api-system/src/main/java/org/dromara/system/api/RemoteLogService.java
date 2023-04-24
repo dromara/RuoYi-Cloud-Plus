@@ -1,7 +1,7 @@
 package org.dromara.system.api;
 
-import org.dromara.system.api.domain.SysLogininfor;
-import org.dromara.system.api.domain.SysOperLog;
+import org.dromara.system.api.domain.bo.RemoteLogininforBo;
+import org.dromara.system.api.domain.bo.RemoteOperLogBo;
 
 /**
  * 日志服务
@@ -16,7 +16,7 @@ public interface RemoteLogService {
      * @param sysOperLog 日志实体
      * @return 结果
      */
-    Boolean saveLog(SysOperLog sysOperLog);
+    void saveLog(RemoteOperLogBo sysOperLog);
 
     /**
      * 保存访问记录
@@ -24,5 +24,5 @@ public interface RemoteLogService {
      * @param sysLogininfor 访问实体
      * @return 结果
      */
-    Boolean saveLogininfor(SysLogininfor sysLogininfor);
+    void saveLogininfor(RemoteLogininforBo sysLogininfor);
 }

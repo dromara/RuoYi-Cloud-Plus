@@ -1,36 +1,26 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
-PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.dromara.system.mapper.SysPostMapper">
 
-	<resultMap type="SysPost" id="SysPostResult">
-		<id     property="postId"        column="post_id"       />
-		<result property="postCode"      column="post_code"     />
-		<result property="postName"      column="post_name"     />
-		<result property="postSort"      column="post_sort"     />
-		<result property="status"        column="status"        />
-		<result property="createBy"      column="create_by"     />
-		<result property="createTime"    column="create_time"   />
-		<result property="updateBy"      column="update_by"     />
-		<result property="updateTime"    column="update_time"   />
-		<result property="remark"        column="remark"        />
-	</resultMap>
+    <resultMap type="org.dromara.system.domain.vo.SysPostVo" id="SysPostResult">
+    </resultMap>
 
-	<select id="selectPostListByUserId" parameterType="Long" resultType="Long">
-		select p.post_id
+    <select id="selectPostListByUserId" parameterType="Long" resultType="Long">
+        select p.post_id
         from sys_post p
-	        left join sys_user_post up on up.post_id = p.post_id
-	        left join sys_user u on u.user_id = up.user_id
-	    where u.user_id = #{userId}
-	</select>
+                 left join sys_user_post up on up.post_id = p.post_id
+                 left join sys_user u on u.user_id = up.user_id
+        where u.user_id = #{userId}
+    </select>
 
-	<select id="selectPostsByUserName" parameterType="String" resultMap="SysPostResult">
-		select p.post_id, p.post_name, p.post_code
-		from sys_post p
-			 left join sys_user_post up on up.post_id = p.post_id
-			 left join sys_user u on u.user_id = up.user_id
-		where u.user_name = #{userName}
-	</select>
+    <select id="selectPostsByUserName" parameterType="String" resultMap="SysPostResult">
+        select p.post_id, p.post_name, p.post_code
+        from sys_post p
+                 left join sys_user_post up on up.post_id = p.post_id
+                 left join sys_user u on u.user_id = up.user_id
+        where u.user_name = #{userName}
+    </select>
 
 </mapper>

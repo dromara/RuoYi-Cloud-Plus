@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
  * 需自行根据业务重写实现
  *
  * @author Lion Li
+ * @version 3.6.0
  */
 @Service
 public class SysSensitiveServiceImpl implements SensitiveService {
@@ -19,7 +20,7 @@ public class SysSensitiveServiceImpl implements SensitiveService {
      */
     @Override
     public boolean isSensitive() {
-        return !LoginHelper.isSuperAdmin();
+        return !LoginHelper.isSuperAdmin() || !LoginHelper.isTenantAdmin();
     }
 
 }

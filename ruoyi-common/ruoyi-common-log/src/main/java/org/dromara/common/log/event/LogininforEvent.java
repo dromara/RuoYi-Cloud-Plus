@@ -2,6 +2,7 @@ package org.dromara.common.log.event;
 
 import lombok.Data;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
 
 /**
@@ -16,9 +17,14 @@ public class LogininforEvent implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
+     * 租户ID
+     */
+    private String tenantId;
+
+    /**
      * 用户账号
      */
-    private String userName;
+    private String username;
 
     /**
      * 登录状态 0成功 1失败
@@ -26,28 +32,18 @@ public class LogininforEvent implements Serializable {
     private String status;
 
     /**
-     * ip地址
-     */
-    private String ipaddr;
-
-    /**
-     * 登录地点
-     */
-    private String loginLocation;
-
-    /**
-     * 浏览器类型
-     */
-    private String browser;
-
-    /**
-     * 操作系统
-     */
-    private String os;
-
-    /**
      * 提示消息
      */
-    private String msg;
+    private String message;
+
+    /**
+     * 请求体
+     */
+    private HttpServletRequest request;
+
+    /**
+     * 其他参数
+     */
+    private Object[] args;
 
 }

@@ -1,6 +1,6 @@
 package org.dromara.system.api;
 
-import org.dromara.system.api.domain.SysDictData;
+import org.dromara.system.api.domain.vo.RemoteDictDataVo;
 
 import java.util.List;
 
@@ -17,5 +17,5 @@ public interface RemoteDictService {
      * @param dictType 字典类型
      * @return 字典数据集合信息
      */
-    List<SysDictData> selectDictDataByType(String dictType);
+    List<RemoteDictDataVo> selectDictDataByType(String dictType);
 }

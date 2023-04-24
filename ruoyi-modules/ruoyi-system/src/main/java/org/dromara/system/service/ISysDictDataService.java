@@ -2,18 +2,20 @@ package org.dromara.system.service;
 
 import org.dromara.common.mybatis.core.page.PageQuery;
 import org.dromara.common.mybatis.core.page.TableDataInfo;
-import org.dromara.system.api.domain.SysDictData;
+import org.dromara.system.domain.bo.SysDictDataBo;
+import org.dromara.system.domain.vo.SysDictDataVo;
 
 import java.util.List;
 
 /**
  * 字典 业务层
  *
- * @author ruoyi
+ * @author Lion Li
  */
 public interface ISysDictDataService {
 
-    TableDataInfo<SysDictData> selectPageDictDataList(SysDictData dictData, PageQuery pageQuery);
+
+    TableDataInfo<SysDictDataVo> selectPageDictDataList(SysDictDataBo dictData, PageQuery pageQuery);
 
     /**
      * 根据条件分页查询字典数据
@@ -21,7 +23,7 @@ public interface ISysDictDataService {
      * @param dictData 字典数据信息
      * @return 字典数据集合信息
      */
-    List<SysDictData> selectDictDataList(SysDictData dictData);
+    List<SysDictDataVo> selectDictDataList(SysDictDataBo dictData);
 
     /**
      * 根据字典类型和字典键值查询字典数据信息
@@ -38,7 +40,7 @@ public interface ISysDictDataService {
      * @param dictCode 字典数据ID
      * @return 字典数据
      */
-    SysDictData selectDictDataById(Long dictCode);
+    SysDictDataVo selectDictDataById(Long dictCode);
 
     /**
      * 批量删除字典数据信息
@@ -50,16 +52,16 @@ public interface ISysDictDataService {
     /**
      * 新增保存字典数据信息
      *
-     * @param dictData 字典数据信息
+     * @param bo 字典数据信息
      * @return 结果
      */
-    List<SysDictData> insertDictData(SysDictData dictData);
+    List<SysDictDataVo> insertDictData(SysDictDataBo bo);
 
     /**
      * 修改保存字典数据信息
      *
-     * @param dictData 字典数据信息
+     * @param bo 字典数据信息
      * @return 结果
      */
-    List<SysDictData> updateDictData(SysDictData dictData);
+    List<SysDictDataVo> updateDictData(SysDictDataBo bo);
 }

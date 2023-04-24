@@ -15,6 +15,12 @@ import javax.validation.constraints.NotBlank;
 public class EmailLoginBody {
 
     /**
+     * 租户ID
+     */
+    @NotBlank(message = "{tenant.number.not.blank}")
+    private String tenantId;
+
+    /**
      * 邮箱
      */
     @NotBlank(message = "{user.email.not.blank}")

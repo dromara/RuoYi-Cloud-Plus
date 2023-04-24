@@ -3,20 +3,24 @@ package org.dromara.system.dubbo;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import lombok.RequiredArgsConstructor;
+import org.apache.dubbo.config.annotation.DubboService;
 import org.dromara.common.core.enums.UserStatus;
 import org.dromara.common.core.exception.ServiceException;
 import org.dromara.common.core.exception.user.UserException;
+import org.dromara.common.core.utils.BeanCopyUtils;
 import org.dromara.system.api.RemoteUserService;
-import org.dromara.system.api.domain.SysUser;
+import org.dromara.system.api.domain.bo.RemoteUserBo;
 import org.dromara.system.api.model.LoginUser;
 import org.dromara.system.api.model.RoleDTO;
 import org.dromara.system.api.model.XcxLoginUser;
+import org.dromara.system.domain.SysUser;
+import org.dromara.system.domain.bo.SysUserBo;
+import org.dromara.system.domain.vo.SysUserVo;
 import org.dromara.system.mapper.SysUserMapper;
 import org.dromara.system.service.ISysConfigService;
 import org.dromara.system.service.ISysPermissionService;
 import org.dromara.system.service.ISysUserService;
-import lombok.RequiredArgsConstructor;
-import org.apache.dubbo.config.annotation.DubboService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -101,15 +105,16 @@ public class RemoteUserServiceImpl implements RemoteUserService {
     }
 
     @Override
-    public Boolean registerUserInfo(SysUser sysUser) {
-        String username = sysUser.getUserName();
+    public Boolean registerUserInfo(RemoteUserBo remoteUserBo) {
+        SysUserBo sysUserBo = BeanCopyUtils.copy(remoteUserBo, SysUserBo.class);
+        String username = sysUserBo.getUserName();
         if (!("true".equals(configService.selectConfigByKey("sys.account.registerUser")))) {
             throw new ServiceException("当前系统没有开启注册功能");
         }
-        if (!userService.checkUserNameUnique(sysUser)) {
+        if (!userService.checkUserNameUnique(sysUserBo)) {
             throw new UserException("user.register.save.error", username);
         }
-        return userService.registerUser(sysUser);
+        return userService.registerUser(sysUserBo, remoteUserBo.getTenantId());
     }
 
     @Override
@@ -120,17 +125,17 @@ public class RemoteUserServiceImpl implements RemoteUserService {
     /**
      * 构建登录用户
      */
-    private LoginUser buildLoginUser(SysUser user) {
+    private LoginUser buildLoginUser(SysUserVo userVo) {
         LoginUser loginUser = new LoginUser();
-        loginUser.setUserId(user.getUserId());
-        loginUser.setDeptId(user.getDeptId());
-        loginUser.setUsername(user.getUserName());
-        loginUser.setPassword(user.getPassword());
-        loginUser.setUserType(user.getUserType());
-        loginUser.setMenuPermission(permissionService.getMenuPermission(user));
-        loginUser.setRolePermission(permissionService.getRolePermission(user));
-        loginUser.setDeptName(ObjectUtil.isNull(user.getDept()) ? "" : user.getDept().getDeptName());
-        List<RoleDTO> roles = BeanUtil.copyToList(user.getRoles(), RoleDTO.class);
+        loginUser.setUserId(userVo.getUserId());
+        loginUser.setDeptId(userVo.getDeptId());
+        loginUser.setUsername(userVo.getUserName());
+        loginUser.setPassword(userVo.getPassword());
+        loginUser.setUserType(userVo.getUserType());
+        loginUser.setMenuPermission(permissionService.getMenuPermission(userVo.getUserId()));
+        loginUser.setRolePermission(permissionService.getRolePermission(userVo.getUserId()));
+        loginUser.setDeptName(ObjectUtil.isNull(userVo.getDept()) ? "" : userVo.getDept().getDeptName());
+        List<RoleDTO> roles = BeanUtil.copyToList(userVo.getRoles(), RoleDTO.class);
         loginUser.setRoles(roles);
         return loginUser;
     }

@@ -178,7 +178,7 @@
             <dependency>
                 <groupId>org.dromara</groupId>
                 <artifactId>ruoyi-common-tenant</artifactId>
-                <version>${revision}</version>
+                <version>${project.version}</version>
             </dependency>
 
         </dependencies>

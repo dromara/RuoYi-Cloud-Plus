@@ -8,6 +8,6 @@ import org.dromara.system.domain.SysRoleDept;
  *
  * @author Lion Li
  */
-public interface SysRoleDeptMapper extends BaseMapperPlus<SysRoleDeptMapper, SysRoleDept, SysRoleDept> {
+public interface SysRoleDeptMapper extends BaseMapperPlus<SysRoleDept, SysRoleDept> {
 
 }

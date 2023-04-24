@@ -2,18 +2,20 @@ package org.dromara.system.service;
 
 import org.dromara.common.mybatis.core.page.PageQuery;
 import org.dromara.common.mybatis.core.page.TableDataInfo;
-import org.dromara.system.domain.SysPost;
+import org.dromara.system.domain.bo.SysPostBo;
+import org.dromara.system.domain.vo.SysPostVo;
 
 import java.util.List;
 
 /**
  * 岗位信息 服务层
  *
- * @author ruoyi
+ * @author Lion Li
  */
 public interface ISysPostService {
 
-    TableDataInfo<SysPost> selectPagePostList(SysPost post, PageQuery pageQuery);
+
+    TableDataInfo<SysPostVo> selectPagePostList(SysPostBo post, PageQuery pageQuery);
 
     /**
      * 查询岗位信息集合
@@ -21,14 +23,14 @@ public interface ISysPostService {
      * @param post 岗位信息
      * @return 岗位列表
      */
-    List<SysPost> selectPostList(SysPost post);
+    List<SysPostVo> selectPostList(SysPostBo post);
 
     /**
      * 查询所有岗位
      *
      * @return 岗位列表
      */
-    List<SysPost> selectPostAll();
+    List<SysPostVo> selectPostAll();
 
     /**
      * 通过岗位ID查询岗位信息
@@ -36,7 +38,7 @@ public interface ISysPostService {
      * @param postId 岗位ID
      * @return 角色对象信息
      */
-    SysPost selectPostById(Long postId);
+    SysPostVo selectPostById(Long postId);
 
     /**
      * 根据用户ID获取岗位选择框列表
@@ -52,7 +54,7 @@ public interface ISysPostService {
      * @param post 岗位信息
      * @return 结果
      */
-    boolean checkPostNameUnique(SysPost post);
+    boolean checkPostNameUnique(SysPostBo post);
 
     /**
      * 校验岗位编码
@@ -60,7 +62,7 @@ public interface ISysPostService {
      * @param post 岗位信息
      * @return 结果
      */
-    boolean checkPostCodeUnique(SysPost post);
+    boolean checkPostCodeUnique(SysPostBo post);
 
     /**
      * 通过岗位ID查询岗位使用数量
@@ -89,16 +91,16 @@ public interface ISysPostService {
     /**
      * 新增保存岗位信息
      *
-     * @param post 岗位信息
+     * @param bo 岗位信息
      * @return 结果
      */
-    int insertPost(SysPost post);
+    int insertPost(SysPostBo bo);
 
     /**
      * 修改保存岗位信息
      *
-     * @param post 岗位信息
+     * @param bo 岗位信息
      * @return 结果
      */
-    int updatePost(SysPost post);
+    int updatePost(SysPostBo bo);
 }

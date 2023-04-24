@@ -1,8 +1,8 @@
 package org.dromara.system.listener;
 
-import cn.dev33.satoken.secure.BCrypt;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.crypto.digest.BCrypt;
 import com.alibaba.excel.context.AnalysisContext;
 import com.alibaba.excel.event.AnalysisEventListener;
 import org.dromara.common.core.exception.ServiceException;
@@ -11,8 +11,9 @@ import org.dromara.common.core.utils.ValidatorUtils;
 import org.dromara.common.excel.core.ExcelListener;
 import org.dromara.common.excel.core.ExcelResult;
 import org.dromara.common.satoken.utils.LoginHelper;
-import org.dromara.system.api.domain.SysUser;
+import org.dromara.system.domain.bo.SysUserBo;
 import org.dromara.system.domain.vo.SysUserImportVo;
+import org.dromara.system.domain.vo.SysUserVo;
 import org.dromara.system.service.ISysConfigService;
 import org.dromara.system.service.ISysUserService;
 import lombok.extern.slf4j.Slf4j;
@@ -33,7 +34,7 @@ public class SysUserImportListener extends AnalysisEventListener<SysUserImportVo
 
     private final Boolean isUpdateSupport;
 
-    private final String operName;
+    private final Long operUserId;
 
     private int successNum = 0;
     private int failureNum = 0;
@@ -45,38 +46,40 @@ public class SysUserImportListener extends AnalysisEventListener<SysUserImportVo
         this.userService = SpringUtils.getBean(ISysUserService.class);
         this.password = BCrypt.hashpw(initPassword);
         this.isUpdateSupport = isUpdateSupport;
-        this.operName = LoginHelper.getUsername();
+        this.operUserId = LoginHelper.getUserId();
     }
 
     @Override
     public void invoke(SysUserImportVo userVo, AnalysisContext context) {
-        SysUser user = this.userService.selectUserByUserName(userVo.getUserName());
+        SysUserVo sysUser = this.userService.selectUserByUserName(userVo.getUserName());
         try {
             // 验证是否存在这个用户
-            if (ObjectUtil.isNull(user)) {
-                user = BeanUtil.toBean(userVo, SysUser.class);
+            if (ObjectUtil.isNull(sysUser)) {
+                SysUserBo user = BeanUtil.toBean(userVo, SysUserBo.class);
                 ValidatorUtils.validate(user);
                 user.setPassword(password);
-                user.setCreateBy(operName);
+                user.setCreateBy(operUserId);
                 userService.insertUser(user);
                 successNum++;
                 successMsg.append("<br/>").append(successNum).append("、账号 ").append(user.getUserName()).append(" 导入成功");
             } else if (isUpdateSupport) {
-                Long userId = user.getUserId();
-                user = BeanUtil.toBean(userVo, SysUser.class);
+                Long userId = sysUser.getUserId();
+                SysUserBo user = BeanUtil.toBean(userVo, SysUserBo.class);
                 user.setUserId(userId);
                 ValidatorUtils.validate(user);
-                user.setUpdateBy(operName);
+                userService.checkUserAllowed(user.getUserId());
+                userService.checkUserDataScope(user.getUserId());
+                user.setUpdateBy(operUserId);
                 userService.updateUser(user);
                 successNum++;
                 successMsg.append("<br/>").append(successNum).append("、账号 ").append(user.getUserName()).append(" 更新成功");
             } else {
                 failureNum++;
-                failureMsg.append("<br/>").append(failureNum).append("、账号 ").append(user.getUserName()).append(" 已存在");
+                failureMsg.append("<br/>").append(failureNum).append("、账号 ").append(sysUser.getUserName()).append(" 已存在");
             }
         } catch (Exception e) {
             failureNum++;
-            String msg = "<br/>" + failureNum + "、账号 " + user.getUserName() + " 导入失败：";
+            String msg = "<br/>" + failureNum + "、账号 " + sysUser.getUserName() + " 导入失败：";
             failureMsg.append(msg).append(e.getMessage());
             log.error(msg, e);
         }

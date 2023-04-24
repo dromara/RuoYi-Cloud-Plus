@@ -8,6 +8,6 @@ import org.dromara.system.domain.SysUserPost;
  *
  * @author Lion Li
  */
-public interface SysUserPostMapper extends BaseMapperPlus<SysUserPostMapper, SysUserPost, SysUserPost> {
+public interface SysUserPostMapper extends BaseMapperPlus<SysUserPost, SysUserPost> {
 
 }

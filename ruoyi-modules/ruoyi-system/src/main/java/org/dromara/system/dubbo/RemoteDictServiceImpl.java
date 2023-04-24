@@ -1,10 +1,12 @@
 package org.dromara.system.dubbo;
 
-import org.dromara.system.api.RemoteDictService;
-import org.dromara.system.api.domain.SysDictData;
-import org.dromara.system.service.ISysDictTypeService;
 import lombok.RequiredArgsConstructor;
 import org.apache.dubbo.config.annotation.DubboService;
+import org.dromara.common.core.utils.BeanCopyUtils;
+import org.dromara.system.api.RemoteDictService;
+import org.dromara.system.api.domain.vo.RemoteDictDataVo;
+import org.dromara.system.domain.vo.SysDictDataVo;
+import org.dromara.system.service.ISysDictTypeService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,8 +25,9 @@ public class RemoteDictServiceImpl implements RemoteDictService {
 
 
     @Override
-    public List<SysDictData> selectDictDataByType(String dictType) {
-        return sysDictTypeService.selectDictDataByType(dictType);
+    public List<RemoteDictDataVo> selectDictDataByType(String dictType) {
+        List<SysDictDataVo> sysDictDataVos = sysDictTypeService.selectDictDataByType(dictType);
+        return BeanCopyUtils.copyList(sysDictDataVos, RemoteDictDataVo.class);
     }
 
 }

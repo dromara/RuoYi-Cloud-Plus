@@ -3,9 +3,10 @@ package org.dromara.common.core.constant;
 /**
  * 通用常量信息
  *
- * @author Lion Li
+ * @author ruoyi
  */
 public interface Constants {
+
     /**
      * UTF-8 字符集
      */
@@ -32,24 +33,14 @@ public interface Constants {
     String HTTPS = "https://";
 
     /**
-     * 成功标记
+     * 通用成功标识
      */
-    Integer SUCCESS = 200;
+    String SUCCESS = "0";
 
     /**
-     * 失败标记
+     * 通用失败标识
      */
-    Integer FAIL = 500;
-
-    /**
-     * 登录成功状态
-     */
-    String LOGIN_SUCCESS_STATUS = "0";
-
-    /**
-     * 登录失败状态
-     */
-    String LOGIN_FAIL_STATUS = "1";
+    String FAIL = "1";
 
     /**
      * 登录成功
@@ -74,13 +65,17 @@ public interface Constants {
     /**
      * 验证码有效期（分钟）
      */
-    long CAPTCHA_EXPIRATION = 2;
+    Integer CAPTCHA_EXPIRATION = 2;
 
     /**
-     * 防重提交 redis key
+     * 令牌
      */
-    String REPEAT_SUBMIT_KEY = "repeat_submit:";
+    String TOKEN = "token";
 
-    String ACCESS_TOKEN = "access_token";
+    /**
+     * 顶级部门id
+     */
+    Long TOP_PARENT_ID = 0L;
 
 }
+

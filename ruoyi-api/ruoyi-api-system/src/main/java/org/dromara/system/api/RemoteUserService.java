@@ -1,7 +1,7 @@
 package org.dromara.system.api;
 
 import org.dromara.common.core.exception.user.UserException;
-import org.dromara.system.api.domain.SysUser;
+import org.dromara.system.api.domain.bo.RemoteUserBo;
 import org.dromara.system.api.model.LoginUser;
 import org.dromara.system.api.model.XcxLoginUser;
 
@@ -47,10 +47,10 @@ public interface RemoteUserService {
     /**
      * 注册用户信息
      *
-     * @param sysUser 用户信息
+     * @param remoteUserBo 用户信息
      * @return 结果
      */
-    Boolean registerUserInfo(SysUser sysUser);
+    Boolean registerUserInfo(RemoteUserBo remoteUserBo);
 
     /**
      * 通过userId查询用户账户

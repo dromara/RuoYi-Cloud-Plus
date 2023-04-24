@@ -2,7 +2,9 @@ package org.dromara.system.service;
 
 import cn.hutool.core.lang.tree.Tree;
 import org.dromara.system.domain.SysMenu;
+import org.dromara.system.domain.bo.SysMenuBo;
 import org.dromara.system.domain.vo.RouterVo;
+import org.dromara.system.domain.vo.SysMenuVo;
 
 import java.util.List;
 import java.util.Set;
@@ -10,16 +12,17 @@ import java.util.Set;
 /**
  * 菜单 业务层
  *
- * @author ruoyi
+ * @author Lion Li
  */
 public interface ISysMenuService {
+
     /**
      * 根据用户查询系统菜单列表
      *
      * @param userId 用户ID
      * @return 菜单列表
      */
-    List<SysMenu> selectMenuList(Long userId);
+    List<SysMenuVo> selectMenuList(Long userId);
 
     /**
      * 根据用户查询系统菜单列表
@@ -28,7 +31,7 @@ public interface ISysMenuService {
      * @param userId 用户ID
      * @return 菜单列表
      */
-    List<SysMenu> selectMenuList(SysMenu menu, Long userId);
+    List<SysMenuVo> selectMenuList(SysMenuBo menu, Long userId);
 
     /**
      * 根据用户ID查询权限
@@ -44,7 +47,7 @@ public interface ISysMenuService {
      * @param roleId 角色ID
      * @return 权限列表
      */
-    public Set<String> selectMenuPermsByRoleId(Long roleId);
+    Set<String> selectMenuPermsByRoleId(Long roleId);
 
     /**
      * 根据用户ID查询菜单树信息
@@ -63,6 +66,14 @@ public interface ISysMenuService {
     List<Long> selectMenuListByRoleId(Long roleId);
 
     /**
+     * 根据租户套餐ID查询菜单树信息
+     *
+     * @param packageId 租户套餐ID
+     * @return 选中菜单列表
+     */
+    List<Long> selectMenuListByPackageId(Long packageId);
+
+    /**
      * 构建前端路由所需要的菜单
      *
      * @param menus 菜单列表
@@ -76,7 +87,7 @@ public interface ISysMenuService {
      * @param menus 菜单列表
      * @return 下拉树结构列表
      */
-    List<Tree<Long>> buildMenuTreeSelect(List<SysMenu> menus);
+    List<Tree<Long>> buildMenuTreeSelect(List<SysMenuVo> menus);
 
     /**
      * 根据菜单ID查询信息
@@ -84,7 +95,7 @@ public interface ISysMenuService {
      * @param menuId 菜单ID
      * @return 菜单信息
      */
-    SysMenu selectMenuById(Long menuId);
+    SysMenuVo selectMenuById(Long menuId);
 
     /**
      * 是否存在菜单子节点
@@ -105,18 +116,18 @@ public interface ISysMenuService {
     /**
      * 新增保存菜单信息
      *
-     * @param menu 菜单信息
+     * @param bo 菜单信息
      * @return 结果
      */
-    int insertMenu(SysMenu menu);
+    int insertMenu(SysMenuBo bo);
 
     /**
      * 修改保存菜单信息
      *
-     * @param menu 菜单信息
+     * @param bo 菜单信息
      * @return 结果
      */
-    int updateMenu(SysMenu menu);
+    int updateMenu(SysMenuBo bo);
 
     /**
      * 删除菜单管理信息
@@ -132,5 +143,5 @@ public interface ISysMenuService {
      * @param menu 菜单信息
      * @return 结果
      */
-    boolean checkMenuNameUnique(SysMenu menu);
+    boolean checkMenuNameUnique(SysMenuBo menu);
 }

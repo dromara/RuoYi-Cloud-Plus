@@ -6,7 +6,7 @@ import org.dromara.common.oss.core.OssClient;
 import org.dromara.common.oss.entity.UploadResult;
 import org.dromara.common.oss.factory.OssFactory;
 import org.dromara.resource.api.RemoteFileService;
-import org.dromara.resource.api.domain.SysFile;
+import org.dromara.resource.api.domain.RemoteFile;
 import org.dromara.resource.domain.bo.SysOssBo;
 import org.dromara.resource.service.ISysOssService;
 import lombok.RequiredArgsConstructor;
@@ -33,7 +33,7 @@ public class RemoteFileServiceImpl implements RemoteFileService {
      */
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public SysFile upload(String name, String originalFilename, String contentType, byte[] file) throws ServiceException {
+    public RemoteFile upload(String name, String originalFilename, String contentType, byte[] file) throws ServiceException {
         try {
             String suffix = StringUtils.substring(originalFilename, originalFilename.lastIndexOf("."), originalFilename.length());
             OssClient storage = OssFactory.instance();
@@ -46,7 +46,7 @@ public class RemoteFileServiceImpl implements RemoteFileService {
             oss.setOriginalName(originalFilename);
             oss.setService(storage.getConfigKey());
             sysOssService.insertByBo(oss);
-            SysFile sysFile = new SysFile();
+            RemoteFile sysFile = new RemoteFile();
             sysFile.setOssId(oss.getOssId());
             sysFile.setName(uploadResult.getFilename());
             sysFile.setUrl(uploadResult.getUrl());

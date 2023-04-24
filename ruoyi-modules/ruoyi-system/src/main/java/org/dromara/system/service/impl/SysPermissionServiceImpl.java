@@ -1,11 +1,11 @@
 package org.dromara.system.service.impl;
 
+import lombok.RequiredArgsConstructor;
+import org.dromara.common.core.constant.TenantConstants;
 import org.dromara.common.satoken.utils.LoginHelper;
-import org.dromara.system.api.domain.SysUser;
 import org.dromara.system.service.ISysMenuService;
 import org.dromara.system.service.ISysPermissionService;
 import org.dromara.system.service.ISysRoleService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
@@ -26,17 +26,17 @@ public class SysPermissionServiceImpl implements ISysPermissionService {
     /**
      * 获取角色数据权限
      *
-     * @param user 用户
+     * @param userId  用户id
      * @return 角色权限信息
      */
     @Override
-    public Set<String> getRolePermission(SysUser user) {
-        Set<String> roles = new HashSet<String>();
+    public Set<String> getRolePermission(Long userId) {
+        Set<String> roles = new HashSet<>();
         // 管理员拥有所有权限
-        if (LoginHelper.isSuperAdmin(user.getUserId())) {
-            roles.add("admin");
+        if (LoginHelper.isSuperAdmin(userId)) {
+            roles.add(TenantConstants.SUPER_ADMIN_ROLE_KEY);
         } else {
-            roles.addAll(roleService.selectRolePermissionByUserId(user.getUserId()));
+            roles.addAll(roleService.selectRolePermissionByUserId(userId));
         }
         return roles;
     }
@@ -44,17 +44,17 @@ public class SysPermissionServiceImpl implements ISysPermissionService {
     /**
      * 获取菜单数据权限
      *
-     * @param user 用户
+     * @param userId  用户id
      * @return 菜单权限信息
      */
     @Override
-    public Set<String> getMenuPermission(SysUser user) {
-        Set<String> perms = new HashSet<String>();
+    public Set<String> getMenuPermission(Long userId) {
+        Set<String> perms = new HashSet<>();
         // 管理员拥有所有权限
-        if (LoginHelper.isSuperAdmin(user.getUserId())) {
+        if (LoginHelper.isSuperAdmin(userId)) {
             perms.add("*:*:*");
         } else {
-            perms.addAll(menuService.selectMenuPermsByUserId(user.getUserId()));
+            perms.addAll(menuService.selectMenuPermsByUserId(userId));
         }
         return perms;
     }

@@ -8,6 +8,6 @@ import org.dromara.system.domain.SysRoleMenu;
  *
  * @author Lion Li
  */
-public interface SysRoleMenuMapper extends BaseMapperPlus<SysRoleMenuMapper, SysRoleMenu, SysRoleMenu> {
+public interface SysRoleMenuMapper extends BaseMapperPlus<SysRoleMenu, SysRoleMenu> {
 
 }

@@ -1,22 +1,30 @@
 package org.dromara.auth.controller;
 
+import cn.hutool.core.collection.CollUtil;
+import lombok.RequiredArgsConstructor;
+import org.apache.dubbo.config.annotation.DubboReference;
+import org.dromara.auth.domain.vo.LoginTenantVo;
+import org.dromara.auth.domain.vo.LoginVo;
+import org.dromara.auth.domain.vo.TenantListVo;
 import org.dromara.auth.form.EmailLoginBody;
 import org.dromara.auth.form.LoginBody;
 import org.dromara.auth.form.RegisterBody;
 import org.dromara.auth.form.SmsLoginBody;
 import org.dromara.auth.service.SysLoginService;
-import org.dromara.common.core.constant.Constants;
 import org.dromara.common.core.domain.R;
-import lombok.RequiredArgsConstructor;
+import org.dromara.common.core.utils.MapstructUtils;
+import org.dromara.common.core.utils.StreamUtils;
+import org.dromara.common.core.utils.StringUtils;
+import org.dromara.common.tenant.helper.TenantHelper;
+import org.dromara.system.api.RemoteTenantService;
+import org.dromara.system.api.domain.vo.RemoteTenantVo;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.NotBlank;
-import java.util.HashMap;
-import java.util.Map;
+import java.net.URL;
+import java.util.List;
 
 /**
  * token 控制
@@ -30,18 +38,22 @@ public class TokenController {
 
     private final SysLoginService sysLoginService;
 
+    @DubboReference
+    private final RemoteTenantService remoteTenantService;
+
     /**
      * 登录方法
      */
     @PostMapping("login")
-    public R<Map<String, Object>> login(@Validated @RequestBody LoginBody form) {
-        // 用户登录
-        String accessToken = sysLoginService.login(form.getUsername(), form.getPassword());
-
-        // 接口返回信息
-        Map<String, Object> rspMap = new HashMap<>();
-        rspMap.put(Constants.ACCESS_TOKEN, accessToken);
-        return R.ok(rspMap);
+    public R<LoginVo> login(@Validated @RequestBody LoginBody body) {
+        LoginVo loginVo = new LoginVo();
+        // 生成令牌
+        String token = sysLoginService.login(
+            body.getTenantId(),
+            body.getUsername(),
+            body.getPassword());
+        loginVo.setToken(token);
+        return R.ok(loginVo);
     }
 
     /**
@@ -51,12 +63,12 @@ public class TokenController {
      * @return 结果
      */
     @PostMapping("/smsLogin")
-    public R<Map<String, Object>> smsLogin(@Validated @RequestBody SmsLoginBody smsLoginBody) {
-        Map<String, Object> ajax = new HashMap<>();
+    public R<LoginVo> smsLogin(@Validated @RequestBody SmsLoginBody smsLoginBody) {
+        LoginVo loginVo = new LoginVo();
         // 生成令牌
-        String token = sysLoginService.smsLogin(smsLoginBody.getPhonenumber(), smsLoginBody.getSmsCode());
-        ajax.put(Constants.ACCESS_TOKEN, token);
-        return R.ok(ajax);
+        String token = sysLoginService.smsLogin(smsLoginBody.getTenantId(),smsLoginBody.getPhonenumber(), smsLoginBody.getSmsCode());
+        loginVo.setToken(token);
+        return R.ok(loginVo);
     }
 
     /**
@@ -66,12 +78,12 @@ public class TokenController {
      * @return 结果
      */
     @PostMapping("/emailLogin")
-    public R<Map<String, Object>> emailLogin(@Validated @RequestBody EmailLoginBody body) {
-        Map<String, Object> ajax = new HashMap<>();
+    public R<LoginVo> emailLogin(@Validated @RequestBody EmailLoginBody body) {
+        LoginVo loginVo = new LoginVo();
         // 生成令牌
-        String token = sysLoginService.emailLogin(body.getEmail(), body.getEmailCode());
-        ajax.put(Constants.ACCESS_TOKEN, token);
-        return R.ok(ajax);
+        String token = sysLoginService.emailLogin(body.getTenantId(), body.getEmail(), body.getEmailCode());
+        loginVo.setToken(token);
+        return R.ok(loginVo);
     }
 
     /**
@@ -81,12 +93,12 @@ public class TokenController {
      * @return 结果
      */
     @PostMapping("/xcxLogin")
-    public R<Map<String, Object>> xcxLogin(@NotBlank(message = "{xcx.code.not.blank}") String xcxCode) {
-        Map<String, Object> ajax = new HashMap<>();
+    public R<LoginVo> xcxLogin(@NotBlank(message = "{xcx.code.not.blank}") String xcxCode) {
+        LoginVo loginVo = new LoginVo();
         // 生成令牌
         String token = sysLoginService.xcxLogin(xcxCode);
-        ajax.put(Constants.ACCESS_TOKEN, token);
-        return R.ok(ajax);
+        loginVo.setToken(token);
+        return R.ok(loginVo);
     }
 
     /**
@@ -106,6 +118,26 @@ public class TokenController {
         // 用户注册
         sysLoginService.register(registerBody);
         return R.ok();
+    }
+
+    /**
+     * 登录页面租户下拉框
+     *
+     * @return 租户列表
+     */
+    @GetMapping("/tenant/list")
+    public R<LoginTenantVo> tenantList(HttpServletRequest request) throws Exception {
+        List<RemoteTenantVo> tenantList = remoteTenantService.queryList();
+        List<TenantListVo> voList = MapstructUtils.convert(tenantList, TenantListVo.class);
+        // 获取域名
+        String host = new URL(request.getRequestURL().toString()).getHost();
+        // 根据域名进行筛选
+        List<TenantListVo> list = StreamUtils.filter(voList, vo -> StringUtils.equals(vo.getDomain(), host));
+        // 返回对象
+        LoginTenantVo vo = new LoginTenantVo();
+        vo.setVoList(CollUtil.isNotEmpty(list) ? list : voList);
+        vo.setTenantEnabled(TenantHelper.isEnable());
+        return R.ok(vo);
     }
 
 }

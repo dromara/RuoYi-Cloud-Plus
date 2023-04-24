@@ -64,6 +64,16 @@
             <groupId>org.dromara</groupId>
             <artifactId>ruoyi-common-seata</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.dromara</groupId>
+            <artifactId>ruoyi-common-tenant</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.dromara</groupId>
+                    <artifactId>ruoyi-common-mybatis</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
 
         <!-- 自定义负载均衡(多团队开发使用) -->
 <!--        <dependency>-->

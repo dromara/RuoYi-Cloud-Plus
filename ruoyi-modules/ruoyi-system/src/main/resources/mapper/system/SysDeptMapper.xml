@@ -1,40 +1,29 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
-PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.dromara.system.mapper.SysDeptMapper">
 
-	<resultMap type="SysDept" id="SysDeptResult">
-		<id     property="deptId"     column="dept_id"     />
-		<result property="parentId"   column="parent_id"   />
-		<result property="ancestors"  column="ancestors"   />
-		<result property="deptName"   column="dept_name"   />
-		<result property="orderNum"   column="order_num"   />
-		<result property="leader"     column="leader"      />
-		<result property="phone"      column="phone"       />
-		<result property="email"      column="email"       />
-		<result property="status"     column="status"      />
-		<result property="delFlag"    column="del_flag"    />
-		<result property="parentName" column="parent_name" />
-		<result property="createBy"   column="create_by"   />
-		<result property="createTime" column="create_time" />
-		<result property="updateBy"   column="update_by"   />
-		<result property="updateTime" column="update_time" />
-	</resultMap>
+    <resultMap type="org.dromara.system.domain.vo.SysDeptVo" id="SysDeptResult">
+    </resultMap>
 
     <select id="selectDeptList" resultMap="SysDeptResult">
         select * from sys_dept ${ew.getCustomSqlSegment}
     </select>
 
+    <select id="selectDeptById" resultMap="SysDeptResult">
+        select * from sys_dept where del_flag = '0' and dept_id = #{deptId}
+    </select>
+
     <select id="selectDeptListByRoleId" resultType="Long">
-		select d.dept_id
-		from sys_dept d
+        select d.dept_id
+        from sys_dept d
             left join sys_role_dept rd on d.dept_id = rd.dept_id
         where rd.role_id = #{roleId}
             <if test="deptCheckStrictly">
-              and d.dept_id not in (select d.parent_id from sys_dept d inner join sys_role_dept rd on d.dept_id = rd.dept_id and rd.role_id = #{roleId})
+                and d.dept_id not in (select d.parent_id from sys_dept d inner join sys_role_dept rd on d.dept_id = rd.dept_id and rd.role_id = #{roleId})
             </if>
-		order by d.parent_id, d.order_num
-	</select>
+        order by d.parent_id, d.order_num
+    </select>
 
 </mapper>

@@ -2,25 +2,27 @@ package org.dromara.system.service;
 
 import org.dromara.common.mybatis.core.page.PageQuery;
 import org.dromara.common.mybatis.core.page.TableDataInfo;
-import org.dromara.system.api.domain.SysLogininfor;
+import org.dromara.system.domain.bo.SysLogininforBo;
+import org.dromara.system.domain.vo.SysLogininforVo;
 
 import java.util.List;
 
 /**
  * 系统访问日志情况信息 服务层
  *
- * @author ruoyi
+ * @author Lion Li
  */
 public interface ISysLogininforService {
 
-    TableDataInfo<SysLogininfor> selectPageLogininforList(SysLogininfor logininfor, PageQuery pageQuery);
+
+    TableDataInfo<SysLogininforVo> selectPageLogininforList(SysLogininforBo logininfor, PageQuery pageQuery);
 
     /**
      * 新增系统登录日志
      *
-     * @param logininfor 访问日志对象
+     * @param bo 访问日志对象
      */
-    int insertLogininfor(SysLogininfor logininfor);
+    void insertLogininfor(SysLogininforBo bo);
 
     /**
      * 查询系统登录日志集合
@@ -28,7 +30,7 @@ public interface ISysLogininforService {
      * @param logininfor 访问日志对象
      * @return 登录记录集合
      */
-    List<SysLogininfor> selectLogininforList(SysLogininfor logininfor);
+    List<SysLogininforVo> selectLogininforList(SysLogininforBo logininfor);
 
     /**
      * 批量删除系统登录日志

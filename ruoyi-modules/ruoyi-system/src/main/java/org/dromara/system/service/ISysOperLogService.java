@@ -2,26 +2,26 @@ package org.dromara.system.service;
 
 import org.dromara.common.mybatis.core.page.PageQuery;
 import org.dromara.common.mybatis.core.page.TableDataInfo;
-import org.dromara.system.api.domain.SysOperLog;
+import org.dromara.system.domain.bo.SysOperLogBo;
+import org.dromara.system.domain.vo.SysOperLogVo;
 
 import java.util.List;
 
 /**
  * 操作日志 服务层
  *
- * @author ruoyi
+ * @author Lion Li
  */
 public interface ISysOperLogService {
 
-    TableDataInfo<SysOperLog> selectPageOperLogList(SysOperLog operLog, PageQuery pageQuery);
+    TableDataInfo<SysOperLogVo> selectPageOperLogList(SysOperLogBo operLog, PageQuery pageQuery);
 
     /**
      * 新增操作日志
      *
-     * @param operLog 操作日志对象
-     * @return 结果
+     * @param bo 操作日志对象
      */
-    int insertOperlog(SysOperLog operLog);
+    void insertOperlog(SysOperLogBo bo);
 
     /**
      * 查询系统操作日志集合
@@ -29,7 +29,7 @@ public interface ISysOperLogService {
      * @param operLog 操作日志对象
      * @return 操作日志集合
      */
-    List<SysOperLog> selectOperLogList(SysOperLog operLog);
+    List<SysOperLogVo> selectOperLogList(SysOperLogBo operLog);
 
     /**
      * 批量删除系统操作日志
@@ -45,7 +45,7 @@ public interface ISysOperLogService {
      * @param operId 操作ID
      * @return 操作日志对象
      */
-    SysOperLog selectOperLogById(Long operId);
+    SysOperLogVo selectOperLogById(Long operId);
 
     /**
      * 清空操作日志

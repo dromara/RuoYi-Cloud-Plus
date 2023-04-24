@@ -1,12 +1,10 @@
 package org.dromara.gen.mapper;
 
 import com.baomidou.mybatisplus.annotation.InterceptorIgnore;
-import com.baomidou.mybatisplus.core.conditions.Wrapper;
-import com.baomidou.mybatisplus.core.toolkit.Constants;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import org.apache.ibatis.annotations.Param;
 import org.dromara.common.mybatis.core.mapper.BaseMapperPlus;
 import org.dromara.gen.domain.GenTable;
-import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -16,7 +14,7 @@ import java.util.List;
  * @author Lion Li
  */
 @InterceptorIgnore(dataPermission = "true")
-public interface GenTableMapper extends BaseMapperPlus<GenTableMapper, GenTable, GenTable> {
+public interface GenTableMapper extends BaseMapperPlus<GenTable, GenTable> {
 
     Page<GenTable> selectPageDbTableList(@Param("page") Page<GenTable> page, @Param("genTable") GenTable genTable);
 

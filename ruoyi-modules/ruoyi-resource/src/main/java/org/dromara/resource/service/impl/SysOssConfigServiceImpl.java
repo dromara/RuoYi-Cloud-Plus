@@ -7,27 +7,31 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.dromara.common.core.constant.CacheNames;
 import org.dromara.common.core.exception.ServiceException;
 import org.dromara.common.core.utils.JsonUtils;
+import org.dromara.common.core.utils.StreamUtils;
 import org.dromara.common.core.utils.StringUtils;
 import org.dromara.common.mybatis.core.page.PageQuery;
 import org.dromara.common.mybatis.core.page.TableDataInfo;
 import org.dromara.common.oss.constant.OssConstant;
 import org.dromara.common.redis.utils.CacheUtils;
 import org.dromara.common.redis.utils.RedisUtils;
+import org.dromara.common.tenant.core.TenantEntity;
+import org.dromara.common.tenant.helper.TenantHelper;
 import org.dromara.resource.domain.SysOssConfig;
 import org.dromara.resource.domain.bo.SysOssConfigBo;
 import org.dromara.resource.domain.vo.SysOssConfigVo;
 import org.dromara.resource.mapper.SysOssConfigMapper;
 import org.dromara.resource.service.ISysOssConfigService;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 对象存储配置Service业务层处理
@@ -48,14 +52,25 @@ public class SysOssConfigServiceImpl implements ISysOssConfigService {
      */
     @Override
     public void init() {
-        List<SysOssConfig> list = baseMapper.selectList();
-        // 加载OSS初始化配置
-        for (SysOssConfig config : list) {
-            String configKey = config.getConfigKey();
-            if ("0".equals(config.getStatus())) {
-                RedisUtils.setCacheObject(OssConstant.DEFAULT_CONFIG_KEY, configKey);
+        List<SysOssConfig> list = TenantHelper.ignore(() ->
+            baseMapper.selectList(
+                new LambdaQueryWrapper<SysOssConfig>().orderByAsc(TenantEntity::getTenantId))
+        );
+        Map<String, List<SysOssConfig>> map = StreamUtils.groupByKey(list, SysOssConfig::getTenantId);
+        try {
+            for (String tenantId : map.keySet()) {
+                TenantHelper.setDynamic(tenantId);
+                // 加载OSS初始化配置
+                for (SysOssConfig config : map.get(tenantId)) {
+                    String configKey = config.getConfigKey();
+                    if ("0".equals(config.getStatus())) {
+                        RedisUtils.setCacheObject(OssConstant.DEFAULT_CONFIG_KEY, configKey);
+                    }
+                    CacheUtils.put(CacheNames.SYS_OSS_CONFIG, config.getConfigKey(), JsonUtils.toJsonString(config));
+                }
             }
-            CacheUtils.put(CacheNames.SYS_OSS_CONFIG, config.getConfigKey(), JsonUtils.toJsonString(config));
+        } finally {
+            TenantHelper.clearDynamic();
         }
     }
 

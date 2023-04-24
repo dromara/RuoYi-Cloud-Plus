@@ -3,6 +3,7 @@ package org.dromara.resource.controller;
 
 import cn.dev33.satoken.annotation.SaCheckPermission;
 import cn.hutool.core.util.ObjectUtil;
+import lombok.RequiredArgsConstructor;
 import org.dromara.common.core.domain.R;
 import org.dromara.common.core.validate.QueryGroup;
 import org.dromara.common.core.web.controller.BaseController;
@@ -11,9 +12,9 @@ import org.dromara.common.log.enums.BusinessType;
 import org.dromara.common.mybatis.core.page.PageQuery;
 import org.dromara.common.mybatis.core.page.TableDataInfo;
 import org.dromara.resource.domain.bo.SysOssBo;
+import org.dromara.resource.domain.vo.SysOssUploadVo;
 import org.dromara.resource.domain.vo.SysOssVo;
 import org.dromara.resource.service.ISysOssService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -23,9 +24,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.constraints.NotEmpty;
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * 文件上传 控制层
@@ -69,16 +68,16 @@ public class SysOssController extends BaseController {
     @SaCheckPermission("system:oss:upload")
     @Log(title = "OSS对象存储", businessType = BusinessType.INSERT)
     @PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public R<Map<String, String>> upload(@RequestPart("file") MultipartFile file) {
+    public R<SysOssUploadVo> upload(@RequestPart("file") MultipartFile file) {
         if (ObjectUtil.isNull(file)) {
             return R.fail("上传文件不能为空");
         }
         SysOssVo oss = iSysOssService.upload(file);
-        Map<String, String> map = new HashMap<>(2);
-        map.put("url", oss.getUrl());
-        map.put("fileName", oss.getOriginalName());
-        map.put("ossId", oss.getOssId().toString());
-        return R.ok(map);
+        SysOssUploadVo uploadVo = new SysOssUploadVo();
+        uploadVo.setUrl(oss.getUrl());
+        uploadVo.setFileName(oss.getOriginalName());
+        uploadVo.setOssId(oss.getOssId().toString());
+        return R.ok(uploadVo);
     }
 
     /**

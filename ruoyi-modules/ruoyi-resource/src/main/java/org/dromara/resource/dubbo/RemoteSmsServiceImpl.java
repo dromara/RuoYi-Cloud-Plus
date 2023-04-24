@@ -7,7 +7,7 @@ import org.dromara.common.sms.config.properties.SmsProperties;
 import org.dromara.common.sms.core.SmsTemplate;
 import org.dromara.common.sms.entity.SmsResult;
 import org.dromara.resource.api.RemoteSmsService;
-import org.dromara.resource.api.domain.SysSms;
+import org.dromara.resource.api.domain.RemoteSms;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboService;
@@ -35,13 +35,13 @@ public class RemoteSmsServiceImpl implements RemoteSmsService {
      * @param templateId 模板id
      * @param param      模板对应参数
      */
-    public SysSms send(String phones, String templateId, Map<String, String> param) throws ServiceException {
+    public RemoteSms send(String phones, String templateId, Map<String, String> param) throws ServiceException {
         if (!smsProperties.getEnabled()) {
             throw new ServiceException("当前系统没有开启短信功能！");
         }
         SmsTemplate smsTemplate = SpringUtils.getBean(SmsTemplate.class);
         SmsResult smsResult = smsTemplate.send(phones, templateId, param);
-        return BeanUtil.toBean(smsResult, SysSms.class);
+        return BeanUtil.toBean(smsResult, RemoteSms.class);
     }
 
 }

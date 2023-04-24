@@ -8,6 +8,6 @@ import org.dromara.demo.domain.TestDemoEncrypt;
  *
  * @author Lion Li
  */
-public interface TestDemoEncryptMapper extends BaseMapperPlus<TestDemoEncryptMapper, TestDemoEncrypt, TestDemoEncrypt> {
+public interface TestDemoEncryptMapper extends BaseMapperPlus<TestDemoEncrypt, TestDemoEncrypt> {
 
 }

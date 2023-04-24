@@ -1,16 +1,17 @@
 package org.dromara.system.domain;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import org.dromara.common.core.web.domain.TreeEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import org.dromara.common.core.constant.Constants;
+import org.dromara.common.core.constant.UserConstants;
+import org.dromara.common.core.utils.StringUtils;
+import org.dromara.common.core.web.domain.BaseEntity;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 菜单权限表 sys_menu
@@ -20,9 +21,8 @@ import javax.validation.constraints.Size;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-@NoArgsConstructor
 @TableName("sys_menu")
-public class SysMenu extends TreeEntity<SysMenu> {
+public class SysMenu extends BaseEntity {
 
     /**
      * 菜单ID
@@ -31,28 +31,28 @@ public class SysMenu extends TreeEntity<SysMenu> {
     private Long menuId;
 
     /**
+     * 父菜单ID
+     */
+    private Long parentId;
+
+    /**
      * 菜单名称
      */
-    @NotBlank(message = "菜单名称不能为空")
-    @Size(min = 0, max = 50, message = "菜单名称长度不能超过50个字符")
     private String menuName;
 
     /**
      * 显示顺序
      */
-    @NotNull(message = "显示顺序不能为空")
     private Integer orderNum;
 
     /**
      * 路由地址
      */
-    @Size(min = 0, max = 200, message = "路由地址不能超过200个字符")
     private String path;
 
     /**
      * 组件路径
      */
-    @Size(min = 0, max = 200, message = "组件路径不能超过255个字符")
     private String component;
 
     /**
@@ -73,7 +73,6 @@ public class SysMenu extends TreeEntity<SysMenu> {
     /**
      * 类型（M目录 C菜单 F按钮）
      */
-    @NotBlank(message = "菜单类型不能为空")
     private String menuType;
 
     /**
@@ -89,8 +88,6 @@ public class SysMenu extends TreeEntity<SysMenu> {
     /**
      * 权限字符串
      */
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    @Size(min = 0, max = 100, message = "权限标识长度不能超过100个字符")
     private String perms;
 
     /**
@@ -103,4 +100,92 @@ public class SysMenu extends TreeEntity<SysMenu> {
      */
     private String remark;
 
+    /**
+     * 父菜单名称
+     */
+    @TableField(exist = false)
+    private String parentName;
+
+    /**
+     * 子菜单
+     */
+    @TableField(exist = false)
+    private List<SysMenu> children = new ArrayList<>();
+
+    /**
+     * 获取路由名称
+     */
+    public String getRouteName() {
+        String routerName = StringUtils.capitalize(path);
+        // 非外链并且是一级目录（类型为目录）
+        if (isMenuFrame()) {
+            routerName = StringUtils.EMPTY;
+        }
+        return routerName;
+    }
+
+    /**
+     * 获取路由地址
+     */
+    public String getRouterPath() {
+        String routerPath = this.path;
+        // 内链打开外网方式
+        if (getParentId() != 0L && isInnerLink()) {
+            routerPath = innerLinkReplaceEach(routerPath);
+        }
+        // 非外链并且是一级目录（类型为目录）
+        if (0L == getParentId() && UserConstants.TYPE_DIR.equals(getMenuType())
+            && UserConstants.NO_FRAME.equals(getIsFrame())) {
+            routerPath = "/" + this.path;
+        }
+        // 非外链并且是一级目录（类型为菜单）
+        else if (isMenuFrame()) {
+            routerPath = "/";
+        }
+        return routerPath;
+    }
+
+    /**
+     * 获取组件信息
+     */
+    public String getComponentInfo() {
+        String component = UserConstants.LAYOUT;
+        if (StringUtils.isNotEmpty(this.component) && !isMenuFrame()) {
+            component = this.component;
+        } else if (StringUtils.isEmpty(this.component) && getParentId() != 0L && isInnerLink()) {
+            component = UserConstants.INNER_LINK;
+        } else if (StringUtils.isEmpty(this.component) && isParentView()) {
+            component = UserConstants.PARENT_VIEW;
+        }
+        return component;
+    }
+
+    /**
+     * 是否为菜单内部跳转
+     */
+    public boolean isMenuFrame() {
+        return getParentId() == 0L && UserConstants.TYPE_MENU.equals(menuType) && isFrame.equals(UserConstants.NO_FRAME);
+    }
+
+    /**
+     * 是否为内链组件
+     */
+    public boolean isInnerLink() {
+        return isFrame.equals(UserConstants.NO_FRAME) && StringUtils.ishttp(path);
+    }
+
+    /**
+     * 是否为parent_view组件
+     */
+    public boolean isParentView() {
+        return getParentId() != 0L && UserConstants.TYPE_DIR.equals(menuType);
+    }
+
+    /**
+     * 内链域名特殊字符替换
+     */
+    public static String innerLinkReplaceEach(String path) {
+        return StringUtils.replaceEach(path, new String[]{Constants.HTTP, Constants.HTTPS, Constants.WWW, "."},
+            new String[]{"", "", "", "/"});
+    }
 }

@@ -6,7 +6,8 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.dromara.common.mybatis.annotation.DataColumn;
 import org.dromara.common.mybatis.annotation.DataPermission;
 import org.dromara.common.mybatis.core.mapper.BaseMapperPlus;
-import org.dromara.system.api.domain.SysRole;
+import org.dromara.system.domain.SysRole;
+import org.dromara.system.domain.vo.SysRoleVo;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -16,12 +17,12 @@ import java.util.List;
  *
  * @author Lion Li
  */
-public interface SysRoleMapper extends BaseMapperPlus<SysRoleMapper, SysRole, SysRole> {
+public interface SysRoleMapper extends BaseMapperPlus<SysRole, SysRoleVo> {
 
     @DataPermission({
         @DataColumn(key = "deptName", value = "d.dept_id")
     })
-    Page<SysRole> selectPageRoleList(@Param("page") Page<SysRole> page, @Param(Constants.WRAPPER) Wrapper<SysRole> queryWrapper);
+    Page<SysRoleVo> selectPageRoleList(@Param("page") Page<SysRole> page, @Param(Constants.WRAPPER) Wrapper<SysRole> queryWrapper);
 
     /**
      * 根据条件分页查询角色数据
@@ -32,7 +33,12 @@ public interface SysRoleMapper extends BaseMapperPlus<SysRoleMapper, SysRole, Sy
     @DataPermission({
         @DataColumn(key = "deptName", value = "d.dept_id")
     })
-    List<SysRole> selectRoleList(@Param(Constants.WRAPPER) Wrapper<SysRole> queryWrapper);
+    List<SysRoleVo> selectRoleList(@Param(Constants.WRAPPER) Wrapper<SysRole> queryWrapper);
+
+    @DataPermission({
+        @DataColumn(key = "deptName", value = "d.dept_id")
+    })
+    SysRoleVo selectRoleById(Long roleId);
 
     /**
      * 根据用户ID查询角色
@@ -40,7 +46,7 @@ public interface SysRoleMapper extends BaseMapperPlus<SysRoleMapper, SysRole, Sy
      * @param userId 用户ID
      * @return 角色列表
      */
-    List<SysRole> selectRolePermissionByUserId(Long userId);
+    List<SysRoleVo> selectRolePermissionByUserId(Long userId);
 
 
     /**
@@ -57,6 +63,6 @@ public interface SysRoleMapper extends BaseMapperPlus<SysRoleMapper, SysRole, Sy
      * @param userName 用户名
      * @return 角色列表
      */
-    List<SysRole> selectRolesByUserName(String userName);
+    List<SysRoleVo> selectRolesByUserName(String userName);
 
 }

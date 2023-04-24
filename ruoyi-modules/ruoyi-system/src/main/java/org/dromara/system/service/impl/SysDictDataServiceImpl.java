@@ -1,17 +1,21 @@
 package org.dromara.system.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import lombok.RequiredArgsConstructor;
 import org.dromara.common.core.constant.CacheNames;
 import org.dromara.common.core.exception.ServiceException;
+import org.dromara.common.core.utils.MapstructUtils;
 import org.dromara.common.core.utils.StringUtils;
 import org.dromara.common.mybatis.core.page.PageQuery;
 import org.dromara.common.mybatis.core.page.TableDataInfo;
 import org.dromara.common.redis.utils.CacheUtils;
-import org.dromara.system.api.domain.SysDictData;
+import org.dromara.system.domain.SysDictData;
+import org.dromara.system.domain.bo.SysDictDataBo;
+import org.dromara.system.domain.vo.SysDictDataVo;
 import org.dromara.system.mapper.SysDictDataMapper;
 import org.dromara.system.service.ISysDictDataService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +24,7 @@ import java.util.List;
 /**
  * 字典 业务层处理
  *
- * @author ruoyi
+ * @author Lion Li
  */
 @RequiredArgsConstructor
 @Service
@@ -29,13 +33,9 @@ public class SysDictDataServiceImpl implements ISysDictDataService {
     private final SysDictDataMapper baseMapper;
 
     @Override
-    public TableDataInfo<SysDictData> selectPageDictDataList(SysDictData dictData, PageQuery pageQuery) {
-        LambdaQueryWrapper<SysDictData> lqw = new LambdaQueryWrapper<SysDictData>()
-            .eq(StringUtils.isNotBlank(dictData.getDictType()), SysDictData::getDictType, dictData.getDictType())
-            .like(StringUtils.isNotBlank(dictData.getDictLabel()), SysDictData::getDictLabel, dictData.getDictLabel())
-            .eq(StringUtils.isNotBlank(dictData.getStatus()), SysDictData::getStatus, dictData.getStatus())
-            .orderByAsc(SysDictData::getDictSort);
-        Page<SysDictData> page = baseMapper.selectPage(pageQuery.build(), lqw);
+    public TableDataInfo<SysDictDataVo> selectPageDictDataList(SysDictDataBo dictData, PageQuery pageQuery) {
+        LambdaQueryWrapper<SysDictData> lqw = buildQueryWrapper(dictData);
+        Page<SysDictDataVo> page = baseMapper.selectVoPage(pageQuery.build(), lqw);
         return TableDataInfo.build(page);
     }
 
@@ -46,12 +46,19 @@ public class SysDictDataServiceImpl implements ISysDictDataService {
      * @return 字典数据集合信息
      */
     @Override
-    public List<SysDictData> selectDictDataList(SysDictData dictData) {
-        return baseMapper.selectList(new LambdaQueryWrapper<SysDictData>()
-            .eq(StringUtils.isNotBlank(dictData.getDictType()), SysDictData::getDictType, dictData.getDictType())
-            .like(StringUtils.isNotBlank(dictData.getDictLabel()), SysDictData::getDictLabel, dictData.getDictLabel())
-            .eq(StringUtils.isNotBlank(dictData.getStatus()), SysDictData::getStatus, dictData.getStatus())
-            .orderByAsc(SysDictData::getDictSort));
+    public List<SysDictDataVo> selectDictDataList(SysDictDataBo dictData) {
+        LambdaQueryWrapper<SysDictData> lqw = buildQueryWrapper(dictData);
+        return baseMapper.selectVoList(lqw);
+    }
+
+    private LambdaQueryWrapper<SysDictData> buildQueryWrapper(SysDictDataBo bo) {
+        LambdaQueryWrapper<SysDictData> lqw = Wrappers.lambdaQuery();
+        lqw.eq(bo.getDictSort() != null, SysDictData::getDictSort, bo.getDictSort());
+        lqw.like(StringUtils.isNotBlank(bo.getDictLabel()), SysDictData::getDictLabel, bo.getDictLabel());
+        lqw.eq(StringUtils.isNotBlank(bo.getDictType()), SysDictData::getDictType, bo.getDictType());
+        lqw.eq(StringUtils.isNotBlank(bo.getStatus()), SysDictData::getStatus, bo.getStatus());
+        lqw.orderByAsc(SysDictData::getDictSort);
+        return lqw;
     }
 
     /**
@@ -77,8 +84,8 @@ public class SysDictDataServiceImpl implements ISysDictDataService {
      * @return 字典数据
      */
     @Override
-    public SysDictData selectDictDataById(Long dictCode) {
-        return baseMapper.selectById(dictCode);
+    public SysDictDataVo selectDictDataById(Long dictCode) {
+        return baseMapper.selectVoById(dictCode);
     }
 
     /**
@@ -89,7 +96,7 @@ public class SysDictDataServiceImpl implements ISysDictDataService {
     @Override
     public void deleteDictDataByIds(Long[] dictCodes) {
         for (Long dictCode : dictCodes) {
-            SysDictData data = selectDictDataById(dictCode);
+            SysDictData data = baseMapper.selectById(dictCode);
             baseMapper.deleteById(dictCode);
             CacheUtils.evict(CacheNames.SYS_DICT, data.getDictType());
         }
@@ -98,12 +105,13 @@ public class SysDictDataServiceImpl implements ISysDictDataService {
     /**
      * 新增保存字典数据信息
      *
-     * @param data 字典数据信息
+     * @param bo 字典数据信息
      * @return 结果
      */
-    @CachePut(cacheNames = CacheNames.SYS_DICT, key = "#data.dictType")
+    @CachePut(cacheNames = CacheNames.SYS_DICT, key = "#bo.dictType")
     @Override
-    public List<SysDictData> insertDictData(SysDictData data) {
+    public List<SysDictDataVo> insertDictData(SysDictDataBo bo) {
+        SysDictData data = MapstructUtils.convert(bo, SysDictData.class);
         int row = baseMapper.insert(data);
         if (row > 0) {
             return baseMapper.selectDictDataByType(data.getDictType());
@@ -114,16 +122,18 @@ public class SysDictDataServiceImpl implements ISysDictDataService {
     /**
      * 修改保存字典数据信息
      *
-     * @param data 字典数据信息
+     * @param bo 字典数据信息
      * @return 结果
      */
-    @CachePut(cacheNames = CacheNames.SYS_DICT, key = "#data.dictType")
+    @CachePut(cacheNames = CacheNames.SYS_DICT, key = "#bo.dictType")
     @Override
-    public List<SysDictData> updateDictData(SysDictData data) {
+    public List<SysDictDataVo> updateDictData(SysDictDataBo bo) {
+        SysDictData data = MapstructUtils.convert(bo, SysDictData.class);
         int row = baseMapper.updateById(data);
         if (row > 0) {
             return baseMapper.selectDictDataByType(data.getDictType());
         }
         throw new ServiceException("操作失败");
     }
+
 }

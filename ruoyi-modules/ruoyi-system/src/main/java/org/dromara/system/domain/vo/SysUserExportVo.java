@@ -1,10 +1,12 @@
 package org.dromara.system.domain.vo;
 
 import com.alibaba.excel.annotation.ExcelProperty;
-import org.dromara.common.excel.annotation.ExcelDictFormat;
-import org.dromara.common.excel.convert.ExcelDictConvert;
+import io.github.linpeilie.annotations.AutoMapper;
+import io.github.linpeilie.annotations.ReverseAutoMapping;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.dromara.common.excel.annotation.ExcelDictFormat;
+import org.dromara.common.excel.convert.ExcelDictConvert;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -17,7 +19,9 @@ import java.util.Date;
 
 @Data
 @NoArgsConstructor
+@AutoMapper(target = SysUserVo.class, convertGenerate = false)
 public class SysUserExportVo implements Serializable {
+
     private static final long serialVersionUID = 1L;
 
     /**
@@ -79,12 +83,14 @@ public class SysUserExportVo implements Serializable {
     /**
      * 部门名称
      */
+    @ReverseAutoMapping(target = "deptName", source = "dept.deptName")
     @ExcelProperty(value = "部门名称")
     private String deptName;
 
     /**
      * 负责人
      */
+    @ReverseAutoMapping(target = "leader", source = "dept.leader")
     @ExcelProperty(value = "部门负责人")
     private String leader;
 

@@ -2,8 +2,9 @@ package org.dromara.system.service;
 
 import org.dromara.common.mybatis.core.page.PageQuery;
 import org.dromara.common.mybatis.core.page.TableDataInfo;
-import org.dromara.system.api.domain.SysRole;
 import org.dromara.system.domain.SysUserRole;
+import org.dromara.system.domain.bo.SysRoleBo;
+import org.dromara.system.domain.vo.SysRoleVo;
 
 import java.util.List;
 import java.util.Set;
@@ -11,10 +12,12 @@ import java.util.Set;
 /**
  * 角色业务层
  *
- * @author ruoyi
+ * @author Lion Li
  */
 public interface ISysRoleService {
-    TableDataInfo<SysRole> selectPageRoleList(SysRole role, PageQuery pageQuery);
+
+
+    TableDataInfo<SysRoleVo> selectPageRoleList(SysRoleBo role, PageQuery pageQuery);
 
     /**
      * 根据条件分页查询角色数据
@@ -22,7 +25,7 @@ public interface ISysRoleService {
      * @param role 角色信息
      * @return 角色数据集合信息
      */
-    List<SysRole> selectRoleList(SysRole role);
+    List<SysRoleVo> selectRoleList(SysRoleBo role);
 
     /**
      * 根据用户ID查询角色列表
@@ -30,7 +33,7 @@ public interface ISysRoleService {
      * @param userId 用户ID
      * @return 角色列表
      */
-    List<SysRole> selectRolesByUserId(Long userId);
+    List<SysRoleVo> selectRolesByUserId(Long userId);
 
     /**
      * 根据用户ID查询角色权限
@@ -45,7 +48,7 @@ public interface ISysRoleService {
      *
      * @return 角色列表
      */
-    List<SysRole> selectRoleAll();
+    List<SysRoleVo> selectRoleAll();
 
     /**
      * 根据用户ID获取角色选择框列表
@@ -61,7 +64,7 @@ public interface ISysRoleService {
      * @param roleId 角色ID
      * @return 角色对象信息
      */
-    SysRole selectRoleById(Long roleId);
+    SysRoleVo selectRoleById(Long roleId);
 
     /**
      * 校验角色名称是否唯一
@@ -69,7 +72,7 @@ public interface ISysRoleService {
      * @param role 角色信息
      * @return 结果
      */
-    boolean checkRoleNameUnique(SysRole role);
+    boolean checkRoleNameUnique(SysRoleBo role);
 
     /**
      * 校验角色权限是否唯一
@@ -77,14 +80,14 @@ public interface ISysRoleService {
      * @param role 角色信息
      * @return 结果
      */
-    boolean checkRoleKeyUnique(SysRole role);
+    boolean checkRoleKeyUnique(SysRoleBo role);
 
     /**
      * 校验角色是否允许操作
      *
-     * @param role 角色信息
+     * @param roleId 角色ID
      */
-    void checkRoleAllowed(SysRole role);
+    void checkRoleAllowed(Long roleId);
 
     /**
      * 校验角色是否有数据权限
@@ -104,34 +107,35 @@ public interface ISysRoleService {
     /**
      * 新增保存角色信息
      *
-     * @param role 角色信息
+     * @param bo 角色信息
      * @return 结果
      */
-    int insertRole(SysRole role);
+    int insertRole(SysRoleBo bo);
 
     /**
      * 修改保存角色信息
      *
-     * @param role 角色信息
+     * @param bo 角色信息
      * @return 结果
      */
-    int updateRole(SysRole role);
+    int updateRole(SysRoleBo bo);
 
     /**
      * 修改角色状态
      *
-     * @param role 角色信息
+     * @param roleId 角色ID
+     * @param status 角色状态
      * @return 结果
      */
-    int updateRoleStatus(SysRole role);
+    int updateRoleStatus(Long roleId, String status);
 
     /**
      * 修改数据权限信息
      *
-     * @param role 角色信息
+     * @param bo 角色信息
      * @return 结果
      */
-    int authDataScope(SysRole role);
+    int authDataScope(SysRoleBo bo);
 
     /**
      * 通过角色ID删除角色
@@ -176,5 +180,4 @@ public interface ISysRoleService {
     int insertAuthUsers(Long roleId, Long[] userIds);
 
     void cleanOnlineUserByRole(Long roleId);
-
 }

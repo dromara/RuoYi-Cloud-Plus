@@ -1,14 +1,16 @@
 package org.dromara.system.service;
 
 import cn.hutool.core.lang.tree.Tree;
-import org.dromara.system.api.domain.SysDept;
+import org.dromara.system.domain.SysDept;
+import org.dromara.system.domain.bo.SysDeptBo;
+import org.dromara.system.domain.vo.SysDeptVo;
 
 import java.util.List;
 
 /**
  * 部门管理 服务层
  *
- * @author ruoyi
+ * @author Lion Li
  */
 public interface ISysDeptService {
     /**
@@ -17,7 +19,7 @@ public interface ISysDeptService {
      * @param dept 部门信息
      * @return 部门信息集合
      */
-    List<SysDept> selectDeptList(SysDept dept);
+    List<SysDeptVo> selectDeptList(SysDeptBo dept);
 
     /**
      * 查询部门树结构信息
@@ -25,7 +27,7 @@ public interface ISysDeptService {
      * @param dept 部门信息
      * @return 部门树信息集合
      */
-    public List<Tree<Long>> selectDeptTreeList(SysDept dept);
+    List<Tree<Long>> selectDeptTreeList(SysDeptBo dept);
 
     /**
      * 构建前端所需要下拉树结构
@@ -49,7 +51,7 @@ public interface ISysDeptService {
      * @param deptId 部门ID
      * @return 部门信息
      */
-    SysDept selectDeptById(Long deptId);
+    SysDeptVo selectDeptById(Long deptId);
 
     /**
      * 通过部门ID查询部门名称
@@ -60,7 +62,7 @@ public interface ISysDeptService {
     String selectDeptNameByIds(String deptIds);
 
     /**
-     * 根据ID查询所有子部门（正常状态）
+     * 根据ID查询所有子部门数（正常状态）
      *
      * @param deptId 部门ID
      * @return 子部门数
@@ -89,7 +91,7 @@ public interface ISysDeptService {
      * @param dept 部门信息
      * @return 结果
      */
-    boolean checkDeptNameUnique(SysDept dept);
+    boolean checkDeptNameUnique(SysDeptBo dept);
 
     /**
      * 校验部门是否有数据权限
@@ -101,18 +103,18 @@ public interface ISysDeptService {
     /**
      * 新增保存部门信息
      *
-     * @param dept 部门信息
+     * @param bo 部门信息
      * @return 结果
      */
-    int insertDept(SysDept dept);
+    int insertDept(SysDeptBo bo);
 
     /**
      * 修改保存部门信息
      *
-     * @param dept 部门信息
+     * @param bo 部门信息
      * @return 结果
      */
-    int updateDept(SysDept dept);
+    int updateDept(SysDeptBo bo);
 
     /**
      * 删除部门管理信息

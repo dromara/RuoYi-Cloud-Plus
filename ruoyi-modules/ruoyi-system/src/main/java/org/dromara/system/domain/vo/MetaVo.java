@@ -1,16 +1,15 @@
 package org.dromara.system.domain.vo;
 
-import org.dromara.common.core.utils.StringUtils;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+import org.dromara.common.core.utils.StringUtils;
 
 /**
  * 路由显示信息
  *
  * @author ruoyi
  */
+
 @Data
-@NoArgsConstructor
 public class MetaVo {
 
     /**
@@ -58,4 +57,5 @@ public class MetaVo {
             this.link = link;
         }
     }
+
 }

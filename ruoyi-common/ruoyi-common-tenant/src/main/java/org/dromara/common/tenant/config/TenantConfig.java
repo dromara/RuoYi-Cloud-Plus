@@ -18,6 +18,7 @@ import org.redisson.config.ClusterServersConfig;
 import org.redisson.config.SingleServerConfig;
 import org.redisson.spring.starter.RedissonAutoConfigurationCustomizer;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cache.CacheManager;
@@ -33,29 +34,34 @@ import java.util.List;
  * @author Lion Li
  */
 @EnableConfigurationProperties(TenantProperties.class)
-@AutoConfiguration(after = {RedisConfiguration.class, MybatisPlusConfiguration.class})
+@AutoConfiguration(after = {RedisConfiguration.class})
 @ConditionalOnProperty(value = "tenant.enable", havingValue = "true")
 public class TenantConfig {
 
-    /**
-     * 初始化租户配置
-     */
-    @Bean
-    public boolean tenantInit(MybatisPlusInterceptor mybatisPlusInterceptor,
-                              TenantProperties tenantProperties) {
-        List<InnerInterceptor> interceptors = new ArrayList<>();
-        // 多租户插件 必须放到第一位
-        interceptors.add(tenantLineInnerInterceptor(tenantProperties));
-        interceptors.addAll(mybatisPlusInterceptor.getInterceptors());
-        mybatisPlusInterceptor.setInterceptors(interceptors);
-        return true;
-    }
+    @ConditionalOnBean(MybatisPlusConfiguration.class)
+    @AutoConfiguration(after = {MybatisPlusConfiguration.class})
+    static class MybatisPlusConfig {
 
-    /**
-     * 多租户插件
-     */
-    public TenantLineInnerInterceptor tenantLineInnerInterceptor(TenantProperties tenantProperties) {
-        return new TenantLineInnerInterceptor(new PlusTenantLineHandler(tenantProperties));
+        /**
+         * 初始化租户配置
+         */
+        @Bean
+        public boolean tenantInit(MybatisPlusInterceptor mybatisPlusInterceptor,
+                                  TenantProperties tenantProperties) {
+            List<InnerInterceptor> interceptors = new ArrayList<>();
+            // 多租户插件 必须放到第一位
+            interceptors.add(tenantLineInnerInterceptor(tenantProperties));
+            interceptors.addAll(mybatisPlusInterceptor.getInterceptors());
+            mybatisPlusInterceptor.setInterceptors(interceptors);
+            return true;
+        }
+
+        /**
+         * 多租户插件
+         */
+        public TenantLineInnerInterceptor tenantLineInnerInterceptor(TenantProperties tenantProperties) {
+            return new TenantLineInnerInterceptor(new PlusTenantLineHandler(tenantProperties));
+        }
     }
 
     @Bean

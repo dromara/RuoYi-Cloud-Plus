@@ -9,5 +9,5 @@ import org.dromara.resource.domain.vo.SysOssVo;
  *
  * @author Lion Li
  */
-public interface SysOssMapper extends BaseMapperPlus<SysOssMapper, SysOss, SysOssVo> {
+public interface SysOssMapper extends BaseMapperPlus<SysOss, SysOssVo> {
 }

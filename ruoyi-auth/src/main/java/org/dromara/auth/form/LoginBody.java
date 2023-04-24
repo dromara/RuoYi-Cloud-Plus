@@ -17,6 +17,12 @@ import javax.validation.constraints.NotBlank;
 public class LoginBody {
 
     /**
+     * 租户ID
+     */
+    @NotBlank(message = "{tenant.number.not.blank}")
+    private String tenantId;
+
+    /**
      * 用户名
      */
     @NotBlank(message = "{user.username.not.blank}")

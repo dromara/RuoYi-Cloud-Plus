@@ -12,6 +12,6 @@ import org.dromara.resource.domain.vo.SysOssConfigVo;
  * @author 孤舟烟雨
  * @date 2021-08-13
  */
-public interface SysOssConfigMapper extends BaseMapperPlus<SysOssConfigMapper, SysOssConfig, SysOssConfigVo> {
+public interface SysOssConfigMapper extends BaseMapperPlus<SysOssConfig, SysOssConfigVo> {
 
 }

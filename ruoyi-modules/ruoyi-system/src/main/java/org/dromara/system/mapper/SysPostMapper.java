@@ -2,6 +2,7 @@ package org.dromara.system.mapper;
 
 import org.dromara.common.mybatis.core.mapper.BaseMapperPlus;
 import org.dromara.system.domain.SysPost;
+import org.dromara.system.domain.vo.SysPostVo;
 
 import java.util.List;
 
@@ -10,7 +11,7 @@ import java.util.List;
  *
  * @author Lion Li
  */
-public interface SysPostMapper extends BaseMapperPlus<SysPostMapper, SysPost, SysPost> {
+public interface SysPostMapper extends BaseMapperPlus<SysPost, SysPostVo> {
 
     /**
      * 根据用户ID获取岗位选择框列表
@@ -26,6 +27,6 @@ public interface SysPostMapper extends BaseMapperPlus<SysPostMapper, SysPost, Sy
      * @param userName 用户名
      * @return 结果
      */
-    List<SysPost> selectPostsByUserName(String userName);
+    List<SysPostVo> selectPostsByUserName(String userName);
 
 }

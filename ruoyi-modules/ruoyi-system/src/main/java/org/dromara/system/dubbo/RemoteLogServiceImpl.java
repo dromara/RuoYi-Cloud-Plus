@@ -1,12 +1,15 @@
 package org.dromara.system.dubbo;
 
-import org.dromara.system.api.RemoteLogService;
-import org.dromara.system.api.domain.SysLogininfor;
-import org.dromara.system.api.domain.SysOperLog;
-import org.dromara.system.service.ISysLogininforService;
-import org.dromara.system.service.ISysOperLogService;
 import lombok.RequiredArgsConstructor;
 import org.apache.dubbo.config.annotation.DubboService;
+import org.dromara.common.core.utils.BeanCopyUtils;
+import org.dromara.system.api.RemoteLogService;
+import org.dromara.system.api.domain.bo.RemoteLogininforBo;
+import org.dromara.system.api.domain.bo.RemoteOperLogBo;
+import org.dromara.system.domain.bo.SysLogininforBo;
+import org.dromara.system.domain.bo.SysOperLogBo;
+import org.dromara.system.service.ISysLogininforService;
+import org.dromara.system.service.ISysOperLogService;
 import org.springframework.stereotype.Service;
 
 /**
@@ -23,12 +26,14 @@ public class RemoteLogServiceImpl implements RemoteLogService {
     private final ISysLogininforService logininforService;
 
     @Override
-    public Boolean saveLog(SysOperLog sysOperLog) {
-        return operLogService.insertOperlog(sysOperLog) > 0;
+    public void saveLog(RemoteOperLogBo remoteOperLogBo) {
+        SysOperLogBo sysOperLogBo = BeanCopyUtils.copy(remoteOperLogBo, SysOperLogBo.class);
+        operLogService.insertOperlog(sysOperLogBo);
     }
 
     @Override
-    public Boolean saveLogininfor(SysLogininfor sysLogininfor) {
-        return logininforService.insertLogininfor(sysLogininfor) > 0;
+    public void saveLogininfor(RemoteLogininforBo remoteLogininforBo) {
+        SysLogininforBo sysLogininforBo = BeanCopyUtils.copy(remoteLogininforBo, SysLogininforBo.class);
+        logininforService.insertLogininfor(sysLogininforBo);
     }
 }

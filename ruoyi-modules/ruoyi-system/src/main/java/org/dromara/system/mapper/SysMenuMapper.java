@@ -4,8 +4,9 @@ import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Constants;
 import org.dromara.common.core.constant.UserConstants;
-import org.dromara.common.mybatis.core.mapper.BaseMapperPlus;
 import org.dromara.system.domain.SysMenu;
+import org.dromara.common.mybatis.core.mapper.BaseMapperPlus;
+import org.dromara.system.domain.vo.SysMenuVo;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -15,7 +16,7 @@ import java.util.List;
  *
  * @author Lion Li
  */
-public interface SysMenuMapper extends BaseMapperPlus<SysMenuMapper, SysMenu, SysMenu> {
+public interface SysMenuMapper extends BaseMapperPlus<SysMenu, SysMenuVo> {
 
     /**
      * 根据用户所有权限
@@ -33,20 +34,20 @@ public interface SysMenuMapper extends BaseMapperPlus<SysMenuMapper, SysMenu, Sy
     List<SysMenu> selectMenuListByUserId(@Param(Constants.WRAPPER) Wrapper<SysMenu> queryWrapper);
 
     /**
-     * 根据角色ID查询权限
-     *
-     * @param roleId 角色ID
-     * @return 权限列表
-     */
-    public List<String> selectMenuPermsByRoleId(Long roleId);
-
-    /**
      * 根据用户ID查询权限
      *
      * @param userId 用户ID
      * @return 权限列表
      */
     List<String> selectMenuPermsByUserId(Long userId);
+
+    /**
+     * 根据角色ID查询权限
+     *
+     * @param roleId 角色ID
+     * @return 权限列表
+     */
+    List<String> selectMenuPermsByRoleId(Long roleId);
 
     /**
      * 根据用户ID查询菜单

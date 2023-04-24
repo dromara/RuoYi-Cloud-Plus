@@ -14,6 +14,11 @@ import javax.validation.constraints.NotBlank;
 public class SmsLoginBody {
 
     /**
+     * 租户ID
+     */
+    private String tenantId;
+
+    /**
      * 手机号
      */
     @NotBlank(message = "{user.phonenumber.not.blank}")

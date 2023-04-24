@@ -1,12 +1,13 @@
 package org.dromara.system.domain.vo;
 
 import com.alibaba.excel.annotation.ExcelProperty;
-import org.dromara.common.excel.annotation.ExcelDictFormat;
-import org.dromara.common.excel.convert.ExcelDictConvert;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.dromara.common.excel.annotation.ExcelDictFormat;
+import org.dromara.common.excel.convert.ExcelDictConvert;
 
 import java.io.Serializable;
+
 
 /**
  * 用户对象导入VO
@@ -16,7 +17,9 @@ import java.io.Serializable;
 
 @Data
 @NoArgsConstructor
+// @Accessors(chain = true) // 导入不允许使用 会找不到set方法
 public class SysUserImportVo implements Serializable {
+
     private static final long serialVersionUID = 1L;
 
     /**

@@ -1,9 +1,8 @@
 package org.dromara.common.core.domain;
 
-import org.dromara.common.core.constant.Constants;
-import org.dromara.common.core.constant.HttpStatus;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.dromara.common.core.constant.HttpStatus;
 
 import java.io.Serializable;
 
@@ -20,12 +19,12 @@ public class R<T> implements Serializable {
     /**
      * 成功
      */
-    public static final int SUCCESS = Constants.SUCCESS;
+    public static final int SUCCESS = 200;
 
     /**
      * 失败
      */
-    public static final int FAIL = Constants.FAIL;
+    public static final int FAIL = 500;
 
     /**
      * 消息状态码

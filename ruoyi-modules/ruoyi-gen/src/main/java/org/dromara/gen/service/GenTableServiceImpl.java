@@ -172,11 +172,11 @@ public class GenTableServiceImpl implements IGenTableService {
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void importGenTable(List<GenTable> tableList) {
-        String operName = LoginHelper.getUsername();
+        Long operId = LoginHelper.getUserId();
         try {
             for (GenTable table : tableList) {
                 String tableName = table.getTableName();
-                GenUtils.initTable(table, operName);
+                GenUtils.initTable(table, operId);
                 int row = baseMapper.insert(table);
                 if (row > 0) {
                     // 保存列信息
