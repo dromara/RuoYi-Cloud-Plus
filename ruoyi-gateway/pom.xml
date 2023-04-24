@@ -2,7 +2,7 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <groupId>com.ruoyi</groupId>
+        <groupId>org.dromara</groupId>
         <artifactId>ruoyi-cloud-plus</artifactId>
         <version>1.6.0</version>
     </parent>
@@ -80,7 +80,7 @@
         </dependency>
 
         <dependency>
-            <groupId>com.ruoyi</groupId>
+            <groupId>org.dromara</groupId>
             <artifactId>ruoyi-common-sentinel</artifactId>
             <exclusions>
                 <exclusion>
@@ -91,37 +91,37 @@
         </dependency>
 
         <dependency>
-            <groupId>com.ruoyi</groupId>
+            <groupId>org.dromara</groupId>
             <artifactId>ruoyi-common-satoken</artifactId>
         </dependency>
 
         <!-- RuoYi Common Redis-->
         <dependency>
-            <groupId>com.ruoyi</groupId>
+            <groupId>org.dromara</groupId>
             <artifactId>ruoyi-common-redis</artifactId>
         </dependency>
 
         <!-- 自定义负载均衡(多团队开发使用) -->
 <!--        <dependency>-->
-<!--            <groupId>com.ruoyi</groupId>-->
+<!--            <groupId>org.dromara</groupId>-->
 <!--            <artifactId>ruoyi-common-loadbalancer</artifactId>-->
 <!--        </dependency>-->
 
         <!-- ELK 日志收集 -->
 <!--        <dependency>-->
-<!--            <groupId>com.ruoyi</groupId>-->
+<!--            <groupId>org.dromara</groupId>-->
 <!--            <artifactId>ruoyi-common-logstash</artifactId>-->
 <!--        </dependency>-->
 
         <!-- skywalking 日志收集 -->
 <!--        <dependency>-->
-<!--            <groupId>com.ruoyi</groupId>-->
+<!--            <groupId>org.dromara</groupId>-->
 <!--            <artifactId>ruoyi-common-skylog</artifactId>-->
 <!--        </dependency>-->
 
         <!-- prometheus 监控 -->
 <!--        <dependency>-->
-<!--            <groupId>com.ruoyi</groupId>-->
+<!--            <groupId>org.dromara</groupId>-->
 <!--            <artifactId>ruoyi-common-prometheus</artifactId>-->
 <!--        </dependency>-->
 

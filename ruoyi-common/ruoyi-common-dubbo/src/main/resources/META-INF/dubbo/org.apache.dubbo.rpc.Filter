@@ -1,1 +1,1 @@
-dubboRequestFilter=com.ruoyi.common.dubbo.filter.DubboRequestFilter
+dubboRequestFilter=org.dromara.common.dubbo.filter.DubboRequestFilter

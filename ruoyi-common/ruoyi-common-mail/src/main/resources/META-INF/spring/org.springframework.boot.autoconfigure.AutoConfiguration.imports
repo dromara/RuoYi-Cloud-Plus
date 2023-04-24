@@ -1,1 +1,1 @@
-com.ruoyi.common.mail.config.MailConfiguration
+org.dromara.common.mail.config.MailConfiguration

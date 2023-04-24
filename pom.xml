@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.ruoyi</groupId>
+    <groupId>org.dromara</groupId>
     <artifactId>ruoyi-cloud-plus</artifactId>
     <version>1.6.0</version>
 
@@ -104,7 +104,7 @@
 
             <!-- SpringCloud Alibaba 微服务 -->
             <dependency>
-                <groupId>com.ruoyi</groupId>
+                <groupId>org.dromara</groupId>
                 <artifactId>ruoyi-common-alibaba-bom</artifactId>
                 <version>${ruoyi.version}</version>
                 <type>pom</type>
@@ -131,7 +131,7 @@
 
             <!-- common 的依赖配置-->
             <dependency>
-                <groupId>com.ruoyi</groupId>
+                <groupId>org.dromara</groupId>
                 <artifactId>ruoyi-common-bom</artifactId>
                 <version>${ruoyi.version}</version>
                 <type>pom</type>
@@ -140,7 +140,7 @@
 
             <!-- api 的依赖配置-->
             <dependency>
-                <groupId>com.ruoyi</groupId>
+                <groupId>org.dromara</groupId>
                 <artifactId>ruoyi-api-bom</artifactId>
                 <version>${ruoyi.version}</version>
                 <type>pom</type>

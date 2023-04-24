@@ -1,1 +1,1 @@
-com.ruoyi.common.loadbalance.config.CustomLoadBalanceAutoConfiguration
+org.dromara.common.loadbalance.config.CustomLoadBalanceAutoConfiguration

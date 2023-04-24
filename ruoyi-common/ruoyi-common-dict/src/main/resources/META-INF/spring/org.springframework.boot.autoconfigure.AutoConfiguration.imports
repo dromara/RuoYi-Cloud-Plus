@@ -1,1 +1,1 @@
-com.ruoyi.common.dict.service.impl.DictServiceImpl
+org.dromara.common.dict.service.impl.DictServiceImpl

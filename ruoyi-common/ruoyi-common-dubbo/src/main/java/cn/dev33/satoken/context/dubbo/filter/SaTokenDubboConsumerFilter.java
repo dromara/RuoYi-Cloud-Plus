@@ -6,7 +6,7 @@ import cn.dev33.satoken.same.SaSameUtil;
 import cn.dev33.satoken.spring.SaBeanInject;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.dev33.satoken.util.SaTokenConsts;
-import com.ruoyi.common.core.utils.SpringUtils;
+import org.dromara.common.core.utils.SpringUtils;
 import org.apache.dubbo.common.constants.CommonConstants;
 import org.apache.dubbo.common.extension.Activate;
 import org.apache.dubbo.rpc.*;

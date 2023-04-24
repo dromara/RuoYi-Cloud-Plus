@@ -1,1 +1,1 @@
-com.ruoyi.common.idempotent.config.IdempotentAutoConfiguration
+org.dromara.common.idempotent.config.IdempotentAutoConfiguration

@@ -2,9 +2,9 @@
 <!DOCTYPE mapper
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.ruoyi.demo.mapper.TestDemoMapper">
+<mapper namespace="org.dromara.demo.mapper.TestDemoMapper">
 
-    <resultMap type="com.ruoyi.demo.domain.TestDemo" id="TestDemoResult">
+    <resultMap type="org.dromara.demo.domain.TestDemo" id="TestDemoResult">
         <result property="id" column="id"/>
         <result property="deptId" column="dept_id"/>
         <result property="userId" column="user_id"/>
@@ -18,7 +18,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="updateBy" column="update_by"/>
         <result property="delFlag" column="del_flag"/>
     </resultMap>
-    <select id="customPageList" resultType="com.ruoyi.demo.domain.vo.TestDemoVo">
+    <select id="customPageList" resultType="org.dromara.demo.domain.vo.TestDemoVo">
         SELECT * FROM test_demo ${ew.customSqlSegment}
     </select>
 

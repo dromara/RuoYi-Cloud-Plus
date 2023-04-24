@@ -1,1 +1,1 @@
-com.ruoyi.common.prometheus.config.PrometheusConfiguration
+org.dromara.common.prometheus.config.PrometheusConfiguration

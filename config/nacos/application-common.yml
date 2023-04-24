@@ -55,7 +55,7 @@ dubbo:
     check: false
   scan:
     # 接口实现类扫描
-    base-packages: com.ruoyi.**.dubbo
+    base-packages: org.dromara.**.dubbo
   # 自定义配置
   custom:
     # 全局请求log
@@ -195,11 +195,11 @@ sa-token:
 mybatis-plus:
   # 不支持多包, 如有需要可在注解配置 或 提升扫包等级
   # 例如 com.**.**.mapper
-  mapperPackage: com.ruoyi.**.mapper
+  mapperPackage: org.dromara.**.mapper
   # 对应的 XML 文件位置
   mapperLocations: classpath*:mapper/**/*Mapper.xml
   # 实体扫描，多个package用逗号或者分号分隔
-  typeAliasesPackage: com.ruoyi.**.domain
+  typeAliasesPackage: org.dromara.**.domain
   # 启动时是否检查 MyBatis XML 文件的存在，默认不检查
   checkConfigLocation: false
   configuration:
