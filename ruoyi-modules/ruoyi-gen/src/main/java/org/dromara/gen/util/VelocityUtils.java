@@ -4,16 +4,16 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.lang.Dict;
 import cn.hutool.core.util.ObjectUtil;
-import org.dromara.common.core.constant.GenConstants;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+import org.apache.velocity.VelocityContext;
 import org.dromara.common.core.utils.DateUtils;
 import org.dromara.common.core.utils.JsonUtils;
 import org.dromara.common.core.utils.StringUtils;
 import org.dromara.common.mybatis.helper.DataBaseHelper;
+import org.dromara.gen.constant.GenConstants;
 import org.dromara.gen.domain.GenTable;
 import org.dromara.gen.domain.GenTableColumn;
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
-import org.apache.velocity.VelocityContext;
 
 import java.util.*;
 

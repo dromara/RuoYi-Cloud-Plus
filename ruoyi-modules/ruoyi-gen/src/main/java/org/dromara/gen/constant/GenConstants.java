@@ -1,4 +1,4 @@
-package org.dromara.common.core.constant;
+package org.dromara.gen.constant;
 
 /**
  * 代码生成通用常量

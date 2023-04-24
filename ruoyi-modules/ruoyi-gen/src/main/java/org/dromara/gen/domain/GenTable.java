@@ -4,12 +4,12 @@ import com.baomidou.mybatisplus.annotation.FieldStrategy;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import org.dromara.common.core.constant.GenConstants;
-import org.dromara.common.core.utils.StringUtils;
-import org.dromara.common.core.web.domain.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.apache.commons.lang3.ArrayUtils;
+import org.dromara.common.core.utils.StringUtils;
+import org.dromara.common.core.web.domain.BaseEntity;
+import org.dromara.gen.constant.GenConstants;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;

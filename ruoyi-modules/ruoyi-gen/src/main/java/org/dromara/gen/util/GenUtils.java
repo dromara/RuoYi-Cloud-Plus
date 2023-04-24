@@ -1,13 +1,13 @@
 package org.dromara.gen.util;
 
-import org.dromara.common.core.constant.GenConstants;
-import org.dromara.common.core.utils.StringUtils;
-import org.dromara.gen.config.GenConfig;
-import org.dromara.gen.domain.GenTable;
-import org.dromara.gen.domain.GenTableColumn;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.RegExUtils;
+import org.dromara.common.core.utils.StringUtils;
+import org.dromara.gen.config.GenConfig;
+import org.dromara.gen.constant.GenConstants;
+import org.dromara.gen.domain.GenTable;
+import org.dromara.gen.domain.GenTableColumn;
 
 import java.util.Arrays;
 
