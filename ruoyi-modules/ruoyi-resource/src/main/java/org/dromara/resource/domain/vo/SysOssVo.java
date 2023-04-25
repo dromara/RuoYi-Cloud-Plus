@@ -1,6 +1,8 @@
 package org.dromara.resource.domain.vo;
 
+import io.github.linpeilie.annotations.AutoMapper;
 import lombok.Data;
+import org.dromara.resource.domain.SysOss;
 
 import java.util.Date;
 
@@ -10,6 +12,7 @@ import java.util.Date;
  * @author Lion Li
  */
 @Data
+@AutoMapper(target = SysOss.class)
 public class SysOssVo {
 
     private static final long serialVersionUID = 1L;

@@ -1,6 +1,8 @@
 package org.dromara.resource.domain.vo;
 
+import io.github.linpeilie.annotations.AutoMapper;
 import lombok.Data;
+import org.dromara.resource.domain.SysOssConfig;
 
 
 /**
@@ -11,6 +13,7 @@ import lombok.Data;
  * @date 2021-08-13
  */
 @Data
+@AutoMapper(target = SysOssConfig.class)
 public class SysOssConfigVo {
 
     private static final long serialVersionUID = 1L;

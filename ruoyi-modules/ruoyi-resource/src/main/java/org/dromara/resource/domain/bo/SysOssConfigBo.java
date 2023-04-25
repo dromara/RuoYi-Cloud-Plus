@@ -1,10 +1,12 @@
 package org.dromara.resource.domain.bo;
 
+import io.github.linpeilie.annotations.AutoMapper;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.dromara.common.core.validate.AddGroup;
 import org.dromara.common.core.validate.EditGroup;
 import org.dromara.common.core.web.domain.BaseEntity;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import org.dromara.resource.domain.SysOssConfig;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -20,6 +22,7 @@ import javax.validation.constraints.Size;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
+@AutoMapper(target = SysOssConfig.class, reverseConvertGenerate = false)
 public class SysOssConfigBo extends BaseEntity {
 
     /**

@@ -1,8 +1,10 @@
 package org.dromara.resource.domain.bo;
 
-import org.dromara.common.core.web.domain.BaseEntity;
+import io.github.linpeilie.annotations.AutoMapper;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.dromara.common.core.web.domain.BaseEntity;
+import org.dromara.resource.domain.SysOss;
 
 /**
  * OSS对象存储分页查询对象 sys_oss
@@ -11,6 +13,7 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
+@AutoMapper(target = SysOss.class, reverseConvertGenerate = false)
 public class SysOssBo extends BaseEntity {
 
     /**
