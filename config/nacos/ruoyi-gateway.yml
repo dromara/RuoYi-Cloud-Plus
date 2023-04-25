@@ -65,6 +65,13 @@ spring:
             - Path=/system/**
           filters:
             - StripPrefix=1
+        # 监控模块
+        - id: ruoyi-monitor
+          uri: lb://ruoyi-system
+          predicates:
+            - Path=/monitor/**
+          filters:
+            - StripPrefix=1
         # 资源服务
         - id: ruoyi-resource
           uri: lb://ruoyi-resource
