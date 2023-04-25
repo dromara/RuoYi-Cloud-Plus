@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>com.ruoyi</groupId>
+        <groupId>org.dromara</groupId>
         <artifactId>ruoyi-visual</artifactId>
         <version>1.6.0</version>
     </parent>
@@ -53,7 +53,7 @@
         </dependency>
 
         <dependency>
-            <groupId>com.ruoyi</groupId>
+            <groupId>org.dromara</groupId>
             <artifactId>ruoyi-common-web</artifactId>
             <exclusions>
                 <exclusion>

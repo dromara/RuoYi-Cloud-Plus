@@ -3,7 +3,7 @@
          xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <groupId>com.ruoyi</groupId>
+        <groupId>org.dromara</groupId>
         <artifactId>ruoyi-example</artifactId>
         <version>1.6.0</version>
     </parent>
@@ -45,22 +45,22 @@
         </dependency>
 
         <dependency>
-            <groupId>com.ruoyi</groupId>
+            <groupId>org.dromara</groupId>
             <artifactId>ruoyi-common-sentinel</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>com.ruoyi</groupId>
+            <groupId>org.dromara</groupId>
             <artifactId>ruoyi-common-security</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>com.ruoyi</groupId>
+            <groupId>org.dromara</groupId>
             <artifactId>ruoyi-common-doc</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>com.ruoyi</groupId>
+            <groupId>org.dromara</groupId>
             <artifactId>ruoyi-common-web</artifactId>
         </dependency>
 

@@ -5,12 +5,12 @@ import ${import};
 #end
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
-import com.ruoyi.common.core.annotation.Excel;
-import com.ruoyi.common.core.web.domain.BaseEntity;
+import org.dromara.common.core.annotation.Excel;
+import org.dromara.common.core.web.domain.BaseEntity;
 
 /**
  * ${subTable.functionName}对象 ${subTableName}
- * 
+ *
  * @author ${author}
  * @date ${datetime}
  */
@@ -47,12 +47,12 @@ public class ${subClassName} extends BaseEntity
 #else
 #set($AttrName=$column.javaField.substring(0,1).toUpperCase() + ${column.javaField.substring(1)})
 #end
-    public void set${AttrName}($column.javaType $column.javaField) 
+    public void set${AttrName}($column.javaType $column.javaField)
     {
         this.$column.javaField = $column.javaField;
     }
 
-    public $column.javaType get${AttrName}() 
+    public $column.javaType get${AttrName}()
     {
         return $column.javaField;
     }

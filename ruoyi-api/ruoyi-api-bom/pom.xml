@@ -5,7 +5,7 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.ruoyi</groupId>
+    <groupId>org.dromara</groupId>
     <artifactId>ruoyi-api-bom</artifactId>
     <packaging>pom</packaging>
     <version>1.6.0</version>
@@ -18,14 +18,14 @@
         <dependencies>
             <!-- 系统接口 -->
             <dependency>
-                <groupId>com.ruoyi</groupId>
+                <groupId>org.dromara</groupId>
                 <artifactId>ruoyi-api-system</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
             <!-- 资源服务接口 -->
             <dependency>
-                <groupId>com.ruoyi</groupId>
+                <groupId>org.dromara</groupId>
                 <artifactId>ruoyi-api-resource</artifactId>
                 <version>${project.version}</version>
             </dependency>

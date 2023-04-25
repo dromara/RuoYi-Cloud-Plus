@@ -26,6 +26,7 @@ security:
       - /auth/smsLogin
       - /auth/xcxLogin
       - /auth/register
+      - /auth/tenant/list
       - /resource/sms/code
       - /*/v3/api-docs
       - /csrf
@@ -54,7 +55,7 @@ spring:
         - id: ruoyi-gen
           uri: lb://ruoyi-gen
           predicates:
-            - Path=/code/**
+            - Path=/tool/**
           filters:
             - StripPrefix=1
         # 系统模块
@@ -62,6 +63,13 @@ spring:
           uri: lb://ruoyi-system
           predicates:
             - Path=/system/**
+          filters:
+            - StripPrefix=1
+        # 监控模块
+        - id: ruoyi-monitor
+          uri: lb://ruoyi-system
+          predicates:
+            - Path=/monitor/**
           filters:
             - StripPrefix=1
         # 资源服务

@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
-PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.ruoyi.system.mapper.SysRoleDeptMapper">
-
-	<resultMap type="SysRoleDept" id="SysRoleDeptResult">
-		<result property="roleId"     column="role_id"      />
-		<result property="deptId"     column="dept_id"      />
-	</resultMap>
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.dromara.system.mapper.SysRoleDeptMapper">
 
 </mapper>

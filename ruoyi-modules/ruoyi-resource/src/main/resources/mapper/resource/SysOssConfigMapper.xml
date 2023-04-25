@@ -2,9 +2,9 @@
 <!DOCTYPE mapper
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.ruoyi.resource.mapper.SysOssConfigMapper">
+<mapper namespace="org.dromara.resource.mapper.SysOssConfigMapper">
 
-    <resultMap type="com.ruoyi.resource.domain.SysOssConfig" id="SysOssConfigResult">
+    <resultMap type="org.dromara.resource.domain.SysOssConfig" id="SysOssConfigResult">
         <result property="ossConfigId" column="oss_config_id"/>
         <result property="configKey" column="config_key"/>
         <result property="accessKey" column="access_key"/>

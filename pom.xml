@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.ruoyi</groupId>
+    <groupId>org.dromara</groupId>
     <artifactId>ruoyi-cloud-plus</artifactId>
     <version>1.6.0</version>
 
@@ -41,6 +41,9 @@
         <elasticsearch.version>7.14.0</elasticsearch.version>
         <skywalking-toolkit.version>8.14.0</skywalking-toolkit.version>
         <bouncycastle.version>1.72</bouncycastle.version>
+        <alibaba-ttl.version>2.14.2</alibaba-ttl.version>
+        <mapstruct-plus.version>1.2.1</mapstruct-plus.version>
+        <mapstruct-plus.lombok.version>0.2.0</mapstruct-plus.lombok.version>
         <!-- 离线IP地址定位库 -->
         <ip2region.version>2.7.0</ip2region.version>
 
@@ -101,7 +104,7 @@
 
             <!-- SpringCloud Alibaba 微服务 -->
             <dependency>
-                <groupId>com.ruoyi</groupId>
+                <groupId>org.dromara</groupId>
                 <artifactId>ruoyi-common-alibaba-bom</artifactId>
                 <version>${ruoyi.version}</version>
                 <type>pom</type>
@@ -128,7 +131,7 @@
 
             <!-- common 的依赖配置-->
             <dependency>
-                <groupId>com.ruoyi</groupId>
+                <groupId>org.dromara</groupId>
                 <artifactId>ruoyi-common-bom</artifactId>
                 <version>${ruoyi.version}</version>
                 <type>pom</type>
@@ -137,7 +140,7 @@
 
             <!-- api 的依赖配置-->
             <dependency>
-                <groupId>com.ruoyi</groupId>
+                <groupId>org.dromara</groupId>
                 <artifactId>ruoyi-api-bom</artifactId>
                 <version>${ruoyi.version}</version>
                 <type>pom</type>
@@ -357,6 +360,20 @@
                 <version>${fastjson.version}</version>
             </dependency>
 
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>transmittable-thread-local</artifactId>
+                <version>${alibaba-ttl.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.github.linpeilie</groupId>
+                <artifactId>mapstruct-plus-spring-boot-starter</artifactId>
+                <version>${mapstruct-plus.version}</version>
+            </dependency>
+
+
+
         </dependencies>
     </dependencyManagement>
 
@@ -400,6 +417,16 @@
                             <groupId>org.springframework.boot</groupId>
                             <artifactId>spring-boot-configuration-processor</artifactId>
                             <version>${spring-boot.version}</version>
+                        </path>
+                        <path>
+                            <groupId>io.github.linpeilie</groupId>
+                            <artifactId>mapstruct-plus-processor</artifactId>
+                            <version>${mapstruct-plus.version}</version>
+                        </path>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok-mapstruct-binding</artifactId>
+                            <version>${mapstruct-plus.lombok.version}</version>
                         </path>
                     </annotationProcessorPaths>
                 </configuration>

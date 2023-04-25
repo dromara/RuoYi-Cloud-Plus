@@ -1,6 +1,6 @@
 package ${packageName}.mapper;
 
-import com.ruoyi.common.mybatis.core.mapper.BaseMapperPlus;
+import org.dromara.common.mybatis.core.mapper.BaseMapperPlus;
 import ${packageName}.domain.${ClassName};
 import ${packageName}.domain.vo.${ClassName}Vo;
 

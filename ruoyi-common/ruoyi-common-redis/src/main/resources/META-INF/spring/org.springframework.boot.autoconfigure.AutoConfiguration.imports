@@ -1,1 +1,1 @@
-com.ruoyi.common.redis.config.RedisConfiguration
+org.dromara.common.redis.config.RedisConfiguration

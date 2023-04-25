@@ -1,1 +1,1 @@
-com.ruoyi.common.sms.config.SmsAutoConfiguration
+org.dromara.common.sms.config.SmsAutoConfiguration

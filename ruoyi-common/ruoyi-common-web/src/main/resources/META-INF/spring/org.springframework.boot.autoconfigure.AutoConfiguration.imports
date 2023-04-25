@@ -1,2 +1,2 @@
-com.ruoyi.common.web.config.I18nConfig
-com.ruoyi.common.web.config.UndertowConfig
+org.dromara.common.web.config.I18nConfig
+org.dromara.common.web.config.UndertowConfig

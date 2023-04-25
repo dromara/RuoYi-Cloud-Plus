@@ -1,2 +1,2 @@
-com.ruoyi.common.security.handler.GlobalExceptionHandler
-com.ruoyi.common.security.config.SecurityConfiguration
+org.dromara.common.security.handler.GlobalExceptionHandler
+org.dromara.common.security.config.SecurityConfiguration

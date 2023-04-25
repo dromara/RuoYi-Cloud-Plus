@@ -2,7 +2,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>com.ruoyi</groupId>
+		<groupId>org.dromara</groupId>
 		<artifactId>ruoyi-visual</artifactId>
 		<version>1.6.0</version>
 	</parent>
@@ -30,7 +30,7 @@
 
 		<!-- starter-web：spring-webmvc + autoconfigure + logback + yaml + tomcat -->
 		<dependency>
-			<groupId>com.ruoyi</groupId>
+			<groupId>org.dromara</groupId>
 			<artifactId>ruoyi-common-web</artifactId>
 		</dependency>
 		<!-- starter-test：junit + spring-test + mockito -->
@@ -71,7 +71,7 @@
 
 		<!-- xxl-job-core -->
 		<dependency>
-			<groupId>com.ruoyi</groupId>
+			<groupId>org.dromara</groupId>
 			<artifactId>ruoyi-common-job</artifactId>
 		</dependency>
 
