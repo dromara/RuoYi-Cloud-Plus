@@ -11,6 +11,7 @@ import org.dromara.auth.form.RegisterBody;
 import org.dromara.auth.properties.UserPasswordProperties;
 import org.dromara.common.core.constant.CacheConstants;
 import org.dromara.common.core.constant.Constants;
+import org.dromara.common.core.constant.GlobalConstants;
 import org.dromara.common.core.constant.TenantConstants;
 import org.dromara.common.core.enums.DeviceType;
 import org.dromara.common.core.enums.LoginType;
@@ -177,7 +178,7 @@ public class SysLoginService {
      * 校验短信验证码
      */
     private boolean validateSmsCode(String tenantId, String phonenumber, String smsCode) {
-        String code = RedisUtils.getCacheObject(CacheConstants.CAPTCHA_CODE_KEY + phonenumber);
+        String code = RedisUtils.getCacheObject(GlobalConstants.CAPTCHA_CODE_KEY + phonenumber);
         if (StringUtils.isBlank(code)) {
             recordLogininfor(tenantId, phonenumber, Constants.LOGIN_FAIL, MessageUtils.message("user.jcaptcha.expire"));
             throw new CaptchaExpireException();
@@ -189,7 +190,7 @@ public class SysLoginService {
      * 校验邮箱验证码
      */
     private boolean validateEmailCode(String tenantId, String email, String emailCode) {
-        String code = RedisUtils.getCacheObject(CacheConstants.CAPTCHA_CODE_KEY + email);
+        String code = RedisUtils.getCacheObject(GlobalConstants.CAPTCHA_CODE_KEY + email);
         if (StringUtils.isBlank(code)) {
             recordLogininfor(tenantId, email, Constants.LOGIN_FAIL, MessageUtils.message("user.jcaptcha.expire"));
             throw new CaptchaExpireException();

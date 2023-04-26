@@ -2,8 +2,10 @@ package org.dromara.resource.controller;
 
 
 import cn.hutool.core.util.RandomUtil;
-import org.dromara.common.core.constant.CacheConstants;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.dromara.common.core.constant.Constants;
+import org.dromara.common.core.constant.GlobalConstants;
 import org.dromara.common.core.domain.R;
 import org.dromara.common.core.utils.SpringUtils;
 import org.dromara.common.core.web.controller.BaseController;
@@ -11,8 +13,6 @@ import org.dromara.common.redis.utils.RedisUtils;
 import org.dromara.common.sms.config.properties.SmsProperties;
 import org.dromara.common.sms.core.SmsTemplate;
 import org.dromara.common.sms.entity.SmsResult;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -47,7 +47,7 @@ public class SysSmsController extends BaseController {
         if (!smsProperties.getEnabled()) {
             return R.fail("当前系统没有开启短信功能！");
         }
-        String key = CacheConstants.CAPTCHA_CODE_KEY + phonenumber;
+        String key = GlobalConstants.CAPTCHA_CODE_KEY + phonenumber;
         String code = RandomUtil.randomNumbers(4);
         RedisUtils.setCacheObject(key, code, Duration.ofMinutes(Constants.CAPTCHA_EXPIRATION));
         // 验证码模板id 自行处理 (查数据库或写死均可)
