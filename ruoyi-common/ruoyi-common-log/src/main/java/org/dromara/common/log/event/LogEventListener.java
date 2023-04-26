@@ -5,10 +5,10 @@ import cn.hutool.http.useragent.UserAgentUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.dromara.common.core.constant.Constants;
-import org.dromara.common.core.utils.BeanCopyUtils;
 import org.dromara.common.core.utils.ServletUtils;
 import org.dromara.common.core.utils.StringUtils;
 import org.dromara.common.core.utils.ip.AddressUtils;
+import org.dromara.common.log.domain.convert.OperLogEventConvert;
 import org.dromara.system.api.RemoteLogService;
 import org.dromara.system.api.domain.bo.RemoteLogininforBo;
 import org.dromara.system.api.domain.bo.RemoteOperLogBo;
@@ -36,7 +36,7 @@ public class LogEventListener {
     @Async
     @EventListener
     public void saveLog(OperLogEvent operLogEvent) {
-        RemoteOperLogBo sysOperLog = BeanCopyUtils.copy(operLogEvent, RemoteOperLogBo.class);
+        RemoteOperLogBo sysOperLog = OperLogEventConvert.INSTANCE.convert(operLogEvent);
         remoteLogService.saveLog(sysOperLog);
     }
 

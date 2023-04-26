@@ -8,7 +8,6 @@ import org.apache.dubbo.config.annotation.DubboService;
 import org.dromara.common.core.enums.UserStatus;
 import org.dromara.common.core.exception.ServiceException;
 import org.dromara.common.core.exception.user.UserException;
-import org.dromara.common.core.utils.BeanCopyUtils;
 import org.dromara.system.api.RemoteUserService;
 import org.dromara.system.api.domain.bo.RemoteUserBo;
 import org.dromara.system.api.model.LoginUser;
@@ -16,6 +15,7 @@ import org.dromara.system.api.model.RoleDTO;
 import org.dromara.system.api.model.XcxLoginUser;
 import org.dromara.system.domain.SysUser;
 import org.dromara.system.domain.bo.SysUserBo;
+import org.dromara.system.domain.convert.SysUserBoConvert;
 import org.dromara.system.domain.vo.SysUserVo;
 import org.dromara.system.mapper.SysUserMapper;
 import org.dromara.system.service.ISysConfigService;
@@ -106,7 +106,7 @@ public class RemoteUserServiceImpl implements RemoteUserService {
 
     @Override
     public Boolean registerUserInfo(RemoteUserBo remoteUserBo) {
-        SysUserBo sysUserBo = BeanCopyUtils.copy(remoteUserBo, SysUserBo.class);
+        SysUserBo sysUserBo = SysUserBoConvert.INSTANCE.convert(remoteUserBo);
         String username = sysUserBo.getUserName();
         if (!("true".equals(configService.selectConfigByKey("sys.account.registerUser")))) {
             throw new ServiceException("当前系统没有开启注册功能");
