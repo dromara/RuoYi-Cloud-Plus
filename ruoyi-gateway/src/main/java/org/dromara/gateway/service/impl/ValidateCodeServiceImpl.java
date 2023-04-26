@@ -3,8 +3,8 @@ package org.dromara.gateway.service.impl;
 import cn.hutool.captcha.AbstractCaptcha;
 import cn.hutool.captcha.generator.CodeGenerator;
 import cn.hutool.core.util.IdUtil;
-import org.dromara.common.core.constant.CacheConstants;
 import org.dromara.common.core.constant.Constants;
+import org.dromara.common.core.constant.GlobalConstants;
 import org.dromara.common.core.domain.R;
 import org.dromara.common.core.exception.CaptchaException;
 import org.dromara.common.core.exception.user.CaptchaExpireException;
@@ -50,7 +50,7 @@ public class ValidateCodeServiceImpl implements ValidateCodeService {
 
         // 保存验证码信息
         String uuid = IdUtil.simpleUUID();
-        String verifyKey = CacheConstants.CAPTCHA_CODE_KEY + uuid;
+        String verifyKey = GlobalConstants.CAPTCHA_CODE_KEY + uuid;
         // 生成验证码
         CaptchaType captchaType = captchaProperties.getType();
         boolean isMath = CaptchaType.MATH == captchaType;
@@ -82,7 +82,7 @@ public class ValidateCodeServiceImpl implements ValidateCodeService {
         if (StringUtils.isEmpty(uuid)) {
             throw new CaptchaExpireException();
         }
-        String verifyKey = CacheConstants.CAPTCHA_CODE_KEY + uuid;
+        String verifyKey = GlobalConstants.CAPTCHA_CODE_KEY + uuid;
         String captcha = RedisUtils.getCacheObject(verifyKey);
         RedisUtils.deleteObject(verifyKey);
 
