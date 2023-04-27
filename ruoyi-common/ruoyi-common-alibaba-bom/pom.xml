@@ -6,7 +6,7 @@
 
     <groupId>org.dromara</groupId>
     <artifactId>ruoyi-common-alibaba-bom</artifactId>
-    <version>1.6.0</version>
+    <version>${revision}</version>
     <packaging>pom</packaging>
 
     <description>
@@ -14,6 +14,7 @@
     </description>
 
     <properties>
+        <revision>2.X-BETA</revision>
         <spring-cloud-alibaba.version>2021.0.5.0</spring-cloud-alibaba.version>
         <sentinel.version>1.8.6</sentinel.version>
         <seata.version>1.6.1</seata.version>

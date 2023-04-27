@@ -8,11 +8,15 @@
     <groupId>org.dromara</groupId>
     <artifactId>ruoyi-api-bom</artifactId>
     <packaging>pom</packaging>
-    <version>1.6.0</version>
+    <version>${revision}</version>
 
     <description>
         ruoyi-api-bom api依赖项
     </description>
+
+    <properties>
+        <revision>2.X-BETA</revision>
+    </properties>
 
     <dependencyManagement>
         <dependencies>
@@ -20,14 +24,14 @@
             <dependency>
                 <groupId>org.dromara</groupId>
                 <artifactId>ruoyi-api-system</artifactId>
-                <version>${project.version}</version>
+                <version>${revision}</version>
             </dependency>
 
             <!-- 资源服务接口 -->
             <dependency>
                 <groupId>org.dromara</groupId>
                 <artifactId>ruoyi-api-resource</artifactId>
-                <version>${project.version}</version>
+                <version>${revision}</version>
             </dependency>
 
         </dependencies>

@@ -21,7 +21,7 @@
     <parent>
         <groupId>org.dromara</groupId>
         <artifactId>ruoyi-visual</artifactId>
-        <version>1.6.0</version>
+        <version>${revision}</version>
     </parent>
     <artifactId>ruoyi-nacos</artifactId>
     <packaging>jar</packaging>

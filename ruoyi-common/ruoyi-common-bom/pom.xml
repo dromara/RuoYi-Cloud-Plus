@@ -6,12 +6,16 @@
 
     <groupId>org.dromara</groupId>
     <artifactId>ruoyi-common-bom</artifactId>
-    <version>1.6.0</version>
+    <version>${revision}</version>
     <packaging>pom</packaging>
 
     <description>
         ruoyi-common-bom common依赖项
     </description>
+
+    <properties>
+        <revision>2.X-BETA</revision>
+    </properties>
 
     <dependencyManagement>
         <dependencies>
@@ -19,166 +23,166 @@
             <dependency>
                 <groupId>org.dromara</groupId>
                 <artifactId>ruoyi-common-core</artifactId>
-                <version>${project.version}</version>
+                <version>${revision}</version>
             </dependency>
 
             <!-- 接口模块 -->
             <dependency>
                 <groupId>org.dromara</groupId>
                 <artifactId>ruoyi-common-doc</artifactId>
-                <version>${project.version}</version>
+                <version>${revision}</version>
             </dependency>
 
             <!-- 安全模块 -->
             <dependency>
                 <groupId>org.dromara</groupId>
                 <artifactId>ruoyi-common-security</artifactId>
-                <version>${project.version}</version>
+                <version>${revision}</version>
             </dependency>
 
             <dependency>
                 <groupId>org.dromara</groupId>
                 <artifactId>ruoyi-common-satoken</artifactId>
-                <version>${project.version}</version>
+                <version>${revision}</version>
             </dependency>
 
             <!-- 日志记录 -->
             <dependency>
                 <groupId>org.dromara</groupId>
                 <artifactId>ruoyi-common-log</artifactId>
-                <version>${project.version}</version>
+                <version>${revision}</version>
             </dependency>
 
             <!-- 字典 -->
             <dependency>
                 <groupId>org.dromara</groupId>
                 <artifactId>ruoyi-common-dict</artifactId>
-                <version>${project.version}</version>
+                <version>${revision}</version>
             </dependency>
 
             <!-- excel -->
             <dependency>
                 <groupId>org.dromara</groupId>
                 <artifactId>ruoyi-common-excel</artifactId>
-                <version>${project.version}</version>
+                <version>${revision}</version>
             </dependency>
 
             <!-- 缓存服务 -->
             <dependency>
                 <groupId>org.dromara</groupId>
                 <artifactId>ruoyi-common-redis</artifactId>
-                <version>${project.version}</version>
+                <version>${revision}</version>
             </dependency>
 
             <!-- web服务 -->
             <dependency>
                 <groupId>org.dromara</groupId>
                 <artifactId>ruoyi-common-web</artifactId>
-                <version>${project.version}</version>
+                <version>${revision}</version>
             </dependency>
 
             <!-- 数据库服务 -->
             <dependency>
                 <groupId>org.dromara</groupId>
                 <artifactId>ruoyi-common-mybatis</artifactId>
-                <version>${project.version}</version>
+                <version>${revision}</version>
             </dependency>
 
             <dependency>
                 <groupId>org.dromara</groupId>
                 <artifactId>ruoyi-common-job</artifactId>
-                <version>${project.version}</version>
+                <version>${revision}</version>
             </dependency>
 
             <dependency>
                 <groupId>org.dromara</groupId>
                 <artifactId>ruoyi-common-dubbo</artifactId>
-                <version>${project.version}</version>
+                <version>${revision}</version>
             </dependency>
 
             <dependency>
                 <groupId>org.dromara</groupId>
                 <artifactId>ruoyi-common-seata</artifactId>
-                <version>${project.version}</version>
+                <version>${revision}</version>
             </dependency>
 
             <dependency>
                 <groupId>org.dromara</groupId>
                 <artifactId>ruoyi-common-loadbalancer</artifactId>
-                <version>${project.version}</version>
+                <version>${revision}</version>
             </dependency>
 
             <dependency>
                 <groupId>org.dromara</groupId>
                 <artifactId>ruoyi-common-oss</artifactId>
-                <version>${project.version}</version>
+                <version>${revision}</version>
             </dependency>
 
             <dependency>
                 <groupId>org.dromara</groupId>
                 <artifactId>ruoyi-common-idempotent</artifactId>
-                <version>${project.version}</version>
+                <version>${revision}</version>
             </dependency>
 
             <dependency>
                 <groupId>org.dromara</groupId>
                 <artifactId>ruoyi-common-mail</artifactId>
-                <version>${project.version}</version>
+                <version>${revision}</version>
             </dependency>
 
             <dependency>
                 <groupId>org.dromara</groupId>
                 <artifactId>ruoyi-common-sms</artifactId>
-                <version>${project.version}</version>
+                <version>${revision}</version>
             </dependency>
 
             <dependency>
                 <groupId>org.dromara</groupId>
                 <artifactId>ruoyi-common-logstash</artifactId>
-                <version>${project.version}</version>
+                <version>${revision}</version>
             </dependency>
 
             <dependency>
                 <groupId>org.dromara</groupId>
                 <artifactId>ruoyi-common-elasticsearch</artifactId>
-                <version>${project.version}</version>
+                <version>${revision}</version>
             </dependency>
 
             <dependency>
                 <groupId>org.dromara</groupId>
                 <artifactId>ruoyi-common-sentinel</artifactId>
-                <version>${project.version}</version>
+                <version>${revision}</version>
             </dependency>
 
             <dependency>
                 <groupId>org.dromara</groupId>
                 <artifactId>ruoyi-common-skylog</artifactId>
-                <version>${project.version}</version>
+                <version>${revision}</version>
             </dependency>
 
             <dependency>
                 <groupId>org.dromara</groupId>
                 <artifactId>ruoyi-common-prometheus</artifactId>
-                <version>${project.version}</version>
+                <version>${revision}</version>
             </dependency>
 
             <dependency>
                 <groupId>org.dromara</groupId>
                 <artifactId>ruoyi-common-translation</artifactId>
-                <version>${project.version}</version>
+                <version>${revision}</version>
             </dependency>
 
             <dependency>
                 <groupId>org.dromara</groupId>
                 <artifactId>ruoyi-common-encrypt</artifactId>
-                <version>${project.version}</version>
+                <version>${revision}</version>
             </dependency>
 
             <!-- 租户模块 -->
             <dependency>
                 <groupId>org.dromara</groupId>
                 <artifactId>ruoyi-common-tenant</artifactId>
-                <version>${project.version}</version>
+                <version>${revision}</version>
             </dependency>
 
         </dependencies>

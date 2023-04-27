@@ -6,14 +6,14 @@
 
     <groupId>org.dromara</groupId>
     <artifactId>ruoyi-cloud-plus</artifactId>
-    <version>1.6.0</version>
+    <version>${revision}</version>
 
     <name>RuoYi-Cloud-Plus</name>
     <url>https://gitee.com/dromara/RuoYi-Cloud-Plus</url>
     <description>RuoYi-Cloud-Plus微服务系统</description>
 
     <properties>
-        <ruoyi.version>1.6.0</ruoyi.version>
+        <revision>2.X-BETA</revision>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
@@ -106,7 +106,7 @@
             <dependency>
                 <groupId>org.dromara</groupId>
                 <artifactId>ruoyi-common-alibaba-bom</artifactId>
-                <version>${ruoyi.version}</version>
+                <version>${revision}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -133,7 +133,7 @@
             <dependency>
                 <groupId>org.dromara</groupId>
                 <artifactId>ruoyi-common-bom</artifactId>
-                <version>${ruoyi.version}</version>
+                <version>${revision}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -142,7 +142,7 @@
             <dependency>
                 <groupId>org.dromara</groupId>
                 <artifactId>ruoyi-api-bom</artifactId>
-                <version>${ruoyi.version}</version>
+                <version>${revision}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
