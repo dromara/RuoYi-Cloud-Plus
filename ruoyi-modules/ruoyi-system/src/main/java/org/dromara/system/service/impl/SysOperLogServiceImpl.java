@@ -6,8 +6,6 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.RequiredArgsConstructor;
 import org.dromara.common.core.utils.MapstructUtils;
 import org.dromara.common.core.utils.StringUtils;
-import org.dromara.common.core.utils.ip.AddressUtils;
-import org.dromara.common.log.event.OperLogEvent;
 import org.dromara.common.mybatis.core.page.PageQuery;
 import org.dromara.common.mybatis.core.page.TableDataInfo;
 import org.dromara.system.domain.SysOperLog;
@@ -15,8 +13,6 @@ import org.dromara.system.domain.bo.SysOperLogBo;
 import org.dromara.system.domain.vo.SysOperLogVo;
 import org.dromara.system.mapper.SysOperLogMapper;
 import org.dromara.system.service.ISysOperLogService;
-import org.springframework.context.event.EventListener;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
@@ -35,19 +31,6 @@ public class SysOperLogServiceImpl implements ISysOperLogService {
 
     private final SysOperLogMapper baseMapper;
 
-    /**
-     * 操作日志记录
-     *
-     * @param operLogEvent 操作日志事件
-     */
-    @Async
-    @EventListener
-    public void recordOper(OperLogEvent operLogEvent) {
-        SysOperLogBo operLog = MapstructUtils.convert(operLogEvent, SysOperLogBo.class);
-        // 远程查询操作地点
-        operLog.setOperLocation(AddressUtils.getRealAddressByIP(operLog.getOperIp()));
-        insertOperlog(operLog);
-    }
 
     @Override
     public TableDataInfo<SysOperLogVo> selectPageOperLogList(SysOperLogBo operLog, PageQuery pageQuery) {
