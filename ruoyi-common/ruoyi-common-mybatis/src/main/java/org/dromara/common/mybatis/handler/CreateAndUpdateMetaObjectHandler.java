@@ -16,7 +16,6 @@ import java.util.Date;
  * MP注入处理器
  *
  * @author Lion Li
- * @date 2021/4/25
  */
 @Slf4j
 public class CreateAndUpdateMetaObjectHandler implements MetaObjectHandler {
@@ -30,12 +29,15 @@ public class CreateAndUpdateMetaObjectHandler implements MetaObjectHandler {
                     ? baseEntity.getCreateTime() : new Date();
                 baseEntity.setCreateTime(current);
                 baseEntity.setUpdateTime(current);
+                LoginUser loginUser = getLoginUser();
                 Long userId = ObjectUtil.isNotNull(baseEntity.getCreateBy())
-                    ? baseEntity.getCreateBy() : getLoginId();
+                    ? baseEntity.getCreateBy() : loginUser.getUserId();
                 // 当前已登录 且 创建人为空 则填充
                 baseEntity.setCreateBy(userId);
                 // 当前已登录 且 更新人为空 则填充
                 baseEntity.setUpdateBy(userId);
+                baseEntity.setCreateDept(ObjectUtil.isNotNull(baseEntity.getCreateDept())
+                    ? baseEntity.getCreateDept() : loginUser.getDeptId());
             }
         } catch (Exception e) {
             throw new ServiceException("自动注入异常 => " + e.getMessage(), HttpStatus.HTTP_UNAUTHORIZED);
@@ -50,10 +52,10 @@ public class CreateAndUpdateMetaObjectHandler implements MetaObjectHandler {
                 Date current = new Date();
                 // 更新时间填充(不管为不为空)
                 baseEntity.setUpdateTime(current);
-                Long userId  = getLoginId();
+                LoginUser loginUser = getLoginUser();
                 // 当前已登录 更新人填充(不管为不为空)
-                if (ObjectUtil.isNotNull(userId)) {
-                    baseEntity.setUpdateBy(userId);
+                if (ObjectUtil.isNotNull(loginUser)) {
+                    baseEntity.setUpdateBy(loginUser.getUserId());
                 }
             }
         } catch (Exception e) {
@@ -62,9 +64,9 @@ public class CreateAndUpdateMetaObjectHandler implements MetaObjectHandler {
     }
 
     /**
-     * 获取登录用户名
+     * 获取登录用户
      */
-    private Long getLoginId() {
+    private LoginUser getLoginUser() {
         LoginUser loginUser;
         try {
             loginUser = LoginHelper.getLoginUser();
@@ -72,7 +74,7 @@ public class CreateAndUpdateMetaObjectHandler implements MetaObjectHandler {
             log.warn("自动注入警告 => 用户未登录");
             return null;
         }
-        return ObjectUtil.isNotNull(loginUser) ? loginUser.getUserId() : null;
+        return loginUser;
     }
 
 }
