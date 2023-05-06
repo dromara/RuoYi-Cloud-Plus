@@ -1,4 +1,4 @@
-FROM anapsix/alpine-java:8_server-jre_unlimited
+FROM openjdk:8u201-jre-alpine
 
 MAINTAINER Lion Li
 
