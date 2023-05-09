@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * bean深拷贝工具(基于 cglib 性能优异)
+ * bean拷贝工具(基于 cglib 性能优异)
  *
  * @author Lion Li
  */
