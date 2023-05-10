@@ -21,13 +21,15 @@
     <parent>
         <groupId>com.ruoyi</groupId>
         <artifactId>ruoyi-visual</artifactId>
-        <version>1.6.0</version>
+        <version>1.7.0</version>
     </parent>
     <artifactId>ruoyi-nacos</artifactId>
     <packaging>jar</packaging>
 
     <properties>
-        <nacos.version>2.2.0</nacos.version>
+        <nacos.version>2.2.1</nacos.version>
+        <!-- 需要与 Nacos 内置 Boot 版本保持一致 -->
+        <spring-boot-admin.version>2.6.11</spring-boot-admin.version>
         <nacos.lib.path>${project.basedir}/src/main/resources/lib</nacos.lib.path>
     </properties>
 

@@ -43,7 +43,7 @@ public class SysUserOnlineController extends BaseController {
         List<String> keys = StpUtil.searchTokenValue("", 0, -1, false);
         List<SysUserOnline> userOnlineList = new ArrayList<SysUserOnline>();
         for (String key : keys) {
-            String token = key.replace(CacheConstants.LOGIN_TOKEN_KEY, "");
+            String token = StringUtils.substringAfterLast(key, ":");
             // 如果已经过期则踢下线
             if (StpUtil.stpLogic.getTokenActivityTimeoutByToken(token) < -1) {
                 continue;

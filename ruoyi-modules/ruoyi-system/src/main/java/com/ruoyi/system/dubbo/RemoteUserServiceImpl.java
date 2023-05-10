@@ -67,6 +67,21 @@ public class RemoteUserServiceImpl implements RemoteUserService {
     }
 
     @Override
+    public LoginUser getUserInfoByEmail(String email) throws UserException {
+        SysUser user = userMapper.selectOne(new LambdaQueryWrapper<SysUser>()
+            .select(SysUser::getPhonenumber, SysUser::getStatus)
+            .eq(SysUser::getEmail, email));
+        if (ObjectUtil.isNull(user)) {
+            throw new UserException("user.not.exists", email);
+        }
+        if (UserStatus.DISABLE.getCode().equals(user.getStatus())) {
+            throw new UserException("user.blocked", email);
+        }
+        // 此处可根据登录用户的数据不同 自行创建 loginUser
+        return buildLoginUser(userMapper.selectUserByEmail(email));
+    }
+
+    @Override
     public XcxLoginUser getUserInfoByOpenid(String openid) throws UserException {
         // todo 自行实现 userService.selectUserByOpenid(openid);
         SysUser sysUser = new SysUser();

@@ -542,9 +542,9 @@ create table if not exists sys_oper_log
     constraint sys_oper_log_pk primary key (oper_id)
 );
 
-create unique index idx_sys_oper_log_bt ON sys_oper_log (business_type);
-create unique index idx_sys_oper_log_s ON sys_oper_log (status);
-create unique index idx_sys_oper_log_ot ON sys_oper_log (oper_time);
+create index idx_sys_oper_log_bt ON sys_oper_log (business_type);
+create index idx_sys_oper_log_s ON sys_oper_log (status);
+create index idx_sys_oper_log_ot ON sys_oper_log (oper_time);
 
 comment on table sys_oper_log is '操作日志记录';
 comment on column sys_oper_log.oper_id is '日志主键';
@@ -719,22 +719,28 @@ create table if not exists sys_logininfor
     info_id        int8,
     user_name      varchar(50)  default ''::varchar,
     ipaddr         varchar(128) default ''::varchar,
+    login_location varchar(255) default ''::varchar,
+    browser        varchar(50)  default ''::varchar,
+    os             varchar(50)  default ''::varchar,
     status         char         default '0'::bpchar,
     msg            varchar(255) default ''::varchar,
-    access_time    timestamp,
+    login_time     timestamp,
     constraint sys_logininfor_pk primary key (info_id)
 );
 
-create unique index idx_sys_logininfor_s ON sys_logininfor (status);
-create unique index idx_sys_logininfor_lt ON sys_logininfor (access_time);
+create index idx_sys_logininfor_s ON sys_logininfor (status);
+create index idx_sys_logininfor_lt ON sys_logininfor (login_time);
 
-comment on table sys_logininfor is '系统访问记录';
-comment on column sys_logininfor.info_id is '访问ID';
-comment on column sys_logininfor.user_name is '用户账号';
-comment on column sys_logininfor.ipaddr is '登录IP地址';
-comment on column sys_logininfor.status is '登录状态（0成功 1失败）';
-comment on column sys_logininfor.msg is '提示消息';
-comment on column sys_logininfor.access_time is '访问时间';
+comment on table sys_logininfor                 is '系统访问记录';
+comment on column sys_logininfor.info_id        is '访问ID';
+comment on column sys_logininfor.user_name      is '用户账号';
+comment on column sys_logininfor.ipaddr         is '登录IP地址';
+comment on column sys_logininfor.login_location is '登录地点';
+comment on column sys_logininfor.browser        is '浏览器类型';
+comment on column sys_logininfor.os             is '操作系统';
+comment on column sys_logininfor.status         is '登录状态（0成功 1失败）';
+comment on column sys_logininfor.msg            is '提示消息';
+comment on column sys_logininfor.login_time     is '访问时间';
 
 -- ----------------------------
 -- 17、通知公告表
@@ -950,7 +956,7 @@ comment on column sys_oss_config.domain is '自定义域名';
 comment on column sys_oss_config.is_https is '是否https（Y=是,N=否）';
 comment on column sys_oss_config.region is '域';
 comment on column sys_oss_config.access_policy is '桶权限类型(0=private 1=public 2=custom)';
-comment on column sys_oss_config.status is '状态（0=正常,1=停用）';
+comment on column sys_oss_config.status is '是否默认（0=是,1=否）';
 comment on column sys_oss_config.ext1 is '扩展字段';
 comment on column sys_oss_config.create_by is '创建者';
 comment on column sys_oss_config.create_time is '创建时间';

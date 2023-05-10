@@ -533,9 +533,9 @@ create table sys_oper_log (
 );
 
 alter table sys_oper_log add constraint pk_sys_oper_log primary key (oper_id);
-create unique index idx_sys_oper_log_bt on sys_oper_log (business_type);
-create unique index idx_sys_oper_log_s on sys_oper_log (status);
-create unique index idx_sys_oper_log_ot on sys_oper_log (oper_time);
+create index idx_sys_oper_log_bt on sys_oper_log (business_type);
+create index idx_sys_oper_log_s on sys_oper_log (status);
+create index idx_sys_oper_log_ot on sys_oper_log (oper_time);
 
 comment on table  sys_oper_log                is '操作日志记录';
 comment on column sys_oper_log.oper_id        is '日志主键';
@@ -704,22 +704,28 @@ create table sys_logininfor (
   info_id         number(20)     not null,
   user_name       varchar2(50)   default '',
   ipaddr          varchar2(128)  default '',
+  login_location  varchar2(255)  default '',
+  browser         varchar2(50)   default '',
+  os              varchar2(50)   default '',
   status          char(1)        default '0',
   msg             varchar2(255)  default '',
-  access_time     date
+  login_time      date
 );
 
 alter table sys_logininfor add constraint pk_sys_logininfor primary key (info_id);
-create unique index idx_sys_logininfor_s on sys_logininfor (status);
-create unique index idx_sys_logininfor_lt on sys_logininfor (access_time);
+create index idx_sys_logininfor_s on sys_logininfor (status);
+create index idx_sys_logininfor_lt on sys_logininfor (login_time);
 
 comment on table  sys_logininfor                is '系统访问记录';
 comment on column sys_logininfor.info_id        is '访问ID';
 comment on column sys_logininfor.user_name      is '登录账号';
 comment on column sys_logininfor.ipaddr         is '登录IP地址';
+comment on column sys_logininfor.login_location is '登录地点';
+comment on column sys_logininfor.browser        is '浏览器类型';
+comment on column sys_logininfor.os             is '操作系统';
 comment on column sys_logininfor.status         is '登录状态（0成功 1失败）';
 comment on column sys_logininfor.msg            is '提示消息';
-comment on column sys_logininfor.access_time    is '访问时间';
+comment on column sys_logininfor.login_time     is '访问时间';
 
 
 -- ----------------------------
@@ -934,7 +940,7 @@ comment on column sys_oss_config.domain is '自定义域名';
 comment on column sys_oss_config.is_https is '是否https（Y=是,N=否）';
 comment on column sys_oss_config.region is '域';
 comment on column sys_oss_config.access_policy is '桶权限类型(0=private 1=public 2=custom)';
-comment on column sys_oss_config.status is '状态（0=正常,1=停用）';
+comment on column sys_oss_config.status is '是否默认（0=是,1=否）';
 comment on column sys_oss_config.ext1 is '扩展字段';
 comment on column sys_oss_config.remark is '备注';
 comment on column sys_oss_config.create_by is '创建者';

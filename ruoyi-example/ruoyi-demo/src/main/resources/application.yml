@@ -58,8 +58,8 @@ spring:
 #          type: ${spring.datasource.type}
 #          driverClassName: org.postgresql.Driver
 #          url: ${datasource.system-postgres.url}
-#          username: ${datasource.system-postgres.url}
-#          password: ${datasource.system-postgres.url}
+#          username: ${datasource.system-postgres.username}
+#          password: ${datasource.system-postgres.password}
 
 --- # elasticsearch 功能配置
 # 文档地址: https://www.easy-es.cn/

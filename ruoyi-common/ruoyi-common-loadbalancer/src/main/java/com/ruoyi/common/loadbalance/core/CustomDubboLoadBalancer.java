@@ -1,6 +1,6 @@
 package com.ruoyi.common.loadbalance.core;
 
-import com.ruoyi.common.loadbalance.constant.LoadBalancerConstant;
+import cn.hutool.core.net.NetUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.common.URL;
 import org.apache.dubbo.rpc.Invocation;
@@ -21,7 +21,7 @@ public class CustomDubboLoadBalancer extends AbstractLoadBalance {
     @Override
     protected <T> Invoker<T> doSelect(List<Invoker<T>> invokers, URL url, Invocation invocation) {
         for (Invoker<T> invoker : invokers) {
-            if (invoker.getUrl().getHost().equals(LoadBalancerConstant.getHost())) {
+            if (NetUtil.localIpv4s().contains(invoker.getUrl().getHost())) {
                 return invoker;
             }
         }

@@ -35,7 +35,7 @@ public class SysLogininforServiceImpl implements ISysLogininforService {
             .eq(StringUtils.isNotBlank(logininfor.getStatus()), SysLogininfor::getStatus, logininfor.getStatus())
             .like(StringUtils.isNotBlank(logininfor.getUserName()), SysLogininfor::getUserName, logininfor.getUserName())
             .between(params.get("beginTime") != null && params.get("endTime") != null,
-                SysLogininfor::getAccessTime, params.get("beginTime"), params.get("endTime"));
+                SysLogininfor::getLoginTime, params.get("beginTime"), params.get("endTime"));
         if (StringUtils.isBlank(pageQuery.getOrderByColumn())) {
             pageQuery.setOrderByColumn("info_id");
             pageQuery.setIsAsc("desc");
@@ -51,7 +51,7 @@ public class SysLogininforServiceImpl implements ISysLogininforService {
      */
     @Override
     public int insertLogininfor(SysLogininfor logininfor) {
-        logininfor.setAccessTime(new Date());
+        logininfor.setLoginTime(new Date());
         return baseMapper.insert(logininfor);
     }
 
@@ -69,7 +69,7 @@ public class SysLogininforServiceImpl implements ISysLogininforService {
             .eq(StringUtils.isNotBlank(logininfor.getStatus()), SysLogininfor::getStatus, logininfor.getStatus())
             .like(StringUtils.isNotBlank(logininfor.getUserName()), SysLogininfor::getUserName, logininfor.getUserName())
             .between(params.get("beginTime") != null && params.get("endTime") != null,
-                SysLogininfor::getAccessTime, params.get("beginTime"), params.get("endTime"))
+                SysLogininfor::getLoginTime, params.get("beginTime"), params.get("endTime"))
             .orderByDesc(SysLogininfor::getInfoId));
     }
 

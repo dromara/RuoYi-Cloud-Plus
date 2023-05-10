@@ -6,19 +6,19 @@
 
     <groupId>com.ruoyi</groupId>
     <artifactId>ruoyi-cloud-plus</artifactId>
-    <version>1.6.0</version>
+    <version>1.7.0</version>
 
     <name>RuoYi-Cloud-Plus</name>
     <url>https://gitee.com/dromara/RuoYi-Cloud-Plus</url>
     <description>RuoYi-Cloud-Plus微服务系统</description>
 
     <properties>
-        <ruoyi.version>1.6.0</ruoyi.version>
+        <ruoyi.version>1.7.0</ruoyi.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
-        <spring-boot.version>2.7.9</spring-boot.version>
-        <spring-cloud.version>2021.0.6</spring-cloud.version>
+        <spring-boot.version>2.7.11</spring-boot.version>
+        <spring-cloud.version>2021.0.7</spring-cloud.version>
         <spring-boot-admin.version>2.7.10</spring-boot-admin.version>
         <spring-boot.mybatis>2.2.2</spring-boot.mybatis>
         <mybatis.version>3.5.10</mybatis.version>
@@ -30,17 +30,19 @@
         <springdoc.version>1.6.15</springdoc.version>
         <poi.version>5.2.3</poi.version>
         <easyexcel.version>3.2.1</easyexcel.version>
-        <hutool.version>5.8.15</hutool.version>
-        <redisson.version>3.20.0</redisson.version>
+        <hutool.version>5.8.18</hutool.version>
+        <redisson.version>3.20.1</redisson.version>
         <lock4j.version>2.2.3</lock4j.version>
-        <xxl-job.version>2.3.1</xxl-job.version>
+        <xxl-job.version>2.4.0</xxl-job.version>
         <satoken.version>1.34.0</satoken.version>
-        <lombok.version>1.18.24</lombok.version>
+        <lombok.version>1.18.26</lombok.version>
         <logstash.version>7.2</logstash.version>
         <easy-es.version>1.1.1</easy-es.version>
         <elasticsearch.version>7.14.0</elasticsearch.version>
         <skywalking-toolkit.version>8.14.0</skywalking-toolkit.version>
         <bouncycastle.version>1.72</bouncycastle.version>
+        <!-- 离线IP地址定位库 -->
+        <ip2region.version>2.7.0</ip2region.version>
 
         <!-- 临时修复 snakeyaml 漏洞 -->
         <snakeyaml.version>1.33</snakeyaml.version>
@@ -62,7 +64,7 @@
             <properties>
                 <!-- 环境标识，需要与配置文件的名称相对应 -->
                 <profiles.active>dev</profiles.active>
-                <nacos.server>127.0.0.1:8848</nacos.server>
+                <nacos.server>101.42.248.151:8848</nacos.server>
                 <nacos.discovery.group>DEFAULT_GROUP</nacos.discovery.group>
                 <nacos.config.group>DEFAULT_GROUP</nacos.config.group>
                 <logstash.address>127.0.0.1:4560</logstash.address>
@@ -333,6 +335,13 @@
                 <groupId>com.tencentcloudapi</groupId>
                 <artifactId>tencentcloud-sdk-java-sms</artifactId>
                 <version>${tencent.sms.version}</version>
+            </dependency>
+
+            <!-- 离线IP地址定位库 ip2region -->
+            <dependency>
+                <groupId>org.lionsoul</groupId>
+                <artifactId>ip2region</artifactId>
+                <version>${ip2region.version}</version>
             </dependency>
 
             <!-- 临时修复 snakeyaml 漏洞 -->

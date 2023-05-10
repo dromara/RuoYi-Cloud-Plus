@@ -550,12 +550,15 @@ create table sys_logininfor (
   info_id        bigint(20)     not null                  comment '访问ID',
   user_name      varchar(50)    default ''                comment '用户账号',
   ipaddr         varchar(128)   default ''                comment '登录IP地址',
+  login_location varchar(255)   default ''                comment '登录地点',
+  browser        varchar(50)    default ''                comment '浏览器类型',
+  os             varchar(50)    default ''                comment '操作系统',
   status         char(1)        default '0'               comment '登录状态（0成功 1失败）',
-  msg            varchar(255)   default ''                comment '提示信息',
-  access_time    datetime                                 comment '访问时间',
+  msg            varchar(255)   default ''                comment '提示消息',
+  login_time     datetime                                 comment '访问时间',
   primary key (info_id),
   key idx_sys_logininfor_s  (status),
-  key idx_sys_logininfor_lt (access_time)
+  key idx_sys_logininfor_lt (login_time)
 ) engine=innodb comment = '系统访问记录';
 
 -- ----------------------------
@@ -616,7 +619,7 @@ create table sys_oss_config (
   is_https         char(1)           default 'N'                comment '是否https（Y=是,N=否）',
   region           varchar(255)      default ''                 comment '域',
   access_policy    char(1)           not null   default '1'     comment '桶权限类型(0=private 1=public 2=custom)',
-  status           char(1)           default '1'                comment '状态（0=正常,1=停用）',
+  status           char(1)           default '1'                comment '是否默认（0=是,1=否）',
   ext1             varchar(255)      default ''                 comment '扩展字段',
   create_by       varchar(64)        default ''                 comment '创建者',
   create_time     datetime           default null               comment '创建时间',

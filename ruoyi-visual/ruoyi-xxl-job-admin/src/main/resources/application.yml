@@ -25,6 +25,9 @@ spring:
     suffix: .ftl
     templateLoaderPath: classpath:/templates/
 
+logging:
+  config: classpath:logback-plus.xml
+
 --- # nacos 配置
 spring:
   cloud:

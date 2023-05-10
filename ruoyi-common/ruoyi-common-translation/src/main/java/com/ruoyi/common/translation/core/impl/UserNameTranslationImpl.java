@@ -6,7 +6,6 @@ import com.ruoyi.common.translation.core.TranslationInterface;
 import com.ruoyi.system.api.RemoteUserService;
 import lombok.AllArgsConstructor;
 import org.apache.dubbo.config.annotation.DubboReference;
-import org.springframework.stereotype.Component;
 
 /**
  * 用户名翻译实现
@@ -20,6 +19,7 @@ public class UserNameTranslationImpl implements TranslationInterface<String> {
     @DubboReference
     private RemoteUserService remoteUserService;
 
+    @Override
     public String translation(Object key, String other) {
         return remoteUserService.selectUserNameById((Long) key);
     }

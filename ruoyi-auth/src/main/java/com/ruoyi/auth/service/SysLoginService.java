@@ -4,6 +4,8 @@ import cn.dev33.satoken.exception.NotLoginException;
 import cn.dev33.satoken.secure.BCrypt;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.http.useragent.UserAgent;
+import cn.hutool.http.useragent.UserAgentUtil;
 import com.ruoyi.auth.form.RegisterBody;
 import com.ruoyi.auth.properties.UserPasswordProperties;
 import com.ruoyi.common.core.constant.CacheConstants;
@@ -17,6 +19,7 @@ import com.ruoyi.common.core.utils.MessageUtils;
 import com.ruoyi.common.core.utils.ServletUtils;
 import com.ruoyi.common.core.utils.SpringUtils;
 import com.ruoyi.common.core.utils.StringUtils;
+import com.ruoyi.common.core.utils.ip.AddressUtils;
 import com.ruoyi.common.log.event.LogininforEvent;
 import com.ruoyi.common.redis.utils.RedisUtils;
 import com.ruoyi.common.satoken.utils.LoginHelper;
@@ -29,6 +32,7 @@ import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
 import java.time.Duration;
 import java.util.function.Supplier;
 
@@ -67,6 +71,18 @@ public class SysLoginService {
         LoginUser userInfo = remoteUserService.getUserInfoByPhonenumber(phonenumber);
 
         checkLogin(LoginType.SMS, userInfo.getUsername(), () -> !validateSmsCode(phonenumber, smsCode));
+        // 生成token
+        LoginHelper.loginByDevice(userInfo, DeviceType.APP);
+
+        recordLogininfor(userInfo.getUsername(), Constants.LOGIN_SUCCESS, MessageUtils.message("user.login.success"));
+        return StpUtil.getTokenValue();
+    }
+
+    public String emailLogin(String email, String emailCode) {
+        // 通过邮箱查找用户
+        LoginUser userInfo = remoteUserService.getUserInfoByEmail(email);
+
+        checkLogin(LoginType.EMAIL, userInfo.getUsername(), () -> !validateEmailCode(email, emailCode));
         // 生成token
         LoginHelper.loginByDevice(userInfo, DeviceType.APP);
 
@@ -129,9 +145,22 @@ public class SysLoginService {
      * @return
      */
     public void recordLogininfor(String username, String status, String message) {
+        HttpServletRequest request = ServletUtils.getRequest();
+        final UserAgent userAgent = UserAgentUtil.parse(request.getHeader("User-Agent"));
+        final String ip = ServletUtils.getClientIP(request);
+
+        String address = AddressUtils.getRealAddressByIP(ip);
+        // 获取客户端操作系统
+        String os = userAgent.getOs().getName();
+        // 获取客户端浏览器
+        String browser = userAgent.getBrowser().getName();
+        // 封装对象
         LogininforEvent logininfor = new LogininforEvent();
         logininfor.setUserName(username);
-        logininfor.setIpaddr(ServletUtils.getClientIP());
+        logininfor.setIpaddr(ip);
+        logininfor.setLoginLocation(address);
+        logininfor.setBrowser(browser);
+        logininfor.setOs(os);
         logininfor.setMsg(message);
         // 日志状态
         if (StringUtils.equalsAny(status, Constants.LOGIN_SUCCESS, Constants.LOGOUT, Constants.REGISTER)) {
@@ -152,6 +181,18 @@ public class SysLoginService {
             throw new CaptchaExpireException();
         }
         return code.equals(smsCode);
+    }
+
+    /**
+     * 校验邮箱验证码
+     */
+    private boolean validateEmailCode(String email, String emailCode) {
+        String code = RedisUtils.getCacheObject(CacheConstants.CAPTCHA_CODE_KEY + email);
+        if (StringUtils.isBlank(code)) {
+            recordLogininfor(email, Constants.LOGIN_FAIL, MessageUtils.message("user.jcaptcha.expire"));
+            throw new CaptchaExpireException();
+        }
+        return code.equals(emailCode);
     }
 
     /**
