@@ -1,5 +1,6 @@
 package org.dromara.common.security.config;
 
+import cn.dev33.satoken.SaManager;
 import cn.dev33.satoken.filter.SaServletFilter;
 import cn.dev33.satoken.interceptor.SaInterceptor;
 import cn.dev33.satoken.same.SaSameUtil;
@@ -35,7 +36,11 @@ public class SecurityConfiguration implements WebMvcConfigurer {
         return new SaServletFilter()
             .addInclude("/**")
             .addExclude("/actuator/**")
-            .setAuth(obj -> SaSameUtil.checkCurrentRequestToken())
+            .setAuth(obj -> {
+                if (SaManager.getConfig().getCheckSameToken()) {
+                    SaSameUtil.checkCurrentRequestToken();
+                }
+            })
             .setError(e -> SaResult.error("认证失败，无法访问系统资源").setCode(HttpStatus.UNAUTHORIZED));
     }
 
