@@ -1,5 +1,6 @@
 package com.ruoyi.gateway.filter;
 
+import cn.dev33.satoken.SaManager;
 import cn.dev33.satoken.same.SaSameUtil;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
@@ -18,6 +19,10 @@ import reactor.core.publisher.Mono;
 public class ForwardAuthFilter implements GlobalFilter, Ordered {
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
+        // 未开启配置则直接跳过
+        if (!SaManager.getConfig().getCheckSameToken()) {
+            return chain.filter(exchange);
+        }
         ServerHttpRequest newRequest = exchange
             .getRequest()
             .mutate()
