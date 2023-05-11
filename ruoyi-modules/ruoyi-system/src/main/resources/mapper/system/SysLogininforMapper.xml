@@ -9,6 +9,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="userName"      column="user_name"         />
 		<result property="status"        column="status"            />
 		<result property="ipaddr"        column="ipaddr"            />
+        <result property="loginLocation"        column="login_location"            />
 		<result property="msg"           column="msg"               />
 		<result property="accessTime"    column="access_time"       />
 	</resultMap>
