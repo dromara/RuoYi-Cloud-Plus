@@ -15,7 +15,7 @@
     </description>
 
     <properties>
-        <revision>2.X-BETA</revision>
+        <revision>2.0.0-SNAPSHOT</revision>
     </properties>
 
     <dependencyManagement>
