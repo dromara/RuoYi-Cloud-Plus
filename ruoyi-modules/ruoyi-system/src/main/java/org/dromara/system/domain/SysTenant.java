@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.dromara.common.core.web.domain.BaseEntity;
+import org.dromara.common.mybatis.core.domain.BaseEntity;
 
 import java.util.Date;
 

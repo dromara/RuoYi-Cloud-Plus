@@ -35,6 +35,8 @@
         <module>ruoyi-common-skylog</module>
         <module>ruoyi-common-prometheus</module>
         <module>ruoyi-common-translation</module>
+        <module>ruoyi-common-sensitive</module>
+        <module>ruoyi-common-json</module>
         <module>ruoyi-common-encrypt</module>
         <module>ruoyi-common-tenant</module>
     </modules>

@@ -1,9 +1,9 @@
 package org.dromara.demo.controller;
 
-import org.dromara.common.core.annotation.Sensitive;
 import org.dromara.common.core.domain.R;
-import org.dromara.common.core.enums.SensitiveStrategy;
-import org.dromara.common.core.web.controller.BaseController;
+import org.dromara.common.sensitive.annotation.Sensitive;
+import org.dromara.common.sensitive.core.SensitiveStrategy;
+import org.dromara.common.web.core.BaseController;
 import lombok.Data;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
  *
  * @author Lion Li
  * @version 3.6.0
- * @see org.dromara.common.core.service.SensitiveService
+ * @see org.dromara.common.sensitive.core.SensitiveService
  */
 @RestController
 @RequestMapping("/demo/sensitive")

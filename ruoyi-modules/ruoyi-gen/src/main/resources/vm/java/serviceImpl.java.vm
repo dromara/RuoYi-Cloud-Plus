@@ -1,10 +1,10 @@
 package ${packageName}.service.impl;
 
-import cn.hutool.core.bean.BeanUtil;
+import org.dromara.common.core.utils.MapstructUtils;
 import org.dromara.common.core.utils.StringUtils;
 #if($table.crud || $table.sub)
-import org.dromara.common.mybatis.core.page.PageQuery;
 import org.dromara.common.mybatis.core.page.TableDataInfo;
+import org.dromara.common.mybatis.core.page.PageQuery;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 #end
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -94,7 +94,7 @@ public class ${ClassName}ServiceImpl implements I${ClassName}Service {
      */
     @Override
     public Boolean insertByBo(${ClassName}Bo bo) {
-        ${ClassName} add = BeanUtil.toBean(bo, ${ClassName}.class);
+        ${ClassName} add = MapstructUtils.convert(bo, ${ClassName}.class);
         validEntityBeforeSave(add);
         boolean flag = baseMapper.insert(add) > 0;
 #set($pk=$pkColumn.javaField.substring(0,1).toUpperCase() + ${pkColumn.javaField.substring(1)})
@@ -109,7 +109,7 @@ public class ${ClassName}ServiceImpl implements I${ClassName}Service {
      */
     @Override
     public Boolean updateByBo(${ClassName}Bo bo) {
-        ${ClassName} update = BeanUtil.toBean(bo, ${ClassName}.class);
+        ${ClassName} update = MapstructUtils.convert(bo, ${ClassName}.class);
         validEntityBeforeSave(update);
         return baseMapper.updateById(update) > 0;
     }

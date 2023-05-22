@@ -6,7 +6,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.dromara.common.core.validate.AddGroup;
 import org.dromara.common.core.validate.EditGroup;
-import org.dromara.common.core.web.domain.BaseEntity;
+import org.dromara.common.mybatis.core.domain.BaseEntity;
 import org.dromara.system.domain.SysTenantPackage;
 
 import javax.validation.constraints.NotBlank;

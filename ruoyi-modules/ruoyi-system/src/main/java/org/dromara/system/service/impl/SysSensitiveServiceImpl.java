@@ -1,7 +1,7 @@
 package org.dromara.system.service.impl;
 
-import org.dromara.common.core.service.SensitiveService;
 import org.dromara.common.satoken.utils.LoginHelper;
+import org.dromara.common.sensitive.core.SensitiveService;
 import org.springframework.stereotype.Service;
 
 /**

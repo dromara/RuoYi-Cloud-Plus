@@ -2,8 +2,8 @@ package org.dromara.gateway.utils;
 
 import cn.hutool.core.util.ObjectUtil;
 import org.dromara.common.core.domain.R;
-import org.dromara.common.core.utils.JsonUtils;
 import org.dromara.common.core.utils.StringUtils;
+import org.dromara.common.json.utils.JsonUtils;
 import org.dromara.gateway.filter.GlobalCacheRequestFilter;
 import org.springframework.cloud.gateway.support.ServerWebExchangeUtils;
 import org.springframework.core.io.buffer.DataBuffer;

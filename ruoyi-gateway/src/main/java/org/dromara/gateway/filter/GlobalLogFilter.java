@@ -1,7 +1,7 @@
 package org.dromara.gateway.filter;
 
 import cn.hutool.core.map.MapUtil;
-import org.dromara.common.core.utils.JsonUtils;
+import org.dromara.common.json.utils.JsonUtils;
 import org.dromara.gateway.config.properties.CustomGatewayProperties;
 import org.dromara.gateway.utils.WebFluxUtils;
 import lombok.extern.slf4j.Slf4j;

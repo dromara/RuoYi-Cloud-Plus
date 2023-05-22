@@ -1,4 +1,4 @@
-package org.dromara.common.core.web.controller;
+package org.dromara.common.web.core;
 
 import org.dromara.common.core.domain.R;
 import lombok.extern.slf4j.Slf4j;

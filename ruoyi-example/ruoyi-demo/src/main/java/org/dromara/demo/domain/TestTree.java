@@ -4,9 +4,9 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.Version;
-import org.dromara.common.core.web.domain.TreeEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.dromara.common.mybatis.core.domain.BaseEntity;
 
 /**
  * 测试树表对象 test_tree
@@ -17,7 +17,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @TableName("test_tree")
-public class TestTree extends TreeEntity<TestTree> {
+public class TestTree extends BaseEntity {
 
     private static final long serialVersionUID = 1L;
 
@@ -27,6 +27,11 @@ public class TestTree extends TreeEntity<TestTree> {
      */
     @TableId(value = "id")
     private Long id;
+
+    /**
+     * 父ID
+     */
+    private Long parentId;
 
     /**
      * 部门id

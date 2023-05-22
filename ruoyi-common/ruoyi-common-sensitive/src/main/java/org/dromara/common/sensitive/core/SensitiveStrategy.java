@@ -1,4 +1,4 @@
-package org.dromara.common.core.enums;
+package org.dromara.common.sensitive.core;
 
 import cn.hutool.core.util.DesensitizedUtil;
 import lombok.AllArgsConstructor;
@@ -9,6 +9,7 @@ import java.util.function.Function;
  * 脱敏策略
  *
  * @author Yjoioooo
+ * @version 3.6.0
  */
 @AllArgsConstructor
 public enum SensitiveStrategy {

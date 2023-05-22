@@ -1,6 +1,5 @@
 package org.dromara.common.dubbo.filter;
 
-import org.dromara.common.core.utils.JsonUtils;
 import org.dromara.common.core.utils.SpringUtils;
 import org.dromara.common.dubbo.enumd.RequestLogEnum;
 import org.dromara.common.dubbo.properties.DubboCustomProperties;
@@ -9,6 +8,7 @@ import org.apache.dubbo.common.constants.CommonConstants;
 import org.apache.dubbo.common.extension.Activate;
 import org.apache.dubbo.rpc.*;
 import org.apache.dubbo.rpc.service.GenericService;
+import org.dromara.common.json.utils.JsonUtils;
 
 /**
  * dubbo日志过滤器

@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.reflection.MetaObject;
 import org.dromara.common.core.exception.ServiceException;
-import org.dromara.common.core.web.domain.BaseEntity;
+import org.dromara.common.mybatis.core.domain.BaseEntity;
 import org.dromara.common.satoken.utils.LoginHelper;
 import org.dromara.system.api.model.LoginUser;
 

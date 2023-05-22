@@ -8,7 +8,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.apache.commons.lang3.ArrayUtils;
 import org.dromara.common.core.utils.StringUtils;
-import org.dromara.common.core.web.domain.BaseEntity;
+import org.dromara.common.mybatis.core.domain.BaseEntity;
 import org.dromara.gen.constant.GenConstants;
 
 import javax.validation.Valid;

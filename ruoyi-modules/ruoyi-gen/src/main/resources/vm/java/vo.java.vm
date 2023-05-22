@@ -3,25 +3,32 @@ package ${packageName}.domain.vo;
 #foreach ($import in $importList)
 import ${import};
 #end
+import ${packageName}.domain.${ClassName};
 import com.alibaba.excel.annotation.ExcelIgnoreUnannotated;
 import com.alibaba.excel.annotation.ExcelProperty;
 import org.dromara.common.excel.annotation.ExcelDictFormat;
 import org.dromara.common.excel.convert.ExcelDictConvert;
+import io.github.linpeilie.annotations.AutoMapper;
 import lombok.Data;
+
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.Date;
 
 
 
 /**
- * ${functionName}视图对象
+ * ${functionName}视图对象 ${tableName}
  *
  * @author ${author}
  * @date ${datetime}
  */
 @Data
 @ExcelIgnoreUnannotated
-public class ${ClassName}Vo {
+@AutoMapper(target = ${ClassName}.class)
+public class ${ClassName}Vo implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
 #foreach ($column in $columns)

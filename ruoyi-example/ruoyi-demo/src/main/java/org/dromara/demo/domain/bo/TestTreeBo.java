@@ -2,9 +2,9 @@ package org.dromara.demo.domain.bo;
 
 import org.dromara.common.core.validate.AddGroup;
 import org.dromara.common.core.validate.EditGroup;
-import org.dromara.common.core.web.domain.TreeEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.dromara.common.mybatis.core.domain.BaseEntity;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -18,13 +18,18 @@ import javax.validation.constraints.NotNull;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class TestTreeBo extends TreeEntity<TestTreeBo> {
+public class TestTreeBo extends BaseEntity {
 
     /**
      * 主键
      */
     @NotNull(message = "主键不能为空", groups = {EditGroup.class})
     private Long id;
+
+    /**
+     * 父ID
+     */
+    private Long parentId;
 
     /**
      * 部门id

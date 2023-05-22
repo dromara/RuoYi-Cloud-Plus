@@ -1,8 +1,8 @@
 package org.dromara.gateway.filter;
 
 import cn.hutool.core.lang.Dict;
-import org.dromara.common.core.utils.JsonUtils;
 import org.dromara.common.core.utils.StringUtils;
+import org.dromara.common.json.utils.JsonUtils;
 import org.dromara.gateway.config.properties.CaptchaProperties;
 import org.dromara.gateway.service.ValidateCodeService;
 import org.dromara.gateway.utils.WebFluxUtils;

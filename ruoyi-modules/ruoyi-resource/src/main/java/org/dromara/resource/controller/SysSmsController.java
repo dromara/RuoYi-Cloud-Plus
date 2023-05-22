@@ -8,7 +8,7 @@ import org.dromara.common.core.constant.Constants;
 import org.dromara.common.core.constant.GlobalConstants;
 import org.dromara.common.core.domain.R;
 import org.dromara.common.core.utils.SpringUtils;
-import org.dromara.common.core.web.controller.BaseController;
+import org.dromara.common.web.core.BaseController;
 import org.dromara.common.redis.utils.RedisUtils;
 import org.dromara.common.sms.config.properties.SmsProperties;
 import org.dromara.common.sms.core.SmsTemplate;

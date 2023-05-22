@@ -4,10 +4,8 @@ import io.github.linpeilie.annotations.AutoMapper;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import org.dromara.common.core.annotation.Sensitive;
 import org.dromara.common.core.constant.UserConstants;
-import org.dromara.common.core.enums.SensitiveStrategy;
-import org.dromara.common.core.web.domain.BaseEntity;
+import org.dromara.common.mybatis.core.domain.BaseEntity;
 import org.dromara.common.core.xss.Xss;
 import org.dromara.system.domain.SysUser;
 
@@ -61,7 +59,6 @@ public class SysUserBo extends BaseEntity {
     /**
      * 用户邮箱
      */
-    @Sensitive(strategy = SensitiveStrategy.EMAIL)
     @Email(message = "邮箱格式不正确")
     @Size(min = 0, max = 50, message = "邮箱长度不能超过{max}个字符")
     private String email;
@@ -69,7 +66,6 @@ public class SysUserBo extends BaseEntity {
     /**
      * 手机号码
      */
-    @Sensitive(strategy = SensitiveStrategy.PHONE)
     private String phonenumber;
 
     /**

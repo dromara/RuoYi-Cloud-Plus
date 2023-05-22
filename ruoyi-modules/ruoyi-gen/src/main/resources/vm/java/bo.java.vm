@@ -1,37 +1,27 @@
 package ${packageName}.domain.bo;
 
+import ${packageName}.domain.${ClassName};
+import org.dromara.common.mybatis.core.domain.BaseEntity;
 import org.dromara.common.core.validate.AddGroup;
 import org.dromara.common.core.validate.EditGroup;
+import io.github.linpeilie.annotations.AutoMapper;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import javax.validation.constraints.*;
-
-import java.util.Date;
-
+import jakarta.validation.constraints.*;
 #foreach ($import in $importList)
 import ${import};
 #end
-#if($table.crud || $table.sub)
-import org.dromara.common.core.web.domain.BaseEntity;
-#elseif($table.tree)
-import org.dromara.common.core.web.domain.TreeEntity;
-#end
 
 /**
- * ${functionName}业务对象
+ * ${functionName}业务对象 ${tableName}
  *
  * @author ${author}
  * @date ${datetime}
  */
-#if($table.crud || $table.sub)
-#set($Entity="BaseEntity")
-#elseif($table.tree)
-#set($Entity="TreeEntity<${ClassName}Bo>")
-#end
-
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class ${ClassName}Bo extends ${Entity} {
+@AutoMapper(target = ${ClassName}.class, reverseConvertGenerate = false)
+public class ${ClassName}Bo extends BaseEntity {
 
 #foreach ($column in $columns)
 #if(!$table.isSuperColumn($column.javaField) && ($column.query || $column.insert || $column.edit))

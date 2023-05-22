@@ -3,10 +3,10 @@ package org.dromara.system.domain.bo;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import org.dromara.common.core.annotation.Sensitive;
-import org.dromara.common.core.enums.SensitiveStrategy;
-import org.dromara.common.core.web.domain.BaseEntity;
+import org.dromara.common.mybatis.core.domain.BaseEntity;
 import org.dromara.common.core.xss.Xss;
+import org.dromara.common.sensitive.annotation.Sensitive;
+import org.dromara.common.sensitive.core.SensitiveStrategy;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Size;

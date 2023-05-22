@@ -172,6 +172,20 @@
                 <version>${revision}</version>
             </dependency>
 
+            <!-- 脱敏模块 -->
+            <dependency>
+                <groupId>org.dromara</groupId>
+                <artifactId>ruoyi-common-sensitive</artifactId>
+                <version>${revision}</version>
+            </dependency>
+
+            <!-- 序列化模块 -->
+            <dependency>
+                <groupId>org.dromara</groupId>
+                <artifactId>ruoyi-common-json</artifactId>
+                <version>${revision}</version>
+            </dependency>
+
             <dependency>
                 <groupId>org.dromara</groupId>
                 <artifactId>ruoyi-common-encrypt</artifactId>

@@ -2,8 +2,8 @@ package org.dromara.common.sms.core;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ArrayUtil;
-import org.dromara.common.core.utils.JsonUtils;
 import org.dromara.common.core.utils.StringUtils;
+import org.dromara.common.json.utils.JsonUtils;
 import org.dromara.common.sms.config.properties.SmsProperties;
 import org.dromara.common.sms.entity.SmsResult;
 import org.dromara.common.sms.exception.SmsException;

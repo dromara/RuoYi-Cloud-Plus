@@ -1,21 +1,23 @@
 package ${packageName}.domain;
 
+#foreach ($column in $columns)
+#if($column.javaField=='tenantId')
+#set($IsTenant=1)
+#end
+#end
+#if($IsTenant==1)
+import org.dromara.common.tenant.core.TenantEntity;
+#else
+import org.dromara.common.mybatis.core.domain.BaseEntity;
+#end
 import com.baomidou.mybatisplus.annotation.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import java.io.Serializable;
-import java.util.Date;
-import java.math.BigDecimal;
-
 #foreach ($import in $importList)
 import ${import};
 #end
-#if($table.crud || $table.sub)
-import org.dromara.common.core.web.domain.BaseEntity;
-#elseif($table.tree)
-import org.dromara.common.core.web.domain.TreeEntity;
-#end
+
+import java.io.Serial;
 
 /**
  * ${functionName}对象 ${tableName}
@@ -23,17 +25,18 @@ import org.dromara.common.core.web.domain.TreeEntity;
  * @author ${author}
  * @date ${datetime}
  */
-#if($table.crud || $table.sub)
+#if($IsTenant==1)
+#set($Entity="TenantEntity")
+#else
 #set($Entity="BaseEntity")
-#elseif($table.tree)
-#set($Entity="TreeEntity<${ClassName}>")
 #end
 @Data
 @EqualsAndHashCode(callSuper = true)
 @TableName("${tableName}")
 public class ${ClassName} extends ${Entity} {
 
-    private static final long serialVersionUID=1L;
+    @Serial
+    private static final long serialVersionUID = 1L;
 
 #foreach ($column in $columns)
 #if(!$table.isSuperColumn($column.javaField))
@@ -50,6 +53,7 @@ public class ${ClassName} extends ${Entity} {
     @TableId(value = "$column.columnName")
 #end
     private $column.javaType $column.javaField;
+
 #end
 #end
 

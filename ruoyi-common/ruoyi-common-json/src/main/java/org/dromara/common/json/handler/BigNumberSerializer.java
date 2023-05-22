@@ -1,4 +1,4 @@
-package org.dromara.common.core.jackson;
+package org.dromara.common.json.handler;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;

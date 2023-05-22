@@ -3,7 +3,7 @@ package org.dromara.resource.domain.bo;
 import io.github.linpeilie.annotations.AutoMapper;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.dromara.common.core.web.domain.BaseEntity;
+import org.dromara.common.mybatis.core.domain.BaseEntity;
 import org.dromara.resource.domain.SysOss;
 
 /**

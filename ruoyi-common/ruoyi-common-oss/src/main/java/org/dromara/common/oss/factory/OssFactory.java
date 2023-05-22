@@ -1,8 +1,8 @@
 package org.dromara.common.oss.factory;
 
 import org.dromara.common.core.constant.CacheNames;
-import org.dromara.common.core.utils.JsonUtils;
 import org.dromara.common.core.utils.StringUtils;
+import org.dromara.common.json.utils.JsonUtils;
 import org.dromara.common.oss.constant.OssConstant;
 import org.dromara.common.oss.core.OssClient;
 import org.dromara.common.oss.exception.OssException;
