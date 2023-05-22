@@ -8,12 +8,15 @@ import io.swagger.v3.oas.models.Paths;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
-import org.springdoc.core.*;
+import org.springdoc.core.configuration.SpringDocConfiguration;
 import org.springdoc.core.customizers.OpenApiBuilderCustomizer;
-import org.springdoc.core.customizers.OpenApiCustomiser;
+import org.springdoc.core.customizers.OpenApiCustomizer;
 import org.springdoc.core.customizers.ServerBaseUrlCustomizer;
+import org.springdoc.core.properties.SpringDocConfigProperties;
 import org.springdoc.core.providers.JavadocProvider;
-import org.springframework.beans.factory.annotation.Value;
+import org.springdoc.core.service.OpenAPIService;
+import org.springdoc.core.service.SecurityService;
+import org.springdoc.core.utils.PropertyResolverUtils;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -21,7 +24,10 @@ import org.springframework.boot.autoconfigure.web.ServerProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 /**
  * Swagger 文档配置
@@ -34,16 +40,11 @@ import java.util.*;
 @ConditionalOnProperty(name = "springdoc.api-docs.enabled", havingValue = "true", matchIfMissing = true)
 public class SwaggerAutoConfiguration {
 
-    private final SwaggerProperties swaggerProperties;
-
     private final ServerProperties serverProperties;
-
-    @Value("${spring.application.name}")
-    private String appName;
 
     @Bean
     @ConditionalOnMissingBean(OpenAPI.class)
-    public OpenAPI openApi() {
+    public OpenAPI openApi(SwaggerProperties swaggerProperties) {
         OpenAPI openApi = new OpenAPI();
         // 文档基本信息
         SwaggerProperties.InfoProperties infoProperties = swaggerProperties.getInfo();
@@ -90,22 +91,13 @@ public class SwaggerAutoConfiguration {
      * 对已经生成好的 OpenApi 进行自定义操作
      */
     @Bean
-    public OpenApiCustomiser openApiCustomiser() {
-        // 如果服务的自定义 Path 不存在 则采用默认去除前缀当 Path
-        Map<String, String> serviceMapping = swaggerProperties.getServiceMapping();
-        String appPath;
-        if (serviceMapping.containsKey(appName)) {
-            appPath = serviceMapping.get(appName);
-        } else {
-            appPath = "/" + StringUtils.substring(appName, appName.indexOf("-") + 1);
-        }
-
+    public OpenApiCustomizer openApiCustomizer() {
         String contextPath = serverProperties.getServlet().getContextPath();
         String finalContextPath;
         if (StringUtils.isBlank(contextPath) || "/".equals(contextPath)) {
-            finalContextPath = appPath;
+            finalContextPath = "";
         } else {
-            finalContextPath = appPath + contextPath;
+            finalContextPath = contextPath;
         }
         // 对所有路径增加前置上下文路径
         return openApi -> {
@@ -114,7 +106,7 @@ public class SwaggerAutoConfiguration {
                 return;
             }
             PlusPaths newPaths = new PlusPaths();
-            oldPaths.forEach((k,v) -> newPaths.addPathItem(finalContextPath + k, v));
+            oldPaths.forEach((k, v) -> newPaths.addPathItem(finalContextPath + k, v));
             openApi.setPaths(newPaths);
         };
     }

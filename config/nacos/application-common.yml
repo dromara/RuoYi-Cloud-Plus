@@ -106,14 +106,15 @@ spring:
         # dashboard: localhost:8718
 
   # redis通用配置 子服务可以自行配置进行覆盖
-  redis:
-    host: localhost
-    port: 6379
-    # 密码(如没有密码请注释掉)
-    # password:
-    database: 0
-    timeout: 10s
-    ssl: false
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      # 密码(如没有密码请注释掉)
+      # password:
+      database: 0
+      timeout: 10s
+      ssl: false
 
 # redisson 配置
 redisson:
@@ -265,10 +266,6 @@ swagger:
         type: APIKEY
         in: HEADER
         name: ${sa-token.token-name}
-  # 服务文档路径映射 参考 gateway router 配置
-  # 默认为服务名去除前缀转换为path 此处填特殊的配置
-  service-mapping:
-    ruoyi-gen: /code
 
 springdoc:
   api-docs:

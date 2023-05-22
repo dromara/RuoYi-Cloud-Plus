@@ -11,7 +11,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.NestedConfigurationProperty;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * swagger 配置属性
@@ -50,12 +49,6 @@ public class SwaggerProperties {
      */
     @NestedConfigurationProperty
     private Components components = null;
-
-    /**
-     * 服务文档路径映射 参考 gateway router 配置
-     * 默认为服务名去除前缀转换为path 此处填特殊的配置
-     */
-    private Map<String, String> serviceMapping = null;
 
     /**
      * <p>

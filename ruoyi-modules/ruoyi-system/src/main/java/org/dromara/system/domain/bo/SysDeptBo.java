@@ -8,7 +8,7 @@ import org.dromara.common.core.validate.EditGroup;
 import org.dromara.common.mybatis.core.domain.BaseEntity;
 import org.dromara.system.domain.SysDept;
 
-import javax.validation.constraints.*;
+import jakarta.validation.constraints.*;
 
 /**
  * 部门业务对象 sys_dept

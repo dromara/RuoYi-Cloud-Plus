@@ -15,11 +15,11 @@
 
     <properties>
         <revision>2.0.0-SNAPSHOT</revision>
-        <spring-cloud-alibaba.version>2021.0.5.0</spring-cloud-alibaba.version>
+        <spring-cloud-alibaba.version>2022.0.0.0-RC2</spring-cloud-alibaba.version>
         <sentinel.version>1.8.6</sentinel.version>
         <seata.version>1.6.1</seata.version>
         <nacos.client.version>2.2.1</nacos.client.version>
-        <dubbo.version>3.1.8</dubbo.version>
+        <dubbo.version>3.2.1</dubbo.version>
         <spring.context.support.version>1.0.11</spring.context.support.version>
     </properties>
     <dependencyManagement>

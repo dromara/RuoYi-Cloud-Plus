@@ -19,6 +19,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.net.URI;
+import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
 import java.nio.charset.StandardCharsets;
 import java.util.LinkedHashSet;
@@ -64,9 +65,11 @@ public class WebFluxUtils {
         Flux<DataBuffer> body = serverHttpRequest.getBody();
         AtomicReference<String> bodyRef = new AtomicReference<>();
         body.subscribe(buffer -> {
-            CharBuffer charBuffer = StandardCharsets.UTF_8.decode(buffer.asByteBuffer());
-            DataBufferUtils.release(buffer);
-            bodyRef.set(charBuffer.toString());
+            try (DataBuffer.ByteBufferIterator iterator = buffer.readableByteBuffers()) {
+                CharBuffer charBuffer = StandardCharsets.UTF_8.decode(iterator.next());
+                DataBufferUtils.release(buffer);
+                bodyRef.set(charBuffer.toString());
+            }
         });
         return bodyRef.get();
     }
@@ -85,8 +88,10 @@ public class WebFluxUtils {
             return null;
         }
         DataBuffer buffer = (DataBuffer) obj;
-        CharBuffer charBuffer = StandardCharsets.UTF_8.decode(buffer.asByteBuffer());
-        return charBuffer.toString();
+        try (DataBuffer.ByteBufferIterator iterator = buffer.readableByteBuffers()) {
+            CharBuffer charBuffer = StandardCharsets.UTF_8.decode(iterator.next());
+            return charBuffer.toString();
+        }
     }
 
     /**

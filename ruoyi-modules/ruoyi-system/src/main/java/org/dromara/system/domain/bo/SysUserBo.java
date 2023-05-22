@@ -9,9 +9,9 @@ import org.dromara.common.mybatis.core.domain.BaseEntity;
 import org.dromara.common.core.xss.Xss;
 import org.dromara.system.domain.SysUser;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import java.util.Date;
 
 /**

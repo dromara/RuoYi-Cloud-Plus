@@ -2,7 +2,7 @@ package org.dromara.auth.form;
 
 import lombok.Data;
 
-import javax.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotBlank;
 
 /**
  * 短信登录对象

@@ -97,7 +97,6 @@ public class LoginUser implements Serializable {
     /**
      * 密码
      */
-    @JsonIgnore
     private String password;
 
     /**
