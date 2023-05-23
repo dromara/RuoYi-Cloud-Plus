@@ -1,4 +1,4 @@
-FROM anapsix/alpine-java:8_server-jre_unlimited
+FROM findepi/graalvm:java17-native
 
 MAINTAINER Lion Li
 

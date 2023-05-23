@@ -1,4 +1,4 @@
-FROM openjdk:8u201-jre-alpine
+FROM findepi/graalvm:java17-native
 
 MAINTAINER Lion Li
 
