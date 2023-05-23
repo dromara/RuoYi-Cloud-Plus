@@ -5,6 +5,8 @@ import org.dromara.common.core.utils.StringUtils;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+import java.io.Serial;
+
 /**
  * 基础异常
  *
@@ -13,6 +15,7 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class BaseException extends RuntimeException {
+    @Serial
     private static final long serialVersionUID = 1L;
 
     /**

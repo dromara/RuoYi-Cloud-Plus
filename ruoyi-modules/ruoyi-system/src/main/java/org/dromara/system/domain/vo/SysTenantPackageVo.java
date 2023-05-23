@@ -8,6 +8,7 @@ import org.dromara.common.excel.annotation.ExcelDictFormat;
 import org.dromara.common.excel.convert.ExcelDictConvert;
 import org.dromara.system.domain.SysTenantPackage;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 
@@ -21,6 +22,7 @@ import java.io.Serializable;
 @AutoMapper(target = SysTenantPackage.class)
 public class SysTenantPackageVo implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     /**

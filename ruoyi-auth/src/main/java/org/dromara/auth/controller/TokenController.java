@@ -3,7 +3,6 @@ package org.dromara.auth.controller;
 import cn.hutool.core.collection.CollUtil;
 import lombok.RequiredArgsConstructor;
 import org.apache.dubbo.config.annotation.DubboReference;
-import org.dromara.auth.domain.convert.TenantVoConvert;
 import org.dromara.auth.domain.vo.LoginTenantVo;
 import org.dromara.auth.domain.vo.LoginVo;
 import org.dromara.auth.domain.vo.TenantListVo;
@@ -13,6 +12,7 @@ import org.dromara.auth.form.RegisterBody;
 import org.dromara.auth.form.SmsLoginBody;
 import org.dromara.auth.service.SysLoginService;
 import org.dromara.common.core.domain.R;
+import org.dromara.common.core.utils.MapstructUtils;
 import org.dromara.common.core.utils.StreamUtils;
 import org.dromara.common.core.utils.StringUtils;
 import org.dromara.common.tenant.helper.TenantHelper;
@@ -51,10 +51,7 @@ public class TokenController {
     public R<LoginVo> login(@Validated @RequestBody LoginBody body) {
         LoginVo loginVo = new LoginVo();
         // 生成令牌
-        String token = sysLoginService.login(
-            body.getTenantId(),
-            body.getUsername(),
-            body.getPassword());
+        String token = sysLoginService.login(body.getTenantId(), body.getUsername(), body.getPassword());
         loginVo.setToken(token);
         return R.ok(loginVo);
     }
@@ -131,7 +128,7 @@ public class TokenController {
     @GetMapping("/tenant/list")
     public R<LoginTenantVo> tenantList(HttpServletRequest request) throws Exception {
         List<RemoteTenantVo> tenantList = remoteTenantService.queryList();
-        List<TenantListVo> voList = TenantVoConvert.INSTANCE.convertList(tenantList);
+        List<TenantListVo> voList = MapstructUtils.convert(tenantList, TenantListVo.class);
         // 获取域名
         String host = new URL(request.getRequestURL().toString()).getHost();
         // 根据域名进行筛选

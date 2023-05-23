@@ -1,19 +1,21 @@
 package org.dromara.system.domain.convert;
 
+import io.github.linpeilie.BaseMapper;
+import org.dromara.system.api.domain.bo.RemoteOperLogBo;
 import org.dromara.system.api.domain.bo.RemoteUserBo;
+import org.dromara.system.domain.bo.SysOperLogBo;
 import org.dromara.system.domain.bo.SysUserBo;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingConstants;
 import org.mapstruct.factory.Mappers;
 
 /**
  * 用户信息转换器
  * @author zhujie
  */
-@Mapper
-public interface SysUserBoConvert {
-
-    SysUserBoConvert INSTANCE = Mappers.getMapper(SysUserBoConvert.class);
+@Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
+public interface SysUserBoConvert extends BaseMapper<RemoteUserBo, SysUserBo> {
 
     /**
      * RemoteUserBoToSysUserBo

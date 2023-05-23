@@ -1,5 +1,7 @@
 package org.dromara.common.oss.exception;
 
+import java.io.Serial;
+
 /**
  * OSS异常类
  *
@@ -7,6 +9,7 @@ package org.dromara.common.oss.exception;
  */
 public class OssException extends RuntimeException {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     public OssException(String msg) {

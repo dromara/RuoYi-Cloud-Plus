@@ -6,6 +6,12 @@ import cn.hutool.core.collection.ConcurrentHashSet;
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.ClassUtil;
 import cn.hutool.core.util.ObjectUtil;
+import lombok.extern.slf4j.Slf4j;
+import net.sf.jsqlparser.JSQLParserException;
+import net.sf.jsqlparser.expression.Expression;
+import net.sf.jsqlparser.expression.Parenthesis;
+import net.sf.jsqlparser.expression.operators.conditional.AndExpression;
+import net.sf.jsqlparser.parser.CCJSqlParserUtil;
 import org.dromara.common.core.exception.ServiceException;
 import org.dromara.common.core.utils.SpringUtils;
 import org.dromara.common.core.utils.StreamUtils;
@@ -17,12 +23,6 @@ import org.dromara.common.mybatis.helper.DataPermissionHelper;
 import org.dromara.common.satoken.utils.LoginHelper;
 import org.dromara.system.api.model.LoginUser;
 import org.dromara.system.api.model.RoleDTO;
-import lombok.extern.slf4j.Slf4j;
-import net.sf.jsqlparser.JSQLParserException;
-import net.sf.jsqlparser.expression.Expression;
-import net.sf.jsqlparser.expression.Parenthesis;
-import net.sf.jsqlparser.expression.operators.conditional.AndExpression;
-import net.sf.jsqlparser.parser.CCJSqlParserUtil;
 import org.springframework.context.expression.BeanFactoryResolver;
 import org.springframework.expression.BeanResolver;
 import org.springframework.expression.ExpressionParser;
@@ -35,7 +35,6 @@ import java.lang.reflect.Method;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 
 /**
  * 数据权限过滤
@@ -163,7 +162,7 @@ public class PlusDataPermissionHandler {
         String methodName = sb.substring(index + 1, sb.length());
         Class<?> clazz = ClassUtil.loadClass(clazzName);
         List<Method> methods = Arrays.stream(ClassUtil.getDeclaredMethods(clazz))
-            .filter(method -> method.getName().equals(methodName)).collect(Collectors.toList());
+            .filter(method -> method.getName().equals(methodName)).toList();
         DataPermission dataPermission;
         // 获取方法注解
         for (Method method : methods) {

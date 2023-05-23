@@ -4,6 +4,8 @@ import io.github.linpeilie.annotations.AutoMapper;
 import lombok.Data;
 import org.dromara.resource.domain.SysOss;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -13,8 +15,9 @@ import java.util.Date;
  */
 @Data
 @AutoMapper(target = SysOss.class)
-public class SysOssVo {
+public class SysOssVo implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     /**

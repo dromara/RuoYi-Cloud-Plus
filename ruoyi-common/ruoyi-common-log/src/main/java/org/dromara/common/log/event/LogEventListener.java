@@ -1,22 +1,21 @@
 package org.dromara.common.log.event;
 
+import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.http.useragent.UserAgent;
 import cn.hutool.http.useragent.UserAgentUtil;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.dromara.common.core.constant.Constants;
 import org.dromara.common.core.utils.ServletUtils;
 import org.dromara.common.core.utils.StringUtils;
 import org.dromara.common.core.utils.ip.AddressUtils;
-import org.dromara.common.log.domain.convert.OperLogEventConvert;
 import org.dromara.system.api.RemoteLogService;
 import org.dromara.system.api.domain.bo.RemoteLogininforBo;
 import org.dromara.system.api.domain.bo.RemoteOperLogBo;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
-
-import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * 异步调用日志服务
@@ -36,7 +35,7 @@ public class LogEventListener {
     @Async
     @EventListener
     public void saveLog(OperLogEvent operLogEvent) {
-        RemoteOperLogBo sysOperLog = OperLogEventConvert.INSTANCE.convert(operLogEvent);
+        RemoteOperLogBo sysOperLog = BeanUtil.toBean(operLogEvent, RemoteOperLogBo.class);
         remoteLogService.saveLog(sysOperLog);
     }
 

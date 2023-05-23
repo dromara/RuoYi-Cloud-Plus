@@ -23,8 +23,8 @@ public class CreateAndUpdateMetaObjectHandler implements MetaObjectHandler {
     @Override
     public void insertFill(MetaObject metaObject) {
         try {
-            if (ObjectUtil.isNotNull(metaObject) && metaObject.getOriginalObject() instanceof BaseEntity) {
-                BaseEntity baseEntity = (BaseEntity) metaObject.getOriginalObject();
+            if (ObjectUtil.isNotNull(metaObject)
+                && metaObject.getOriginalObject() instanceof BaseEntity baseEntity) {
                 Date current = ObjectUtil.isNotNull(baseEntity.getCreateTime())
                     ? baseEntity.getCreateTime() : new Date();
                 baseEntity.setCreateTime(current);
@@ -47,8 +47,8 @@ public class CreateAndUpdateMetaObjectHandler implements MetaObjectHandler {
     @Override
     public void updateFill(MetaObject metaObject) {
         try {
-            if (ObjectUtil.isNotNull(metaObject) && metaObject.getOriginalObject() instanceof BaseEntity) {
-                BaseEntity baseEntity = (BaseEntity) metaObject.getOriginalObject();
+            if (ObjectUtil.isNotNull(metaObject)
+                && metaObject.getOriginalObject() instanceof BaseEntity baseEntity) {
                 Date current = new Date();
                 // 更新时间填充(不管为不为空)
                 baseEntity.setUpdateTime(current);

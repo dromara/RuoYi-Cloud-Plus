@@ -4,6 +4,7 @@ import io.github.linpeilie.annotations.AutoMapper;
 import lombok.Data;
 import org.dromara.system.domain.SysMenu;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -19,6 +20,7 @@ import java.util.List;
 @AutoMapper(target = SysMenu.class)
 public class SysMenuVo implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     /**

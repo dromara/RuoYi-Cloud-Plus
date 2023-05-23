@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import org.dromara.common.excel.annotation.ExcelDictFormat;
 import org.dromara.common.excel.convert.ExcelDictConvert;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 
@@ -20,6 +21,7 @@ import java.io.Serializable;
 // @Accessors(chain = true) // 导入不允许使用 会找不到set方法
 public class SysUserImportVo implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     /**

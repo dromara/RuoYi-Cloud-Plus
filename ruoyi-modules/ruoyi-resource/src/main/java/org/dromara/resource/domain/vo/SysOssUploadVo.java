@@ -2,13 +2,19 @@ package org.dromara.resource.domain.vo;
 
 import lombok.Data;
 
+import java.io.Serial;
+import java.io.Serializable;
+
 /**
  * 上传对象信息
  *
  * @author Michelle.Chung
  */
 @Data
-public class SysOssUploadVo {
+public class SysOssUploadVo implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 1L;
 
     /**
      * URL地址

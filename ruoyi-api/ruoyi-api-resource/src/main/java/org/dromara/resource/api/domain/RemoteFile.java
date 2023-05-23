@@ -2,6 +2,7 @@ package org.dromara.resource.api.domain;
 
 import lombok.Data;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 /**
@@ -12,6 +13,7 @@ import java.io.Serializable;
 @Data
 public class RemoteFile implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     /**

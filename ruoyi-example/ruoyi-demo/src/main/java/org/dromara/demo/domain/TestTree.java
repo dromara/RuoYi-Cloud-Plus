@@ -8,6 +8,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.dromara.common.mybatis.core.domain.BaseEntity;
 
+import java.io.Serial;
+
 /**
  * 测试树表对象 test_tree
  *
@@ -19,6 +21,7 @@ import org.dromara.common.mybatis.core.domain.BaseEntity;
 @TableName("test_tree")
 public class TestTree extends BaseEntity {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
 

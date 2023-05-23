@@ -6,6 +6,7 @@ import org.dromara.common.translation.annotation.Translation;
 import org.dromara.common.translation.constant.TransConstant;
 import org.dromara.system.domain.SysNotice;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -20,6 +21,7 @@ import java.util.Date;
 @AutoMapper(target = SysNotice.class)
 public class SysNoticeVo implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     /**

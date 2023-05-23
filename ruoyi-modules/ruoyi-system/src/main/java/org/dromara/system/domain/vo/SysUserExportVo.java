@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import org.dromara.common.excel.annotation.ExcelDictFormat;
 import org.dromara.common.excel.convert.ExcelDictConvert;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -22,6 +23,7 @@ import java.util.Date;
 @AutoMapper(target = SysUserVo.class, convertGenerate = false)
 public class SysUserExportVo implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     /**

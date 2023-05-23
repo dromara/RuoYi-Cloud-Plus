@@ -3,6 +3,9 @@ package org.dromara.system.domain.vo;
 import lombok.Data;
 import org.dromara.common.core.utils.StringUtils;
 
+import java.io.Serial;
+import java.io.Serializable;
+
 /**
  * 路由显示信息
  *
@@ -10,7 +13,10 @@ import org.dromara.common.core.utils.StringUtils;
  */
 
 @Data
-public class MetaVo {
+public class MetaVo implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 1L;
 
     /**
      * 设置该路由在侧边栏和面包屑中展示的名字

@@ -2,6 +2,8 @@ package org.dromara.system.domain.vo;
 
 import lombok.Data;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.Set;
 
 /**
@@ -10,7 +12,10 @@ import java.util.Set;
  * @author Michelle.Chung
  */
 @Data
-public class UserInfoVo {
+public class UserInfoVo implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 1L;
 
     /**
      * 用户基本信息

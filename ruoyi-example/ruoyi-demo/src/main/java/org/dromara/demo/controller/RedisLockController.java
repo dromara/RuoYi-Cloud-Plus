@@ -33,13 +33,13 @@ public class RedisLockController {
     @Lock4j(keys = {"#key"})
     @GetMapping("/testLock4j")
     public R<String> testLock4j(String key, String value) {
-        System.out.println("start:" + key + ",time:" + LocalTime.now().toString());
+        System.out.println("start:" + key + ",time:" + LocalTime.now());
         try {
             Thread.sleep(10000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        System.out.println("end :" + key + ",time:" + LocalTime.now().toString());
+        System.out.println("end :" + key + ",time:" + LocalTime.now());
         return R.ok("操作成功", value);
     }
 

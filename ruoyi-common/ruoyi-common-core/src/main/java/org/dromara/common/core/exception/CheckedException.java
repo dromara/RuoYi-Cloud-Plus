@@ -1,11 +1,14 @@
 package org.dromara.common.core.exception;
 
+import java.io.Serial;
+
 /**
  * 检查异常
  *
  * @author ruoyi
  */
 public class CheckedException extends RuntimeException {
+    @Serial
     private static final long serialVersionUID = 1L;
 
     public CheckedException(String message) {

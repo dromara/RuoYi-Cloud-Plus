@@ -8,6 +8,7 @@ import org.dromara.common.excel.annotation.ExcelDictFormat;
 import org.dromara.common.excel.convert.ExcelDictConvert;
 import org.dromara.system.domain.SysDictData;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -22,6 +23,7 @@ import java.util.Date;
 @AutoMapper(target = SysDictData.class)
 public class SysDictDataVo implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     /**

@@ -1,5 +1,7 @@
 package org.dromara.common.core.exception;
 
+import java.io.Serial;
+
 /**
  * 全局异常
  *
@@ -7,6 +9,7 @@ package org.dromara.common.core.exception;
  */
 public class GlobalException extends RuntimeException {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     /**

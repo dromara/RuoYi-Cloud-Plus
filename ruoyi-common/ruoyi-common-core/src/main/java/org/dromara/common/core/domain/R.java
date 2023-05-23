@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.dromara.common.core.constant.HttpStatus;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 /**
@@ -14,6 +15,8 @@ import java.io.Serializable;
 @Data
 @NoArgsConstructor
 public class R<T> implements Serializable {
+
+    @Serial
     private static final long serialVersionUID = 1L;
 
     /**

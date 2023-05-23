@@ -10,6 +10,7 @@ import org.dromara.common.translation.annotation.Translation;
 import org.dromara.common.translation.constant.TransConstant;
 import org.dromara.system.domain.SysUser;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -24,6 +25,7 @@ import java.util.List;
 @AutoMapper(target = SysUser.class)
 public class SysUserVo implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     /**

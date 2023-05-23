@@ -46,9 +46,8 @@ public class MybatisEncryptInterceptor implements Interceptor {
 
     @Override
     public Object plugin(Object target) {
-        if (target instanceof ParameterHandler) {
+        if (target instanceof ParameterHandler parameterHandler) {
             // 进行加密操作
-            ParameterHandler parameterHandler = (ParameterHandler) target;
             Object parameterObject = parameterHandler.getParameterObject();
             if (ObjectUtil.isNotNull(parameterObject) && !(parameterObject instanceof String)) {
                 this.encryptHandler(parameterObject);
@@ -66,21 +65,20 @@ public class MybatisEncryptInterceptor implements Interceptor {
         if (ObjectUtil.isNull(sourceObject)) {
             return;
         }
-        if (sourceObject instanceof Map<?, ?>) {
-            new HashSet<>(((Map<?, ?>) sourceObject).values()).forEach(this::encryptHandler);
+        if (sourceObject instanceof Map<?, ?> map) {
+            new HashSet<>(map.values()).forEach(this::encryptHandler);
             return;
         }
-        if (sourceObject instanceof List<?>) {
-            List<?> sourceList = (List<?>) sourceObject;
-            if(CollUtil.isEmpty(sourceList)) {
+        if (sourceObject instanceof List<?> list) {
+            if(CollUtil.isEmpty(list)) {
                 return;
             }
             // 判断第一个元素是否含有注解。如果没有直接返回，提高效率
-            Object firstItem = sourceList.get(0);
+            Object firstItem = list.get(0);
             if (ObjectUtil.isNull(firstItem) || CollUtil.isEmpty(encryptorManager.getFieldCache(firstItem.getClass()))) {
                 return;
             }
-            ((List<?>) sourceObject).forEach(this::encryptHandler);
+            list.forEach(this::encryptHandler);
             return;
         }
         Set<Field> fields = encryptorManager.getFieldCache(sourceObject.getClass());

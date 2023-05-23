@@ -5,6 +5,7 @@ import org.dromara.common.core.constant.CacheConstants;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Set;
@@ -17,6 +18,8 @@ import java.util.Set;
 @Data
 @NoArgsConstructor
 public class LoginUser implements Serializable {
+
+    @Serial
     private static final long serialVersionUID = 1L;
 
     /**

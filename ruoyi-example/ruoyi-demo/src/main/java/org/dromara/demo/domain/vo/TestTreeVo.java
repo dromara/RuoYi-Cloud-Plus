@@ -2,7 +2,9 @@ package org.dromara.demo.domain.vo;
 
 import com.alibaba.excel.annotation.ExcelIgnoreUnannotated;
 import com.alibaba.excel.annotation.ExcelProperty;
+import io.github.linpeilie.annotations.AutoMapper;
 import lombok.Data;
+import org.dromara.demo.domain.TestTree;
 
 import java.util.Date;
 
@@ -15,6 +17,7 @@ import java.util.Date;
  */
 @Data
 @ExcelIgnoreUnannotated
+@AutoMapper(target = TestTree.class)
 public class TestTreeVo {
 
     private static final long serialVersionUID = 1L;

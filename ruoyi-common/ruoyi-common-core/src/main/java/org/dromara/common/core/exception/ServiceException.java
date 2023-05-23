@@ -1,11 +1,14 @@
 package org.dromara.common.core.exception;
 
+import java.io.Serial;
+
 /**
  * 业务异常
  *
  * @author ruoyi
  */
 public final class ServiceException extends RuntimeException {
+    @Serial
     private static final long serialVersionUID = 1L;
 
     /**

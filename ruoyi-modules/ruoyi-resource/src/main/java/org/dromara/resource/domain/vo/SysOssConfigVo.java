@@ -4,6 +4,9 @@ import io.github.linpeilie.annotations.AutoMapper;
 import lombok.Data;
 import org.dromara.resource.domain.SysOssConfig;
 
+import java.io.Serial;
+import java.io.Serializable;
+
 
 /**
  * 对象存储配置视图对象 sys_oss_config
@@ -14,8 +17,9 @@ import org.dromara.resource.domain.SysOssConfig;
  */
 @Data
 @AutoMapper(target = SysOssConfig.class)
-public class SysOssConfigVo {
+public class SysOssConfigVo implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     /**

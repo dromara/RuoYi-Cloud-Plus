@@ -9,6 +9,7 @@ import org.dromara.common.core.utils.StringUtils;
 import org.dromara.common.core.utils.sql.SqlUtil;
 import lombok.Data;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +23,7 @@ import java.util.List;
 @Data
 public class PageQuery implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     /**

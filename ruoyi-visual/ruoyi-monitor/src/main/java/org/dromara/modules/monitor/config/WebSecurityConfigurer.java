@@ -28,7 +28,7 @@ public class WebSecurityConfigurer {
 
         return httpSecurity
                 .headers().frameOptions().disable()
-                .and().authorizeRequests()
+                .and().authorizeHttpRequests()
                 .requestMatchers(adminContextPath + "/assets/**"
                         , adminContextPath + "/login"
                         , adminContextPath + "/actuator/**"

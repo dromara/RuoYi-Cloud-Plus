@@ -14,7 +14,6 @@ public interface RemoteLogService {
      * 保存系统日志
      *
      * @param sysOperLog 日志实体
-     * @return 结果
      */
     void saveLog(RemoteOperLogBo sysOperLog);
 
@@ -22,7 +21,6 @@ public interface RemoteLogService {
      * 保存访问记录
      *
      * @param sysLogininfor 访问实体
-     * @return 结果
      */
     void saveLogininfor(RemoteLogininforBo sysLogininfor);
 }

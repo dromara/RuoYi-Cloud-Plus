@@ -2,6 +2,8 @@ package org.dromara.system.domain.vo;
 
 import lombok.Data;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -12,7 +14,10 @@ import java.util.Properties;
  * @author Michelle.Chung
  */
 @Data
-public class CacheListInfoVo {
+public class CacheListInfoVo implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 1L;
 
     private Properties info;
 

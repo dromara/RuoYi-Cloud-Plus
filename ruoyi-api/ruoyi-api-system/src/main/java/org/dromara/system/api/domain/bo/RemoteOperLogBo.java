@@ -3,6 +3,7 @@ package org.dromara.system.api.domain.bo;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashMap;
@@ -17,6 +18,10 @@ import java.util.Map;
 @Data
 @NoArgsConstructor
 public class RemoteOperLogBo implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 1L;
+
     /**
      * 日志主键
      */

@@ -56,21 +56,20 @@ public class MybatisDecryptInterceptor implements Interceptor {
         if (ObjectUtil.isNull(sourceObject)) {
             return;
         }
-        if (sourceObject instanceof Map<?, ?>) {
-            new HashSet<>(((Map<?, ?>) sourceObject).values()).forEach(this::decryptHandler);
+        if (sourceObject instanceof Map<?, ?> map) {
+            new HashSet<>(map.values()).forEach(this::decryptHandler);
             return;
         }
-        if (sourceObject instanceof List<?>) {
-            List<?> sourceList = (List<?>) sourceObject;
-            if(CollUtil.isEmpty(sourceList)) {
+        if (sourceObject instanceof List<?> list) {
+            if(CollUtil.isEmpty(list)) {
                 return;
             }
             // 判断第一个元素是否含有注解。如果没有直接返回，提高效率
-            Object firstItem = sourceList.get(0);
+            Object firstItem = list.get(0);
             if (ObjectUtil.isNull(firstItem) || CollUtil.isEmpty(encryptorManager.getFieldCache(firstItem.getClass()))) {
                 return;
             }
-            ((List<?>) sourceObject).forEach(this::decryptHandler);
+            list.forEach(this::decryptHandler);
             return;
         }
         Set<Field> fields = encryptorManager.getFieldCache(sourceObject.getClass());
