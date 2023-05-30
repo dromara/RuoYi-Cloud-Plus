@@ -135,7 +135,6 @@
 * 定期同步升级 RuoYi-Cloud 有用的更新
 * github 地址 [RuoYi-Cloud-Plus](https://github.com/dromara/RuoYi-Cloud-Plus)
 * 分离版分支 [RuoYi-Vue-Plus](https://gitee.com/JavaLionLi/RuoYi-Vue-Plus)
-* Vue3 分支 [RuoYi-Cloud-Plus-UI](https://gitee.com/JavaLionLi/RuoYi-Cloud-Plus-UI)
 * 单模块 fast 分支 [RuoYi-Vue-Plus-fast](https://gitee.com/JavaLionLi/RuoYi-Vue-Plus/tree/fast/)
 
 ## 捐献作者
