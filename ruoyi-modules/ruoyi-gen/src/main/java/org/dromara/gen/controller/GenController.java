@@ -31,7 +31,7 @@ import java.util.Map;
 @Validated
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/tool/gen")
+@RequestMapping("/gen")
 public class GenController extends BaseController {
 
     private final IGenTableService genTableService;
