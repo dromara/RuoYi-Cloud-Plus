@@ -1,16 +1,16 @@
 package org.dromara.common.tenant.handle;
 
+import cn.hutool.core.collection.ListUtil;
 import com.baomidou.mybatisplus.extension.plugins.handler.TenantLineHandler;
-import org.dromara.common.core.utils.StringUtils;
-import org.dromara.common.tenant.helper.TenantHelper;
-import org.dromara.common.tenant.properties.TenantProperties;
 import lombok.AllArgsConstructor;
 import net.sf.jsqlparser.expression.Expression;
 import net.sf.jsqlparser.expression.NullValue;
 import net.sf.jsqlparser.expression.StringValue;
+import org.dromara.common.core.utils.StringUtils;
 import org.dromara.common.satoken.utils.LoginHelper;
+import org.dromara.common.tenant.helper.TenantHelper;
+import org.dromara.common.tenant.properties.TenantProperties;
 
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -46,11 +46,12 @@ public class PlusTenantLineHandler implements TenantLineHandler {
             // 不需要过滤租户的表
             List<String> excludes = tenantProperties.getExcludes();
             // 非业务表
-            excludes.addAll(Arrays.asList(
-                    "gen_table",
-                    "gen_table_column"
-            ));
-            return excludes.contains(tableName);
+            List<String> tables = ListUtil.toList(
+                "gen_table",
+                "gen_table_column"
+            );
+            tables.addAll(excludes);
+            return tables.contains(tableName);
         }
         return true;
     }
