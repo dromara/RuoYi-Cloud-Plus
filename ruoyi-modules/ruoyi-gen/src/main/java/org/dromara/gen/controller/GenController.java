@@ -3,20 +3,21 @@ package org.dromara.gen.controller;
 import cn.dev33.satoken.annotation.SaCheckPermission;
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.io.IoUtil;
+import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
 import org.dromara.common.core.domain.R;
-import org.dromara.common.web.core.BaseController;
 import org.dromara.common.log.annotation.Log;
 import org.dromara.common.log.enums.BusinessType;
 import org.dromara.common.mybatis.core.page.PageQuery;
 import org.dromara.common.mybatis.core.page.TableDataInfo;
+import org.dromara.common.mybatis.helper.DataBaseHelper;
+import org.dromara.common.web.core.BaseController;
 import org.dromara.gen.domain.GenTable;
 import org.dromara.gen.domain.GenTableColumn;
 import org.dromara.gen.service.IGenTableService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -29,8 +30,8 @@ import java.util.Map;
  */
 @Validated
 @RequiredArgsConstructor
-@RequestMapping("/gen")
 @RestController
+@RequestMapping("/tool/gen")
 public class GenController extends BaseController {
 
     private final IGenTableService genTableService;
@@ -47,7 +48,7 @@ public class GenController extends BaseController {
     /**
      * 修改代码生成业务
      *
-     * @param tableId 表主键
+     * @param tableId 表ID
      */
     @SaCheckPermission("tool:gen:query")
     @GetMapping(value = "/{tableId}")
@@ -55,7 +56,7 @@ public class GenController extends BaseController {
         GenTable table = genTableService.selectGenTableById(tableId);
         List<GenTable> tables = genTableService.selectGenTableAll();
         List<GenTableColumn> list = genTableService.selectGenTableColumnListByTableId(tableId);
-        Map<String, Object> map = new HashMap<>();
+        Map<String, Object> map = new HashMap<String, Object>();
         map.put("info", table);
         map.put("rows", list);
         map.put("tables", tables);
@@ -74,8 +75,9 @@ public class GenController extends BaseController {
     /**
      * 查询数据表字段列表
      *
-     * @param tableId 表主键
+     * @param tableId 表ID
      */
+    @SaCheckPermission("tool:gen:list")
     @GetMapping(value = "/column/{tableId}")
     public TableDataInfo<GenTableColumn> columnList(Long tableId) {
         TableDataInfo<GenTableColumn> dataInfo = new TableDataInfo<>();
@@ -93,11 +95,11 @@ public class GenController extends BaseController {
     @SaCheckPermission("tool:gen:import")
     @Log(title = "代码生成", businessType = BusinessType.IMPORT)
     @PostMapping("/importTable")
-    public R<Void> importTableSave(String tables) {
+    public R<Void> importTableSave(String tables, String dataName) {
         String[] tableNames = Convert.toStrArray(tables);
         // 查询表信息
-        List<GenTable> tableList = genTableService.selectDbTableListByNames(tableNames);
-        genTableService.importGenTable(tableList);
+        List<GenTable> tableList = genTableService.selectDbTableListByNames(tableNames, dataName);
+        genTableService.importGenTable(tableList, dataName);
         return R.ok();
     }
 
@@ -116,7 +118,7 @@ public class GenController extends BaseController {
     /**
      * 删除代码生成
      *
-     * @param tableIds 表主键串
+     * @param tableIds 表ID串
      */
     @SaCheckPermission("tool:gen:remove")
     @Log(title = "代码生成", businessType = BusinessType.DELETE)
@@ -129,7 +131,7 @@ public class GenController extends BaseController {
     /**
      * 预览代码
      *
-     * @param tableId 表主键
+     * @param tableId 表ID
      */
     @SaCheckPermission("tool:gen:preview")
     @GetMapping("/preview/{tableId}")
@@ -141,53 +143,53 @@ public class GenController extends BaseController {
     /**
      * 生成代码（下载方式）
      *
-     * @param tableName 表名
+     * @param tableId 表ID
      */
     @SaCheckPermission("tool:gen:code")
     @Log(title = "代码生成", businessType = BusinessType.GENCODE)
-    @GetMapping("/download/{tableName}")
-    public void download(HttpServletResponse response, @PathVariable("tableName") String tableName) throws IOException {
-        byte[] data = genTableService.downloadCode(tableName);
+    @GetMapping("/download/{tableId}")
+    public void download(HttpServletResponse response, @PathVariable("tableId") Long tableId) throws IOException {
+        byte[] data = genTableService.downloadCode(tableId);
         genCode(response, data);
     }
 
     /**
      * 生成代码（自定义路径）
      *
-     * @param tableName 表名
+     * @param tableId 表ID
      */
     @SaCheckPermission("tool:gen:code")
     @Log(title = "代码生成", businessType = BusinessType.GENCODE)
-    @GetMapping("/genCode/{tableName}")
-    public R<Void> genCode(@PathVariable("tableName") String tableName) {
-        genTableService.generatorCode(tableName);
+    @GetMapping("/genCode/{tableId}")
+    public R<Void> genCode(@PathVariable("tableId") Long tableId) {
+        genTableService.generatorCode(tableId);
         return R.ok();
     }
 
     /**
      * 同步数据库
      *
-     * @param tableName 表名
+     * @param tableId 表ID
      */
     @SaCheckPermission("tool:gen:edit")
     @Log(title = "代码生成", businessType = BusinessType.UPDATE)
-    @GetMapping("/synchDb/{tableName}")
-    public R<Void> synchDb(@PathVariable("tableName") String tableName) {
-        genTableService.synchDb(tableName);
+    @GetMapping("/synchDb/{tableId}")
+    public R<Void> synchDb(@PathVariable("tableId") Long tableId) {
+        genTableService.synchDb(tableId);
         return R.ok();
     }
 
     /**
      * 批量生成代码
      *
-     * @param tables 表名串
+     * @param tableIdStr 表ID串
      */
     @SaCheckPermission("tool:gen:code")
     @Log(title = "代码生成", businessType = BusinessType.GENCODE)
     @GetMapping("/batchGenCode")
-    public void batchGenCode(HttpServletResponse response, String tables) throws IOException {
-        String[] tableNames = Convert.toStrArray(tables);
-        byte[] data = genTableService.downloadCode(tableNames);
+    public void batchGenCode(HttpServletResponse response, String tableIdStr) throws IOException {
+        String[] tableIds = Convert.toStrArray(tableIdStr);
+        byte[] data = genTableService.downloadCode(tableIds);
         genCode(response, data);
     }
 
@@ -202,5 +204,14 @@ public class GenController extends BaseController {
         response.addHeader("Content-Length", "" + data.length);
         response.setContentType("application/octet-stream; charset=UTF-8");
         IoUtil.write(response.getOutputStream(), false, data);
+    }
+
+    /**
+     * 查询数据源名称列表
+     */
+    @SaCheckPermission("tool:gen:list")
+    @GetMapping(value = "/getDataNames")
+    public R<Object> getCurrentDataSourceNameList(){
+        return R.ok(DataBaseHelper.getDataSourceNameList());
     }
 }

@@ -18,6 +18,7 @@ import java.util.Arrays;
  */
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class GenUtils {
+
     /**
      * 初始化表信息
      */
@@ -102,7 +103,7 @@ public class GenUtils {
         }
         // 类型&性别字段设置下拉框
         else if (StringUtils.endsWithIgnoreCase(columnName, "type")
-                || StringUtils.endsWithIgnoreCase(columnName, "sex")) {
+            || StringUtils.endsWithIgnoreCase(columnName, "sex")) {
             column.setHtmlType(GenConstants.HTML_SELECT);
         }
         // 图片字段设置图片上传控件
@@ -177,7 +178,6 @@ public class GenUtils {
      *
      * @param replacementm 替换值
      * @param searchList   替换列表
-     * @return
      */
     public static String replaceFirst(String replacementm, String[] searchList) {
         String text = replacementm;

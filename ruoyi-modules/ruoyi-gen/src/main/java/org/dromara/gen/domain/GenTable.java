@@ -4,15 +4,14 @@ import com.baomidou.mybatisplus.annotation.FieldStrategy;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.apache.commons.lang3.ArrayUtils;
 import org.dromara.common.core.utils.StringUtils;
 import org.dromara.common.mybatis.core.domain.BaseEntity;
 import org.dromara.gen.constant.GenConstants;
 
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotBlank;
 import java.util.List;
 
 /**
@@ -31,6 +30,12 @@ public class GenTable extends BaseEntity {
      */
     @TableId(value = "table_id")
     private Long tableId;
+
+    /**
+     * 数据源名称
+     */
+    @NotBlank(message = "数据源名称不能为空")
+    private String dataName;
 
     /**
      * 表名称
@@ -113,12 +118,6 @@ public class GenTable extends BaseEntity {
     private GenTableColumn pkColumn;
 
     /**
-     * 子表信息
-     */
-    @TableField(exist = false)
-    private GenTable subTable;
-
-    /**
      * 表列信息
      */
     @Valid
@@ -171,14 +170,6 @@ public class GenTable extends BaseEntity {
     @TableField(exist = false)
     private String parentMenuName;
 
-    public boolean isSub() {
-        return isSub(this.tplCategory);
-    }
-
-    public static boolean isSub(String tplCategory) {
-        return tplCategory != null && StringUtils.equals(GenConstants.TPL_SUB, tplCategory);
-    }
-
     public boolean isTree() {
         return isTree(this.tplCategory);
     }
@@ -200,10 +191,6 @@ public class GenTable extends BaseEntity {
     }
 
     public static boolean isSuperColumn(String tplCategory, String javaField) {
-        if (isTree(tplCategory)) {
-            return StringUtils.equalsAnyIgnoreCase(javaField,
-                    ArrayUtils.addAll(GenConstants.TREE_ENTITY, GenConstants.BASE_ENTITY));
-        }
         return StringUtils.equalsAnyIgnoreCase(javaField, GenConstants.BASE_ENTITY);
     }
 }
