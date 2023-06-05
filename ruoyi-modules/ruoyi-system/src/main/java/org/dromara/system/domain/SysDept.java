@@ -7,6 +7,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.dromara.common.tenant.core.TenantEntity;
 
+import java.io.Serial;
+
 
 /**
  * 部门表 sys_dept
@@ -19,6 +21,7 @@ import org.dromara.common.tenant.core.TenantEntity;
 @TableName("sys_dept")
 public class SysDept extends TenantEntity {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     /**

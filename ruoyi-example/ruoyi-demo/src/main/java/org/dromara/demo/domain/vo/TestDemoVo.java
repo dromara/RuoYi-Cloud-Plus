@@ -6,6 +6,8 @@ import io.github.linpeilie.annotations.AutoMapper;
 import lombok.Data;
 import org.dromara.demo.domain.TestDemo;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.Date;
 
 
@@ -18,8 +20,9 @@ import java.util.Date;
 @Data
 @ExcelIgnoreUnannotated
 @AutoMapper(target = TestDemo.class)
-public class TestDemoVo {
+public class TestDemoVo implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     /**

@@ -7,6 +7,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.dromara.common.mybatis.core.domain.BaseEntity;
 
+import java.io.Serial;
+
 /**
  * 租户套餐对象 sys_tenant_package
  *
@@ -17,6 +19,7 @@ import org.dromara.common.mybatis.core.domain.BaseEntity;
 @TableName("sys_tenant_package")
 public class SysTenantPackage extends BaseEntity {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     /**
