@@ -6,12 +6,13 @@ import org.dromara.system.domain.bo.SysOperLogBo;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
+import org.mapstruct.ReportingPolicy;
 
 /**
  * 操作日志转换器
  * @author zhujie
  */
-@Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
+@Mapper(componentModel = MappingConstants.ComponentModel.SPRING, unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface SysOperLogBoConvert extends BaseMapper<RemoteOperLogBo, SysOperLogBo> {
 
     /**

@@ -8,13 +8,14 @@ import org.dromara.system.domain.bo.SysUserBo;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
+import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
 
 /**
  * 用户信息转换器
  * @author zhujie
  */
-@Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
+@Mapper(componentModel = MappingConstants.ComponentModel.SPRING, unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface SysUserBoConvert extends BaseMapper<RemoteUserBo, SysUserBo> {
 
     /**
