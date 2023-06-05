@@ -19,7 +19,7 @@
         <sentinel.version>1.8.6</sentinel.version>
         <seata.version>1.6.1</seata.version>
         <nacos.client.version>2.2.1</nacos.client.version>
-        <dubbo.version>3.2.1</dubbo.version>
+        <dubbo.version>3.2.2</dubbo.version>
         <spring.context.support.version>1.0.11</spring.context.support.version>
     </properties>
     <dependencyManagement>
