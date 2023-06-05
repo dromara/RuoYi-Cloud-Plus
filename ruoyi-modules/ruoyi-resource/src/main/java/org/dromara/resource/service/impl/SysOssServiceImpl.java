@@ -7,6 +7,7 @@ import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.dromara.common.core.constant.CacheNames;
 import org.dromara.common.core.exception.ServiceException;
@@ -30,7 +31,7 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import jakarta.servlet.http.HttpServletResponse;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -133,15 +134,28 @@ public class SysOssServiceImpl implements ISysOssService {
             throw new ServiceException(e.getMessage());
         }
         // 保存文件信息
+        return buildResultEntity(originalfileName, suffix, storage.getConfigKey(), uploadResult);
+    }
+
+    @Override
+    public SysOssVo upload(File file) {
+        String originalfileName = file.getName();
+        String suffix = StringUtils.substring(originalfileName, originalfileName.lastIndexOf("."), originalfileName.length());
+        OssClient storage = OssFactory.instance();
+        UploadResult uploadResult = storage.uploadSuffix(file, suffix);
+        // 保存文件信息
+        return buildResultEntity(originalfileName, suffix, storage.getConfigKey(), uploadResult);
+    }
+
+    private SysOssVo buildResultEntity(String originalfileName, String suffix, String configKey, UploadResult uploadResult) {
         SysOss oss = new SysOss();
         oss.setUrl(uploadResult.getUrl());
         oss.setFileSuffix(suffix);
         oss.setFileName(uploadResult.getFilename());
         oss.setOriginalName(originalfileName);
-        oss.setService(storage.getConfigKey());
+        oss.setService(configKey);
         baseMapper.insert(oss);
-        SysOssVo sysOssVo = new SysOssVo();
-        MapstructUtils.convert(oss, sysOssVo);
+        SysOssVo sysOssVo = MapstructUtils.convert(oss, SysOssVo.class);
         return this.matchingUrl(sysOssVo);
     }
 
