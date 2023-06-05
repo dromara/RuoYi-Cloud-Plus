@@ -51,7 +51,10 @@ public class TokenController {
     public R<LoginVo> login(@Validated @RequestBody LoginBody body) {
         LoginVo loginVo = new LoginVo();
         // 生成令牌
-        String token = sysLoginService.login(body.getTenantId(), body.getUsername(), body.getPassword());
+        String token = sysLoginService.login(
+            body.getTenantId(),
+            body.getUsername(),
+            body.getPassword());
         loginVo.setToken(token);
         return R.ok(loginVo);
     }
@@ -66,7 +69,10 @@ public class TokenController {
     public R<LoginVo> smsLogin(@Validated @RequestBody SmsLoginBody smsLoginBody) {
         LoginVo loginVo = new LoginVo();
         // 生成令牌
-        String token = sysLoginService.smsLogin(smsLoginBody.getTenantId(),smsLoginBody.getPhonenumber(), smsLoginBody.getSmsCode());
+        String token = sysLoginService.smsLogin(
+            smsLoginBody.getTenantId(),
+            smsLoginBody.getPhonenumber(),
+            smsLoginBody.getSmsCode());
         loginVo.setToken(token);
         return R.ok(loginVo);
     }
@@ -81,7 +87,10 @@ public class TokenController {
     public R<LoginVo> emailLogin(@Validated @RequestBody EmailLoginBody body) {
         LoginVo loginVo = new LoginVo();
         // 生成令牌
-        String token = sysLoginService.emailLogin(body.getTenantId(), body.getEmail(), body.getEmailCode());
+        String token = sysLoginService.emailLogin(
+            body.getTenantId(),
+            body.getEmail(),
+            body.getEmailCode());
         loginVo.setToken(token);
         return R.ok(loginVo);
     }
@@ -130,9 +139,17 @@ public class TokenController {
         List<RemoteTenantVo> tenantList = remoteTenantService.queryList();
         List<TenantListVo> voList = MapstructUtils.convert(tenantList, TenantListVo.class);
         // 获取域名
-        String host = new URL(request.getRequestURL().toString()).getHost();
+        String host;
+        String referer = request.getHeader("referer");
+        if (StringUtils.isNotBlank(referer)) {
+            // 这里从referer中取值是为了本地使用hosts添加虚拟域名，方便本地环境调试
+            host = referer.split("//")[1].split("/")[0];
+        } else {
+            host = new URL(request.getRequestURL().toString()).getHost();
+        }
         // 根据域名进行筛选
-        List<TenantListVo> list = StreamUtils.filter(voList, vo -> StringUtils.equals(vo.getDomain(), host));
+        List<TenantListVo> list = StreamUtils.filter(voList, vo ->
+            StringUtils.equals(vo.getDomain(), host));
         // 返回对象
         LoginTenantVo vo = new LoginTenantVo();
         vo.setVoList(CollUtil.isNotEmpty(list) ? list : voList);
