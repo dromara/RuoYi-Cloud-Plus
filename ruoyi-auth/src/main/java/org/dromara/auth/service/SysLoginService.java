@@ -9,7 +9,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.dromara.auth.form.RegisterBody;
 import org.dromara.auth.properties.UserPasswordProperties;
-import org.dromara.common.core.constant.CacheConstants;
 import org.dromara.common.core.constant.Constants;
 import org.dromara.common.core.constant.GlobalConstants;
 import org.dromara.common.core.constant.TenantConstants;
@@ -202,34 +201,34 @@ public class SysLoginService {
      * 登录校验
      */
     private void checkLogin(LoginType loginType, String tenantId, String username, Supplier<Boolean> supplier) {
-        String errorKey = CacheConstants.PWD_ERR_CNT_KEY + username;
+        String errorKey = GlobalConstants.PWD_ERR_CNT_KEY + username;
         String loginFail = Constants.LOGIN_FAIL;
         Integer maxRetryCount = userPasswordProperties.getMaxRetryCount();
         Integer lockTime = userPasswordProperties.getLockTime();
 
-        // 获取用户登录错误次数(可自定义限制策略 例如: key + username + ip)
-        Integer errorNumber = RedisUtils.getCacheObject(errorKey);
+        // 获取用户登录错误次数，默认为0 (可自定义限制策略 例如: key + username + ip)
+        int errorNumber = ObjectUtil.defaultIfNull(RedisUtils.getCacheObject(errorKey), 0);
         // 锁定时间内登录 则踢出
-        if (ObjectUtil.isNotNull(errorNumber) && errorNumber.equals(maxRetryCount)) {
+        if (errorNumber >= maxRetryCount) {
             recordLogininfor(tenantId, username, loginFail, MessageUtils.message(loginType.getRetryLimitExceed(), maxRetryCount, lockTime));
             throw new UserException(loginType.getRetryLimitExceed(), maxRetryCount, lockTime);
         }
 
         if (supplier.get()) {
-            // 是否第一次
-            errorNumber = ObjectUtil.isNull(errorNumber) ? 1 : errorNumber + 1;
+            // 错误次数递增
+            errorNumber++;
+            RedisUtils.setCacheObject(errorKey, errorNumber, Duration.ofMinutes(lockTime));
             // 达到规定错误次数 则锁定登录
-            if (errorNumber.equals(maxRetryCount)) {
-                RedisUtils.setCacheObject(errorKey, errorNumber, Duration.ofMinutes(lockTime));
+            if (errorNumber >= maxRetryCount) {
                 recordLogininfor(tenantId, username, loginFail, MessageUtils.message(loginType.getRetryLimitExceed(), maxRetryCount, lockTime));
                 throw new UserException(loginType.getRetryLimitExceed(), maxRetryCount, lockTime);
             } else {
-                // 未达到规定错误次数 则递增
-                RedisUtils.setCacheObject(errorKey, errorNumber);
+                // 未达到规定错误次数
                 recordLogininfor(tenantId, username, loginFail, MessageUtils.message(loginType.getRetryLimitCount(), errorNumber));
                 throw new UserException(loginType.getRetryLimitCount(), errorNumber);
             }
         }
+
         // 登录成功 清空错误次数
         RedisUtils.deleteObject(errorKey);
     }
