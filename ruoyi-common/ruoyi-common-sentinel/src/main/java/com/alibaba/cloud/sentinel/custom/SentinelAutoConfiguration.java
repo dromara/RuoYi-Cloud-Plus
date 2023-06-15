@@ -14,12 +14,10 @@
  * limitations under the License.
  */
 
-package org.alibaba.cloud.sentinel.custom;
+package com.alibaba.cloud.sentinel.custom;
 
 import com.alibaba.cloud.commons.lang.StringUtils;
 import com.alibaba.cloud.sentinel.SentinelProperties;
-import com.alibaba.cloud.sentinel.custom.SentinelBeanPostProcessor;
-import com.alibaba.cloud.sentinel.custom.SentinelDataSourceHandler;
 import com.alibaba.cloud.sentinel.datasource.converter.JsonConverter;
 import com.alibaba.cloud.sentinel.datasource.converter.XmlConverter;
 import com.alibaba.csp.sentinel.annotation.aspectj.SentinelResourceAspect;
