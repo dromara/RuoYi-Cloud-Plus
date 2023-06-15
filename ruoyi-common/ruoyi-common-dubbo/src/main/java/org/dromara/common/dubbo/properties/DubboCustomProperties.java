@@ -1,7 +1,7 @@
 package org.dromara.common.dubbo.properties;
 
-import org.dromara.common.dubbo.enumd.RequestLogEnum;
 import lombok.Data;
+import org.dromara.common.dubbo.enumd.RequestLogEnum;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 

@@ -18,7 +18,7 @@ import java.util.List;
  * @author Lion Li
  */
 @Data
-@ConfigurationProperties(prefix = "swagger")
+@ConfigurationProperties(prefix = "springdoc")
 public class SwaggerProperties {
 
     /**

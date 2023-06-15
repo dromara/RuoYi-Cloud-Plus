@@ -4,10 +4,12 @@ import cn.dev33.satoken.dao.SaTokenDao;
 import cn.dev33.satoken.jwt.StpLogicJwtForSimple;
 import cn.dev33.satoken.stp.StpInterface;
 import cn.dev33.satoken.stp.StpLogic;
+import org.dromara.common.core.factory.YmlPropertySourceFactory;
 import org.dromara.common.satoken.core.dao.PlusSaTokenDao;
 import org.dromara.common.satoken.core.service.SaPermissionImpl;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.PropertySource;
 
 /**
  * Sa-Token 配置
@@ -15,6 +17,7 @@ import org.springframework.context.annotation.Bean;
  * @author Lion Li
  */
 @AutoConfiguration
+@PropertySource(value = "classpath:common-satoken.yml", factory = YmlPropertySourceFactory.class)
 public class SaTokenConfiguration {
 
     @Bean

@@ -29,7 +29,7 @@ spring:
 # 代码生成
 gen:
   # 作者
-  author: ruoyi
+  author: LionLi
   # 默认生成包路径 system 需改成自己的模块名称 如 system monitor tool
   packageName: org.dromara.system
   # 自动去除表前缀，默认是false

@@ -1,1 +1,1 @@
-org.dromara.common.dubbo.properties.DubboCustomProperties
+org.dromara.common.dubbo.config.DubboConfiguration

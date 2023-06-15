@@ -1,0 +1,19 @@
+# 内置配置 不允许修改 如需修改请在 nacos 上写相同配置覆盖
+# seata配置
+seata:
+  config:
+    type: nacos
+    nacos:
+      server-addr: ${spring.cloud.nacos.server-addr}
+      group: ${spring.cloud.nacos.config.group}
+      namespace: ${spring.profiles.active}
+      data-id: seata-server.properties
+  registry:
+    type: nacos
+    nacos:
+      application: ruoyi-seata-server
+      server-addr: ${spring.cloud.nacos.server-addr}
+      group: ${spring.cloud.nacos.discovery.group}
+      namespace: ${spring.profiles.active}
+  # 关闭自动代理
+  enable-auto-data-source-proxy: false
