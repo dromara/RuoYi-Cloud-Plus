@@ -433,6 +433,9 @@
                             <version>${mapstruct-plus.lombok.version}</version>
                         </path>
                     </annotationProcessorPaths>
+                    <compilerArgs>
+                        <arg>-parameters</arg>
+                    </compilerArgs>
                 </configuration>
             </plugin>
             <!-- 单元测试使用 -->
