@@ -33,7 +33,7 @@
         <easyexcel.version>3.2.1</easyexcel.version>
         <hutool.version>5.8.18</hutool.version>
         <redisson.version>3.20.1</redisson.version>
-        <lock4j.version>2.2.3</lock4j.version>
+        <lock4j.version>2.2.4</lock4j.version>
         <xxl-job.version>2.4.0</xxl-job.version>
         <satoken.version>1.34.0</satoken.version>
         <lombok.version>1.18.26</lombok.version>
