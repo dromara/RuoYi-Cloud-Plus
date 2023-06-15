@@ -9,6 +9,7 @@ import org.dromara.common.core.enums.UserStatus;
 import org.dromara.common.core.exception.ServiceException;
 import org.dromara.common.core.exception.user.UserException;
 import org.dromara.common.core.utils.MapstructUtils;
+import org.dromara.common.tenant.helper.TenantHelper;
 import org.dromara.system.api.RemoteUserService;
 import org.dromara.system.api.domain.bo.RemoteUserBo;
 import org.dromara.system.api.model.LoginUser;
@@ -44,6 +45,7 @@ public class RemoteUserServiceImpl implements RemoteUserService {
     public LoginUser getUserInfo(String username, String tenantId) throws UserException {
         SysUser sysUser = userMapper.selectOne(new LambdaQueryWrapper<SysUser>()
             .select(SysUser::getUserName, SysUser::getStatus)
+            .eq(TenantHelper.isEnable(), SysUser::getTenantId, tenantId)
             .eq(SysUser::getUserName, username));
         if (ObjectUtil.isNull(sysUser)) {
             throw new UserException("user.not.exists", username);
@@ -60,6 +62,7 @@ public class RemoteUserServiceImpl implements RemoteUserService {
     public LoginUser getUserInfoByPhonenumber(String phonenumber, String tenantId) throws UserException {
         SysUser sysUser = userMapper.selectOne(new LambdaQueryWrapper<SysUser>()
             .select(SysUser::getPhonenumber, SysUser::getStatus)
+            .eq(TenantHelper.isEnable(), SysUser::getTenantId, tenantId)
             .eq(SysUser::getPhonenumber, phonenumber));
         if (ObjectUtil.isNull(sysUser)) {
             throw new UserException("user.not.exists", phonenumber);
@@ -75,7 +78,8 @@ public class RemoteUserServiceImpl implements RemoteUserService {
     @Override
     public LoginUser getUserInfoByEmail(String email, String tenantId) throws UserException {
         SysUser user = userMapper.selectOne(new LambdaQueryWrapper<SysUser>()
-            .select(SysUser::getPhonenumber, SysUser::getStatus)
+            .select(SysUser::getEmail, SysUser::getStatus)
+            .eq(TenantHelper.isEnable(), SysUser::getTenantId, tenantId)
             .eq(SysUser::getEmail, email));
         if (ObjectUtil.isNull(user)) {
             throw new UserException("user.not.exists", email);
