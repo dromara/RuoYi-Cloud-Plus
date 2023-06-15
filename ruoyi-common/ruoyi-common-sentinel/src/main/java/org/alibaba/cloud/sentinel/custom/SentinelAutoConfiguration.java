@@ -14,10 +14,12 @@
  * limitations under the License.
  */
 
-package com.alibaba.cloud.sentinel.custom;
+package org.alibaba.cloud.sentinel.custom;
 
 import com.alibaba.cloud.commons.lang.StringUtils;
 import com.alibaba.cloud.sentinel.SentinelProperties;
+import com.alibaba.cloud.sentinel.custom.SentinelBeanPostProcessor;
+import com.alibaba.cloud.sentinel.custom.SentinelDataSourceHandler;
 import com.alibaba.cloud.sentinel.datasource.converter.JsonConverter;
 import com.alibaba.cloud.sentinel.datasource.converter.XmlConverter;
 import com.alibaba.csp.sentinel.annotation.aspectj.SentinelResourceAspect;
@@ -33,6 +35,7 @@ import com.alibaba.csp.sentinel.transport.config.TransportConfig;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+import jakarta.annotation.PostConstruct;
 import org.dromara.common.core.utils.StreamUtils;
 import org.dromara.common.sentinel.config.properties.SentinelCustomProperties;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,7 +52,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 
-import jakarta.annotation.PostConstruct;
 import java.util.List;
 
 import static com.alibaba.cloud.sentinel.SentinelConstants.BLOCK_PAGE_URL_CONF_KEY;
