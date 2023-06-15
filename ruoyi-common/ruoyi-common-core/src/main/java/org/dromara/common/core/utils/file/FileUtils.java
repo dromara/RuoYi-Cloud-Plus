@@ -1,11 +1,10 @@
 package org.dromara.common.core.utils.file;
 
 import cn.hutool.core.io.FileUtil;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
-import jakarta.servlet.http.HttpServletResponse;
-import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 
@@ -22,22 +21,12 @@ public class FileUtils extends FileUtil {
      *
      * @param response     响应对象
      * @param realFileName 真实文件名
-     * @return
      */
-    public static void setAttachmentResponseHeader(HttpServletResponse response, String realFileName) throws UnsupportedEncodingException {
+    public static void setAttachmentResponseHeader(HttpServletResponse response, String realFileName) {
         String percentEncodedFileName = percentEncode(realFileName);
-
-        StringBuilder contentDispositionValue = new StringBuilder();
-        contentDispositionValue.append("attachment; filename=")
-            .append(percentEncodedFileName)
-            .append(";")
-            .append("filename*=")
-            .append("utf-8''")
-            .append(percentEncodedFileName);
-
-        response.addHeader("Access-Control-Allow-Origin", "*");
+        String contentDispositionValue = "attachment; filename=%s;filename*=utf-8''%s".formatted(percentEncodedFileName, percentEncodedFileName);
         response.addHeader("Access-Control-Expose-Headers", "Content-Disposition,download-filename");
-        response.setHeader("Content-disposition", contentDispositionValue.toString());
+        response.setHeader("Content-disposition", contentDispositionValue);
         response.setHeader("download-filename", percentEncodedFileName);
     }
 

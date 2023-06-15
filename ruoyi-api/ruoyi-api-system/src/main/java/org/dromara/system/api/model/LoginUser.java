@@ -1,7 +1,5 @@
 package org.dromara.system.api.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.dromara.common.core.constant.CacheConstants;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -122,7 +120,7 @@ public class LoginUser implements Serializable {
         if (userId == null) {
             throw new IllegalArgumentException("用户ID不能为空");
         }
-        return userType + CacheConstants.LOGINID_JOIN_CODE + userId;
+        return userType + ":" + userId;
     }
 
 }

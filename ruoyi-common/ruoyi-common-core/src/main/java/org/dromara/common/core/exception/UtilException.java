@@ -8,6 +8,7 @@ import java.io.Serial;
  * @author ruoyi
  */
 public class UtilException extends RuntimeException {
+
     @Serial
     private static final long serialVersionUID = 8247610319171014183L;
 

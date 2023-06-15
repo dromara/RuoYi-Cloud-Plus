@@ -16,7 +16,7 @@ public class OssProperties {
     private String tenantId;
 
     /**
-     * 域名
+     * 访问站点
      */
     private String endpoint;
 
@@ -59,6 +59,5 @@ public class OssProperties {
      * 桶权限类型(0private 1public 2custom)
      */
     private String accessPolicy;
-
 
 }

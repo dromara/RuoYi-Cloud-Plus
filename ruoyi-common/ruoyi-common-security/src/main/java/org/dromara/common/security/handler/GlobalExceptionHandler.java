@@ -1,27 +1,30 @@
 package org.dromara.common.security.handler;
 
-import cn.dev33.satoken.exception.SameTokenInvalidException;
 import cn.dev33.satoken.exception.NotLoginException;
 import cn.dev33.satoken.exception.NotPermissionException;
 import cn.dev33.satoken.exception.NotRoleException;
+import cn.dev33.satoken.exception.SameTokenInvalidException;
 import cn.hutool.core.util.ObjectUtil;
-import org.dromara.common.core.constant.HttpStatus;
+import cn.hutool.http.HttpStatus;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.ConstraintViolationException;
+import lombok.extern.slf4j.Slf4j;
 import org.dromara.common.core.domain.R;
 import org.dromara.common.core.exception.DemoModeException;
 import org.dromara.common.core.exception.ServiceException;
-import lombok.extern.slf4j.Slf4j;
+import org.dromara.common.core.utils.StreamUtils;
+import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.validation.BindException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import jakarta.servlet.http.HttpServletRequest;
-
 /**
  * 全局异常处理器
  *
- * @author ruoyi
+ * @author Lion Li
  */
 @Slf4j
 @RestControllerAdvice
@@ -34,7 +37,7 @@ public class GlobalExceptionHandler {
     public R<Void> handleNotPermissionException(NotPermissionException e, HttpServletRequest request) {
         String requestURI = request.getRequestURI();
         log.error("请求地址'{}',权限码校验失败'{}'", requestURI, e.getMessage());
-        return R.fail(HttpStatus.FORBIDDEN, "没有访问权限，请联系管理员授权");
+        return R.fail(HttpStatus.HTTP_FORBIDDEN, "没有访问权限，请联系管理员授权");
     }
 
     /**
@@ -44,7 +47,7 @@ public class GlobalExceptionHandler {
     public R<Void> handleNotRoleException(NotRoleException e, HttpServletRequest request) {
         String requestURI = request.getRequestURI();
         log.error("请求地址'{}',角色权限校验失败'{}'", requestURI, e.getMessage());
-        return R.fail(HttpStatus.FORBIDDEN, "没有访问权限，请联系管理员授权");
+        return R.fail(HttpStatus.HTTP_FORBIDDEN, "没有访问权限，请联系管理员授权");
     }
 
     /**
@@ -54,7 +57,7 @@ public class GlobalExceptionHandler {
     public R<Void> handleNotLoginException(NotLoginException e, HttpServletRequest request) {
         String requestURI = request.getRequestURI();
         log.error("请求地址'{}',认证失败'{}',无法访问系统资源", requestURI, e.getMessage());
-        return R.fail(HttpStatus.UNAUTHORIZED, "认证失败，无法访问系统资源");
+        return R.fail(HttpStatus.HTTP_UNAUTHORIZED, "认证失败，无法访问系统资源");
     }
 
     /**
@@ -64,7 +67,7 @@ public class GlobalExceptionHandler {
     public R<Void> handleSameTokenInvalidException(SameTokenInvalidException e, HttpServletRequest request) {
         String requestURI = request.getRequestURI();
         log.error("请求地址'{}',内网认证失败'{}',无法访问系统资源", requestURI, e.getMessage());
-        return R.fail(HttpStatus.UNAUTHORIZED, "认证失败，无法访问系统资源");
+        return R.fail(HttpStatus.HTTP_UNAUTHORIZED, "认证失败，无法访问系统资源");
     }
 
     /**
@@ -72,7 +75,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     public R<Void> handleHttpRequestMethodNotSupported(HttpRequestMethodNotSupportedException e,
-                                                          HttpServletRequest request) {
+                                                                HttpServletRequest request) {
         String requestURI = request.getRequestURI();
         log.error("请求地址'{}',不支持'{}'请求", requestURI, e.getMethod());
         return R.fail(e.getMessage());
@@ -114,7 +117,17 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(BindException.class)
     public R<Void> handleBindException(BindException e) {
         log.error(e.getMessage(), e);
-        String message = e.getAllErrors().get(0).getDefaultMessage();
+        String message = StreamUtils.join(e.getAllErrors(), DefaultMessageSourceResolvable::getDefaultMessage, ", ");
+        return R.fail(message);
+    }
+
+    /**
+     * 自定义验证异常
+     */
+    @ExceptionHandler(ConstraintViolationException.class)
+    public R<Void> constraintViolationException(ConstraintViolationException e) {
+        log.error(e.getMessage(), e);
+        String message = StreamUtils.join(e.getConstraintViolations(), ConstraintViolation::getMessage, ", ");
         return R.fail(message);
     }
 

@@ -1,14 +1,12 @@
 package org.dromara.common.web.core;
 
 import org.dromara.common.core.domain.R;
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * web层通用数据处理
  *
  * @author Lion Li
  */
-@Slf4j
 public class BaseController {
 
     /**

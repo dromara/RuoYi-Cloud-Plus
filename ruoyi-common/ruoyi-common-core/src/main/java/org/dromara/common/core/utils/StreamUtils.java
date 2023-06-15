@@ -2,7 +2,6 @@ package org.dromara.common.core.utils;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.map.MapUtil;
-import cn.hutool.core.util.StrUtil;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
@@ -31,6 +30,7 @@ public class StreamUtils {
         if (CollUtil.isEmpty(collection)) {
             return CollUtil.newArrayList();
         }
+        // 注意此处不要使用 .toList() 新语法 因为返回的是不可变List 会导致序列化问题
         return collection.stream().filter(function).collect(Collectors.toList());
     }
 
@@ -55,7 +55,7 @@ public class StreamUtils {
      */
     public static <E> String join(Collection<E> collection, Function<E, String> function, CharSequence delimiter) {
         if (CollUtil.isEmpty(collection)) {
-            return StrUtil.EMPTY;
+            return StringUtils.EMPTY;
         }
         return collection.stream().map(function).filter(Objects::nonNull).collect(Collectors.joining(delimiter));
     }
@@ -71,6 +71,7 @@ public class StreamUtils {
         if (CollUtil.isEmpty(collection)) {
             return CollUtil.newArrayList();
         }
+        // 注意此处不要使用 .toList() 新语法 因为返回的是不可变List 会导致序列化问题
         return collection.stream().sorted(comparing).collect(Collectors.toList());
     }
 
@@ -189,6 +190,7 @@ public class StreamUtils {
             .stream()
             .map(function)
             .filter(Objects::nonNull)
+            // 注意此处不要使用 .toList() 新语法 因为返回的是不可变List 会导致序列化问题
             .collect(Collectors.toList());
     }
 

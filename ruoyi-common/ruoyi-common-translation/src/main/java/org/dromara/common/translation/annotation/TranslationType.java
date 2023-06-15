@@ -1,9 +1,11 @@
 package org.dromara.common.translation.annotation;
 
+import org.dromara.common.translation.core.TranslationInterface;
+
 import java.lang.annotation.*;
 
 /**
- * 翻译类型注解 (标注到{@link org.dromara.common.translation.core.TranslationInterface} 的实现类)
+ * 翻译类型注解 (标注到{@link TranslationInterface} 的实现类)
  *
  * @author Lion Li
  */

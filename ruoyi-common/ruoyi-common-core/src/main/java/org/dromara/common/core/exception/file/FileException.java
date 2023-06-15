@@ -10,6 +10,7 @@ import java.io.Serial;
  * @author ruoyi
  */
 public class FileException extends BaseException {
+
     @Serial
     private static final long serialVersionUID = 1L;
 

@@ -1,8 +1,8 @@
 package org.dromara.common.redis.utils;
 
-import org.dromara.common.core.utils.SpringUtils;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import org.dromara.common.core.utils.SpringUtils;
 import org.redisson.api.*;
 
 import java.time.Duration;
@@ -474,5 +474,4 @@ public class RedisUtils {
         RKeys rKeys = CLIENT.getKeys();
         return rKeys.countExists(key) > 0;
     }
-
 }

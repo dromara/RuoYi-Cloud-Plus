@@ -8,6 +8,7 @@ import java.io.Serial;
  * @author ruoyi
  */
 public class FileSizeLimitExceededException extends FileException {
+
     @Serial
     private static final long serialVersionUID = 1L;
 

@@ -92,6 +92,8 @@ public class PlusWebSocketHandler extends AbstractWebSocketHandler {
 
     /**
      * 是否支持分片消息
+     *
+     * @return
      */
     @Override
     public boolean supportsPartialMessages() {

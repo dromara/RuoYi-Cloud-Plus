@@ -63,7 +63,7 @@ public class OssClient {
                 .withClientConfiguration(clientConfig)
                 .withCredentials(credentialsProvider)
                 .disableChunkedEncoding();
-            if (!StringUtils.containsAny(properties.getEndpoint(), OssConstant.CLOUD_SERVICE)){
+            if (!StringUtils.containsAny(properties.getEndpoint(), OssConstant.CLOUD_SERVICE)) {
                 // minio 使用https限制使用域名访问 需要此配置 站点填域名
                 build.enablePathStyleAccess();
             }
@@ -171,7 +171,7 @@ public class OssClient {
         String endpoint = properties.getEndpoint();
         String header = OssConstant.IS_HTTPS.equals(properties.getIsHttps()) ? "https://" : "http://";
         // 云服务商直接返回
-        if (StringUtils.containsAny(endpoint, OssConstant.CLOUD_SERVICE)){
+        if (StringUtils.containsAny(endpoint, OssConstant.CLOUD_SERVICE)) {
             if (StringUtils.isNotBlank(domain)) {
                 return header + domain;
             }
@@ -231,16 +231,14 @@ public class OssClient {
         return AccessPolicyType.getByType(properties.getAccessPolicy());
     }
 
-
     private static String getPolicy(String bucketName, PolicyType policyType) {
         StringBuilder builder = new StringBuilder();
         builder.append("{\n\"Statement\": [\n{\n\"Action\": [\n");
-        switch (policyType) {
-            case WRITE -> builder.append("\"s3:GetBucketLocation\",\n\"s3:ListBucketMultipartUploads\"\n");
-            case READ_WRITE ->
-                builder.append("\"s3:GetBucketLocation\",\n\"s3:ListBucket\",\n\"s3:ListBucketMultipartUploads\"\n");
-            default -> builder.append("\"s3:GetBucketLocation\"\n");
-        }
+        builder.append(switch (policyType) {
+            case WRITE -> "\"s3:GetBucketLocation\",\n\"s3:ListBucketMultipartUploads\"\n";
+            case READ_WRITE -> "\"s3:GetBucketLocation\",\n\"s3:ListBucket\",\n\"s3:ListBucketMultipartUploads\"\n";
+            default -> "\"s3:GetBucketLocation\"\n";
+        });
         builder.append("],\n\"Effect\": \"Allow\",\n\"Principal\": \"*\",\n\"Resource\": \"arn:aws:s3:::");
         builder.append(bucketName);
         builder.append("\"\n},\n");
@@ -250,13 +248,11 @@ public class OssClient {
             builder.append("\"\n},\n");
         }
         builder.append("{\n\"Action\": ");
-        switch (policyType) {
-            case WRITE ->
-                builder.append("[\n\"s3:AbortMultipartUpload\",\n\"s3:DeleteObject\",\n\"s3:ListMultipartUploadParts\",\n\"s3:PutObject\"\n],\n");
-            case READ_WRITE ->
-                builder.append("[\n\"s3:AbortMultipartUpload\",\n\"s3:DeleteObject\",\n\"s3:GetObject\",\n\"s3:ListMultipartUploadParts\",\n\"s3:PutObject\"\n],\n");
-            default -> builder.append("\"s3:GetObject\",\n");
-        }
+        builder.append(switch (policyType) {
+            case WRITE -> "[\n\"s3:AbortMultipartUpload\",\n\"s3:DeleteObject\",\n\"s3:ListMultipartUploadParts\",\n\"s3:PutObject\"\n],\n";
+            case READ_WRITE -> "[\n\"s3:AbortMultipartUpload\",\n\"s3:DeleteObject\",\n\"s3:GetObject\",\n\"s3:ListMultipartUploadParts\",\n\"s3:PutObject\"\n],\n";
+            default -> "\"s3:GetObject\",\n";
+        });
         builder.append("\"Effect\": \"Allow\",\n\"Principal\": \"*\",\n\"Resource\": \"arn:aws:s3:::");
         builder.append(bucketName);
         builder.append("/*\"\n}\n],\n\"Version\": \"2012-10-17\"\n}\n");

@@ -1,6 +1,5 @@
 package org.dromara.common.tenant.handle;
 
-
 import org.dromara.common.core.constant.GlobalConstants;
 import org.dromara.common.core.utils.StringUtils;
 import org.dromara.common.redis.handler.KeyPrefixHandler;

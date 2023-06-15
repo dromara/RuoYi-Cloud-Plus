@@ -7,12 +7,12 @@ import com.alibaba.excel.exception.ExcelAnalysisException;
 import com.alibaba.excel.exception.ExcelDataConvertException;
 import org.dromara.common.core.utils.StreamUtils;
 import org.dromara.common.core.utils.ValidatorUtils;
-import lombok.NoArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.dromara.common.json.utils.JsonUtils;
-
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
+import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
 import java.util.Map;
 import java.util.Set;
 
@@ -42,7 +42,7 @@ public class DefaultExcelListener<T> extends AnalysisEventListener<T> implements
     private ExcelResult<T> excelResult;
 
     public DefaultExcelListener(boolean isValidate) {
-        this.excelResult = new DefautExcelResult<>();
+        this.excelResult = new DefaultExcelResult<>();
         this.isValidate = isValidate;
     }
 

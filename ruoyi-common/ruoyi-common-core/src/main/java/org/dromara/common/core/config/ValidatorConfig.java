@@ -2,7 +2,6 @@ package org.dromara.common.core.config;
 
 import jakarta.validation.Validator;
 import org.hibernate.validator.HibernateValidator;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
@@ -18,14 +17,11 @@ import java.util.Properties;
 @AutoConfiguration
 public class ValidatorConfig {
 
-    @Autowired
-    private MessageSource messageSource;
-
     /**
      * 配置校验框架 快速返回模式
      */
     @Bean
-    public Validator validator() {
+    public Validator validator(MessageSource messageSource) {
         try (LocalValidatorFactoryBean factoryBean = new LocalValidatorFactoryBean()) {
             // 国际化
             factoryBean.setValidationMessageSource(messageSource);

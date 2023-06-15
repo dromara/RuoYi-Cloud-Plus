@@ -8,6 +8,7 @@ import java.io.Serial;
  * @author ruoyi
  */
 public class CaptchaExpireException extends UserException {
+
     @Serial
     private static final long serialVersionUID = 1L;
 

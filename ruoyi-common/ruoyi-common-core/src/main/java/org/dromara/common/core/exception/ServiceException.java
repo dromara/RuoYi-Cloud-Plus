@@ -8,6 +8,7 @@ import java.io.Serial;
  * @author ruoyi
  */
 public final class ServiceException extends RuntimeException {
+
     @Serial
     private static final long serialVersionUID = 1L;
 
@@ -64,4 +65,3 @@ public final class ServiceException extends RuntimeException {
         return this;
     }
 }
-

@@ -6,6 +6,7 @@ package org.dromara.common.core.constant;
  * @author ruoyi
  */
 public interface UserConstants {
+
     /**
      * 平台内系统用户的唯一标志
      */
@@ -115,18 +116,17 @@ public interface UserConstants {
      * 用户名长度限制
      */
     int USERNAME_MIN_LENGTH = 2;
-
     int USERNAME_MAX_LENGTH = 20;
 
     /**
      * 密码长度限制
      */
     int PASSWORD_MIN_LENGTH = 5;
-
     int PASSWORD_MAX_LENGTH = 20;
 
     /**
-     * 管理员ID
+     * 超级管理员ID
      */
     Long SUPER_ADMIN_ID = 1L;
+
 }

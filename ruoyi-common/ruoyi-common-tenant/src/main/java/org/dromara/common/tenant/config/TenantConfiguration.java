@@ -36,7 +36,7 @@ import java.util.List;
 @EnableConfigurationProperties(TenantProperties.class)
 @AutoConfiguration(after = {RedisConfiguration.class})
 @ConditionalOnProperty(value = "tenant.enable", havingValue = "true")
-public class TenantConfig {
+public class TenantConfiguration {
 
     @ConditionalOnBean(MybatisPlusConfiguration.class)
     @AutoConfiguration(after = {MybatisPlusConfiguration.class})

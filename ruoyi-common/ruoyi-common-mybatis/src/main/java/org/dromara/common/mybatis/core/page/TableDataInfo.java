@@ -18,6 +18,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 public class TableDataInfo<T> implements Serializable {
+
     @Serial
     private static final long serialVersionUID = 1L;
 
