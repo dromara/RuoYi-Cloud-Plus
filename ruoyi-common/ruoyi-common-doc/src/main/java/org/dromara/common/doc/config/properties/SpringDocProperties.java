@@ -19,7 +19,7 @@ import java.util.List;
  */
 @Data
 @ConfigurationProperties(prefix = "springdoc")
-public class SwaggerProperties {
+public class SpringDocProperties {
 
     /**
      * 文档基本信息
