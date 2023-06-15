@@ -64,7 +64,7 @@ public class SysLoginService {
     public String login(String tenantId, String username, String password) {
         // 校验租户
         checkTenant(tenantId);
-        LoginUser userInfo = remoteUserService.getUserInfo(username);
+        LoginUser userInfo = remoteUserService.getUserInfo(username, tenantId);
         checkLogin(LoginType.PASSWORD, tenantId, username, () -> !BCrypt.checkpw(password, userInfo.getPassword()));
         // 获取登录token
         LoginHelper.loginByDevice(userInfo, DeviceType.PC);
@@ -77,7 +77,7 @@ public class SysLoginService {
         // 校验租户
         checkTenant(tenantId);
         // 通过手机号查找用户
-        LoginUser userInfo = remoteUserService.getUserInfoByPhonenumber(phonenumber);
+        LoginUser userInfo = remoteUserService.getUserInfoByPhonenumber(phonenumber, tenantId);
 
         checkLogin(LoginType.SMS, tenantId, userInfo.getUsername(), () -> !validateSmsCode(tenantId, phonenumber, smsCode));
         // 生成token
@@ -91,7 +91,7 @@ public class SysLoginService {
         // 校验租户
         checkTenant(tenantId);
         // 通过邮箱查找用户
-        LoginUser userInfo = remoteUserService.getUserInfoByEmail(email);
+        LoginUser userInfo = remoteUserService.getUserInfoByEmail(email, tenantId);
 
         checkLogin(LoginType.EMAIL,tenantId, userInfo.getUsername(), () -> !validateEmailCode(tenantId, email, emailCode));
         // 生成token

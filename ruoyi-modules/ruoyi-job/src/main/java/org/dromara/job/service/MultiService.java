@@ -28,7 +28,7 @@ public class MultiService {
     @GlobalTransactional(rollbackFor = Exception.class)
     @XxlJob("multiServiceHandler")
     public void multiServiceHandler() throws Exception {
-        LoginUser admin = remoteUserService.getUserInfo("admin");
+        LoginUser admin = remoteUserService.getUserInfo("admin", "000000");
         XxlJobHelper.log("XXL-JOB, multiServiceHandler result: {}", admin.toString());
         RemoteUserBo remoteUserBo = new RemoteUserBo();
         remoteUserBo.setUserName("test");

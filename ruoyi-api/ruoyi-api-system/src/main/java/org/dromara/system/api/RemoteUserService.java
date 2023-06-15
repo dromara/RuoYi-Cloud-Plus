@@ -16,25 +16,28 @@ public interface RemoteUserService {
      * 通过用户名查询用户信息
      *
      * @param username 用户名
+     * @param tenantId 租户id
      * @return 结果
      */
-    LoginUser getUserInfo(String username) throws UserException;
+    LoginUser getUserInfo(String username, String tenantId) throws UserException;
 
     /**
      * 通过手机号查询用户信息
      *
      * @param phonenumber 手机号
+     * @param tenantId    租户id
      * @return 结果
      */
-    LoginUser getUserInfoByPhonenumber(String phonenumber) throws UserException;
+    LoginUser getUserInfoByPhonenumber(String phonenumber, String tenantId) throws UserException;
 
     /**
      * 通过邮箱查询用户信息
      *
-     * @param email 邮箱
+     * @param email    邮箱
+     * @param tenantId 租户id
      * @return 结果
      */
-    LoginUser getUserInfoByEmail(String email) throws UserException;
+    LoginUser getUserInfoByEmail(String email, String tenantId) throws UserException;
 
     /**
      * 通过openid查询用户信息

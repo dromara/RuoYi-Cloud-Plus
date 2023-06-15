@@ -41,10 +41,10 @@ public class RemoteUserServiceImpl implements RemoteUserService {
     private final SysUserMapper userMapper;
 
     @Override
-    public LoginUser getUserInfo(String username) throws UserException {
+    public LoginUser getUserInfo(String username, String tenantId) throws UserException {
         SysUser sysUser = userMapper.selectOne(new LambdaQueryWrapper<SysUser>()
-                .select(SysUser::getUserName, SysUser::getStatus)
-                .eq(SysUser::getUserName, username));
+            .select(SysUser::getUserName, SysUser::getStatus)
+            .eq(SysUser::getUserName, username));
         if (ObjectUtil.isNull(sysUser)) {
             throw new UserException("user.not.exists", username);
         }
@@ -53,14 +53,14 @@ public class RemoteUserServiceImpl implements RemoteUserService {
         }
         // 框架登录不限制从什么表查询 只要最终构建出 LoginUser 即可
         // 此处可根据登录用户的数据不同 自行创建 loginUser 属性不够用继承扩展就行了
-        return buildLoginUser(userMapper.selectUserByUserName(username));
+        return buildLoginUser(userMapper.selectTenantUserByUserName(username, tenantId));
     }
 
     @Override
-    public LoginUser getUserInfoByPhonenumber(String phonenumber) throws UserException {
+    public LoginUser getUserInfoByPhonenumber(String phonenumber, String tenantId) throws UserException {
         SysUser sysUser = userMapper.selectOne(new LambdaQueryWrapper<SysUser>()
-                .select(SysUser::getPhonenumber, SysUser::getStatus)
-                .eq(SysUser::getPhonenumber, phonenumber));
+            .select(SysUser::getPhonenumber, SysUser::getStatus)
+            .eq(SysUser::getPhonenumber, phonenumber));
         if (ObjectUtil.isNull(sysUser)) {
             throw new UserException("user.not.exists", phonenumber);
         }
@@ -69,11 +69,11 @@ public class RemoteUserServiceImpl implements RemoteUserService {
         }
         // 框架登录不限制从什么表查询 只要最终构建出 LoginUser 即可
         // 此处可根据登录用户的数据不同 自行创建 loginUser 属性不够用继承扩展就行了
-        return buildLoginUser(userMapper.selectUserByPhonenumber(phonenumber));
+        return buildLoginUser(userMapper.selectTenantUserByPhonenumber(phonenumber, tenantId));
     }
 
     @Override
-    public LoginUser getUserInfoByEmail(String email) throws UserException {
+    public LoginUser getUserInfoByEmail(String email, String tenantId) throws UserException {
         SysUser user = userMapper.selectOne(new LambdaQueryWrapper<SysUser>()
             .select(SysUser::getPhonenumber, SysUser::getStatus)
             .eq(SysUser::getEmail, email));
@@ -85,7 +85,7 @@ public class RemoteUserServiceImpl implements RemoteUserService {
         }
         // 框架登录不限制从什么表查询 只要最终构建出 LoginUser 即可
         // 此处可根据登录用户的数据不同 自行创建 loginUser 属性不够用继承扩展就行了
-        return buildLoginUser(userMapper.selectUserByEmail(email));
+        return buildLoginUser(userMapper.selectTenantUserByEmail(email, tenantId));
     }
 
     @Override
