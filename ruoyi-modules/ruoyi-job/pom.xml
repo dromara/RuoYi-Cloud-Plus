@@ -65,6 +65,11 @@
             <artifactId>ruoyi-common-job</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.ruoyi</groupId>
+            <artifactId>ruoyi-common-security</artifactId>
+        </dependency>
+
         <!-- RuoYi Api System -->
         <dependency>
             <groupId>com.ruoyi</groupId>
