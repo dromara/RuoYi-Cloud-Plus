@@ -29,6 +29,7 @@ security:
       - /auth/tenant/list
       - /resource/sms/code
       - /*/v3/api-docs
+      - /*/error
       - /csrf
 
 spring:
