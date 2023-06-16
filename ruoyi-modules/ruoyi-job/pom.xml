@@ -65,12 +65,6 @@
             <artifactId>ruoyi-common-job</artifactId>
         </dependency>
 
-        <!-- RuoYi Api System -->
-        <dependency>
-            <groupId>org.dromara</groupId>
-            <artifactId>ruoyi-api-system</artifactId>
-        </dependency>
-
         <dependency>
             <groupId>org.dromara</groupId>
             <artifactId>ruoyi-common-tenant</artifactId>
@@ -80,6 +74,17 @@
                     <artifactId>ruoyi-common-mybatis</artifactId>
                 </exclusion>
             </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>org.dromara</groupId>
+            <artifactId>ruoyi-common-security</artifactId>
+        </dependency>
+
+        <!-- RuoYi Api System -->
+        <dependency>
+            <groupId>org.dromara</groupId>
+            <artifactId>ruoyi-api-system</artifactId>
         </dependency>
 
     </dependencies>

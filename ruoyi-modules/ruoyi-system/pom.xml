@@ -70,6 +70,31 @@
             <artifactId>ruoyi-common-seata</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>org.dromara</groupId>
+            <artifactId>ruoyi-common-idempotent</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.dromara</groupId>
+            <artifactId>ruoyi-common-tenant</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.dromara</groupId>
+            <artifactId>ruoyi-common-security</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.dromara</groupId>
+            <artifactId>ruoyi-common-translation</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.dromara</groupId>
+            <artifactId>ruoyi-common-sensitive</artifactId>
+        </dependency>
+
         <!-- RuoYi Api System -->
         <dependency>
             <groupId>org.dromara</groupId>
@@ -79,22 +104,6 @@
         <dependency>
             <groupId>org.dromara</groupId>
             <artifactId>ruoyi-api-resource</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.dromara</groupId>
-            <artifactId>ruoyi-common-idempotent</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.dromara</groupId>
-            <artifactId>ruoyi-common-tenant</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.dromara</groupId>
-            <artifactId>ruoyi-common-translation</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.dromara</groupId>
-            <artifactId>ruoyi-common-sensitive</artifactId>
         </dependency>
 
     </dependencies>
