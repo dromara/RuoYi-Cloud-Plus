@@ -9,17 +9,21 @@
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](https://gitee.com/dromara/RuoYi-Cloud-Plus/blob/master/LICENSE)
 [![使用IntelliJ IDEA开发维护](https://img.shields.io/badge/IntelliJ%20IDEA-提供支持-blue.svg)](https://www.jetbrains.com/?from=RuoYi-Cloud-Plus)
 <br>
-[![RuoYi-Cloud-Plus](https://img.shields.io/badge/RuoYi_Cloud_Plus-1.6.0-success.svg)](https://gitee.com/dromara/RuoYi-Cloud-Plus)
-[![Spring Boot](https://img.shields.io/badge/Spring%20Boot-2.7-blue.svg)]()
-[![JDK-8+](https://img.shields.io/badge/JDK-8-green.svg)]()
-[![JDK-11](https://img.shields.io/badge/JDK-11-green.svg)]()
+[![RuoYi-Cloud-Plus](https://img.shields.io/badge/RuoYi_Cloud_Plus-2.0.0-success.svg)](https://gitee.com/dromara/RuoYi-Cloud-Plus)
+[![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.0-blue.svg)]()
+[![JDK-17](https://img.shields.io/badge/JDK-17-green.svg)]()
+[![JDK-19](https://img.shields.io/badge/JDK-19-green.svg)]()
 
 > RuoYi-Cloud-Plus `微服务通用权限管理系统` 重写 RuoYi-Cloud 全方位升级(不兼容原框架)
 
 > 项目代码、文档 均开源免费可商用 遵循开源协议在项目中保留开源协议文件即可<br>
 活到老写到老 为兴趣而开源 为学习而开源 为让大家真正可以学到技术而开源
 
-> 系统演示: [传送门](https://gitee.com/dromara/RuoYi-Vue-Plus/wikis/pages?sort_id=4836388&doc_id=1469725) 分布式集群版本(功能一致)
+> 系统演示: [传送门](https://plus-doc.dromara.org/#/common/demo_system)
+
+> 前端项目地址: [plus-ui](https://gitee.com/JavaLionLi/plus-ui)
+
+> 文档地址: [plus-doc](https://plus-doc.dromara.org) - [plus-doc(国内备用)](https://dromara.gitee.io/plus-doc)
 
 # 本框架与RuoYi的功能差异
 
@@ -109,40 +113,43 @@
 
 使用框架前请仔细阅读文档重点注意事项
 <br>
->[初始化项目 必看](https://gitee.com/dromara/RuoYi-Cloud-Plus/wikis/pages?sort_id=5279751&doc_id=2056143)
->>[https://gitee.com/dromara/RuoYi-Cloud-Plus/wikis/pages?sort_id=5279751&doc_id=2056143](https://gitee.com/dromara/RuoYi-Cloud-Plus/wikis/pages?sort_id=5279751&doc_id=2056143)
+>[初始化项目 必看](https://plus-doc.dromara.org/#/ruoyi-cloud-plus/quickstart/init)
+>>[https://plus-doc.dromara.org/#/ruoyi-cloud-plus/quickstart/init](https://plus-doc.dromara.org/#/ruoyi-cloud-plus/quickstart/init)
 >
->[专栏与视频 入门必看](https://gitee.com/dromara/RuoYi-Cloud-Plus/wikis/pages?sort_id=5873351&doc_id=2056143)
->>[https://gitee.com/dromara/RuoYi-Cloud-Plus/wikis/pages?sort_id=5873351&doc_id=2056143](https://gitee.com/dromara/RuoYi-Cloud-Plus/wikis/pages?sort_id=5873351&doc_id=2056143)
+>[专栏与视频 入门必看](https://plus-doc.dromara.org/#/common/column)
+>>[https://plus-doc.dromara.org/#/common/column](https://plus-doc.dromara.org/#/common/column)
 >
->[部署项目 必看](https://gitee.com/dromara/RuoYi-Cloud-Plus/wikis/pages?sort_id=5305504&doc_id=2056143)
->>[https://gitee.com/dromara/RuoYi-Cloud-Plus/wikis/pages?sort_id=5305504&doc_id=2056143](https://gitee.com/dromara/RuoYi-Cloud-Plus/wikis/pages?sort_id=5305504&doc_id=2056143)
+>[部署项目 必看](https://plus-doc.dromara.org/#/ruoyi-cloud-plus/quickstart/deploy)
+>>[https://plus-doc.dromara.org/#/ruoyi-cloud-plus/quickstart/deploy](https://plus-doc.dromara.org/#/ruoyi-cloud-plus/quickstart/deploy)
 >
->[参考文档 Wiki](https://gitee.com/dromara/RuoYi-Cloud-Plus/wikis/pages)
->>[https://gitee.com/dromara/RuoYi-Cloud-Plus/wikis/pages](https://gitee.com/dromara/RuoYi-Cloud-Plus/wikis/pages)
+>[参考文档 Wiki](https://plus-doc.dromara.org)
+>>[https://plus-doc.dromara.org](https://plus-doc.dromara.org)
+>
+>[参考文档(国内备份)](https://dromara.gitee.io/plus-doc)
+>>[https://dromara.gitee.io/plus-doc](https://dromara.gitee.io/plus-doc)
 
 
 ## 软件架构图
 
-<img src="https://images.gitee.com/uploads/images/2022/0520/152809_0edbfaf1_1766278.png"/>
+![Plus部署架构图](https://foruda.gitee.com/images/1678980131147747524/5c2d5a5c_1766278.png "Plus部署架构图.png")
 
 ## 贡献代码
 
-[参与贡献的方式 https://javalionli.gitee.io/plus-doc/#/common/contribution](https://javalionli.gitee.io/plus-doc/#/common/contribution)
+[参与贡献的方式 https://plus-doc.dromara.org/#/common/contribution](https://plus-doc.dromara.org/#/common/contribution)
 
 ### 其他
 
 * 定期同步升级 RuoYi-Cloud 有用的更新
 * github 地址 [RuoYi-Cloud-Plus](https://github.com/dromara/RuoYi-Cloud-Plus)
 * 分离版分支 [RuoYi-Vue-Plus](https://gitee.com/JavaLionLi/RuoYi-Vue-Plus)
-* Vue3 分支 [RuoYi-Cloud-Plus-UI](https://gitee.com/JavaLionLi/RuoYi-Cloud-Plus-UI)
-* 单模块 fast 分支 [RuoYi-Vue-Plus-fast](https://gitee.com/JavaLionLi/RuoYi-Vue-Plus/tree/fast/)
+* 前端项目 地址 [plus-ui](https://gitee.com/JavaLionLi/plus-ui)
+* 用户扩展项目 [扩展项目列表](https://plus-doc.dromara.org/#/ruoyi-cloud-plus/extend-project/list)
 
 ## 捐献作者
 
 作者为兼职做开源,平时还需要工作,如果帮到了您可以请作者吃个盒饭  
-<img src="https://images.gitee.com/uploads/images/2022/0218/213734_b1b8197f_1766278.jpeg" width="300px" height="450px" />
-<img src="https://images.gitee.com/uploads/images/2021/0525/101713_3d18b119_1766278.jpeg" width="300px" height="450px" />
+<img src="https://foruda.gitee.com/images/1678975784848381069/d8661ed9_1766278.png" width="300px" height="450px" />
+<img src="https://foruda.gitee.com/images/1678975801230205215/6f96229d_1766278.png" width="300px" height="450px" />
 
 ## 演示图例
 
