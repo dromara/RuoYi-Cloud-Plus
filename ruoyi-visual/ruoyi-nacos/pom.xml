@@ -30,7 +30,7 @@
         <nacos.version>2.2.1</nacos.version>
         <!-- 需要与 Nacos 内置 Boot 版本保持一致 -->
         <spring-boot.version>2.7.12</spring-boot.version>
-        <spring-boot-admin.version>2.6.11</spring-boot-admin.version>
+        <spring-boot-admin.version>2.7.10</spring-boot-admin.version>
         <nacos.lib.path>${project.basedir}/src/main/resources/lib</nacos.lib.path>
     </properties>
 
