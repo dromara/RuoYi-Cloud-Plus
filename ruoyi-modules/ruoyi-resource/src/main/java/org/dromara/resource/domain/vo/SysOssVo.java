@@ -2,6 +2,8 @@ package org.dromara.resource.domain.vo;
 
 import io.github.linpeilie.annotations.AutoMapper;
 import lombok.Data;
+import org.dromara.common.translation.annotation.Translation;
+import org.dromara.common.translation.constant.TransConstant;
 import org.dromara.resource.domain.SysOss;
 
 import java.io.Serial;
@@ -53,6 +55,7 @@ public class SysOssVo implements Serializable {
     /**
      * 上传人
      */
+    @Translation(type = TransConstant.USER_ID_TO_NAME)
     private String createBy;
 
     /**
