@@ -129,4 +129,9 @@ public interface UserConstants {
      * 管理员ID
      */
     Long ADMIN_ID = 1L;
+
+    /**
+     * 管理员角色key
+     */
+    String ADMIN_ROLE_KEY = "admin";
 }
