@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @see com.ruoyi.common.core.service.SensitiveService
  */
 @RestController
-@RequestMapping("/sensitive")
+@RequestMapping("/demo/sensitive")
 public class TestSensitiveController extends BaseController {
 
     /**

@@ -18,7 +18,6 @@ import java.util.List;
 @ConditionalOnProperty(value = "easy-es.enable", havingValue = "true")
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/es")
 public class EsCrudController {
 
     private final DocumentMapper documentMapper;

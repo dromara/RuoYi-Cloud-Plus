@@ -21,7 +21,7 @@ import java.time.LocalTime;
  */
 @Slf4j
 @RestController
-@RequestMapping("/redisLock")
+@RequestMapping("/demo/redisLock")
 public class RedisLockController {
 
     @Autowired

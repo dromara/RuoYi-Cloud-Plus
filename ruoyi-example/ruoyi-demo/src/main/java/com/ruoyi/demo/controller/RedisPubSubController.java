@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/redis/pubsub")
+@RequestMapping("/demo/redis/pubsub")
 public class RedisPubSubController {
 
     /**

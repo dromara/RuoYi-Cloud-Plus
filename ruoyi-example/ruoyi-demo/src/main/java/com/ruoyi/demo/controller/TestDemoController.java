@@ -42,7 +42,7 @@ import java.util.concurrent.TimeUnit;
 @Validated
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/demo")
+@RequestMapping("/demo/demo")
 public class TestDemoController extends BaseController {
 
     private final ITestDemoService iTestDemoService;

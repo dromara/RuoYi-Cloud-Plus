@@ -20,7 +20,7 @@ import javax.validation.constraints.NotNull;
  */
 @Validated
 @RestController
-@RequestMapping("/i18n")
+@RequestMapping("/demo/i18n")
 public class TestI18nController {
 
     /**

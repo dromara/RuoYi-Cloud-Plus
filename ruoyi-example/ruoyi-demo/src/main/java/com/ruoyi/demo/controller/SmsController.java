@@ -23,7 +23,7 @@ import java.util.Map;
 @Validated
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/sms")
+@RequestMapping("/demo/sms")
 public class SmsController {
 
     private final SmsProperties smsProperties;
