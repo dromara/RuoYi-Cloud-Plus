@@ -19,7 +19,7 @@ import java.io.File;
 @Validated
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/demo/mail")
+@RequestMapping("/mail")
 public class MailController {
 
     /**

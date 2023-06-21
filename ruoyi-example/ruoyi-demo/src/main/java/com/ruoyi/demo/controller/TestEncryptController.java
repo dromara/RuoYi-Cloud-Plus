@@ -21,7 +21,7 @@ import java.util.Map;
  */
 @Validated
 @RestController
-@RequestMapping("/demo/encrypt")
+@RequestMapping("/encrypt")
 public class TestEncryptController {
 
     @Autowired

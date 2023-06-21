@@ -22,7 +22,7 @@ import java.time.Duration;
 //@CacheConfig(cacheNames = CacheNames.DEMO_CACHE)
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/demo/cache")
+@RequestMapping("/cache")
 public class RedisCacheController {
 
     /**

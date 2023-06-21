@@ -22,7 +22,7 @@ import java.util.List;
  */
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/demo/batch")
+@RequestMapping("/batch")
 public class TestBatchController extends BaseController {
 
     /**
