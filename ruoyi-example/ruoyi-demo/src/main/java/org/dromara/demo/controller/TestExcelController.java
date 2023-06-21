@@ -20,7 +20,7 @@ import java.util.Map;
  * @author Lion Li
  */
 @RestController
-@RequestMapping("/demo/excel")
+@RequestMapping("/excel")
 public class TestExcelController {
 
     /**

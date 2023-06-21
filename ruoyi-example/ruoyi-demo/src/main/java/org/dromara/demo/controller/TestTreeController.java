@@ -31,7 +31,7 @@ import java.util.List;
 @Validated
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/demo/tree")
+@RequestMapping("/tree")
 public class TestTreeController extends BaseController {
 
     private final ITestTreeService iTestTreeService;

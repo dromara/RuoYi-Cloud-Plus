@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @see org.dromara.common.sensitive.core.SensitiveService
  */
 @RestController
-@RequestMapping("/demo/sensitive")
+@RequestMapping("/sensitive")
 public class TestSensitiveController extends BaseController {
 
     /**
