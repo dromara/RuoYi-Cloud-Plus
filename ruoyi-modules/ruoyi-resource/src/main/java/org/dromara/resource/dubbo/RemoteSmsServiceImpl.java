@@ -1,19 +1,19 @@
 package org.dromara.resource.dubbo;
 
-import cn.hutool.core.bean.BeanUtil;
-import org.dromara.common.core.exception.ServiceException;
-import org.dromara.common.core.utils.SpringUtils;
-import org.dromara.common.sms.config.properties.SmsProperties;
-import org.dromara.common.sms.core.SmsTemplate;
-import org.dromara.common.sms.entity.SmsResult;
-import org.dromara.resource.api.RemoteSmsService;
-import org.dromara.resource.api.domain.RemoteSms;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboService;
+import org.dromara.common.core.exception.ServiceException;
+import org.dromara.common.json.utils.JsonUtils;
+import org.dromara.resource.api.RemoteSmsService;
+import org.dromara.resource.api.domain.RemoteSms;
+import org.dromara.sms4j.api.SmsBlend;
+import org.dromara.sms4j.api.entity.SmsResponse;
+import org.dromara.sms4j.core.factory.SmsFactory;
+import org.dromara.sms4j.provider.enumerate.SupplierType;
 import org.springframework.stereotype.Service;
 
-import java.util.Map;
+import java.util.LinkedHashMap;
 
 /**
  * 短信服务
@@ -26,8 +26,6 @@ import java.util.Map;
 @DubboService
 public class RemoteSmsServiceImpl implements RemoteSmsService {
 
-    private final SmsProperties smsProperties;
-
     /**
      * 发送短信
      *
@@ -35,13 +33,14 @@ public class RemoteSmsServiceImpl implements RemoteSmsService {
      * @param templateId 模板id
      * @param param      模板对应参数
      */
-    public RemoteSms send(String phones, String templateId, Map<String, String> param) throws ServiceException {
-        if (!smsProperties.getEnabled()) {
-            throw new ServiceException("当前系统没有开启短信功能！");
-        }
-        SmsTemplate smsTemplate = SpringUtils.getBean(SmsTemplate.class);
-        SmsResult smsResult = smsTemplate.send(phones, templateId, param);
-        return BeanUtil.toBean(smsResult, RemoteSms.class);
+    public RemoteSms send(String phones, String templateId, LinkedHashMap<String, String> param) throws ServiceException {
+        SmsBlend smsBlend = SmsFactory.createSmsBlend(SupplierType.ALIBABA);
+        SmsResponse smsResponse = smsBlend.sendMessage(phones, templateId, param);
+        RemoteSms sysSms = new RemoteSms();
+        sysSms.setIsSuccess(smsResponse.isSuccess());
+        sysSms.setMessage(smsResponse.getMessage());
+        sysSms.setResponse(JsonUtils.toJsonString(smsResponse));
+        return sysSms;
     }
 
 }

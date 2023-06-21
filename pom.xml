@@ -58,8 +58,7 @@
         <okhttp.version>4.10.0</okhttp.version>
 
         <!-- SMS 配置 -->
-        <aliyun.sms.version>2.0.23</aliyun.sms.version>
-        <tencent.sms.version>3.1.687</tencent.sms.version>
+        <sms4j.version>2.2.0</sms4j.version>
 
         <!-- 插件版本 -->
         <maven-compiler-plugin.verison>3.11.0</maven-compiler-plugin.verison>
@@ -323,16 +322,11 @@
                 <version>${aws-java-sdk-s3.version}</version>
             </dependency>
 
+            <!--短信sms4j-->
             <dependency>
-                <groupId>com.aliyun</groupId>
-                <artifactId>dysmsapi20170525</artifactId>
-                <version>${aliyun.sms.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.tencentcloudapi</groupId>
-                <artifactId>tencentcloud-sdk-java-sms</artifactId>
-                <version>${tencent.sms.version}</version>
+                <groupId>org.dromara.sms4j</groupId>
+                <artifactId>sms4j-spring-boot-starter</artifactId>
+                <version>${sms4j.version}</version>
             </dependency>
 
             <!-- 离线IP地址定位库 ip2region -->

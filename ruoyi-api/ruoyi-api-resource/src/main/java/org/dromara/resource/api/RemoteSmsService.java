@@ -3,7 +3,7 @@ package org.dromara.resource.api;
 import org.dromara.common.core.exception.ServiceException;
 import org.dromara.resource.api.domain.RemoteSms;
 
-import java.util.Map;
+import java.util.LinkedHashMap;
 
 /**
  * 短信服务
@@ -19,6 +19,6 @@ public interface RemoteSmsService {
      * @param templateId 模板id
      * @param param      模板对应参数
      */
-    RemoteSms send(String phones, String templateId, Map<String, String> param) throws ServiceException;
+    RemoteSms send(String phones, String templateId, LinkedHashMap<String, String> param) throws ServiceException;
 
 }
