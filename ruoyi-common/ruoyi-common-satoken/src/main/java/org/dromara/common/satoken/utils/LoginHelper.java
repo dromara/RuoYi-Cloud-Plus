@@ -68,9 +68,10 @@ public class LoginHelper {
 //        } else if (userType == UserType.APP_USER) {
 //            model.setTimeout(86400).setActiveTimeout(1800);
 //        }
-        StpUtil.login(loginUser.getLoginId(),
-            model.setExtra(TENANT_KEY, loginUser.getTenantId())
-                .setExtra(USER_KEY, loginUser.getUserId()));
+        StpUtil.stpLogic.setLoginType(loginUser.getUserType())
+            .login(loginUser.getLoginId(),
+                model.setExtra(TENANT_KEY, loginUser.getTenantId())
+                    .setExtra(USER_KEY, loginUser.getUserId()));
         StpUtil.getTokenSession().set(LOGIN_USER_KEY, loginUser);
     }
 
