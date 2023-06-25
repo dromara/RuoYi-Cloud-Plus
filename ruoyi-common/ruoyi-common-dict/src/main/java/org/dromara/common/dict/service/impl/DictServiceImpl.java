@@ -83,4 +83,10 @@ public class DictServiceImpl implements DictService {
         }
     }
 
+    @Override
+    public Map<String, String> getAllDictByDictType(String dictType) {
+        List<RemoteDictDataVo> list = remoteDictService.selectDictDataByType(dictType);
+        return StreamUtils.toMap(list, RemoteDictDataVo::getDictValue, RemoteDictDataVo::getDictLabel);
+    }
+
 }
