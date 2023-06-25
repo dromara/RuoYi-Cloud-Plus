@@ -49,7 +49,7 @@
         <!-- Sa-Token 整合 Dubbo -->
         <dependency>
             <groupId>cn.dev33</groupId>
-            <artifactId>sa-token-context-dubbo</artifactId>
+            <artifactId>sa-token-dubbo3</artifactId>
             <version>${satoken.version}</version>
             <exclusions>
                 <exclusion>

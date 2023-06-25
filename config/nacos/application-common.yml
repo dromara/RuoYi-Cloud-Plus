@@ -149,8 +149,9 @@ sa-token:
   token-name: Authorization
   # token固定超时 设为七天 (必定过期) 单位: 秒
   timeout: 604800
-  # token活跃超时时间 30分钟(指定时间无操作则过期) 单位: 秒
-  activity-timeout: 1800
+  # 多端不同 token 有效期 可查看 LoginHelper.loginByDevice 方法自定义
+  # token最低活跃时间 (指定时间无操作就过期) 单位: 秒
+  active-timeout: 1800
   # 开启内网服务调用鉴权(不允许越过gateway访问内网服务 保障服务安全)
   check-same-token: true
   # 是否允许同一账号并发登录 (为true时允许一起登录, 为false时新登录挤掉旧登录)
