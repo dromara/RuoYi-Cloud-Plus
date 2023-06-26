@@ -17,6 +17,7 @@ import org.springdoc.core.providers.JavadocProvider;
 import org.springdoc.core.service.OpenAPIService;
 import org.springdoc.core.service.SecurityService;
 import org.springdoc.core.utils.PropertyResolverUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -24,10 +25,7 @@ import org.springframework.boot.autoconfigure.web.ServerProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Swagger 文档配置
@@ -41,6 +39,9 @@ import java.util.Set;
 public class SpringDocAutoConfiguration {
 
     private final ServerProperties serverProperties;
+
+    @Value("${spring.application.name}")
+    private String appName;
 
     @Bean
     @ConditionalOnMissingBean(OpenAPI.class)
@@ -92,12 +93,14 @@ public class SpringDocAutoConfiguration {
      */
     @Bean
     public OpenApiCustomizer openApiCustomizer() {
+        // 拼接服务路径
+        String appPath = "/" + StringUtils.substring(appName, appName.indexOf("-") + 1);
         String contextPath = serverProperties.getServlet().getContextPath();
         String finalContextPath;
         if (StringUtils.isBlank(contextPath) || "/".equals(contextPath)) {
-            finalContextPath = "";
+            finalContextPath = appPath;
         } else {
-            finalContextPath = contextPath;
+            finalContextPath = appPath + contextPath;
         }
         // 对所有路径增加前置上下文路径
         return openApi -> {
