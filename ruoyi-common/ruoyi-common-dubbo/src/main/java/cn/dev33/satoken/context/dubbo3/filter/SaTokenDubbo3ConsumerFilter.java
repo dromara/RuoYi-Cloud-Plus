@@ -1,4 +1,4 @@
-package cn.dev33.satoken.context.dubbo.filter;
+package cn.dev33.satoken.context.dubbo3.filter;
 
 import cn.dev33.satoken.SaManager;
 import cn.dev33.satoken.context.SaTokenContextDefaultImpl;
@@ -6,10 +6,10 @@ import cn.dev33.satoken.same.SaSameUtil;
 import cn.dev33.satoken.spring.SaBeanInject;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.dev33.satoken.util.SaTokenConsts;
-import com.ruoyi.common.core.utils.SpringUtils;
 import org.apache.dubbo.common.constants.CommonConstants;
 import org.apache.dubbo.common.extension.Activate;
 import org.apache.dubbo.rpc.*;
+import org.dromara.common.core.utils.SpringUtils;
 
 /**
  *
@@ -21,7 +21,7 @@ import org.apache.dubbo.rpc.*;
  *
  */
 @Activate(group = {CommonConstants.CONSUMER}, order = Integer.MIN_VALUE)
-public class SaTokenDubboConsumerFilter implements Filter {
+public class SaTokenDubbo3ConsumerFilter implements Filter {
 
 	@Override
 	public Result invoke(Invoker<?> invoker, Invocation invocation) throws RpcException {
