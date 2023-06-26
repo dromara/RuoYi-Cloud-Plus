@@ -1,6 +1,7 @@
 package com.ruoyi.common.idempotent.aspectj;
 
 import cn.dev33.satoken.SaManager;
+import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.crypto.SecureUtil;
 import com.ruoyi.common.core.constant.Constants;
@@ -17,8 +18,6 @@ import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
-import org.redisson.api.RBucket;
-import org.redisson.api.RedissonClient;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -59,9 +58,7 @@ public class RepeatSubmitAspect {
         submitKey = SecureUtil.md5(submitKey + ":" + nowParams);
         // 唯一标识（指定key + url + 消息头）
         String cacheRepeatKey = Constants.REPEAT_SUBMIT_KEY + url + submitKey;
-        RedissonClient client = RedisUtils.getClient();
-        RBucket<String> bucket = client.getBucket(cacheRepeatKey);
-        if (bucket.setIfAbsent(cacheRepeatKey,Duration.ofMillis(interval))) {
+        if (RedisUtils.setObjectIfAbsent(cacheRepeatKey, "", Duration.ofMillis(interval))) {
             KEY_CACHE.set(cacheRepeatKey);
         } else {
             String message = repeatSubmit.message();
@@ -109,16 +106,13 @@ public class RepeatSubmitAspect {
      * 参数拼装
      */
     private String argsArrayToString(Object[] paramsArray) {
-        StringJoiner params = new StringJoiner( " ");
-        if (paramsArray != null && paramsArray.length > 0) {
-            for (Object o : paramsArray) {
-                if (ObjectUtil.isNotNull(o) && !isFilterObject(o)) {
-                    try {
-                        params.add(JsonUtils.toJsonString(o));
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
+        StringJoiner params = new StringJoiner(" ");
+        if (ArrayUtil.isEmpty(paramsArray)) {
+            return params.toString();
+        }
+        for (Object o : paramsArray) {
+            if (ObjectUtil.isNotNull(o) && !isFilterObject(o)) {
+                params.add(JsonUtils.toJsonString(o));
             }
         }
         return params.toString();
