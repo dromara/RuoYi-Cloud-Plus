@@ -1,4 +1,4 @@
-package cn.dev33.satoken.context.dubbo.filter;
+package cn.dev33.satoken.context.dubbo3.filter;
 
 import cn.dev33.satoken.SaManager;
 import cn.dev33.satoken.context.SaTokenContextDefaultImpl;
@@ -21,7 +21,7 @@ import org.apache.dubbo.rpc.*;
  *
  */
 @Activate(group = {CommonConstants.CONSUMER}, order = Integer.MIN_VALUE)
-public class SaTokenDubboConsumerFilter implements Filter {
+public class SaTokenDubbo3ConsumerFilter implements Filter {
 
 	@Override
 	public Result invoke(Invoker<?> invoker, Invocation invocation) throws RpcException {
