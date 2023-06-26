@@ -17,6 +17,8 @@ import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
+import org.redisson.api.RBucket;
+import org.redisson.api.RedissonClient;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -25,6 +27,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.time.Duration;
 import java.util.Collection;
 import java.util.Map;
+import java.util.StringJoiner;
 
 /**
  * 防止重复提交(参考美团GTIS防重系统)
@@ -56,9 +59,9 @@ public class RepeatSubmitAspect {
         submitKey = SecureUtil.md5(submitKey + ":" + nowParams);
         // 唯一标识（指定key + url + 消息头）
         String cacheRepeatKey = Constants.REPEAT_SUBMIT_KEY + url + submitKey;
-        String key = RedisUtils.getCacheObject(cacheRepeatKey);
-        if (key == null) {
-            RedisUtils.setCacheObject(cacheRepeatKey, "", Duration.ofMillis(interval));
+        RedissonClient client = RedisUtils.getClient();
+        RBucket<String> bucket = client.getBucket(cacheRepeatKey);
+        if (bucket.setIfAbsent(cacheRepeatKey,Duration.ofMillis(interval))) {
             KEY_CACHE.set(cacheRepeatKey);
         } else {
             String message = repeatSubmit.message();
@@ -106,19 +109,19 @@ public class RepeatSubmitAspect {
      * 参数拼装
      */
     private String argsArrayToString(Object[] paramsArray) {
-        StringBuilder params = new StringBuilder();
+        StringJoiner params = new StringJoiner( " ");
         if (paramsArray != null && paramsArray.length > 0) {
             for (Object o : paramsArray) {
                 if (ObjectUtil.isNotNull(o) && !isFilterObject(o)) {
                     try {
-                        params.append(JsonUtils.toJsonString(o)).append(" ");
+                        params.add(JsonUtils.toJsonString(o));
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
             }
         }
-        return params.toString().trim();
+        return params.toString();
     }
 
     /**
@@ -139,9 +142,8 @@ public class RepeatSubmitAspect {
             }
         } else if (Map.class.isAssignableFrom(clazz)) {
             Map map = (Map) o;
-            for (Object value : map.entrySet()) {
-                Map.Entry entry = (Map.Entry) value;
-                return entry.getValue() instanceof MultipartFile;
+            for (Object value : map.values()) {
+                return value instanceof MultipartFile;
             }
         }
         return o instanceof MultipartFile || o instanceof HttpServletRequest || o instanceof HttpServletResponse
