@@ -117,7 +117,6 @@ public class SysDictTypeServiceImpl implements ISysDictTypeService {
      * @param dictType 字典类型
      * @return 字典类型
      */
-    @Cacheable(cacheNames = CacheNames.SYS_DICT, key = "#dictType")
     @Override
     public SysDictTypeVo selectDictTypeByType(String dictType) {
         return baseMapper.selectVoById(new LambdaQueryWrapper<SysDictType>().eq(SysDictType::getDictType, dictType));
@@ -157,10 +156,11 @@ public class SysDictTypeServiceImpl implements ISysDictTypeService {
      */
     @CachePut(cacheNames = CacheNames.SYS_DICT, key = "#bo.dictType")
     @Override
-    public List<SysDictTypeVo> insertDictType(SysDictTypeBo bo) {
+    public List<SysDictDataVo> insertDictType(SysDictTypeBo bo) {
         SysDictType dict = MapstructUtils.convert(bo, SysDictType.class);
         int row = baseMapper.insert(dict);
         if (row > 0) {
+            // 新增 type 下无 data 数据 返回空防止缓存穿透
             return new ArrayList<>();
         }
         throw new ServiceException("操作失败");
