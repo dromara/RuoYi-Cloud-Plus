@@ -7,13 +7,13 @@ import cn.dev33.satoken.stp.SaLoginModel;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.ObjectUtil;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import org.dromara.common.core.constant.TenantConstants;
 import org.dromara.common.core.constant.UserConstants;
 import org.dromara.common.core.enums.DeviceType;
 import org.dromara.common.core.enums.UserType;
 import org.dromara.system.api.model.LoginUser;
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
 
 import java.util.Set;
 
@@ -68,8 +68,7 @@ public class LoginHelper {
 //        } else if (userType == UserType.APP_USER) {
 //            model.setTimeout(86400).setActiveTimeout(1800);
 //        }
-        StpUtil.stpLogic.setLoginType(loginUser.getUserType())
-            .login(loginUser.getLoginId(),
+        StpUtil.login(loginUser.getLoginId(),
                 model.setExtra(TENANT_KEY, loginUser.getTenantId())
                     .setExtra(USER_KEY, loginUser.getUserId()));
         StpUtil.getTokenSession().set(LOGIN_USER_KEY, loginUser);
