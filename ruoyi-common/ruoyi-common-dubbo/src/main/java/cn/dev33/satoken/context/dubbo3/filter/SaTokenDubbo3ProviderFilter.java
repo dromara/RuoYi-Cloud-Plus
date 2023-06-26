@@ -3,10 +3,10 @@ package cn.dev33.satoken.context.dubbo3.filter;
 import cn.dev33.satoken.SaManager;
 import cn.dev33.satoken.same.SaSameUtil;
 import cn.dev33.satoken.spring.SaBeanInject;
+import com.ruoyi.common.core.utils.SpringUtils;
 import org.apache.dubbo.common.constants.CommonConstants;
 import org.apache.dubbo.common.extension.Activate;
 import org.apache.dubbo.rpc.*;
-import org.dromara.common.core.utils.SpringUtils;
 
 /**
  *
