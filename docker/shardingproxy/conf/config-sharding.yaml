@@ -1,0 +1,84 @@
+######################################################################################################
+#
+# 用于配置：数据分片规则
+#
+######################################################################################################
+
+schemaName: data-center_db
+
+dataSources:
+  ds_0:
+    url: jdbc:mysql://192.168.0.60:3306/data-center_0?serverTimezone=UTC&useSSL=false
+    username: root
+    password: root
+    connectionTimeoutMilliseconds: 30000
+    idleTimeoutMilliseconds: 60000
+    maxLifetimeMilliseconds: 1800000
+    maxPoolSize: 50
+    minPoolSize: 1
+  ds_1:
+    url: jdbc:mysql://192.168.0.60:3306/data-center_1?serverTimezone=UTC&useSSL=false
+    username: root
+    password: root
+    connectionTimeoutMilliseconds: 30000
+    idleTimeoutMilliseconds: 60000
+    maxLifetimeMilliseconds: 1800000
+    maxPoolSize: 50
+    minPoolSize: 1
+
+rules:
+  - !SHARDING
+    tables: # 数据分片规则配置
+      t_order: # 订单逻辑表名称
+        actualDataNodes: ds_${0..1}.t_order_${0..1}
+        databaseStrategy: # 配置分库策略
+          standard:
+            shardingColumn: user_id
+            shardingAlgorithmName: database_user_inline
+        tableStrategy: # 分表策略
+          standard:
+            shardingColumn: order_id
+            shardingAlgorithmName: t_order_inline
+        keyGenerateStrategy:
+          column: order_id
+          keyGeneratorName: snowflake
+      t_order_item: # 子订单逻辑表名称
+        actualDataNodes: ds_${0..1}.t_order_item_${0..1}
+        databaseStrategy: # 配置分库策略
+          standard:
+            shardingColumn: user_id
+            shardingAlgorithmName: database_user_inline
+        tableStrategy: # 分表策略
+          standard:
+            shardingColumn: order_id
+            shardingAlgorithmName: t_order_item_inline
+        keyGenerateStrategy:
+          column: order_item_id
+          keyGeneratorName: snowflake
+    bindingTables: # 绑定表规则列表
+      - t_order,t_order_item
+
+    # 分片算法配置
+    shardingAlgorithms:
+      database_user_inline:
+        type: INLINE
+        props:
+          algorithm-expression: ds_${user_id % 2}
+      t_order_inline: # 订单表分片算法名称
+        type: INLINE
+        props:
+          algorithm-expression: t_order_${order_id % 2}
+          allow-range-query-with-inline-sharding: true
+      t_order_item_inline: # 子订单表分片算法名称
+        type: INLINE
+        props:
+          algorithm-expression: t_order_item_${order_id % 2}
+          allow-range-query-with-inline-sharding: true
+
+    # 分布式序列算法配置
+    keyGenerators:
+      snowflake:
+        type: SNOWFLAKE
+        props:
+          worker-id: 1
+
