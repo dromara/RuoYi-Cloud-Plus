@@ -3,8 +3,8 @@ package org.dromara.demo;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
-import org.dromara.demo.domain.TOrder;
-import org.dromara.demo.mapper.TOrderMapper;
+import org.dromara.demo.domain.ShardingOrder;
+import org.dromara.demo.mapper.ShardingOrderMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -13,10 +13,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 class TOrderTest {
 
     @Autowired
-    TOrderMapper torderMapper;
+    ShardingOrderMapper torderMapper;
 
-    //@Autowired
-    //TUserMapper userMapper;
 
     @Test
     void find() {
@@ -25,13 +23,13 @@ class TOrderTest {
 
     @Test
     void page() {
-        Page<TOrder> page = new Page<>();
+        Page<ShardingOrder> page = new Page<>();
         page.setCurrent(3L);
-        QueryWrapper<TOrder> queryWrapper = new QueryWrapper<>();
+        QueryWrapper<ShardingOrder> queryWrapper = new QueryWrapper<>();
         queryWrapper.orderByAsc("order_id");
         torderMapper.selectPage(page,queryWrapper);
         System.out.println(page.getTotal());
-        for(TOrder order : page.getRecords()){
+        for(ShardingOrder order : page.getRecords()){
             System.out.print(order.getTotalMoney()+" ");
         }
     }
@@ -39,21 +37,13 @@ class TOrderTest {
     @Test
     void insert() {
         for(Long i = 1L; i <= 100L; i++){
-            TOrder torder = new TOrder();
+            ShardingOrder torder = new ShardingOrder();
             torder.setUserId(i);
             torder.setTotalMoney(100 + Integer.parseInt(i+""));
             torderMapper.insert(torder);
         }
 
     }
-    @Test
-    void insertUser() {
-        /*User user = new User();
-        user.setId(1L);
-        user.setUserName("abc");
-        user.setAge(18);
-        user.setCreateTime(new Date());
-        userMapper.insert(user);*/
-    }
+
 
 }

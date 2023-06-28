@@ -3,11 +3,10 @@ package org.dromara.demo.domain;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
-@TableName("t_order_item")
+@TableName("t_order")
 @Data
-public class TOrderItem {
+public class ShardingOrder {
 
-    private Long orderItemId;
 
     private Long orderId;
 
