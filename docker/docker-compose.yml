@@ -492,3 +492,16 @@ services:
       - /docker/grafana/grafana.ini:/etc/grafana/grafana.ini
       - /docker/grafana:/var/lib/grafana
     network_mode: "host"
+  shardingproxy:
+    image: apache/shardingsphere-proxy
+    container_name: shardingsphere-proxy
+    restart: always
+    command: server /data
+    ports:
+      - 13307:3307
+    volumes:
+      - /docker/shardingproxy/conf:/opt/shardingsphere-proxy/conf
+      - /docker/shardingproxy/ext-lib:/opt/shardingsphere-proxy/ext-lib
+    environment:
+      - JVM_OPTS="-Djava.awt.headless=true"
+    network_mode: "host"

@@ -39,13 +39,18 @@ spring:
       # 设置默认的数据源或者数据源组,默认值即为 master
       primary: master
       datasource:
-        # 主库数据源
+#     主库数据源
         master:
           type: ${spring.datasource.type}
           driver-class-name: com.mysql.cj.jdbc.Driver
           url: ${datasource.system-master.url}
           username: ${datasource.system-master.username}
           password: ${datasource.system-master.password}
+        sharding:
+          driver-class-name: com.mysql.cj.jdbc.Driver
+          url: jdbc:mysql://192.168.0.60:3307/data-center_db?useSSL=false&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&transformedBitIsBoolean=true&tinyInt1isBit=false&allowMultiQueries=true&serverTimezone=GMT%2B8&allowPublicKeyRetrieval=true
+          username: root
+          password: root
 #        oracle:
 #          type: ${spring.datasource.type}
 #          driverClassName: oracle.jdbc.OracleDriver
