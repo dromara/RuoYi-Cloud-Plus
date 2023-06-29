@@ -3,6 +3,7 @@ spring:
     dynamic:
       # 设置默认的数据源或者数据源组,默认值即为 master
       primary: master
+      seata: false
       datasource:
         # 主库数据源
         master:

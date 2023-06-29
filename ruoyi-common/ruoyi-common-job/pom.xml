@@ -28,10 +28,14 @@
             <artifactId>spring-cloud-commons</artifactId>
         </dependency>
 
-        <!-- xxl-job-core -->
+        <!--PowerJob-->
         <dependency>
-            <groupId>com.xuxueli</groupId>
-            <artifactId>xxl-job-core</artifactId>
+            <groupId>tech.powerjob</groupId>
+            <artifactId>powerjob-worker</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>tech.powerjob</groupId>
+            <artifactId>powerjob-official-processors</artifactId>
         </dependency>
 
         <dependency>

@@ -35,6 +35,7 @@
         <redisson.version>3.20.1</redisson.version>
         <lock4j.version>2.2.4</lock4j.version>
         <xxl-job.version>2.4.0</xxl-job.version>
+        <powerjob.version>4.3.3</powerjob.version>
         <satoken.version>1.35.0.RC</satoken.version>
         <lombok.version>1.18.26</lombok.version>
         <logstash.version>7.2</logstash.version>
@@ -261,11 +262,16 @@
                 <version>${lock4j.version}</version>
             </dependency>
 
-            <!-- xxl-job-core -->
+            <!-- PowerJob -->
             <dependency>
-                <groupId>com.xuxueli</groupId>
-                <artifactId>xxl-job-core</artifactId>
-                <version>${xxl-job.version}</version>
+                <groupId>tech.powerjob</groupId>
+                <artifactId>powerjob-worker</artifactId>
+                <version>${powerjob.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>tech.powerjob</groupId>
+                <artifactId>powerjob-official-processors</artifactId>
+                <version>${powerjob.version}</version>
             </dependency>
 
             <!-- 加密包引入 -->
