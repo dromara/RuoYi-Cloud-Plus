@@ -1,6 +1,5 @@
 package org.dromara.demo.controller;
 
-import com.baomidou.dynamic.datasource.annotation.DS;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.RequiredArgsConstructor;
@@ -11,8 +10,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-
+/**
+ * 使用方式 https://blog.csdn.net/zhaozhiqiang1981/article/details/129935075
+ */
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/sharding")
