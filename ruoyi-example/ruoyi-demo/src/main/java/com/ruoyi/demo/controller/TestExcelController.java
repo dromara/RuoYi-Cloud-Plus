@@ -1,12 +1,17 @@
 package com.ruoyi.demo.controller;
 
 import cn.hutool.core.collection.CollUtil;
+import com.ruoyi.common.excel.core.ExcelResult;
 import com.ruoyi.common.excel.utils.ExcelUtil;
+import com.ruoyi.demo.domain.vo.ExportDemoVo;
+import com.ruoyi.demo.listener.ExportDemoListener;
+import com.ruoyi.demo.service.IExportExcelService;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
@@ -19,27 +24,30 @@ import java.util.Map;
  *
  * @author Lion Li
  */
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/demo/excel")
 public class TestExcelController {
+
+    private final IExportExcelService exportExcelService;
 
     /**
      * 单列表多数据
      */
     @GetMapping("/exportTemplateOne")
     public void exportTemplateOne(HttpServletResponse response) {
-        Map<String,String> map = new HashMap<>();
-        map.put("title","单列表多数据");
-        map.put("test1","数据测试1");
-        map.put("test2","数据测试2");
-        map.put("test3","数据测试3");
-        map.put("test4","数据测试4");
-        map.put("testTest","666");
+        Map<String, String> map = new HashMap<>();
+        map.put("title", "单列表多数据");
+        map.put("test1", "数据测试1");
+        map.put("test2", "数据测试2");
+        map.put("test3", "数据测试3");
+        map.put("test4", "数据测试4");
+        map.put("testTest", "666");
         List<TestObj> list = new ArrayList<>();
         list.add(new TestObj("单列表测试1", "列表测试1", "列表测试2", "列表测试3", "列表测试4"));
         list.add(new TestObj("单列表测试2", "列表测试5", "列表测试6", "列表测试7", "列表测试8"));
         list.add(new TestObj("单列表测试3", "列表测试9", "列表测试10", "列表测试11", "列表测试12"));
-        ExcelUtil.exportTemplate(CollUtil.newArrayList(map,list),"单列表.xlsx", "excel/单列表.xlsx", response);
+        ExcelUtil.exportTemplate(CollUtil.newArrayList(map, list), "单列表.xlsx", "excel/单列表.xlsx", response);
     }
 
     /**
@@ -47,12 +55,12 @@ public class TestExcelController {
      */
     @GetMapping("/exportTemplateMuliti")
     public void exportTemplateMuliti(HttpServletResponse response) {
-        Map<String,String> map = new HashMap<>();
-        map.put("title1","标题1");
-        map.put("title2","标题2");
-        map.put("title3","标题3");
-        map.put("title4","标题4");
-        map.put("author","Lion Li");
+        Map<String, String> map = new HashMap<>();
+        map.put("title1", "标题1");
+        map.put("title2", "标题2");
+        map.put("title3", "标题3");
+        map.put("title4", "标题4");
+        map.put("author", "Lion Li");
         List<TestObj1> list1 = new ArrayList<>();
         list1.add(new TestObj1("list1测试1", "list1测试2", "list1测试3"));
         list1.add(new TestObj1("list1测试4", "list1测试5", "list1测试6"));
@@ -67,13 +75,33 @@ public class TestExcelController {
         list4.add(new TestObj1("list4测试4", "list4测试5", "list4测试6"));
         list4.add(new TestObj1("list4测试7", "list4测试8", "list4测试9"));
         list4.add(new TestObj1("list4测试10", "list4测试11", "list4测试12"));
-        Map<String,Object> multiListMap = new HashMap<>();
-        multiListMap.put("map",map);
-        multiListMap.put("data1",list1);
-        multiListMap.put("data2",list2);
-        multiListMap.put("data3",list3);
-        multiListMap.put("data4",list4);
+        Map<String, Object> multiListMap = new HashMap<>();
+        multiListMap.put("map", map);
+        multiListMap.put("data1", list1);
+        multiListMap.put("data2", list2);
+        multiListMap.put("data3", list3);
+        multiListMap.put("data4", list4);
         ExcelUtil.exportTemplateMultiList(multiListMap, "多列表.xlsx", "excel/多列表.xlsx", response);
+    }
+
+    /**
+     * 导出下拉框
+     *
+     * @param response /
+     */
+    @GetMapping("/exportWithOptions")
+    public void exportWithOptions(HttpServletResponse response) {
+        exportExcelService.exportWithOptions(response);
+    }
+
+    /**
+     * 导入表格
+     */
+    @PostMapping(value = "/importWithOptions", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public List<ExportDemoVo> importWithOptions(@RequestPart("file") MultipartFile file) throws Exception {
+        // 处理解析结果
+        ExcelResult<ExportDemoVo> excelResult = ExcelUtil.importExcel(file.getInputStream(), ExportDemoVo.class, new ExportDemoListener());
+        return excelResult.getList();
     }
 
     @Data

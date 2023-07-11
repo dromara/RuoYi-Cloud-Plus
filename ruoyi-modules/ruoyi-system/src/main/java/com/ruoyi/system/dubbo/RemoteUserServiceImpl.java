@@ -47,7 +47,8 @@ public class RemoteUserServiceImpl implements RemoteUserService {
         if (UserStatus.DISABLE.getCode().equals(sysUser.getStatus())) {
             throw new UserException("user.blocked", username);
         }
-        // 此处可根据登录用户的数据不同 自行创建 loginUser
+        // 框架登录不限制从什么表查询 只要最终构建出 LoginUser 即可
+        // 此处可根据登录用户的数据不同 自行创建 loginUser 属性不够用继承扩展就行了
         return buildLoginUser(userMapper.selectUserByUserName(username));
     }
 
@@ -62,7 +63,8 @@ public class RemoteUserServiceImpl implements RemoteUserService {
         if (UserStatus.DISABLE.getCode().equals(sysUser.getStatus())) {
             throw new UserException("user.blocked", phonenumber);
         }
-        // 此处可根据登录用户的数据不同 自行创建 loginUser
+        // 框架登录不限制从什么表查询 只要最终构建出 LoginUser 即可
+        // 此处可根据登录用户的数据不同 自行创建 loginUser 属性不够用继承扩展就行了
         return buildLoginUser(userMapper.selectUserByPhonenumber(phonenumber));
     }
 
@@ -77,7 +79,8 @@ public class RemoteUserServiceImpl implements RemoteUserService {
         if (UserStatus.DISABLE.getCode().equals(user.getStatus())) {
             throw new UserException("user.blocked", email);
         }
-        // 此处可根据登录用户的数据不同 自行创建 loginUser
+        // 框架登录不限制从什么表查询 只要最终构建出 LoginUser 即可
+        // 此处可根据登录用户的数据不同 自行创建 loginUser 属性不够用继承扩展就行了
         return buildLoginUser(userMapper.selectUserByEmail(email));
     }
 
@@ -91,7 +94,8 @@ public class RemoteUserServiceImpl implements RemoteUserService {
         if (UserStatus.DISABLE.getCode().equals(sysUser.getStatus())) {
             // todo 用户已被停用 业务逻辑自行实现
         }
-        // 此处可根据登录用户的数据不同 自行创建 loginUser
+        // 框架登录不限制从什么表查询 只要最终构建出 LoginUser 即可
+        // 此处可根据登录用户的数据不同 自行创建 loginUser 属性不够用继承扩展就行了
         XcxLoginUser loginUser = new XcxLoginUser();
         loginUser.setUserId(sysUser.getUserId());
         loginUser.setUsername(sysUser.getUserName());

@@ -1,10 +1,9 @@
 package com.ruoyi.resource.api;
 
 import com.ruoyi.common.core.exception.ServiceException;
-import com.ruoyi.resource.api.domain.SysFile;
 import com.ruoyi.resource.api.domain.SysSms;
 
-import java.util.Map;
+import java.util.LinkedHashMap;
 
 /**
  * 短信服务
@@ -20,6 +19,6 @@ public interface RemoteSmsService {
      * @param templateId 模板id
      * @param param      模板对应参数
      */
-    SysSms send(String phones, String templateId, Map<String, String> param) throws ServiceException;
+    SysSms send(String phones, String templateId, LinkedHashMap<String, String> param) throws ServiceException;
 
 }

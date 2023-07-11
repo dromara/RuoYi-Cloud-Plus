@@ -16,8 +16,8 @@ import java.util.List;
  * @author Lion Li
  */
 @ConditionalOnProperty(value = "easy-es.enable", havingValue = "true")
-@RestController
 @RequiredArgsConstructor
+@RestController
 public class EsCrudController {
 
     private final DocumentMapper documentMapper;
