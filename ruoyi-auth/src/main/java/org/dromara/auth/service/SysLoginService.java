@@ -125,9 +125,13 @@ public class SysLoginService {
                 // 超级管理员 登出清除动态租户
                 TenantHelper.clearDynamic();
             }
-            StpUtil.logout();
             recordLogininfor(loginUser.getTenantId(), loginUser.getUsername(), Constants.LOGOUT, MessageUtils.message("user.logout.success"));
         } catch (NotLoginException ignored) {
+        } finally {
+            try {
+                StpUtil.logout();
+            } catch (NotLoginException ignored) {
+            }
         }
     }
 
