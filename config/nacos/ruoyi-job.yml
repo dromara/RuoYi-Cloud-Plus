@@ -23,7 +23,8 @@ powerjob:
     enable-test-mode: false
     max-appended-wf-context-length: 4096
     max-result-length: 4096
-    port: 27777
+    # 29203 端口 随着主应用端口飘逸 避免集群冲突
+    port: 2${server.port}
     protocol: http
     # 调度中心地址：如调度中心集群部署存在多个地址则用逗号分隔。
     # server-address: 127.0.0.1:7700
