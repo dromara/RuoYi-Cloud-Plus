@@ -24,7 +24,7 @@
         <mybatis.version>3.5.10</mybatis.version>
         <mybatis-plus.version>3.5.3.1</mybatis-plus.version>
         <p6spy.version>3.9.1</p6spy.version>
-        <dynamic-ds.version>3.6.1</dynamic-ds.version>
+        <dynamic-ds.version>4.1.1</dynamic-ds.version>
         <velocity.version>2.3</velocity.version>
         <swagger.core.version>2.2.9</swagger.core.version>
         <springdoc.version>2.1.0</springdoc.version>
