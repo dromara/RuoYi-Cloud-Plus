@@ -75,7 +75,7 @@ public class MybatisDecryptInterceptor implements Interceptor {
         Set<Field> fields = encryptorManager.getFieldCache(sourceObject.getClass());
         try {
             for (Field field : fields) {
-                field.set(sourceObject, this.decryptField(String.valueOf(field.get(sourceObject)), field));
+                field.set(sourceObject, this.decryptField(Convert.toStr(field.get(sourceObject)), field));
             }
         } catch (Exception e) {
             log.error("处理解密字段时出错", e);
