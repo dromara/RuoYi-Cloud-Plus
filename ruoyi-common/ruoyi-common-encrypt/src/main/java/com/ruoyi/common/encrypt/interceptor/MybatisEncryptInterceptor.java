@@ -1,6 +1,7 @@
 package com.ruoyi.common.encrypt.interceptor;
 
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.ObjectUtil;
 import com.ruoyi.common.core.utils.StringUtils;
 import com.ruoyi.common.encrypt.annotation.EncryptField;
