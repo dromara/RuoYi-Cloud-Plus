@@ -1,6 +1,7 @@
 package org.dromara.common.encrypt.interceptor;
 
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.ObjectUtil;
 import org.dromara.common.core.utils.StringUtils;
 import org.dromara.common.encrypt.annotation.EncryptField;
