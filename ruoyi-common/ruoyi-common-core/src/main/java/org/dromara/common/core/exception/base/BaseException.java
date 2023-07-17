@@ -1,9 +1,11 @@
 package org.dromara.common.core.exception.base;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import org.dromara.common.core.utils.MessageUtils;
 import org.dromara.common.core.utils.StringUtils;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
 
 import java.io.Serial;
 
@@ -12,7 +14,9 @@ import java.io.Serial;
  *
  * @author ruoyi
  */
-@Getter
+@Data
+@EqualsAndHashCode(callSuper = true)
+@NoArgsConstructor
 @AllArgsConstructor
 public class BaseException extends RuntimeException {
     @Serial
