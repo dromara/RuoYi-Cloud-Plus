@@ -11,6 +11,12 @@ export interface ${BusinessName}VO {
                     #end
 #end
 #end
+#if ($table.tree)
+    /**
+     * 子对象
+     */
+    children: ${BusinessName}VO[];
+#end
 }
 
 export interface ${BusinessName}Form extends BaseEntity {
