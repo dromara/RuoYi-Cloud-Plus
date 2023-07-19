@@ -165,19 +165,18 @@ services:
     privileged: true
     network_mode: "host"
 
-  ruoyi-xxl-job-admin:
-    image: ruoyi/ruoyi-xxl-job-admin:2.1.0
-    container_name: ruoyi-xxl-job-admin
+  ruoyi-powerjob-server:
+    image: ruoyi/ruoyi-powerjob-server:2.1.0
+    container_name: ruoyi-powerjob-server
     environment:
       # 时区上海
       TZ: Asia/Shanghai
     ports:
-      - "9900:9900"
+      - "7700:7700"
+      - "10086:10086"
+      - "10010:10010"
     volumes:
-      # 配置文件
-      - /docker/ruoyi-xxl-job-admin/logs/:/ruoyi/xxl-job-admin/logs
-      # skywalking 探针
-      - /docker/skywalking/agent/:/ruoyi/skywalking/agent
+      - /docker/powerjob/logs/:/ruoyi/powerjob/logs
     privileged: true
     network_mode: "host"
 
