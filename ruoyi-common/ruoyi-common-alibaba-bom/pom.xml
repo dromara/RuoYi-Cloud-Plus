@@ -14,7 +14,7 @@
     </description>
 
     <properties>
-        <revision>2.0.0-BETA</revision>
+        <revision>2.1.0-SNAPSHOT</revision>
         <spring-cloud-alibaba.version>2022.0.0.0-RC2</spring-cloud-alibaba.version>
         <sentinel.version>1.8.6</sentinel.version>
         <seata.version>1.6.1</seata.version>
