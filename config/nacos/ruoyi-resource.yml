@@ -26,6 +26,13 @@ spring:
 #          username: ${datasource.system-postgres.username}
 #          password: ${datasource.system-postgres.password}
 
+websocket:
+  enabled: true
+  # 路径
+  path: /websocket
+  # 设置访问源地址
+  allowedOrigins: '*'
+
 mail:
   enabled: false
   host: smtp.163.com
