@@ -1,31 +1,40 @@
 package org.dromara.auth.controller;
 
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.util.ObjectUtil;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import me.zhyd.oauth.model.AuthResponse;
+import me.zhyd.oauth.model.AuthUser;
+import me.zhyd.oauth.request.AuthRequest;
+import me.zhyd.oauth.utils.AuthStateUtils;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.dromara.auth.domain.vo.LoginTenantVo;
 import org.dromara.auth.domain.vo.LoginVo;
 import org.dromara.auth.domain.vo.TenantListVo;
-import org.dromara.auth.form.EmailLoginBody;
-import org.dromara.auth.form.LoginBody;
+import org.dromara.common.core.domain.model.LoginBody;
 import org.dromara.auth.form.RegisterBody;
-import org.dromara.auth.form.SmsLoginBody;
+import org.dromara.auth.service.IAuthStrategy;
 import org.dromara.auth.service.SysLoginService;
 import org.dromara.common.core.domain.R;
 import org.dromara.common.core.utils.MapstructUtils;
+import org.dromara.common.core.utils.MessageUtils;
 import org.dromara.common.core.utils.StreamUtils;
 import org.dromara.common.core.utils.StringUtils;
+import org.dromara.common.social.config.properties.SocialLoginConfigProperties;
+import org.dromara.common.social.config.properties.SocialProperties;
+import org.dromara.common.social.utils.SocialUtils;
 import org.dromara.common.tenant.helper.TenantHelper;
+import org.dromara.system.api.RemoteClientService;
+import org.dromara.system.api.RemoteSocialService;
 import org.dromara.system.api.RemoteTenantService;
+import org.dromara.system.api.domain.vo.RemoteClientVo;
 import org.dromara.system.api.domain.vo.RemoteTenantVo;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.validation.constraints.NotBlank;
+
 import java.net.URL;
 import java.util.List;
 
@@ -34,80 +43,89 @@ import java.util.List;
  *
  * @author Lion Li
  */
+@Slf4j
 @Validated
 @RequiredArgsConstructor
 @RestController
 public class TokenController {
 
+    private final SocialProperties socialProperties;
     private final SysLoginService sysLoginService;
 
     @DubboReference
     private final RemoteTenantService remoteTenantService;
+    @DubboReference
+    private final RemoteClientService remoteClientService;
+    @DubboReference
+    private final RemoteSocialService remoteSocialService;
 
     /**
      * 登录方法
      */
     @PostMapping("login")
-    public R<LoginVo> login(@Validated @RequestBody LoginBody body) {
-        LoginVo loginVo = new LoginVo();
-        // 生成令牌
-        String token = sysLoginService.login(
-            body.getTenantId(),
-            body.getUsername(),
-            body.getPassword());
-        loginVo.setToken(token);
-        return R.ok(loginVo);
+    public R<LoginVo> login(@Validated @RequestBody LoginBody loginBody) {
+        // 授权类型和客户端id
+        String clientId = loginBody.getClientId();
+        String grantType = loginBody.getGrantType();
+        RemoteClientVo clientVo = remoteClientService.queryByClientId(clientId);
+
+        // 查询不到 client 或 client 内不包含 grantType
+        if (ObjectUtil.isNull(clientVo) || !StringUtils.contains(clientVo.getGrantType(), grantType)) {
+            log.info("客户端id: {} 认证类型：{} 异常!.", clientId, grantType);
+            return R.fail(MessageUtils.message("auth.grant.type.error"));
+        }
+        // 校验租户
+        sysLoginService.checkTenant(loginBody.getTenantId());
+        // 登录
+        return R.ok(IAuthStrategy.login(loginBody, clientVo));
     }
 
     /**
-     * 短信登录
+     * 第三方登录请求
      *
-     * @param smsLoginBody 登录信息
+     * @param source 登录来源
      * @return 结果
      */
-    @PostMapping("/smsLogin")
-    public R<LoginVo> smsLogin(@Validated @RequestBody SmsLoginBody smsLoginBody) {
-        LoginVo loginVo = new LoginVo();
-        // 生成令牌
-        String token = sysLoginService.smsLogin(
-            smsLoginBody.getTenantId(),
-            smsLoginBody.getPhonenumber(),
-            smsLoginBody.getSmsCode());
-        loginVo.setToken(token);
-        return R.ok(loginVo);
+    @GetMapping("/binding/{source}")
+    public R<String> authBinding(@PathVariable("source") String source) {
+        SocialLoginConfigProperties obj = socialProperties.getType().get(source);
+        if (ObjectUtil.isNull(obj)) {
+            return R.fail(source + "平台账号暂不支持");
+        }
+        AuthRequest authRequest = SocialUtils.getAuthRequest(source, socialProperties);
+        String authorizeUrl = authRequest.authorize(AuthStateUtils.createState());
+        return R.ok("操作成功", authorizeUrl);
     }
 
     /**
-     * 邮件登录
+     * 第三方登录回调业务处理 绑定授权
      *
-     * @param body 登录信息
+     * @param loginBody 请求体
      * @return 结果
      */
-    @PostMapping("/emailLogin")
-    public R<LoginVo> emailLogin(@Validated @RequestBody EmailLoginBody body) {
-        LoginVo loginVo = new LoginVo();
-        // 生成令牌
-        String token = sysLoginService.emailLogin(
-            body.getTenantId(),
-            body.getEmail(),
-            body.getEmailCode());
-        loginVo.setToken(token);
-        return R.ok(loginVo);
+    @PostMapping("/social/callback")
+    public R<Void> socialCallback(@RequestBody LoginBody loginBody) {
+        // 获取第三方登录信息
+        AuthResponse<AuthUser> response = SocialUtils.loginAuth(loginBody, socialProperties);
+        AuthUser authUserData = response.getData();
+        // 判断授权响应是否成功
+        if (!response.ok()) {
+            return R.fail(response.getMsg());
+        }
+        sysLoginService.socialRegister(authUserData);
+        return R.ok();
     }
 
+
     /**
-     * 小程序登录(示例)
+     * 取消授权
      *
-     * @param xcxCode 小程序code
-     * @return 结果
+     * @param socialId socialId
      */
-    @PostMapping("/xcxLogin")
-    public R<LoginVo> xcxLogin(@NotBlank(message = "{xcx.code.not.blank}") String xcxCode) {
-        LoginVo loginVo = new LoginVo();
-        // 生成令牌
-        String token = sysLoginService.xcxLogin(xcxCode);
-        loginVo.setToken(token);
-        return R.ok(loginVo);
+    @DeleteMapping(value = "/unlock/{socialId}")
+    public R<Void> unlockSocial(@PathVariable Long socialId) {
+        Boolean rows = remoteSocialService.deleteWithValidById(socialId);
+        return rows ? R.ok() : R.fail("取消授权失败");
     }
 
     /**

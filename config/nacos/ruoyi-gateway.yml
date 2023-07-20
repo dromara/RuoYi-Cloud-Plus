@@ -1,17 +1,5 @@
 # 安全配置
 security:
-  # 验证码
-  captcha:
-    # 是否开启验证码
-    enabled: true
-    # 验证码类型 math 数组计算 char 字符验证
-    type: MATH
-    # line 线段干扰 circle 圆圈干扰 shear 扭曲干扰
-    category: CIRCLE
-    # 数字验证码位数
-    numberLength: 1
-    # 字符验证码长度
-    charLength: 4
   # 防止XSS攻击
   xss:
     enabled: true
@@ -49,8 +37,6 @@ spring:
           predicates:
             - Path=/auth/**
           filters:
-            # 验证码处理
-            - ValidateCodeFilter
             - StripPrefix=1
         # 代码生成
         - id: ruoyi-gen

@@ -2,6 +2,7 @@ package org.dromara.auth.form;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.dromara.common.core.domain.model.LoginBody;
 
 /**
  * 用户注册对象

@@ -40,6 +40,7 @@
         <module>ruoyi-common-encrypt</module>
         <module>ruoyi-common-tenant</module>
         <module>ruoyi-common-websocket</module>
+        <module>ruoyi-common-social</module>
     </modules>
 
     <artifactId>ruoyi-common</artifactId>

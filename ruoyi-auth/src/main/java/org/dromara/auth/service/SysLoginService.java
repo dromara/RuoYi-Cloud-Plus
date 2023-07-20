@@ -6,33 +6,31 @@ import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.util.ObjectUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import me.zhyd.oauth.model.AuthUser;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.dromara.auth.form.RegisterBody;
 import org.dromara.auth.properties.UserPasswordProperties;
 import org.dromara.common.core.constant.Constants;
 import org.dromara.common.core.constant.GlobalConstants;
 import org.dromara.common.core.constant.TenantConstants;
-import org.dromara.common.core.enums.DeviceType;
 import org.dromara.common.core.enums.LoginType;
 import org.dromara.common.core.enums.TenantStatus;
 import org.dromara.common.core.enums.UserType;
-import org.dromara.common.core.exception.user.CaptchaExpireException;
 import org.dromara.common.core.exception.user.UserException;
-import org.dromara.common.core.utils.MessageUtils;
-import org.dromara.common.core.utils.ServletUtils;
-import org.dromara.common.core.utils.SpringUtils;
-import org.dromara.common.core.utils.StringUtils;
+import org.dromara.common.core.utils.*;
 import org.dromara.common.log.event.LogininforEvent;
 import org.dromara.common.redis.utils.RedisUtils;
 import org.dromara.common.satoken.utils.LoginHelper;
 import org.dromara.common.tenant.exception.TenantException;
 import org.dromara.common.tenant.helper.TenantHelper;
+import org.dromara.system.api.RemoteSocialService;
 import org.dromara.system.api.RemoteTenantService;
 import org.dromara.system.api.RemoteUserService;
+import org.dromara.system.api.domain.bo.RemoteSocialBo;
 import org.dromara.system.api.domain.bo.RemoteUserBo;
 import org.dromara.system.api.domain.vo.RemoteTenantVo;
 import org.dromara.system.api.model.LoginUser;
-import org.dromara.system.api.model.XcxLoginUser;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -54,65 +52,26 @@ public class SysLoginService {
     private RemoteUserService remoteUserService;
     @DubboReference
     private RemoteTenantService remoteTenantService;
+    @DubboReference
+    private RemoteSocialService remoteSocialService;
 
     @Autowired
     private UserPasswordProperties userPasswordProperties;
 
     /**
-     * 登录
+     * 绑定第三方用户
+     *
+     * @param authUserData 授权响应实体
      */
-    public String login(String tenantId, String username, String password) {
-        // 校验租户
-        checkTenant(tenantId);
-        LoginUser userInfo = remoteUserService.getUserInfo(username, tenantId);
-        checkLogin(LoginType.PASSWORD, tenantId, username, () -> !BCrypt.checkpw(password, userInfo.getPassword()));
-        // 获取登录token
-        LoginHelper.loginByDevice(userInfo, DeviceType.PC);
-
-        recordLogininfor(tenantId, username, Constants.LOGIN_SUCCESS, MessageUtils.message("user.login.success"));
-        return StpUtil.getTokenValue();
-    }
-
-    public String smsLogin(String tenantId, String phonenumber, String smsCode) {
-        // 校验租户
-        checkTenant(tenantId);
-        // 通过手机号查找用户
-        LoginUser userInfo = remoteUserService.getUserInfoByPhonenumber(phonenumber, tenantId);
-
-        checkLogin(LoginType.SMS, tenantId, userInfo.getUsername(), () -> !validateSmsCode(tenantId, phonenumber, smsCode));
-        // 生成token
-        LoginHelper.loginByDevice(userInfo, DeviceType.APP);
-
-        recordLogininfor(tenantId, userInfo.getUsername(), Constants.LOGIN_SUCCESS, MessageUtils.message("user.login.success"));
-        return StpUtil.getTokenValue();
-    }
-
-    public String emailLogin(String tenantId, String email, String emailCode) {
-        // 校验租户
-        checkTenant(tenantId);
-        // 通过邮箱查找用户
-        LoginUser userInfo = remoteUserService.getUserInfoByEmail(email, tenantId);
-
-        checkLogin(LoginType.EMAIL,tenantId, userInfo.getUsername(), () -> !validateEmailCode(tenantId, email, emailCode));
-        // 生成token
-        LoginHelper.loginByDevice(userInfo, DeviceType.APP);
-
-        recordLogininfor(tenantId, userInfo.getUsername(), Constants.LOGIN_SUCCESS, MessageUtils.message("user.login.success"));
-        return StpUtil.getTokenValue();
-    }
-
-    public String xcxLogin(String xcxCode) {
-        // xcxCode 为 小程序调用 wx.login 授权后获取
-        // todo 自行实现 校验 appid + appsrcret + xcxCode 调用登录凭证校验接口 获取 session_key 与 openid
-        String openid = "";
-        XcxLoginUser userInfo = remoteUserService.getUserInfoByOpenid(openid);
-        // 校验租户
-        checkTenant(userInfo.getTenantId());
-        // 生成token
-        LoginHelper.loginByDevice(userInfo, DeviceType.XCX);
-
-        recordLogininfor(userInfo.getTenantId(), userInfo.getUsername(), Constants.LOGIN_SUCCESS, MessageUtils.message("user.login.success"));
-        return StpUtil.getTokenValue();
+    public void socialRegister(AuthUser authUserData) {
+        RemoteSocialBo bo = new RemoteSocialBo();
+        bo.setUserId(LoginHelper.getUserId());
+        bo.setAuthId(authUserData.getSource() + authUserData.getUuid());
+        bo.setOpenId(authUserData.getUuid());
+        bo.setUserName(authUserData.getUsername());
+        BeanUtils.copyProperties(authUserData, bo);
+        BeanUtils.copyProperties(authUserData.getToken(), bo);
+        remoteSocialService.insertByBo(bo);
     }
 
     /**
@@ -178,33 +137,9 @@ public class SysLoginService {
     }
 
     /**
-     * 校验短信验证码
-     */
-    private boolean validateSmsCode(String tenantId, String phonenumber, String smsCode) {
-        String code = RedisUtils.getCacheObject(GlobalConstants.CAPTCHA_CODE_KEY + phonenumber);
-        if (StringUtils.isBlank(code)) {
-            recordLogininfor(tenantId, phonenumber, Constants.LOGIN_FAIL, MessageUtils.message("user.jcaptcha.expire"));
-            throw new CaptchaExpireException();
-        }
-        return code.equals(smsCode);
-    }
-
-    /**
-     * 校验邮箱验证码
-     */
-    private boolean validateEmailCode(String tenantId, String email, String emailCode) {
-        String code = RedisUtils.getCacheObject(GlobalConstants.CAPTCHA_CODE_KEY + email);
-        if (StringUtils.isBlank(code)) {
-            recordLogininfor(tenantId, email, Constants.LOGIN_FAIL, MessageUtils.message("user.jcaptcha.expire"));
-            throw new CaptchaExpireException();
-        }
-        return code.equals(emailCode);
-    }
-
-    /**
      * 登录校验
      */
-    private void checkLogin(LoginType loginType, String tenantId, String username, Supplier<Boolean> supplier) {
+    public void checkLogin(LoginType loginType, String tenantId, String username, Supplier<Boolean> supplier) {
         String errorKey = GlobalConstants.PWD_ERR_CNT_KEY + username;
         String loginFail = Constants.LOGIN_FAIL;
         Integer maxRetryCount = userPasswordProperties.getMaxRetryCount();
@@ -237,7 +172,12 @@ public class SysLoginService {
         RedisUtils.deleteObject(errorKey);
     }
 
-    private void checkTenant(String tenantId) {
+    /**
+     * 校验租户
+     *
+     * @param tenantId 租户ID
+     */
+    public void checkTenant(String tenantId) {
         if (!TenantHelper.isEnable()) {
             return;
         }

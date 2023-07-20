@@ -62,4 +62,6 @@ public interface RemoteUserService {
      * @return 结果
      */
     String selectUserNameById(Long userId);
+
+    void recordLoginInfo(Long userId);
 }

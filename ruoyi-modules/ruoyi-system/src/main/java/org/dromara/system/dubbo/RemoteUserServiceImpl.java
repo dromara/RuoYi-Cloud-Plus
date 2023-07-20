@@ -8,7 +8,9 @@ import org.apache.dubbo.config.annotation.DubboService;
 import org.dromara.common.core.enums.UserStatus;
 import org.dromara.common.core.exception.ServiceException;
 import org.dromara.common.core.exception.user.UserException;
+import org.dromara.common.core.utils.DateUtils;
 import org.dromara.common.core.utils.MapstructUtils;
+import org.dromara.common.core.utils.ServletUtils;
 import org.dromara.common.tenant.helper.TenantHelper;
 import org.dromara.system.api.RemoteUserService;
 import org.dromara.system.api.domain.bo.RemoteUserBo;
@@ -55,7 +57,10 @@ public class RemoteUserServiceImpl implements RemoteUserService {
         }
         // 框架登录不限制从什么表查询 只要最终构建出 LoginUser 即可
         // 此处可根据登录用户的数据不同 自行创建 loginUser 属性不够用继承扩展就行了
-        return buildLoginUser(userMapper.selectTenantUserByUserName(username, tenantId));
+        if (TenantHelper.isEnable()) {
+            return buildLoginUser(userMapper.selectTenantUserByUserName(username, tenantId));
+        }
+        return buildLoginUser(userMapper.selectUserByUserName(username));
     }
 
     @Override
@@ -72,7 +77,10 @@ public class RemoteUserServiceImpl implements RemoteUserService {
         }
         // 框架登录不限制从什么表查询 只要最终构建出 LoginUser 即可
         // 此处可根据登录用户的数据不同 自行创建 loginUser 属性不够用继承扩展就行了
-        return buildLoginUser(userMapper.selectTenantUserByPhonenumber(phonenumber, tenantId));
+        if (TenantHelper.isEnable()) {
+            return buildLoginUser(userMapper.selectTenantUserByPhonenumber(phonenumber, tenantId));
+        }
+        return buildLoginUser(userMapper.selectUserByPhonenumber(phonenumber));
     }
 
     @Override
@@ -89,7 +97,10 @@ public class RemoteUserServiceImpl implements RemoteUserService {
         }
         // 框架登录不限制从什么表查询 只要最终构建出 LoginUser 即可
         // 此处可根据登录用户的数据不同 自行创建 loginUser 属性不够用继承扩展就行了
-        return buildLoginUser(userMapper.selectTenantUserByEmail(email, tenantId));
+        if (TenantHelper.isEnable()) {
+            return buildLoginUser(userMapper.selectTenantUserByEmail(email, tenantId));
+        }
+        return buildLoginUser(userMapper.selectUserByEmail(email));
     }
 
     @Override
@@ -147,6 +158,21 @@ public class RemoteUserServiceImpl implements RemoteUserService {
         List<RoleDTO> roles = BeanUtil.copyToList(userVo.getRoles(), RoleDTO.class);
         loginUser.setRoles(roles);
         return loginUser;
+    }
+
+    /**
+     * 记录登录信息
+     *
+     * @param userId 用户ID
+     */
+    @Override
+    public void recordLoginInfo(Long userId) {
+        SysUser sysUser = new SysUser();
+        sysUser.setUserId(userId);
+        sysUser.setLoginIp(ServletUtils.getClientIP());
+        sysUser.setLoginDate(DateUtils.getNowDate());
+        sysUser.setUpdateBy(userId);
+        userMapper.updateById(sysUser);
     }
 
 }
