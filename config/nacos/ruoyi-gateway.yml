@@ -8,11 +8,11 @@ security:
   # 不校验白名单
   ignore:
     whites:
-      - /code
+      - /auth/code
       - /auth/logout
       - /auth/login
-      - /auth/smsLogin
-      - /auth/xcxLogin
+      - /auth/binding/*
+      - /auth/social/callback
       - /auth/register
       - /auth/tenant/list
       - /resource/sms/code
