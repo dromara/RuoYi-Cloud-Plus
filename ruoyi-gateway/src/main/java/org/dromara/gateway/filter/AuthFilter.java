@@ -1,13 +1,19 @@
 package org.dromara.gateway.filter;
 
+import cn.dev33.satoken.exception.NotLoginException;
+import cn.dev33.satoken.reactor.context.SaReactorSyncHolder;
 import cn.dev33.satoken.reactor.filter.SaReactorFilter;
 import cn.dev33.satoken.router.SaRouter;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.dev33.satoken.util.SaResult;
 import org.dromara.common.core.constant.HttpStatus;
+import org.dromara.common.core.utils.ServletUtils;
+import org.dromara.common.core.utils.StringUtils;
+import org.dromara.common.satoken.utils.LoginHelper;
 import org.dromara.gateway.config.properties.IgnoreWhiteProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.server.reactive.ServerHttpRequest;
 
 /**
  * [Sa-Token 权限认证] 拦截器
@@ -34,6 +40,19 @@ public class AuthFilter {
                     .check(r -> {
                         // 检查是否登录 是否有token
                         StpUtil.checkLogin();
+
+                        // 检查 header 里的 clientId 与 token 里的是否一致
+                        ServerHttpRequest request = SaReactorSyncHolder.getContext().getRequest();
+                        String headerCid = request.getHeaders().getFirst(LoginHelper.CLIENT_KEY);
+                        String clientId = StpUtil.getExtra(LoginHelper.CLIENT_KEY).toString();
+                        if (!StringUtils.equals(headerCid, clientId)) {
+                            // token 无效
+                            throw NotLoginException.newInstance(
+                                StpUtil.getLoginType(),
+                                NotLoginException.INVALID_TOKEN,
+                                NotLoginException.NOT_TOKEN_MESSAGE,
+                                StpUtil.getTokenValue());
+                        }
 
                         // 有效率影响 用于临时测试
                         // if (log.isDebugEnabled()) {
