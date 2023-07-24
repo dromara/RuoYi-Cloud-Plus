@@ -1,7 +1,9 @@
 package org.dromara.gateway.filter;
 
 import cn.hutool.core.map.MapUtil;
+import cn.hutool.core.util.ObjectUtil;
 import org.dromara.common.json.utils.JsonUtils;
+import org.dromara.gateway.config.properties.ApiDecryptProperties;
 import org.dromara.gateway.config.properties.CustomGatewayProperties;
 import org.dromara.gateway.utils.WebFluxUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -28,6 +30,8 @@ public class GlobalLogFilter implements GlobalFilter, Ordered {
 
     @Autowired
     private CustomGatewayProperties customGatewayProperties;
+    @Autowired
+    private ApiDecryptProperties apiDecryptProperties;
 
     private static final String START_TIME = "startTime";
 
@@ -42,8 +46,13 @@ public class GlobalLogFilter implements GlobalFilter, Ordered {
 
         // 打印请求参数
         if (WebFluxUtils.isJsonRequest(exchange)) {
-            String jsonParam = WebFluxUtils.resolveBodyFromCacheRequest(exchange);
-            log.info("[PLUS]开始请求 => URL[{}],参数类型[json],参数:[{}]", url, jsonParam);
+            if (apiDecryptProperties.getEnabled()
+                && ObjectUtil.isNotNull(request.getHeaders().getFirst(apiDecryptProperties.getHeaderFlag()))) {
+                log.info("[PLUS]开始请求 => URL[{}],参数类型[encrypt]", url);
+            } else {
+                String jsonParam = WebFluxUtils.resolveBodyFromCacheRequest(exchange);
+                log.info("[PLUS]开始请求 => URL[{}],参数类型[json],参数:[{}]", url, jsonParam);
+            }
         } else {
             MultiValueMap<String, String> parameterMap = request.getQueryParams();
             if (MapUtil.isNotEmpty(parameterMap)) {
