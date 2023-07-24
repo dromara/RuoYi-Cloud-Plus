@@ -38,7 +38,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class PasswordAuthStrategy implements IAuthStrategy {
 
-    @Value("{security.captcha.enabled}")
+    @Value("${security.captcha.enabled}")
     private Boolean captchaEnabled;
 
     private final SysLoginService loginService;
