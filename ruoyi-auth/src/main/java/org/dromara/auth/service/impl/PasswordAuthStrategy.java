@@ -6,6 +6,7 @@ import cn.dev33.satoken.stp.StpUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboReference;
+import org.apache.dubbo.rpc.RpcContext;
 import org.dromara.auth.domain.vo.LoginVo;
 import org.dromara.common.core.exception.CaptchaException;
 import org.dromara.common.core.domain.model.LoginBody;
@@ -17,6 +18,7 @@ import org.dromara.common.core.constant.GlobalConstants;
 import org.dromara.common.core.enums.LoginType;
 import org.dromara.common.core.exception.user.CaptchaExpireException;
 import org.dromara.common.core.utils.MessageUtils;
+import org.dromara.common.core.utils.ServletUtils;
 import org.dromara.common.core.utils.StringUtils;
 import org.dromara.common.core.utils.ValidatorUtils;
 import org.dromara.common.core.validate.auth.PasswordGroup;
@@ -77,7 +79,7 @@ public class PasswordAuthStrategy implements IAuthStrategy {
         LoginHelper.login(loginUser, model);
 
         loginService.recordLogininfor(loginUser.getTenantId(), username, Constants.LOGIN_SUCCESS, MessageUtils.message("user.login.success"));
-        remoteUserService.recordLoginInfo(loginUser.getUserId());
+        loginService.recordLoginInfo(loginUser);
 
         LoginVo loginVo = new LoginVo();
         loginVo.setAccessToken(StpUtil.getTokenValue());

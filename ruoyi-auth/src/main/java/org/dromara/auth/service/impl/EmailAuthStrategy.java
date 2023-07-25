@@ -64,7 +64,7 @@ public class EmailAuthStrategy implements IAuthStrategy {
         LoginHelper.login(loginUser, model);
 
         loginService.recordLogininfor(loginUser.getTenantId(), loginUser.getUsername(), Constants.LOGIN_SUCCESS, MessageUtils.message("user.login.success"));
-        remoteUserService.recordLoginInfo(loginUser.getUserId());
+        loginService.recordLoginInfo(loginUser);
 
         LoginVo loginVo = new LoginVo();
         loginVo.setAccessToken(StpUtil.getTokenValue());

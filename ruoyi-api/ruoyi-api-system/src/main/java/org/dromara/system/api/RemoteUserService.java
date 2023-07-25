@@ -63,5 +63,11 @@ public interface RemoteUserService {
      */
     String selectUserNameById(Long userId);
 
-    void recordLoginInfo(Long userId);
+    /**
+     * 更新用户信息
+     *
+     * @param remoteUserBo 用户信息
+     */
+    void updateUser(RemoteUserBo remoteUserBo);
+
 }

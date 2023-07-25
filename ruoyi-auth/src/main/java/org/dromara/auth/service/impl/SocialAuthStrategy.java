@@ -101,7 +101,7 @@ public class SocialAuthStrategy implements IAuthStrategy {
         LoginHelper.login(loginUser, model);
 
         loginService.recordLogininfor(loginUser.getTenantId(), socialVo.getUserName(), Constants.LOGIN_SUCCESS, MessageUtils.message("user.login.success"));
-        remoteUserService.recordLoginInfo(socialVo.getUserId());
+        loginService.recordLoginInfo(loginUser);
 
         LoginVo loginVo = new LoginVo();
         loginVo.setAccessToken(StpUtil.getTokenValue());
