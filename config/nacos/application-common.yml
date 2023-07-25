@@ -245,8 +245,13 @@ mybatis-encryptor:
   publicKey:
   privateKey:
 
-# swagger配置
-swagger:
+springdoc:
+  api-docs:
+    # 是否开启接口文档
+    enabled: true
+#  swagger-ui:
+#    # 持久化认证数据
+#    persistAuthorization: true
   info:
     # 标题
     title: '标题：RuoYi-Cloud-Plus微服务权限管理系统_接口文档'
@@ -270,14 +275,6 @@ swagger:
   # 默认为服务名去除前缀转换为path 此处填特殊的配置
   service-mapping:
     ruoyi-gen: /code
-
-springdoc:
-  api-docs:
-    # 是否开启接口文档
-    enabled: true
-  swagger-ui:
-    # 持久化认证数据
-    persistAuthorization: true
 
 # seata配置
 seata:

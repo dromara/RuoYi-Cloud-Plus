@@ -1,7 +1,7 @@
 package com.ruoyi.common.doc.config;
 
 import com.ruoyi.common.core.utils.StringUtils;
-import com.ruoyi.common.doc.config.properties.SwaggerProperties;
+import com.ruoyi.common.doc.config.properties.SpringDocProperties;
 import com.ruoyi.common.doc.handler.OpenApiHandler;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Paths;
@@ -30,12 +30,11 @@ import java.util.*;
  */
 @RequiredArgsConstructor
 @AutoConfiguration(before = SpringDocConfiguration.class)
-@EnableConfigurationProperties(SwaggerProperties.class)
+@EnableConfigurationProperties(SpringDocProperties.class)
 @ConditionalOnProperty(name = "springdoc.api-docs.enabled", havingValue = "true", matchIfMissing = true)
-public class SwaggerAutoConfiguration {
+public class SpringDocAutoConfiguration {
 
-    private final SwaggerProperties swaggerProperties;
-
+    private final SpringDocProperties properties;
     private final ServerProperties serverProperties;
 
     @Value("${spring.application.name}")
@@ -43,18 +42,18 @@ public class SwaggerAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean(OpenAPI.class)
-    public OpenAPI openApi() {
+    public OpenAPI openApi(SpringDocProperties properties) {
         OpenAPI openApi = new OpenAPI();
         // 文档基本信息
-        SwaggerProperties.InfoProperties infoProperties = swaggerProperties.getInfo();
+        SpringDocProperties.InfoProperties infoProperties = properties.getInfo();
         Info info = convertInfo(infoProperties);
         openApi.info(info);
         // 扩展文档信息
-        openApi.externalDocs(swaggerProperties.getExternalDocs());
-        openApi.tags(swaggerProperties.getTags());
-        openApi.paths(swaggerProperties.getPaths());
-        openApi.components(swaggerProperties.getComponents());
-        Set<String> keySet = swaggerProperties.getComponents().getSecuritySchemes().keySet();
+        openApi.externalDocs(properties.getExternalDocs());
+        openApi.tags(properties.getTags());
+        openApi.paths(properties.getPaths());
+        openApi.components(properties.getComponents());
+        Set<String> keySet = properties.getComponents().getSecuritySchemes().keySet();
         List<SecurityRequirement> list = new ArrayList<>();
         SecurityRequirement securityRequirement = new SecurityRequirement();
         keySet.forEach(securityRequirement::addList);
@@ -64,7 +63,7 @@ public class SwaggerAutoConfiguration {
         return openApi;
     }
 
-    private Info convertInfo(SwaggerProperties.InfoProperties infoProperties) {
+    private Info convertInfo(SpringDocProperties.InfoProperties infoProperties) {
         Info info = new Info();
         info.setTitle(infoProperties.getTitle());
         info.setDescription(infoProperties.getDescription());
@@ -92,7 +91,7 @@ public class SwaggerAutoConfiguration {
     @Bean
     public OpenApiCustomiser openApiCustomiser() {
         // 如果服务的自定义 Path 不存在 则采用默认去除前缀当 Path
-        Map<String, String> serviceMapping = swaggerProperties.getServiceMapping();
+        Map<String, String> serviceMapping = properties.getServiceMapping();
         String appPath;
         if (serviceMapping.containsKey(appName)) {
             appPath = serviceMapping.get(appName);
