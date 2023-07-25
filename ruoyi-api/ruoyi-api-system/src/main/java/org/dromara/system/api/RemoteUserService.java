@@ -66,8 +66,9 @@ public interface RemoteUserService {
     /**
      * 更新用户信息
      *
-     * @param remoteUserBo 用户信息
+     * @param userId 用户ID
+     * @param ip     IP地址
      */
-    void updateUser(RemoteUserBo remoteUserBo);
+    void recordLoginInfo(Long userId, String ip);
 
 }

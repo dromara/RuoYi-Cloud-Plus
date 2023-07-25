@@ -137,20 +137,6 @@ public class SysLoginService {
     }
 
     /**
-     * 记录登录信息
-     *
-     * @param loginUser 用户信息
-     */
-    public void recordLoginInfo(LoginUser loginUser) {
-        RemoteUserBo bo = new RemoteUserBo();
-        bo.setUserId(loginUser.getUserId());
-        bo.setUserName(loginUser.getUsername());
-        bo.setLoginIp(ServletUtils.getClientIP());
-        bo.setLoginDate(DateUtils.getNowDate());
-        remoteUserService.updateUser(bo);
-    }
-
-    /**
      * 登录校验
      */
     public void checkLogin(LoginType loginType, String tenantId, String username, Supplier<Boolean> supplier) {

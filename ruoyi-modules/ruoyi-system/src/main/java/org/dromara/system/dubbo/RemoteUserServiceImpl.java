@@ -8,6 +8,7 @@ import org.apache.dubbo.config.annotation.DubboService;
 import org.dromara.common.core.enums.UserStatus;
 import org.dromara.common.core.exception.ServiceException;
 import org.dromara.common.core.exception.user.UserException;
+import org.dromara.common.core.utils.DateUtils;
 import org.dromara.common.core.utils.MapstructUtils;
 import org.dromara.common.tenant.helper.TenantHelper;
 import org.dromara.system.api.RemoteUserService;
@@ -161,13 +162,17 @@ public class RemoteUserServiceImpl implements RemoteUserService {
     /**
      * 更新用户信息
      *
-     * @param remoteUserBo 用户信息
+     * @param userId 用户ID
+     * @param ip     IP地址
      */
     @Override
-    public void updateUser(RemoteUserBo remoteUserBo) {
-        SysUserBo sysUserBo = MapstructUtils.convert(remoteUserBo, SysUserBo.class);
-        sysUserBo.setUpdateBy(remoteUserBo.getUserId());
-        userService.updateUser(sysUserBo);
+    public void recordLoginInfo(Long userId, String ip) {
+        SysUser sysUser = new SysUser();
+        sysUser.setUserId(userId);
+        sysUser.setLoginIp(ip);
+        sysUser.setLoginDate(DateUtils.getNowDate());
+        sysUser.setUpdateBy(userId);
+        userMapper.updateById(sysUser);
     }
 
 }
