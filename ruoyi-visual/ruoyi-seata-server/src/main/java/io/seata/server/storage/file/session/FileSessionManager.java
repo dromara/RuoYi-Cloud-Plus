@@ -220,6 +220,7 @@ public class FileSessionManager extends AbstractSessionManager implements Reload
             case RollbackFailed:
             case TimeoutRollbacked:
             case TimeoutRollbackFailed:
+            case RollbackRetryTimeout:
             case Finished:
                 return false;
             default:

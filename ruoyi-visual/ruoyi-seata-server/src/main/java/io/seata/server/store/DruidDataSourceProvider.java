@@ -20,6 +20,7 @@ import io.seata.common.loader.LoadLevel;
 import io.seata.core.store.db.AbstractDataSourceProvider;
 
 import javax.sql.DataSource;
+import java.sql.Connection;
 
 /**
  * The druid datasource provider
@@ -52,6 +53,7 @@ public class DruidDataSourceProvider extends AbstractDataSourceProvider {
         ds.setDefaultAutoCommit(true);
         // fix issue 5030
         ds.setUseOracleImplicitCache(false);
+        ds.setDefaultTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
         return ds;
     }
 }

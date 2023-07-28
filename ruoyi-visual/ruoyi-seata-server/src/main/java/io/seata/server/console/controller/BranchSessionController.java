@@ -23,6 +23,7 @@ import javax.annotation.Resource;
 
 /**
  * Branch Session Controller
+ *
  * @author zhongxiang.wang
  */
 @RestController
@@ -31,6 +32,5 @@ public class BranchSessionController {
 
     @Resource(type = BranchSessionService.class)
     private BranchSessionService branchSessionService;
-
 
 }

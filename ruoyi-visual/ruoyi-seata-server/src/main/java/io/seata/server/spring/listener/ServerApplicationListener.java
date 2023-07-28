@@ -13,11 +13,10 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package io.seata.server;
+package io.seata.server.spring.listener;
 
 import io.seata.common.holder.ObjectHolder;
 import io.seata.common.util.StringUtils;
-import io.seata.server.store.StoreConfig;
 import io.seata.spring.boot.autoconfigure.SeataCoreEnvironmentPostProcessor;
 import io.seata.spring.boot.autoconfigure.SeataServerEnvironmentPostProcessor;
 import org.springframework.boot.context.event.ApplicationEnvironmentPreparedEvent;
@@ -56,9 +55,6 @@ public class ServerApplicationListener implements GenericApplicationListener {
         ObjectHolder.INSTANCE.setObject(OBJECT_KEY_SPRING_CONFIGURABLE_ENVIRONMENT, environment);
         SeataCoreEnvironmentPostProcessor.init();
         SeataServerEnvironmentPostProcessor.init();
-        // Load by priority
-        System.setProperty("sessionMode", StoreConfig.getSessionMode().getName());
-        System.setProperty("lockMode", StoreConfig.getLockMode().getName());
 
         String[] args = environmentPreparedEvent.getArgs();
 

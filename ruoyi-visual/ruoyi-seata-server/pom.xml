@@ -27,10 +27,11 @@
     <packaging>jar</packaging>
 
     <properties>
-        <seata.version>1.6.1</seata.version>
-        <jcommander.version>1.72</jcommander.version>
+        <seata.version>1.7.0</seata.version>
+        <jcommander.version>1.82</jcommander.version>
         <druid.version>1.2.12</druid.version>
-        <spring-boot.version>2.7.12</spring-boot.version>
+        <spring-boot.version>2.7.14</spring-boot.version>
+        <native-build-tools-plugin.version>0.9.20</native-build-tools-plugin.version>
     </properties>
 
     <dependencyManagement>
@@ -196,7 +197,10 @@
             <groupId>net.logstash.logback</groupId>
             <artifactId>logstash-logback-encoder</artifactId>
         </dependency>
-
+        <dependency>
+            <groupId>org.codehaus.janino</groupId>
+            <artifactId>janino</artifactId>
+        </dependency>
     </dependencies>
 
     <build>
