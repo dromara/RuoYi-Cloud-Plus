@@ -17,7 +17,6 @@ import lombok.NoArgsConstructor;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.Set;
 
 /**
  * 角色表 sys_role
@@ -65,7 +64,7 @@ public class SysRole extends BaseEntity {
     /**
      * 数据范围（1：所有数据权限；2：自定义数据权限；3：本部门数据权限；4：本部门及以下数据权限；5：仅本人数据权限）
      */
-    @ExcelProperty(value = "数据范围", converter = ExcelDictConvert.class)
+    @ExcelProperty(value = "数据范围", index = 5, converter = ExcelDictConvert.class)
     @ExcelDictFormat(readConverterExp = "1=所有数据权限,2=自定义数据权限,3=本部门数据权限,4=本部门及以下数据权限,5=仅本人数据权限")
     private String dataScope;
 
@@ -82,7 +81,7 @@ public class SysRole extends BaseEntity {
     /**
      * 角色状态（0正常 1停用）
      */
-    @ExcelProperty(value = "角色状态", converter = ExcelDictConvert.class)
+    @ExcelProperty(value = "角色状态", index = 6, converter = ExcelDictConvert.class)
     @ExcelDictFormat(dictType = "sys_normal_disable")
     private String status;
 
