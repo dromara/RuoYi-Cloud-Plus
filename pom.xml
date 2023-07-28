@@ -17,24 +17,23 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>17</java.version>
-        <spring-boot.version>3.0.8</spring-boot.version>
-        <spring-cloud.version>2022.0.2</spring-cloud.version>
-        <spring-boot-admin.version>3.0.4</spring-boot-admin.version>
-        <spring-boot.mybatis>2.2.2</spring-boot.mybatis>
+        <spring-boot.version>3.1.2</spring-boot.version>
+        <spring-cloud.version>2022.0.4</spring-cloud.version>
+        <spring-boot-admin.version>3.1.3</spring-boot-admin.version>
+        <spring-boot.mybatis>3.0.2</spring-boot.mybatis>
         <mybatis.version>3.5.10</mybatis.version>
         <mybatis-plus.version>3.5.3.1</mybatis-plus.version>
         <p6spy.version>3.9.1</p6spy.version>
-        <dynamic-ds.version>4.1.1</dynamic-ds.version>
+        <dynamic-ds.version>4.1.2</dynamic-ds.version>
         <velocity.version>2.3</velocity.version>
         <swagger.core.version>2.2.9</swagger.core.version>
         <springdoc.version>2.1.0</springdoc.version>
         <therapi-javadoc.version>0.15.0</therapi-javadoc.version>
         <poi.version>5.2.3</poi.version>
-        <easyexcel.version>3.3.1</easyexcel.version>
-        <hutool.version>5.8.18</hutool.version>
-        <redisson.version>3.20.1</redisson.version>
+        <easyexcel.version>3.3.2</easyexcel.version>
+        <hutool.version>5.8.20</hutool.version>
+        <redisson.version>3.23.1</redisson.version>
         <lock4j.version>2.2.4</lock4j.version>
-        <xxl-job.version>2.4.0</xxl-job.version>
         <powerjob.version>4.3.3</powerjob.version>
         <satoken.version>1.35.0.RC</satoken.version>
         <lombok.version>1.18.26</lombok.version>
@@ -44,7 +43,7 @@
         <skywalking-toolkit.version>8.14.0</skywalking-toolkit.version>
         <bouncycastle.version>1.72</bouncycastle.version>
         <alibaba-ttl.version>2.14.2</alibaba-ttl.version>
-        <mapstruct-plus.version>1.3.1</mapstruct-plus.version>
+        <mapstruct-plus.version>1.3.5</mapstruct-plus.version>
         <mapstruct-plus.lombok.version>0.2.0</mapstruct-plus.lombok.version>
         <justauth.version>1.16.5</justauth.version>
         <!-- 离线IP地址定位库 -->
@@ -56,7 +55,7 @@
         <fastjson.version>1.2.83</fastjson.version>
 
         <!-- OSS 配置 -->
-        <aws-java-sdk-s3.version>1.12.400</aws-java-sdk-s3.version>
+        <aws-java-sdk-s3.version>1.12.517</aws-java-sdk-s3.version>
         <okhttp.version>4.10.0</okhttp.version>
 
         <!-- SMS 配置 -->
@@ -64,7 +63,7 @@
 
         <!-- 插件版本 -->
         <maven-compiler-plugin.verison>3.11.0</maven-compiler-plugin.verison>
-        <maven-surefire-plugin.version>3.0.0</maven-surefire-plugin.version>
+        <maven-surefire-plugin.version>3.1.2</maven-surefire-plugin.version>
         <flatten-maven-plugin.version>1.3.0</flatten-maven-plugin.version>
     </properties>
 
