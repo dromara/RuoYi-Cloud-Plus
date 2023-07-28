@@ -8,6 +8,7 @@ import org.dromara.common.excel.annotation.ExcelDictFormat;
 import org.dromara.common.excel.convert.ExcelDictConvert;
 import org.dromara.system.domain.SysTenant;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -22,6 +23,7 @@ import java.util.Date;
 @AutoMapper(target = SysTenant.class)
 public class SysTenantVo implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     /**
@@ -105,7 +107,7 @@ public class SysTenantVo implements Serializable {
     /**
      * 租户状态（0正常 1停用）
      */
-    @ExcelProperty(value = "租户状态", converter = ExcelDictConvert.class)
+    @ExcelProperty(value = "租户状态", index = 13, converter = ExcelDictConvert.class)
     @ExcelDictFormat(readConverterExp = "0=正常,1=停用")
     private String status;
 
