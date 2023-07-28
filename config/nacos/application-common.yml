@@ -91,7 +91,7 @@ spring:
       # password:
       database: 0
       timeout: 10s
-      ssl.enable: false
+      ssl.enabled: false
 
 # redisson 配置
 redisson:
