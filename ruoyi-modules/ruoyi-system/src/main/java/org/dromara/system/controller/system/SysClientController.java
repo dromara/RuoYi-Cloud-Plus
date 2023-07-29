@@ -31,7 +31,7 @@ import java.util.List;
 @Validated
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/system/client")
+@RequestMapping("/client")
 public class SysClientController extends BaseController {
 
     private final ISysClientService sysClientService;
