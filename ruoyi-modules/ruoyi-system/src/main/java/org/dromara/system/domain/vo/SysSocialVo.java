@@ -3,12 +3,8 @@ package org.dromara.system.domain.vo;
 import com.alibaba.excel.annotation.ExcelIgnoreUnannotated;
 import com.alibaba.excel.annotation.ExcelProperty;
 import io.github.linpeilie.annotations.AutoMapper;
-import io.github.linpeilie.annotations.AutoMappers;
 import lombok.Data;
-import org.dromara.system.api.domain.bo.RemoteSocialBo;
-import org.dromara.system.api.domain.vo.RemoteSocialVo;
 import org.dromara.system.domain.SysSocial;
-import org.dromara.system.domain.bo.SysSocialBo;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -22,10 +18,7 @@ import java.util.Date;
  */
 @Data
 @ExcelIgnoreUnannotated
-@AutoMappers({
-    @AutoMapper(target = SysSocial.class, reverseConvertGenerate = false),
-    @AutoMapper(target = RemoteSocialVo.class)
-})
+@AutoMapper(target = SysSocial.class)
 public class SysSocialVo implements Serializable {
 
     @Serial
