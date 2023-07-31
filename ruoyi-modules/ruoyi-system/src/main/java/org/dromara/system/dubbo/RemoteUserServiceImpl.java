@@ -63,6 +63,26 @@ public class RemoteUserServiceImpl implements RemoteUserService {
     }
 
     @Override
+    public LoginUser getUserInfo(Long userId, String tenantId) throws UserException {
+        SysUser sysUser = userMapper.selectOne(new LambdaQueryWrapper<SysUser>()
+            .select(SysUser::getUserName, SysUser::getStatus)
+            .eq(TenantHelper.isEnable(), SysUser::getTenantId, tenantId)
+            .eq(SysUser::getUserId, userId));
+        if (ObjectUtil.isNull(sysUser)) {
+            throw new UserException("user.not.exists", "");
+        }
+        if (UserStatus.DISABLE.getCode().equals(sysUser.getStatus())) {
+            throw new UserException("user.blocked", sysUser.getUserName());
+        }
+        // 框架登录不限制从什么表查询 只要最终构建出 LoginUser 即可
+        // 此处可根据登录用户的数据不同 自行创建 loginUser 属性不够用继承扩展就行了
+        if (TenantHelper.isEnable()) {
+            return buildLoginUser(userMapper.selectTenantUserByUserName(sysUser.getUserName(), tenantId));
+        }
+        return buildLoginUser(userMapper.selectUserByUserName(sysUser.getUserName()));
+    }
+
+    @Override
     public LoginUser getUserInfoByPhonenumber(String phonenumber, String tenantId) throws UserException {
         SysUser sysUser = userMapper.selectOne(new LambdaQueryWrapper<SysUser>()
             .select(SysUser::getPhonenumber, SysUser::getStatus)

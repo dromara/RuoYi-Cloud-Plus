@@ -22,6 +22,15 @@ public interface RemoteUserService {
     LoginUser getUserInfo(String username, String tenantId) throws UserException;
 
     /**
+     * 通过用户id查询用户信息
+     *
+     * @param userId   用户id
+     * @param tenantId 租户id
+     * @return 结果
+     */
+    LoginUser getUserInfo(Long userId, String tenantId) throws UserException;
+
+    /**
      * 通过手机号查询用户信息
      *
      * @param phonenumber 手机号

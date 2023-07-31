@@ -90,7 +90,7 @@ public class SocialAuthStrategy implements IAuthStrategy {
             throw new ServiceException("对不起，你没有权限登录当前租户！");
         }
 
-        LoginUser loginUser = remoteUserService.getUserInfo(socialVo.getUserName(), tenantId);
+        LoginUser loginUser = remoteUserService.getUserInfo(socialVo.getUserId(), tenantId);
         SaLoginModel model = new SaLoginModel();
         model.setDevice(client.getDeviceType());
         // 自定义分配 不同用户体系 不同 token 授权时间 不设置默认走全局 yml 配置
