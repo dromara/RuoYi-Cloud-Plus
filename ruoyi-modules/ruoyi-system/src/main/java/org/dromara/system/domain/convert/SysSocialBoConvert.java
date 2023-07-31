@@ -1,8 +1,8 @@
 package org.dromara.system.domain.convert;
 
 import io.github.linpeilie.BaseMapper;
-import org.dromara.system.api.domain.vo.RemoteSocialVo;
-import org.dromara.system.domain.vo.SysSocialVo;
+import org.dromara.system.api.domain.bo.RemoteSocialBo;
+import org.dromara.system.domain.bo.SysSocialBo;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;
 import org.mapstruct.ReportingPolicy;
@@ -13,5 +13,5 @@ import org.mapstruct.ReportingPolicy;
  * @author Michelle.Chung
  */
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING, unmappedTargetPolicy = ReportingPolicy.IGNORE)
-public interface SysSocialVoConvert extends BaseMapper<SysSocialVo, RemoteSocialVo> {
+public interface SysSocialBoConvert extends BaseMapper<RemoteSocialBo, SysSocialBo> {
 }
