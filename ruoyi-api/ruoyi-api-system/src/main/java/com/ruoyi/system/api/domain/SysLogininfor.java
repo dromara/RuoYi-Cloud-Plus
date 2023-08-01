@@ -44,7 +44,7 @@ public class SysLogininfor implements Serializable {
     /**
      * 状态 0成功 1失败
      */
-    @ExcelProperty(value = "状态", index = 2, converter = ExcelDictConvert.class)
+    @ExcelProperty(value = "状态", converter = ExcelDictConvert.class)
     @ExcelDictFormat(dictType = "sys_common_status")
     private String status;
 
