@@ -18,108 +18,110 @@
 ######################################################################################################
 #
 # Here you can configure the rules for the proxy.
-# This example is configuration of HA rule.
+# This example is configuration of mask rule.
 #
 ######################################################################################################
 #
-#schemaName: database_discovery_db
+#databaseName: mask_db
 #
 #dataSources:
-#  primary_ds:
-#    url: jdbc:postgresql://127.0.0.1:5432/demo_primary_ds
+#  ds_0:
+#    url: jdbc:postgresql://127.0.0.1:5432/demo_ds_0
 #    username: postgres
 #    password: postgres
-#    connectionTimeoutMilliseconds: 3000
+#    connectionTimeoutMilliseconds: 30000
 #    idleTimeoutMilliseconds: 60000
 #    maxLifetimeMilliseconds: 1800000
 #    maxPoolSize: 50
 #    minPoolSize: 1
-#  replica_ds_0:
-#    url: jdbc:postgresql://127.0.0.1:5432/demo_replica_ds_0
+#  ds_1:
+#    url: jdbc:postgresql://127.0.0.1:5432/demo_ds_1
 #    username: postgres
 #    password: postgres
-#    connectionTimeoutMilliseconds: 3000
-#    idleTimeoutMilliseconds: 60000
-#    maxLifetimeMilliseconds: 1800000
-#    maxPoolSize: 50
-#    minPoolSize: 1
-#  replica_ds_1:
-#    url: jdbc:postgresql://127.0.0.1:5432/demo_replica_ds_1
-#    username: postgres
-#    password: postgres
-#    connectionTimeoutMilliseconds: 3000
+#    connectionTimeoutMilliseconds: 30000
 #    idleTimeoutMilliseconds: 60000
 #    maxLifetimeMilliseconds: 1800000
 #    maxPoolSize: 50
 #    minPoolSize: 1
 #
 #rules:
-#- !DB_DISCOVERY
-#  dataSources:
-#    pr_ds:
-#      dataSourceNames:
-#        - ds_0
-#        - ds_1
-#        - ds_2
-#      discoveryTypeName: mgr
-#  discoveryTypes:
-#    mgr:
-#      type: MGR
+#- !MASK
+#  tables:
+#    t_user:
+#      columns:
+#        password:
+#          maskAlgorithm: md5_mask
+#        email:
+#          maskAlgorithm: mask_before_special_chars_mask
+#        telephone:
+#          maskAlgorithm: keep_first_n_last_m_mask
+#
+#  maskAlgorithms:
+#    md5_mask:
+#      type: MD5
+#    mask_before_special_chars_mask:
+#      type: MASK_BEFORE_SPECIAL_CHARS
 #      props:
-#        groupName: 92504d5b-6dec-11e8-91ea-246e9612aaf1
-#        zkServerLists: 'localhost:2181'
-#        keepAliveCron: '0/5 * * * * ?'
+#        special-chars: '@'
+#        replace-char: '*'
+#    keep_first_n_last_m_mask:
+#      type: KEEP_FIRST_N_LAST_M
+#      props:
+#        first-n: 3
+#        last-m: 4
+#        replace-char: '*'
 
 ######################################################################################################
 #
 # If you want to connect to MySQL, you should manually copy MySQL driver to lib directory.
 #
 ######################################################################################################
-
-#schemaName: database_discovery_db
+#
+#databaseName: mask_db
 #
 #dataSources:
 #  ds_0:
-#    url: jdbc:mysql://127.0.0.1:3306/demo_primary_ds?serverTimezone=UTC&useSSL=false
+#    url: jdbc:mysql://127.0.0.1:3306/demo_ds_0?serverTimezone=UTC&useSSL=false
 #    username: root
 #    password:
-#    connectionTimeoutMilliseconds: 3000
+#    connectionTimeoutMilliseconds: 30000
 #    idleTimeoutMilliseconds: 60000
 #    maxLifetimeMilliseconds: 1800000
 #    maxPoolSize: 50
 #    minPoolSize: 1
 #  ds_1:
-#    url: jdbc:mysql://127.0.0.1:3306/demo_replica_ds_0?serverTimezone=UTC&useSSL=false
+#    url: jdbc:mysql://127.0.0.1:3306/demo_ds_1?serverTimezone=UTC&useSSL=false
 #    username: root
 #    password:
-#    connectionTimeoutMilliseconds: 3000
-#    idleTimeoutMilliseconds: 60000
-#    maxLifetimeMilliseconds: 1800000
-#    maxPoolSize: 50
-#    minPoolSize: 1
-#  ds_2:
-#    url: jdbc:mysql://127.0.0.1:3306/demo_replica_ds_1?serverTimezone=UTC&useSSL=false
-#    username: root
-#    password:
-#    connectionTimeoutMilliseconds: 3000
+#    connectionTimeoutMilliseconds: 30000
 #    idleTimeoutMilliseconds: 60000
 #    maxLifetimeMilliseconds: 1800000
 #    maxPoolSize: 50
 #    minPoolSize: 1
 #
 #rules:
-#- !DB_DISCOVERY
-#  dataSources:
-#    pr_ds:
-#      dataSourceNames:
-#        - ds_0
-#        - ds_1
-#        - ds_2
-#      discoveryTypeName: mgr
-#  discoveryTypes:
-#    mgr:
-#      type: MGR
+#- !MASK
+#  tables:
+#    t_user:
+#      columns:
+#        password:
+#          maskAlgorithm: md5_mask
+#        email:
+#          maskAlgorithm: mask_before_special_chars_mask
+#        telephone:
+#          maskAlgorithm: keep_first_n_last_m_mask
+#
+#  maskAlgorithms:
+#    md5_mask:
+#      type: MD5
+#    mask_before_special_chars_mask:
+#      type: MASK_BEFORE_SPECIAL_CHARS
 #      props:
-#        groupName: 92504d5b-6dec-11e8-91ea-246e9612aaf1
-#        zkServerLists: 'localhost:2181'
-#        keepAliveCron: '0/5 * * * * ?'
+#        special-chars: '@'
+#        replace-char: '*'
+#    keep_first_n_last_m_mask:
+#      type: KEEP_FIRST_N_LAST_M
+#      props:
+#        first-n: 3
+#        last-m: 4
+#        replace-char: '*'

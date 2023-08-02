@@ -493,7 +493,7 @@ services:
     network_mode: "host"
 
   shardingproxy:
-    image: apache/shardingsphere-proxy:5.3.2
+    image: apache/shardingsphere-proxy:5.4.0
     container_name: shardingsphere-proxy
     command: server /data
     ports:

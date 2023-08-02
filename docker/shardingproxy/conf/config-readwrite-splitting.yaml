@@ -16,13 +16,13 @@
 #
 
 ######################################################################################################
-# 
+#
 # Here you can configure the rules for the proxy.
-# This example is configuration of replica-query rule.
-# 
+# This example is configuration of readwrite-splitting rule.
+#
 ######################################################################################################
 #
-#schemaName: readwrite_splitting_db
+#databaseName: readwrite_splitting_db
 #
 #dataSources:
 #  primary_ds:
@@ -56,11 +56,15 @@
 #rules:
 #- !READWRITE_SPLITTING
 #  dataSources:
-#    pr_ds:
+#    readwrite_ds:
 #      writeDataSourceName: primary_ds
 #      readDataSourceNames:
 #        - replica_ds_0
 #        - replica_ds_1
+#      loadBalancerName: random
+#  loadBalancers:
+#    random:
+#      type: RANDOM
 
 ######################################################################################################
 #
@@ -68,7 +72,7 @@
 #
 ######################################################################################################
 
-#schemaName: readwrite_splitting_db
+#databaseName: readwrite_splitting_db
 #
 #dataSources:
 #  write_ds:
@@ -102,8 +106,12 @@
 #rules:
 #- !READWRITE_SPLITTING
 #  dataSources:
-#    pr_ds:
+#    readwrite_ds:
 #      writeDataSourceName: write_ds
 #      readDataSourceNames:
 #        - read_ds_0
 #        - read_ds_1
+#      loadBalancerName: random
+#  loadBalancers:
+#    random:
+#      type: RANDOM

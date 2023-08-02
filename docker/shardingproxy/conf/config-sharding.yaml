@@ -1,14 +1,32 @@
+#
+# Licensed to the Apache Software Foundation (ASF) under one or more
+# contributor license agreements.  See the NOTICE file distributed with
+# this work for additional information regarding copyright ownership.
+# The ASF licenses this file to You under the Apache License, Version 2.0
+# (the "License"); you may not use this file except in compliance with
+# the License.  You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+
 ######################################################################################################
 #
-# 用于配置：数据分片规则
+# Here you can configure the rules for the proxy.
+# This example is configuration of sharding rule.
 #
 ######################################################################################################
 
-schemaName: data-center_db
+databaseName: data-center_db
 
 dataSources:
   ds_0:
-    url: jdbc:mysql://192.168.0.60:3306/data-center_0?serverTimezone=UTC&useSSL=false
+    url: jdbc:mysql://localhost:3306/data-center_0?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8&autoReconnect=true&rewriteBatchedStatements=true
     username: root
     password: root
     connectionTimeoutMilliseconds: 30000
@@ -17,7 +35,7 @@ dataSources:
     maxPoolSize: 50
     minPoolSize: 1
   ds_1:
-    url: jdbc:mysql://192.168.0.60:3306/data-center_1?serverTimezone=UTC&useSSL=false
+    url: jdbc:mysql://localhost:3306/data-center_1?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8&autoReconnect=true&rewriteBatchedStatements=true
     username: root
     password: root
     connectionTimeoutMilliseconds: 30000
@@ -27,58 +45,80 @@ dataSources:
     minPoolSize: 1
 
 rules:
-  - !SHARDING
-    tables: # 数据分片规则配置
-      t_order: # 订单逻辑表名称
-        actualDataNodes: ds_${0..1}.t_order_${0..1}
-        databaseStrategy: # 配置分库策略
-          standard:
-            shardingColumn: user_id
-            shardingAlgorithmName: database_user_inline
-        tableStrategy: # 分表策略
-          standard:
-            shardingColumn: order_id
-            shardingAlgorithmName: t_order_inline
-        keyGenerateStrategy:
-          column: order_id
-          keyGeneratorName: snowflake
-      t_order_item: # 子订单逻辑表名称
-        actualDataNodes: ds_${0..1}.t_order_item_${0..1}
-        databaseStrategy: # 配置分库策略
-          standard:
-            shardingColumn: user_id
-            shardingAlgorithmName: database_user_inline
-        tableStrategy: # 分表策略
-          standard:
-            shardingColumn: order_id
-            shardingAlgorithmName: t_order_item_inline
-        keyGenerateStrategy:
-          column: order_item_id
-          keyGeneratorName: snowflake
-    bindingTables: # 绑定表规则列表
-      - t_order,t_order_item
+- !SHARDING
+ tables: # 数据分片规则配置
+   t_order: # 订单逻辑表名称
+     actualDataNodes: ds_${0..1}.t_order_${0..1}
+     databaseStrategy: # 配置分库策略
+       standard:
+         shardingColumn: user_id
+         shardingAlgorithmName: database_user_inline
+     tableStrategy: # 分表策略
+       standard:
+         shardingColumn: order_id
+         shardingAlgorithmName: t_order_inline
+     keyGenerateStrategy:
+       column: order_id
+       keyGeneratorName: snowflake
+#      auditStrategy:
+#        auditorNames:
+#          - sharding_key_required_auditor
+#        allowHintDisable: true
+   t_order_item:  # 子订单逻辑表名称
+     actualDataNodes: ds_${0..1}.t_order_item_${0..1}
+     databaseStrategy: # 配置分库策略
+       standard:
+         shardingColumn: user_id
+         shardingAlgorithmName: database_user_inline
+     tableStrategy:  # 分表策略
+       standard:
+         shardingColumn: order_id
+         shardingAlgorithmName: t_order_item_inline
+     keyGenerateStrategy:
+       column: order_item_id
+       keyGeneratorName: snowflake
+ bindingTables:  # 绑定表规则列表
+   - t_order,t_order_item
+#  defaultDatabaseStrategy:
+#    standard:
+#      shardingColumn: user_id
+#      shardingAlgorithmName: database_user_inline
+#  defaultTableStrategy:
+#    none:
+#  defaultAuditStrategy:
+#    auditorNames:
+#      - sharding_key_required_auditor
+#    allowHintDisable: true
 
-    # 分片算法配置
-    shardingAlgorithms:
-      database_user_inline:
-        type: INLINE
-        props:
-          algorithm-expression: ds_${user_id % 2}
-      t_order_inline: # 订单表分片算法名称
-        type: INLINE
-        props:
-          algorithm-expression: t_order_${order_id % 2}
-          allow-range-query-with-inline-sharding: true
-      t_order_item_inline: # 子订单表分片算法名称
-        type: INLINE
-        props:
-          algorithm-expression: t_order_item_${order_id % 2}
-          allow-range-query-with-inline-sharding: true
+ # 分片算法配置
+ shardingAlgorithms:
+   database_user_inline:
+     type: INLINE
+     props:
+       algorithm-expression: ds_${user_id % 2}
+   t_order_inline:  # 订单表分片算法名称
+     type: INLINE
+     props:
+       algorithm-expression: t_order_${order_id % 2}
+       allow-range-query-with-inline-sharding: true
+   t_order_item_inline:  # 子订单表分片算法名称
+     type: INLINE
+     props:
+       algorithm-expression: t_order_item_${order_id % 2}
+       allow-range-query-with-inline-sharding: true
 
-    # 分布式序列算法配置
-    keyGenerators:
-      snowflake:
-        type: SNOWFLAKE
-        props:
-          worker-id: 1
+ # 分布式序列算法配置
+ keyGenerators:
+   snowflake:
+     type: SNOWFLAKE
+     props:
+       worker-id: 1
+
+#  auditors:
+#    sharding_key_required_auditor:
+#      type: DML_SHARDING_CONDITIONS
+
+# - !BROADCAST
+#  tables:
+#    - t_address
 

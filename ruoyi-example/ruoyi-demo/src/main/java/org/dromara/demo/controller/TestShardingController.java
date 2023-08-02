@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * 使用方式 https://blog.csdn.net/zhaozhiqiang1981/article/details/129935075
+ * 使用方式 看官网文档扩展项目
  */
 @RequiredArgsConstructor
 @RestController

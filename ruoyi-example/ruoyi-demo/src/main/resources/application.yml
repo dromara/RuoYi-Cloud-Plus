@@ -47,6 +47,8 @@ spring:
           username: ${datasource.system-master.username}
           password: ${datasource.system-master.password}
         sharding:
+          lazy: true
+          type: ${spring.datasource.type}
           driver-class-name: com.mysql.cj.jdbc.Driver
           # shardingproxy 服务的ip地址
           url: jdbc:mysql://127.0.0.1:3307/data-center_db?useSSL=false&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&transformedBitIsBoolean=true&tinyInt1isBit=false&allowMultiQueries=true&serverTimezone=GMT%2B8&allowPublicKeyRetrieval=true
