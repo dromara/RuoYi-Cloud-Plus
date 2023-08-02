@@ -48,8 +48,7 @@ public class RemoteSocialServiceImpl implements RemoteSocialService {
      */
     @Override
     public void updateByBo(RemoteSocialBo bo) {
-        SysSocial update = MapstructUtils.convert(bo, SysSocial.class);
-        sysSocialMapper.updateById(update);
+        sysSocialService.updateByBo(MapstructUtils.convert(bo, SysSocialBo.class));
     }
 
     /**
