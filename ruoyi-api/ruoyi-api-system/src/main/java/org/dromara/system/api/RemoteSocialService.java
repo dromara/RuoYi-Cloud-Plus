@@ -21,6 +21,11 @@ public interface RemoteSocialService {
     void insertByBo(RemoteSocialBo bo);
 
     /**
+     * 更新社会化关系
+     */
+    void updateByBo(RemoteSocialBo bo);
+
+    /**
      * 删除社会化关系
      */
     Boolean deleteWithValidById(Long socialId);

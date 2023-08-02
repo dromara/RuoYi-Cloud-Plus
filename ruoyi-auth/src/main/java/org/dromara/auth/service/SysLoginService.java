@@ -31,6 +31,7 @@ import org.dromara.system.api.RemoteTenantService;
 import org.dromara.system.api.RemoteUserService;
 import org.dromara.system.api.domain.bo.RemoteSocialBo;
 import org.dromara.system.api.domain.bo.RemoteUserBo;
+import org.dromara.system.api.domain.vo.RemoteSocialVo;
 import org.dromara.system.api.domain.vo.RemoteTenantVo;
 import org.dromara.system.api.model.LoginUser;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,14 +67,25 @@ public class SysLoginService {
      * @param authUserData 授权响应实体
      */
     public void socialRegister(AuthUser authUserData) {
+        String authId = authUserData.getSource() + authUserData.getUuid();
+        // 第三方用户信息
         RemoteSocialBo bo = BeanUtil.toBean(authUserData, RemoteSocialBo.class);
         BeanUtil.copyProperties(authUserData.getToken(), bo);
         bo.setUserId(LoginHelper.getUserId());
-        bo.setAuthId(authUserData.getSource() + authUserData.getUuid());
+        bo.setAuthId(authId);
         bo.setOpenId(authUserData.getUuid());
         bo.setUserName(authUserData.getUsername());
         bo.setNickName(authUserData.getNickname());
-        remoteSocialService.insertByBo(bo);
+        // 查询是否已经绑定用户
+        RemoteSocialVo vo = remoteSocialService.selectByAuthId(authId);
+        if (ObjectUtil.isEmpty(vo)) {
+            // 没有绑定用户, 新增用户信息
+            remoteSocialService.insertByBo(bo);
+        } else {
+            // 更新用户信息
+            bo.setId(vo.getId());
+            remoteSocialService.updateByBo(bo);
+        }
     }
 
     /**
