@@ -6,8 +6,10 @@ import org.dromara.common.core.utils.MapstructUtils;
 import org.dromara.system.api.RemoteSocialService;
 import org.dromara.system.api.domain.bo.RemoteSocialBo;
 import org.dromara.system.api.domain.vo.RemoteSocialVo;
+import org.dromara.system.domain.SysSocial;
 import org.dromara.system.domain.bo.SysSocialBo;
 import org.dromara.system.domain.vo.SysSocialVo;
+import org.dromara.system.mapper.SysSocialMapper;
 import org.dromara.system.service.ISysSocialService;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +24,7 @@ import org.springframework.stereotype.Service;
 public class RemoteSocialServiceImpl implements RemoteSocialService {
 
     private final ISysSocialService sysSocialService;
+    private final SysSocialMapper sysSocialMapper;
 
     /**
      * 根据 authId 查询用户信息
@@ -38,6 +41,14 @@ public class RemoteSocialServiceImpl implements RemoteSocialService {
     @Override
     public void insertByBo(RemoteSocialBo bo) {
         sysSocialService.insertByBo(MapstructUtils.convert(bo, SysSocialBo.class));
+    }
+
+    /**
+     * 更新社会化关系
+     */
+    @Override
+    public void updateByBo(RemoteSocialBo bo) {
+        sysSocialService.updateByBo(MapstructUtils.convert(bo, SysSocialBo.class));
     }
 
     /**
