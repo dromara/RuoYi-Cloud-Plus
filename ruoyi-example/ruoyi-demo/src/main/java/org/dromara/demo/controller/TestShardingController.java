@@ -1,6 +1,6 @@
 package org.dromara.demo.controller;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.RequiredArgsConstructor;
 import org.dromara.common.core.domain.R;
@@ -24,23 +24,18 @@ public class TestShardingController {
     public R<Page<ShardingOrder>> page() {
         Page<ShardingOrder> page = new Page<>();
         page.setCurrent(3L);
-        QueryWrapper<ShardingOrder> queryWrapper = new QueryWrapper<>();
-        queryWrapper.orderByAsc("order_id");
-        torderMapper.selectPage(page,queryWrapper);
-        //List<ShardingOrder> records = page.getRecords();
-        //System.out.println(page.getTotal());
-//        for(ShardingOrder order : page.getRecords()){
-//            System.out.print(order.getTotalMoney()+" ");
-//        }
+        LambdaQueryWrapper<ShardingOrder> lqw = new LambdaQueryWrapper<>();
+        lqw.orderByAsc(ShardingOrder::getOrderId);
+        torderMapper.selectPage(page, lqw);
         return R.ok(page);
     }
 
     @GetMapping("/insert")
     public R<Void> insert() {
-        for(Long i = 1L; i <= 100L; i++){
+        for (Long i = 1L; i <= 100L; i++) {
             ShardingOrder torder = new ShardingOrder();
             torder.setUserId(i);
-            torder.setTotalMoney(100 + Integer.parseInt(i+""));
+            torder.setTotalMoney(100 + Integer.parseInt(i + ""));
             torderMapper.insert(torder);
         }
 
