@@ -252,3 +252,4 @@ tenant:
     - sys_role_menu
     - sys_user_post
     - sys_user_role
+    - sys_client
