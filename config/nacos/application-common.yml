@@ -141,6 +141,7 @@ logging:
     org.springframework: warn
     org.apache.dubbo: warn
     com.alibaba.nacos: warn
+    tech.powerjob.worker.background: warn
   config: classpath:logback-plus.xml
 
 # Sa-Token配置
