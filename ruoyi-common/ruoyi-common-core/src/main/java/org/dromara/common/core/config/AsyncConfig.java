@@ -1,10 +1,12 @@
 package org.dromara.common.core.config;
 
 import cn.hutool.core.util.ArrayUtil;
-import org.dromara.common.core.exception.ServiceException;
-import org.dromara.common.core.utils.SpringUtils;
+import jakarta.annotation.PreDestroy;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.concurrent.BasicThreadFactory;
+import org.dromara.common.core.exception.ServiceException;
+import org.dromara.common.core.utils.SpringUtils;
+import org.dromara.common.core.utils.Threads;
 import org.springframework.aop.interceptor.AsyncUncaughtExceptionHandler;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.context.annotation.Bean;
@@ -40,6 +42,20 @@ public class AsyncConfig implements AsyncConfigurer {
                 printException(r, t);
             }
         };
+    }
+
+    /**
+     * 销毁事件
+     */
+    @PreDestroy
+    public void destroy() {
+        try {
+            log.info("====关闭后台任务任务线程池====");
+            ScheduledExecutorService scheduledExecutorService = SpringUtils.getBean("scheduledExecutorService");
+            Threads.shutdownAndAwaitTermination(scheduledExecutorService);
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+        }
     }
 
     /**
