@@ -283,6 +283,9 @@ public class SysRoleServiceImpl implements ISysRoleService {
      */
     @Override
     public int updateRoleStatus(Long roleId, String status) {
+        if (UserConstants.ROLE_DISABLE.equals(status) && this.countUserRoleByRoleId(roleId) > 0) {
+            throw new ServiceException("角色已分配，不能禁用!");
+        }
         return baseMapper.update(null,
             new LambdaUpdateWrapper<SysRole>()
                 .set(SysRole::getStatus, status)
@@ -379,7 +382,7 @@ public class SysRoleServiceImpl implements ISysRoleService {
             checkRoleAllowed(BeanUtil.toBean(role, SysRoleBo.class));
             checkRoleDataScope(roleId);
             if (countUserRoleByRoleId(roleId) > 0) {
-                throw new ServiceException(String.format("%1$s已分配,不能删除", role.getRoleName()));
+                throw new ServiceException(String.format("%1$s已分配，不能删除!", role.getRoleName()));
             }
         }
         List<Long> ids = Arrays.asList(roleIds);
@@ -398,9 +401,13 @@ public class SysRoleServiceImpl implements ISysRoleService {
      */
     @Override
     public int deleteAuthUser(SysUserRole userRole) {
-        return userRoleMapper.delete(new LambdaQueryWrapper<SysUserRole>()
+        int rows = userRoleMapper.delete(new LambdaQueryWrapper<SysUserRole>()
             .eq(SysUserRole::getRoleId, userRole.getRoleId())
             .eq(SysUserRole::getUserId, userRole.getUserId()));
+        if (rows > 0) {
+            cleanOnlineUserByRole(userRole.getRoleId());
+        }
+        return rows;
     }
 
     /**
@@ -412,9 +419,13 @@ public class SysRoleServiceImpl implements ISysRoleService {
      */
     @Override
     public int deleteAuthUsers(Long roleId, Long[] userIds) {
-        return userRoleMapper.delete(new LambdaQueryWrapper<SysUserRole>()
+        int rows = userRoleMapper.delete(new LambdaQueryWrapper<SysUserRole>()
             .eq(SysUserRole::getRoleId, roleId)
             .in(SysUserRole::getUserId, Arrays.asList(userIds)));
+        if (rows > 0) {
+            cleanOnlineUserByRole(roleId);
+        }
+        return rows;
     }
 
     /**
@@ -428,7 +439,7 @@ public class SysRoleServiceImpl implements ISysRoleService {
     public int insertAuthUsers(Long roleId, Long[] userIds) {
         // 新增用户与角色管理
         int rows = 1;
-        List<SysUserRole> list = StreamUtils.toList(Arrays.asList(userIds), userId -> {
+        List<SysUserRole> list = StreamUtils.toList(List.of(userIds), userId -> {
             SysUserRole ur = new SysUserRole();
             ur.setUserId(userId);
             ur.setRoleId(roleId);
