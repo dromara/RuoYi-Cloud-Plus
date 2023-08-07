@@ -5,12 +5,13 @@ import cn.dev33.satoken.secure.BCrypt;
 import cn.hutool.core.lang.tree.Tree;
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.ObjectUtil;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.dromara.common.core.constant.UserConstants;
 import org.dromara.common.core.domain.R;
 import org.dromara.common.core.utils.MapstructUtils;
 import org.dromara.common.core.utils.StreamUtils;
 import org.dromara.common.core.utils.StringUtils;
-import org.dromara.common.web.core.BaseController;
 import org.dromara.common.excel.core.ExcelResult;
 import org.dromara.common.excel.utils.ExcelUtil;
 import org.dromara.common.log.annotation.Log;
@@ -19,8 +20,11 @@ import org.dromara.common.mybatis.core.page.PageQuery;
 import org.dromara.common.mybatis.core.page.TableDataInfo;
 import org.dromara.common.satoken.utils.LoginHelper;
 import org.dromara.common.tenant.helper.TenantHelper;
+import org.dromara.common.web.core.BaseController;
 import org.dromara.system.api.model.LoginUser;
 import org.dromara.system.domain.bo.SysDeptBo;
+import org.dromara.system.domain.bo.SysPostBo;
+import org.dromara.system.domain.bo.SysRoleBo;
 import org.dromara.system.domain.bo.SysUserBo;
 import org.dromara.system.domain.vo.*;
 import org.dromara.system.listener.SysUserImportListener;
@@ -30,7 +34,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import jakarta.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,7 +45,7 @@ import java.util.List;
 @Validated
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/system/user")
 public class SysUserController extends BaseController {
 
     private final ISysUserService userService;
@@ -124,9 +127,13 @@ public class SysUserController extends BaseController {
     public R<SysUserInfoVo> getInfo(@PathVariable(value = "userId", required = false) Long userId) {
         userService.checkUserDataScope(userId);
         SysUserInfoVo userInfoVo = new SysUserInfoVo();
-        List<SysRoleVo> roles = roleService.selectRoleAll();
+        SysRoleBo roleBo = new SysRoleBo();
+        roleBo.setStatus(UserConstants.ROLE_NORMAL);
+        SysPostBo postBo = new SysPostBo();
+        postBo.setStatus(UserConstants.POST_NORMAL);
+        List<SysRoleVo> roles = roleService.selectRoleList(roleBo);
         userInfoVo.setRoles(LoginHelper.isSuperAdmin(userId) ? roles : StreamUtils.filter(roles, r -> !r.isSuperAdmin()));
-        userInfoVo.setPosts(postService.selectPostAll());
+        userInfoVo.setPosts(postService.selectPostList(postBo));
         if (ObjectUtil.isNotNull(userId)) {
             SysUserVo sysUser = userService.selectUserById(userId);
             userInfoVo.setUser(sysUser);
@@ -257,4 +264,5 @@ public class SysUserController extends BaseController {
     public R<List<Tree<Long>>> deptTree(SysDeptBo dept) {
         return R.ok(deptService.selectDeptTreeList(dept));
     }
+
 }
