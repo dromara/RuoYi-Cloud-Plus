@@ -137,6 +137,7 @@ public class RemoteUserServiceImpl implements RemoteUserService {
         XcxLoginUser loginUser = new XcxLoginUser();
         loginUser.setUserId(sysUser.getUserId());
         loginUser.setUsername(sysUser.getUserName());
+        loginUser.setNickname(sysUser.getNickName());
         loginUser.setUserType(sysUser.getUserType());
         loginUser.setOpenid(openid);
         return loginUser;
@@ -169,6 +170,7 @@ public class RemoteUserServiceImpl implements RemoteUserService {
         loginUser.setUserId(userVo.getUserId());
         loginUser.setDeptId(userVo.getDeptId());
         loginUser.setUsername(userVo.getUserName());
+        loginUser.setNickname(userVo.getNickName());
         loginUser.setPassword(userVo.getPassword());
         loginUser.setUserType(userVo.getUserType());
         loginUser.setMenuPermission(permissionService.getMenuPermission(userVo.getUserId()));
