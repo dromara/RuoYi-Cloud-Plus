@@ -1,6 +1,7 @@
 package com.ruoyi.system.controller;
 
 import cn.dev33.satoken.annotation.SaCheckPermission;
+import com.ruoyi.common.core.constant.UserConstants;
 import com.ruoyi.common.core.domain.R;
 import com.ruoyi.common.core.web.controller.BaseController;
 import com.ruoyi.common.excel.utils.ExcelUtil;
@@ -105,7 +106,9 @@ public class SysPostController extends BaseController {
      */
     @GetMapping("/optionselect")
     public R<List<SysPost>> optionselect() {
-        List<SysPost> posts = postService.selectPostAll();
+        SysPost post = new SysPost();
+        post.setStatus(UserConstants.POST_NORMAL);
+        List<SysPost> posts = postService.selectPostList(post);
         return R.ok(posts);
     }
 }
