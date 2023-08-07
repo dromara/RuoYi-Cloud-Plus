@@ -4,8 +4,6 @@ import com.alibaba.excel.annotation.ExcelIgnoreUnannotated;
 import com.alibaba.excel.annotation.ExcelProperty;
 import io.github.linpeilie.annotations.AutoMapper;
 import lombok.Data;
-import org.dromara.common.excel.annotation.ExcelDictFormat;
-import org.dromara.common.excel.convert.ExcelDictConvert;
 import org.dromara.system.domain.SysDictType;
 
 import java.io.Serial;
@@ -43,13 +41,6 @@ public class SysDictTypeVo implements Serializable {
      */
     @ExcelProperty(value = "字典类型")
     private String dictType;
-
-    /**
-     * 状态（0正常 1停用）
-     */
-    @ExcelProperty(value = "状态", converter = ExcelDictConvert.class)
-    @ExcelDictFormat(dictType = "sys_normal_disable")
-    private String status;
 
     /**
      * 备注
