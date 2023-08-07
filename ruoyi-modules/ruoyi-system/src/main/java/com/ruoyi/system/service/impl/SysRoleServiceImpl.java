@@ -267,6 +267,9 @@ public class SysRoleServiceImpl implements ISysRoleService {
      */
     @Override
     public int updateRoleStatus(SysRole role) {
+        if (UserConstants.ROLE_DISABLE.equals(role.getStatus()) && this.countUserRoleByRoleId(role.getRoleId()) > 0) {
+            throw new ServiceException("角色已分配，不能禁用!");
+        }
         return baseMapper.updateById(role);
     }
 
@@ -359,7 +362,7 @@ public class SysRoleServiceImpl implements ISysRoleService {
             checkRoleAllowed(role);
             checkRoleDataScope(roleId);
             if (countUserRoleByRoleId(roleId) > 0) {
-                throw new ServiceException(String.format("%1$s已分配,不能删除", role.getRoleName()));
+                throw new ServiceException(String.format("%1$s已分配，不能删除!", role.getRoleName()));
             }
         }
         List<Long> ids = Arrays.asList(roleIds);
