@@ -48,7 +48,7 @@ public class SysDeptBo extends BaseEntity {
     /**
      * 负责人
      */
-    private String leader;
+    private Long leader;
 
     /**
      * 联系电话
