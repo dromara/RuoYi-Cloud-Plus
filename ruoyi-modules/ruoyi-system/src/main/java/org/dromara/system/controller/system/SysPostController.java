@@ -27,7 +27,7 @@ import java.util.List;
 @Validated
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/system/post")
+@RequestMapping("/post")
 public class SysPostController extends BaseController {
 
     private final ISysPostService postService;
