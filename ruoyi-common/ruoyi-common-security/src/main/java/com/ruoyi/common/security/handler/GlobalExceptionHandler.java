@@ -1,15 +1,18 @@
 package com.ruoyi.common.security.handler;
 
-import cn.dev33.satoken.exception.SameTokenInvalidException;
 import cn.dev33.satoken.exception.NotLoginException;
 import cn.dev33.satoken.exception.NotPermissionException;
 import cn.dev33.satoken.exception.NotRoleException;
+import cn.dev33.satoken.exception.SameTokenInvalidException;
 import cn.hutool.core.util.ObjectUtil;
 import com.ruoyi.common.core.constant.HttpStatus;
 import com.ruoyi.common.core.domain.R;
 import com.ruoyi.common.core.exception.DemoModeException;
 import com.ruoyi.common.core.exception.ServiceException;
+import com.ruoyi.common.core.exception.base.BaseException;
+import com.ruoyi.common.core.utils.StreamUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.validation.BindException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -19,11 +22,13 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
 
 /**
  * 全局异常处理器
  *
- * @author ruoyi
+ * @author Lion Li
  */
 @Slf4j
 @RestControllerAdvice
@@ -74,7 +79,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     public R<Void> handleHttpRequestMethodNotSupported(HttpRequestMethodNotSupportedException e,
-                                                          HttpServletRequest request) {
+                                                       HttpServletRequest request) {
         String requestURI = request.getRequestURI();
         log.error("请求地址'{}',不支持'{}'请求", requestURI, e.getMethod());
         return R.fail(e.getMessage());
@@ -85,9 +90,18 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(ServiceException.class)
     public R<Void> handleServiceException(ServiceException e, HttpServletRequest request) {
-        log.error(e.getMessage(), e);
+        log.error(e.getMessage());
         Integer code = e.getCode();
         return ObjectUtil.isNotNull(code) ? R.fail(code, e.getMessage()) : R.fail(e.getMessage());
+    }
+
+    /**
+     * 业务异常
+     */
+    @ExceptionHandler(BaseException.class)
+    public R<Void> handleBaseException(BaseException e, HttpServletRequest request) {
+        log.error(e.getMessage());
+        return R.fail(e.getMessage());
     }
 
     /**
@@ -96,7 +110,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(MissingPathVariableException.class)
     public R<Void> handleMissingPathVariableException(MissingPathVariableException e, HttpServletRequest request) {
         String requestURI = request.getRequestURI();
-        log.error("请求路径中缺少必需的路径变量'{}',发生系统异常.", requestURI, e);
+        log.error("请求路径中缺少必需的路径变量'{}',发生系统异常.", requestURI);
         return R.fail(String.format("请求路径中缺少必需的路径变量[%s]", e.getVariableName()));
     }
 
@@ -106,7 +120,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     public R<Void> handleMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException e, HttpServletRequest request) {
         String requestURI = request.getRequestURI();
-        log.error("请求参数类型不匹配'{}',发生系统异常.", requestURI, e);
+        log.error("请求参数类型不匹配'{}',发生系统异常.", requestURI);
         return R.fail(String.format("请求参数类型不匹配，参数[%s]要求类型为：'%s'，但输入值为：'%s'", e.getName(), e.getRequiredType().getName(), e.getValue()));
     }
 
@@ -135,8 +149,18 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(BindException.class)
     public R<Void> handleBindException(BindException e) {
-        log.error(e.getMessage(), e);
-        String message = e.getAllErrors().get(0).getDefaultMessage();
+        log.error(e.getMessage());
+        String message = StreamUtils.join(e.getAllErrors(), DefaultMessageSourceResolvable::getDefaultMessage, ", ");
+        return R.fail(message);
+    }
+
+    /**
+     * 自定义验证异常
+     */
+    @ExceptionHandler(ConstraintViolationException.class)
+    public R<Void> constraintViolationException(ConstraintViolationException e) {
+        log.error(e.getMessage());
+        String message = StreamUtils.join(e.getConstraintViolations(), ConstraintViolation::getMessage, ", ");
         return R.fail(message);
     }
 
@@ -145,7 +169,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public R<Void> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
-        log.error(e.getMessage(), e);
+        log.error(e.getMessage());
         String message = e.getBindingResult().getFieldError().getDefaultMessage();
         return R.fail(message);
     }
