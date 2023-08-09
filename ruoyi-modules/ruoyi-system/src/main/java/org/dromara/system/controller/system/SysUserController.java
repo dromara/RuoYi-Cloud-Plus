@@ -46,7 +46,7 @@ import java.util.List;
 @Validated
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/system/user")
+@RequestMapping("/user")
 public class SysUserController extends BaseController {
 
     private final ISysUserService userService;
