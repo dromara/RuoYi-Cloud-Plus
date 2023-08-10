@@ -26,14 +26,15 @@ import java.util.concurrent.*;
 @AutoConfiguration
 public class AsyncConfig implements AsyncConfigurer {
 
-    private static final int CORE_POOL_SIZE = 10;
+    private final int corePoolSize = Runtime.getRuntime().availableProcessors() + 1;
+    private ScheduledExecutorService scheduledExecutorService;
 
     /**
      * 执行周期性或定时任务
      */
     @Bean(name = "scheduledExecutorService")
     public ScheduledExecutorService scheduledExecutorService() {
-        return new ScheduledThreadPoolExecutor(CORE_POOL_SIZE,
+        ScheduledThreadPoolExecutor scheduledThreadPoolExecutor = new ScheduledThreadPoolExecutor(corePoolSize,
             new BasicThreadFactory.Builder().namingPattern("schedule-pool-%d").daemon(true).build(),
             new ThreadPoolExecutor.CallerRunsPolicy()) {
             @Override
@@ -42,6 +43,8 @@ public class AsyncConfig implements AsyncConfigurer {
                 printException(r, t);
             }
         };
+        this.scheduledExecutorService = scheduledThreadPoolExecutor;
+        return scheduledThreadPoolExecutor;
     }
 
     /**
@@ -51,7 +54,6 @@ public class AsyncConfig implements AsyncConfigurer {
     public void destroy() {
         try {
             log.info("====关闭后台任务任务线程池====");
-            ScheduledExecutorService scheduledExecutorService = SpringUtils.getBean("scheduledExecutorService");
             Threads.shutdownAndAwaitTermination(scheduledExecutorService);
         } catch (Exception e) {
             log.error(e.getMessage(), e);
