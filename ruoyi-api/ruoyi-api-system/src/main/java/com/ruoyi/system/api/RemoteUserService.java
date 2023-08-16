@@ -50,7 +50,7 @@ public interface RemoteUserService {
      * @param sysUser 用户信息
      * @return 结果
      */
-    Boolean registerUserInfo(SysUser sysUser);
+    Boolean registerUserInfo(SysUser sysUser) throws UserException;
 
     /**
      * 通过userId查询用户账户
