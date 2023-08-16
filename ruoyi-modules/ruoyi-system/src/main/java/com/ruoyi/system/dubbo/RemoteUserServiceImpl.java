@@ -105,7 +105,7 @@ public class RemoteUserServiceImpl implements RemoteUserService {
     }
 
     @Override
-    public Boolean registerUserInfo(SysUser sysUser) {
+    public Boolean registerUserInfo(SysUser sysUser) throws UserException, ServiceException {
         String username = sysUser.getUserName();
         if (!("true".equals(configService.selectConfigByKey("sys.account.registerUser")))) {
             throw new ServiceException("当前系统没有开启注册功能");

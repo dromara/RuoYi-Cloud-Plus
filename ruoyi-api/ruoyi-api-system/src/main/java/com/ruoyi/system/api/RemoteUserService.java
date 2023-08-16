@@ -1,5 +1,6 @@
 package com.ruoyi.system.api;
 
+import com.ruoyi.common.core.exception.ServiceException;
 import com.ruoyi.common.core.exception.user.UserException;
 import com.ruoyi.system.api.domain.SysUser;
 import com.ruoyi.system.api.model.LoginUser;
@@ -50,7 +51,7 @@ public interface RemoteUserService {
      * @param sysUser 用户信息
      * @return 结果
      */
-    Boolean registerUserInfo(SysUser sysUser) throws UserException;
+    Boolean registerUserInfo(SysUser sysUser) throws UserException, ServiceException;
 
     /**
      * 通过userId查询用户账户
