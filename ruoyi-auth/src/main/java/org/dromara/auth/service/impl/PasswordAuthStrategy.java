@@ -7,13 +7,14 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.dromara.auth.domain.vo.LoginVo;
-import org.dromara.common.core.exception.CaptchaException;
-import org.dromara.common.core.domain.model.LoginBody;
+import org.dromara.auth.properties.CaptchaProperties;
 import org.dromara.auth.service.IAuthStrategy;
 import org.dromara.auth.service.SysLoginService;
 import org.dromara.common.core.constant.Constants;
 import org.dromara.common.core.constant.GlobalConstants;
+import org.dromara.common.core.domain.model.LoginBody;
 import org.dromara.common.core.enums.LoginType;
+import org.dromara.common.core.exception.CaptchaException;
 import org.dromara.common.core.exception.user.CaptchaExpireException;
 import org.dromara.common.core.utils.MessageUtils;
 import org.dromara.common.core.utils.ServletUtils;
@@ -25,7 +26,6 @@ import org.dromara.common.satoken.utils.LoginHelper;
 import org.dromara.system.api.RemoteUserService;
 import org.dromara.system.api.domain.vo.RemoteClientVo;
 import org.dromara.system.api.model.LoginUser;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 /**
@@ -38,8 +38,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class PasswordAuthStrategy implements IAuthStrategy {
 
-    @Value("${security.captcha.enabled}")
-    private Boolean captchaEnabled;
+    private final CaptchaProperties captchaProperties;
 
     private final SysLoginService loginService;
 
@@ -60,7 +59,7 @@ public class PasswordAuthStrategy implements IAuthStrategy {
         String uuid = loginBody.getUuid();
 
         // 验证码开关
-        if (captchaEnabled) {
+        if (captchaProperties.getEnabled()) {
             validateCaptcha(tenantId, username, code, uuid);
         }
 
