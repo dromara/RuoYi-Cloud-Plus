@@ -18,7 +18,7 @@ import java.util.Date;
  * @author Lion Li
  */
 @Slf4j
-public class CreateAndUpdateMetaObjectHandler implements MetaObjectHandler {
+public class InjectionMetaObjectHandler implements MetaObjectHandler {
 
     @Override
     public void insertFill(MetaObject metaObject) {
@@ -30,14 +30,16 @@ public class CreateAndUpdateMetaObjectHandler implements MetaObjectHandler {
                 baseEntity.setCreateTime(current);
                 baseEntity.setUpdateTime(current);
                 LoginUser loginUser = getLoginUser();
-                Long userId = ObjectUtil.isNotNull(baseEntity.getCreateBy())
-                    ? baseEntity.getCreateBy() : loginUser.getUserId();
-                // 当前已登录 且 创建人为空 则填充
-                baseEntity.setCreateBy(userId);
-                // 当前已登录 且 更新人为空 则填充
-                baseEntity.setUpdateBy(userId);
-                baseEntity.setCreateDept(ObjectUtil.isNotNull(baseEntity.getCreateDept())
-                    ? baseEntity.getCreateDept() : loginUser.getDeptId());
+                if (ObjectUtil.isNotNull(loginUser)) {
+                    Long userId = ObjectUtil.isNotNull(baseEntity.getCreateBy())
+                        ? baseEntity.getCreateBy() : loginUser.getUserId();
+                    // 当前已登录 且 创建人为空 则填充
+                    baseEntity.setCreateBy(userId);
+                    // 当前已登录 且 更新人为空 则填充
+                    baseEntity.setUpdateBy(userId);
+                    baseEntity.setCreateDept(ObjectUtil.isNotNull(baseEntity.getCreateDept())
+                        ? baseEntity.getCreateDept() : loginUser.getDeptId());
+                }
             }
         } catch (Exception e) {
             throw new ServiceException("自动注入异常 => " + e.getMessage(), HttpStatus.HTTP_UNAUTHORIZED);
