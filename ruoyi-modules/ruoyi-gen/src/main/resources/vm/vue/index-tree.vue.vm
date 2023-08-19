@@ -427,7 +427,7 @@ const handleAdd = (row?: ${BusinessName}VO) => {
     reset();
     getTreeselect();
     if (row != null && row.${treeCode}) {
-      form.value.${treeParentCode} = row.${treeCode};
+      form.value.${treeParentCode} = row.${treeParentCode};
     } else {
       form.value.${treeParentCode} = 0;
     }
