@@ -8,7 +8,7 @@ WORKDIR /ruoyi/nacos
 
 EXPOSE 8848
 
-ENV TZ=Asia/Shanghai JAVA_OPTS="-Xms256m -Xmx512m"
+ENV TZ=Asia/Shanghai LANG=C.UTF-8 LC_ALL=C.UTF-8 JAVA_OPTS="-Xms256m -Xmx512m"
 
 ADD ./target/ruoyi-nacos.jar ./app.jar
 

@@ -8,7 +8,7 @@ RUN mkdir -p /ruoyi/job/logs \
 
 WORKDIR /ruoyi/job
 
-ENV SERVER_PORT=9203
+ENV SERVER_PORT=9203 LANG=C.UTF-8 LC_ALL=C.UTF-8
 
 EXPOSE ${SERVER_PORT}
 

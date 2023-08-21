@@ -7,6 +7,8 @@ RUN mkdir -p /ruoyi/sentinel-dashboard/logs \
 
 WORKDIR /ruoyi/sentinel-dashboard
 
+ENV LANG=C.UTF-8 LC_ALL=C.UTF-8
+
 EXPOSE 8718
 
 ADD ./target/ruoyi-sentinel-dashboard.jar ./app.jar

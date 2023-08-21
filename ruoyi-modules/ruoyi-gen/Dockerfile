@@ -6,7 +6,7 @@ RUN mkdir -p /ruoyi/gen/logs
 
 WORKDIR /ruoyi/gen
 
-ENV SERVER_PORT=9202
+ENV SERVER_PORT=9202 LANG=C.UTF-8 LC_ALL=C.UTF-8
 
 EXPOSE ${SERVER_PORT}
 

@@ -8,7 +8,7 @@ RUN mkdir -p /ruoyi/resource/logs \
 
 WORKDIR /ruoyi/resource
 
-ENV SERVER_PORT=9204
+ENV SERVER_PORT=9204 LANG=C.UTF-8 LC_ALL=C.UTF-8
 
 EXPOSE ${SERVER_PORT}
 
