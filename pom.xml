@@ -32,15 +32,15 @@
         <poi.version>5.2.3</poi.version>
         <easyexcel.version>3.3.2</easyexcel.version>
         <hutool.version>5.8.20</hutool.version>
-        <redisson.version>3.23.2</redisson.version>
-        <lock4j.version>2.2.4</lock4j.version>
+        <redisson.version>3.23.4</redisson.version>
+        <lock4j.version>2.2.5</lock4j.version>
         <powerjob.version>4.3.3</powerjob.version>
         <satoken.version>1.35.0.RC</satoken.version>
-        <lombok.version>1.18.26</lombok.version>
-        <logstash.version>7.2</logstash.version>
+        <lombok.version>1.18.28</lombok.version>
+        <logstash.version>7.4</logstash.version>
         <easy-es.version>1.1.1</easy-es.version>
         <elasticsearch.version>7.14.0</elasticsearch.version>
-        <skywalking-toolkit.version>8.14.0</skywalking-toolkit.version>
+        <skywalking-toolkit.version>8.16.0</skywalking-toolkit.version>
         <bouncycastle.version>1.72</bouncycastle.version>
         <alibaba-ttl.version>2.14.2</alibaba-ttl.version>
         <mapstruct-plus.version>1.3.5</mapstruct-plus.version>
@@ -55,7 +55,7 @@
         <fastjson.version>1.2.83</fastjson.version>
 
         <!-- OSS 配置 -->
-        <aws-java-sdk-s3.version>1.12.517</aws-java-sdk-s3.version>
+        <aws-java-sdk-s3.version>1.12.540</aws-java-sdk-s3.version>
         <okhttp.version>4.10.0</okhttp.version>
 
         <!-- SMS 配置 -->
