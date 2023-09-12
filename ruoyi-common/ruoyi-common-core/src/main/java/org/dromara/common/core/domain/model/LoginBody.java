@@ -43,7 +43,6 @@ public class LoginBody {
     /**
      * 租户ID
      */
-    @NotBlank(message = "{tenant.number.not.blank}")
     private String tenantId;
 
     /**

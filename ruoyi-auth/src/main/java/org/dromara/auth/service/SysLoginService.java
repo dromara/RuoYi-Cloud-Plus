@@ -21,6 +21,7 @@ import org.dromara.common.core.exception.user.UserException;
 import org.dromara.common.core.utils.MessageUtils;
 import org.dromara.common.core.utils.ServletUtils;
 import org.dromara.common.core.utils.SpringUtils;
+import org.dromara.common.core.utils.StringUtils;
 import org.dromara.common.log.event.LogininforEvent;
 import org.dromara.common.redis.utils.RedisUtils;
 import org.dromara.common.satoken.utils.LoginHelper;
@@ -197,6 +198,9 @@ public class SysLoginService {
         }
         if (TenantConstants.DEFAULT_TENANT_ID.equals(tenantId)) {
             return;
+        }
+        if (StringUtils.isBlank(tenantId)) {
+            throw new TenantException("tenant.number.not.blank");
         }
         RemoteTenantVo tenant = remoteTenantService.queryByTenantId(tenantId);
         if (ObjectUtil.isNull(tenant)) {
