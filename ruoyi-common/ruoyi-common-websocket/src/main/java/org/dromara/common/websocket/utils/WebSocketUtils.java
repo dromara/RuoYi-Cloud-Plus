@@ -77,6 +77,22 @@ public class WebSocketUtils {
         }
     }
 
+    /**
+     * 发布订阅的消息(群发)
+     *
+     * @param message 消息内容
+     */
+    public static void publishAll(String message) {
+        WebSocketSessionHolder.getSessionsAll().forEach(key -> {
+            WebSocketUtils.sendMessage(key, message);
+        });
+        WebSocketMessageDto broadcastMessage = new WebSocketMessageDto();
+        broadcastMessage.setMessage(message);
+        RedisUtils.publish(WEB_SOCKET_TOPIC, broadcastMessage, consumer -> {
+            log.info(" WebSocket发送主题订阅消息topic:{} message:{}", WEB_SOCKET_TOPIC, message);
+        });
+    }
+
     public static void sendPongMessage(WebSocketSession session) {
         sendMessage(session, new PongMessage());
     }
