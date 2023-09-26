@@ -138,7 +138,7 @@
 </template>
 
 <script setup name="Index">
-const version = ref('1.8.0')
+const version = ref('1.8.1')
 
 function goTarget(url) {
   window.open(url, '__blank')
