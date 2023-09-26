@@ -9,7 +9,6 @@ import org.apache.dubbo.config.annotation.DubboReference;
 import org.dromara.common.core.domain.R;
 import org.dromara.common.core.utils.StringUtils;
 import org.dromara.common.core.utils.file.MimeTypeUtils;
-import org.dromara.common.core.validate.auth.PasswordGroup;
 import org.dromara.common.web.core.BaseController;
 import org.dromara.common.log.annotation.Log;
 import org.dromara.common.log.enums.BusinessType;
@@ -87,7 +86,7 @@ public class SysProfileController extends BaseController {
      */
     @Log(title = "个人信息", businessType = BusinessType.UPDATE)
     @PutMapping("/updatePwd")
-    public R<Void> updatePwd(@Validated(PasswordGroup.class) @RequestBody SysUserPasswordBo bo) {
+    public R<Void> updatePwd(@Validated @RequestBody SysUserPasswordBo bo) {
         SysUserVo user = userService.selectUserById(LoginHelper.getUserId());
         String password = user.getPassword();
         if (!BCrypt.checkpw(bo.getOldPassword(), password)) {
