@@ -1,18 +1,16 @@
 package org.dromara.system.domain.bo;
 
 import io.github.linpeilie.annotations.AutoMapper;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.dromara.common.core.constant.UserConstants;
-import org.dromara.common.mybatis.core.domain.BaseEntity;
 import org.dromara.common.core.xss.Xss;
+import org.dromara.common.mybatis.core.domain.BaseEntity;
 import org.dromara.system.domain.SysUser;
-
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
-import java.util.Date;
 
 /**
  * 用户信息业务对象 sys_user
@@ -75,11 +73,6 @@ public class SysUserBo extends BaseEntity {
     private String sex;
 
     /**
-     * 头像地址
-     */
-    private Long avatar;
-
-    /**
      * 密码
      */
     private String password;
@@ -88,16 +81,6 @@ public class SysUserBo extends BaseEntity {
      * 帐号状态（0正常 1停用）
      */
     private String status;
-
-    /**
-     * 最后登录IP
-     */
-    private String loginIp;
-
-    /**
-     * 最后登录时间
-     */
-    private Date loginDate;
 
     /**
      * 备注
