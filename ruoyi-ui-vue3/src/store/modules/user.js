@@ -7,6 +7,7 @@ const useUserStore = defineStore(
   {
     state: () => ({
       token: getToken(),
+      id: '',
       name: '',
       avatar: '',
       roles: [],
@@ -21,9 +22,8 @@ const useUserStore = defineStore(
         const uuid = userInfo.uuid
         return new Promise((resolve, reject) => {
           login(username, password, code, uuid).then(res => {
-            let data = res.data
-            setToken(data.access_token)
-            this.token = data.access_token
+            setToken(res.data.token)
+            this.token = res.data.token
             resolve()
           }).catch(error => {
             reject(error)
@@ -43,8 +43,9 @@ const useUserStore = defineStore(
             } else {
               this.roles = ['ROLE_DEFAULT']
             }
+            this.id = user.userId
             this.name = user.userName
-            this.avatar = avatar;
+            this.avatar = avatar
             resolve(res)
           }).catch(error => {
             reject(error)
