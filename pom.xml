@@ -32,7 +32,7 @@
         <poi.version>5.2.3</poi.version>
         <easyexcel.version>3.3.2</easyexcel.version>
         <hutool.version>5.8.22</hutool.version>
-        <redisson.version>3.23.4</redisson.version>
+        <redisson.version>3.23.5</redisson.version>
         <lock4j.version>2.2.5</lock4j.version>
         <powerjob.version>4.3.3</powerjob.version>
         <satoken.version>1.36.0</satoken.version>
