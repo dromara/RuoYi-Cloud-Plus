@@ -65,7 +65,7 @@ const props = defineProps({
 
 const { proxy } = getCurrentInstance();
 // 上传的图片服务器地址
-const uploadUrl = ref(import.meta.env.VITE_APP_BASE_API + "/system/oss/upload");
+const uploadUrl = ref(import.meta.env.VITE_APP_BASE_API + "/resource/oss/upload");
 const headers = ref({ Authorization: "Bearer " + getToken() });
 const quillEditorRef = ref();
 
