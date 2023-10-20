@@ -28,7 +28,7 @@
         <velocity.version>2.3</velocity.version>
         <swagger.core.version>2.2.8</swagger.core.version>
         <springdoc.version>1.6.15</springdoc.version>
-        <poi.version>5.2.4</poi.version>
+        <poi.version>5.2.3</poi.version>
         <easyexcel.version>3.3.2</easyexcel.version>
         <hutool.version>5.8.22</hutool.version>
         <redisson.version>3.20.1</redisson.version>
