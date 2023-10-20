@@ -57,6 +57,8 @@
 
         <!-- SMS 配置 -->
         <sms4j.version>2.2.0</sms4j.version>
+        <!-- 修复其他依赖与poi兼容问题 -->
+        <commons-io.version>2.13.0</commons-io.version>
 
         <!-- 插件版本 -->
         <maven-compiler-plugin.verison>3.11.0</maven-compiler-plugin.verison>
@@ -244,6 +246,12 @@
                         <artifactId>poi-ooxml-schemas</artifactId>
                     </exclusion>
                 </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>commons-io</groupId>
+                <artifactId>commons-io</artifactId>
+                <version>${commons-io.version}</version>
             </dependency>
 
             <!-- 代码生成使用模板 -->
