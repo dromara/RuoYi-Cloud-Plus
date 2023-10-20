@@ -17,9 +17,9 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>17</java.version>
-        <spring-boot.version>3.1.4</spring-boot.version>
+        <spring-boot.version>3.1.5</spring-boot.version>
         <spring-cloud.version>2022.0.4</spring-cloud.version>
-        <spring-boot-admin.version>3.1.6</spring-boot-admin.version>
+        <spring-boot-admin.version>3.1.7</spring-boot-admin.version>
         <spring-boot.mybatis>3.0.2</spring-boot.mybatis>
         <mybatis.version>3.5.13</mybatis.version>
         <mybatis-plus.version>3.5.3.2</mybatis-plus.version>
@@ -29,13 +29,13 @@
         <swagger.core.version>2.2.15</swagger.core.version>
         <springdoc.version>2.2.0</springdoc.version>
         <therapi-javadoc.version>0.15.0</therapi-javadoc.version>
-        <poi.version>5.2.3</poi.version>
+        <poi.version>5.2.4</poi.version>
         <easyexcel.version>3.3.2</easyexcel.version>
         <hutool.version>5.8.22</hutool.version>
-        <redisson.version>3.23.5</redisson.version>
+        <redisson.version>3.24.1</redisson.version>
         <lock4j.version>2.2.5</lock4j.version>
         <powerjob.version>4.3.3</powerjob.version>
-        <satoken.version>1.36.0</satoken.version>
+        <satoken.version>1.37.0</satoken.version>
         <lombok.version>1.18.30</lombok.version>
         <logstash.version>7.4</logstash.version>
         <easy-es.version>1.1.1</easy-es.version>
@@ -48,9 +48,6 @@
         <justauth.version>1.16.5</justauth.version>
         <!-- 离线IP地址定位库 -->
         <ip2region.version>2.7.0</ip2region.version>
-
-        <!-- 临时修复 snakeyaml 漏洞 -->
-        <snakeyaml.version>1.33</snakeyaml.version>
         <!-- 临时修复 fastjson 漏洞 -->
         <fastjson.version>1.2.83</fastjson.version>
 
@@ -347,13 +344,6 @@
                 <groupId>org.lionsoul</groupId>
                 <artifactId>ip2region</artifactId>
                 <version>${ip2region.version}</version>
-            </dependency>
-
-            <!-- 临时修复 snakeyaml 漏洞 -->
-            <dependency>
-                <groupId>org.yaml</groupId>
-                <artifactId>snakeyaml</artifactId>
-                <version>${snakeyaml.version}</version>
             </dependency>
 
             <dependency>
