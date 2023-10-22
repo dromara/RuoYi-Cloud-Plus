@@ -26,6 +26,7 @@ import org.dromara.common.social.config.properties.SocialProperties;
 import org.dromara.common.social.utils.SocialUtils;
 import org.dromara.common.tenant.helper.TenantHelper;
 import org.dromara.system.api.RemoteClientService;
+import org.dromara.system.api.RemoteConfigService;
 import org.dromara.system.api.RemoteSocialService;
 import org.dromara.system.api.RemoteTenantService;
 import org.dromara.system.api.domain.vo.RemoteClientVo;
@@ -52,6 +53,8 @@ public class TokenController {
     private final SocialProperties socialProperties;
     private final SysLoginService sysLoginService;
 
+    @DubboReference
+    private final RemoteConfigService remoteConfigService;
     @DubboReference
     private final RemoteTenantService remoteTenantService;
     @DubboReference
@@ -142,6 +145,9 @@ public class TokenController {
      */
     @PostMapping("register")
     public R<Void> register(@RequestBody RegisterBody registerBody) {
+        if (!remoteConfigService.selectRegisterEnabled(registerBody.getTenantId())) {
+            return R.fail("当前系统没有开启注册功能！");
+        }
         // 用户注册
         sysLoginService.register(registerBody);
         return R.ok();

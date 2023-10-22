@@ -58,6 +58,14 @@ public interface RemoteUserService {
     XcxLoginUser getUserInfoByOpenid(String openid) throws UserException;
 
     /**
+     * 校验用户名称是否唯一
+     *
+     * @param remoteUserBo 用户信息
+     * @return 结果
+     */
+    boolean checkUserNameUnique(RemoteUserBo remoteUserBo);
+
+    /**
      * 注册用户信息
      *
      * @param remoteUserBo 用户信息
