@@ -54,6 +54,8 @@ public class EmailAuthStrategy implements IAuthStrategy {
         // 通过邮箱查找用户
         LoginUser loginUser = remoteUserService.getUserInfoByEmail(email, tenantId);
         loginService.checkLogin(LoginType.EMAIL, tenantId, loginUser.getUsername(), () -> !validateEmailCode(tenantId, email, emailCode));
+        loginUser.setClientKey(client.getClientKey());
+        loginUser.setDeviceType(client.getDeviceType());
         SaLoginModel model = new SaLoginModel();
         model.setDevice(client.getDeviceType());
         // 自定义分配 不同用户体系 不同 token 授权时间 不设置默认走全局 yml 配置
