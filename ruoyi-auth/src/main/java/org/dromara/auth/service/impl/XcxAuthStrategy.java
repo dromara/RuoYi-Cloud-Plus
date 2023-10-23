@@ -48,6 +48,8 @@ public class XcxAuthStrategy implements IAuthStrategy {
         // 校验 appid + appsrcret + xcxCode 调用登录凭证校验接口 获取 session_key 与 openid
         String openid = "";
         XcxLoginUser loginUser = remoteUserService.getUserInfoByOpenid(openid);
+        loginUser.setClientKey(client.getClientKey());
+        loginUser.setDeviceType(client.getDeviceType());
 
         SaLoginModel model = new SaLoginModel();
         model.setDevice(client.getDeviceType());

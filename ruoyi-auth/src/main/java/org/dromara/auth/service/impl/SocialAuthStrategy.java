@@ -91,6 +91,8 @@ public class SocialAuthStrategy implements IAuthStrategy {
         }
 
         LoginUser loginUser = remoteUserService.getUserInfo(socialVo.getUserId(), tenantId);
+        loginUser.setClientKey(client.getClientKey());
+        loginUser.setDeviceType(client.getDeviceType());
         SaLoginModel model = new SaLoginModel();
         model.setDevice(client.getDeviceType());
         // 自定义分配 不同用户体系 不同 token 授权时间 不设置默认走全局 yml 配置
