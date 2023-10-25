@@ -2,6 +2,7 @@ package org.dromara.auth.controller;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ObjectUtil;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import me.zhyd.oauth.model.AuthResponse;
@@ -12,11 +13,12 @@ import org.apache.dubbo.config.annotation.DubboReference;
 import org.dromara.auth.domain.vo.LoginTenantVo;
 import org.dromara.auth.domain.vo.LoginVo;
 import org.dromara.auth.domain.vo.TenantListVo;
-import org.dromara.common.core.domain.model.LoginBody;
 import org.dromara.auth.form.RegisterBody;
 import org.dromara.auth.service.IAuthStrategy;
 import org.dromara.auth.service.SysLoginService;
+import org.dromara.common.core.constant.UserConstants;
 import org.dromara.common.core.domain.R;
+import org.dromara.common.core.domain.model.LoginBody;
 import org.dromara.common.core.utils.MapstructUtils;
 import org.dromara.common.core.utils.MessageUtils;
 import org.dromara.common.core.utils.StreamUtils;
@@ -33,8 +35,6 @@ import org.dromara.system.api.domain.vo.RemoteClientVo;
 import org.dromara.system.api.domain.vo.RemoteTenantVo;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import jakarta.servlet.http.HttpServletRequest;
 
 import java.net.URL;
 import java.util.List;
@@ -76,6 +76,8 @@ public class TokenController {
         if (ObjectUtil.isNull(clientVo) || !StringUtils.contains(clientVo.getGrantType(), grantType)) {
             log.info("客户端id: {} 认证类型：{} 异常!.", clientId, grantType);
             return R.fail(MessageUtils.message("auth.grant.type.error"));
+        } else if (!UserConstants.NORMAL.equals(clientVo.getStatus())) {
+            return R.fail(MessageUtils.message("auth.grant.type.blocked"));
         }
         // 校验租户
         sysLoginService.checkTenant(loginBody.getTenantId());
