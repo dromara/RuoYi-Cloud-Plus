@@ -136,10 +136,7 @@ public class SysLoginService {
         remoteUserBo.setNickName(username);
         remoteUserBo.setPassword(BCrypt.hashpw(password));
         remoteUserBo.setUserType(userType);
-        // 校验用户名是否唯一
-        if (!remoteUserService.checkUserNameUnique(remoteUserBo)) {
-            throw new UserException("user.register.save.error", username);
-        }
+
         boolean regFlag = remoteUserService.registerUserInfo(remoteUserBo);
         if (!regFlag) {
             throw new UserException("user.register.error");
