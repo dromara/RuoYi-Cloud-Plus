@@ -29,7 +29,7 @@
         <swagger.core.version>2.2.15</swagger.core.version>
         <springdoc.version>2.2.0</springdoc.version>
         <therapi-javadoc.version>0.15.0</therapi-javadoc.version>
-        <poi.version>5.2.4</poi.version>
+        <poi.version>5.2.3</poi.version>
         <easyexcel.version>3.3.2</easyexcel.version>
         <hutool.version>5.8.22</hutool.version>
         <redisson.version>3.24.1</redisson.version>
@@ -57,8 +57,6 @@
 
         <!-- SMS 配置 -->
         <sms4j.version>2.2.0</sms4j.version>
-        <!-- 修复其他依赖与poi兼容问题 -->
-        <commons-io.version>2.13.0</commons-io.version>
 
         <!-- 插件版本 -->
         <maven-compiler-plugin.verison>3.11.0</maven-compiler-plugin.verison>
@@ -246,12 +244,6 @@
                         <artifactId>poi-ooxml-schemas</artifactId>
                     </exclusion>
                 </exclusions>
-            </dependency>
-
-            <dependency>
-                <groupId>commons-io</groupId>
-                <artifactId>commons-io</artifactId>
-                <version>${commons-io.version}</version>
             </dependency>
 
             <!-- 代码生成使用模板 -->
