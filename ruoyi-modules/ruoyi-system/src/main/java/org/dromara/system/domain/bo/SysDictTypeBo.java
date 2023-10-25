@@ -24,7 +24,6 @@ public class SysDictTypeBo extends BaseEntity {
     /**
      * 字典主键
      */
-    @NotNull(message = "字典主键不能为空")
     private Long dictId;
 
     /**

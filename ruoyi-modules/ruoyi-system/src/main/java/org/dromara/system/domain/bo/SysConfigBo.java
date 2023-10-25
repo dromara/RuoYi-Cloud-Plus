@@ -23,7 +23,6 @@ public class SysConfigBo extends BaseEntity {
     /**
      * 参数主键
      */
-    @NotNull(message = "参数主键不能为空")
     private Long configId;
 
     /**
