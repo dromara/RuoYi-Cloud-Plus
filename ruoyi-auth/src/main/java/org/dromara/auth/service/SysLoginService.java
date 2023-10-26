@@ -132,6 +132,7 @@ public class SysLoginService {
 
         // 注册用户信息
         RemoteUserBo remoteUserBo = new RemoteUserBo();
+        remoteUserBo.setTenantId(tenantId);
         remoteUserBo.setUserName(username);
         remoteUserBo.setNickName(username);
         remoteUserBo.setPassword(BCrypt.hashpw(password));
