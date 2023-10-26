@@ -32,6 +32,12 @@
         <dependency>
             <groupId>tech.powerjob</groupId>
             <artifactId>powerjob-worker</artifactId>
+            <exclusions>
+                <exclusion>
+                    <artifactId>powerjob-remote-impl-akka</artifactId>
+                    <groupId>tech.powerjob</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>tech.powerjob</groupId>
