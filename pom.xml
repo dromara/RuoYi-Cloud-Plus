@@ -22,7 +22,7 @@
         <spring-boot-admin.version>2.7.11</spring-boot-admin.version>
         <spring-boot.mybatis>2.2.2</spring-boot.mybatis>
         <mybatis.version>3.5.13</mybatis.version>
-        <mybatis-plus.version>3.5.3.2</mybatis-plus.version>
+        <mybatis-plus.version>3.5.4</mybatis-plus.version>
         <p6spy.version>3.9.1</p6spy.version>
         <dynamic-ds.version>3.5.2</dynamic-ds.version>
         <velocity.version>2.3</velocity.version>
