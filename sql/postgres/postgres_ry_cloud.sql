@@ -173,7 +173,7 @@ create table if not exists sys_dept
     ancestors   varchar(500)default ''::varchar,
     dept_name   varchar(30) default ''::varchar,
     order_num   int4        default 0,
-    leader      int8        default null::varchar,
+    leader      int8        default null,
     phone       varchar(11) default null::varchar,
     email       varchar(50) default null::varchar,
     status      char        default '0'::bpchar,
