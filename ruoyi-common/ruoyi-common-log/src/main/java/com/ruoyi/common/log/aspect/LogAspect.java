@@ -13,6 +13,7 @@ import com.ruoyi.common.log.annotation.Log;
 import com.ruoyi.common.log.enums.BusinessStatus;
 import com.ruoyi.common.log.event.OperLogEvent;
 import com.ruoyi.common.satoken.utils.LoginHelper;
+import com.ruoyi.system.api.model.LoginUser;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
@@ -75,7 +76,9 @@ public class LogAspect {
             operLog.setOperIp(ip);
             operLog.setOperLocation(AddressUtils.getRealAddressByIP(ip));
             operLog.setOperUrl(StringUtils.substring(ServletUtils.getRequest().getRequestURI(), 0, 255));
-            operLog.setOperName(LoginHelper.getUsername());
+            LoginUser loginUser = LoginHelper.getLoginUser();
+            operLog.setOperName(loginUser.getUsername());
+            operLog.setDeptName(loginUser.getDeptName());
 
             if (e != null) {
                 operLog.setStatus(BusinessStatus.FAIL.ordinal());
