@@ -44,10 +44,6 @@
                     <artifactId>*</artifactId>
                 </exclusion>
                 <exclusion>
-                    <groupId>com.alibaba</groupId>
-                    <artifactId>druid</artifactId>
-                </exclusion>
-                <exclusion>
                     <groupId>org.apache.dubbo.extensions</groupId>
                     <artifactId>dubbo-filter-seata</artifactId>
                 </exclusion>
