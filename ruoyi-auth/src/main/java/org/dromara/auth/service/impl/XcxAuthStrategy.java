@@ -6,14 +6,14 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.dromara.auth.domain.vo.LoginVo;
-import org.dromara.common.core.domain.model.LoginBody;
+import org.dromara.auth.form.XcxLoginBody;
 import org.dromara.auth.service.IAuthStrategy;
 import org.dromara.auth.service.SysLoginService;
 import org.dromara.common.core.constant.Constants;
 import org.dromara.common.core.utils.MessageUtils;
 import org.dromara.common.core.utils.ServletUtils;
 import org.dromara.common.core.utils.ValidatorUtils;
-import org.dromara.common.core.validate.auth.WechatGroup;
+import org.dromara.common.json.utils.JsonUtils;
 import org.dromara.common.satoken.utils.LoginHelper;
 import org.dromara.system.api.RemoteUserService;
 import org.dromara.system.api.domain.vo.RemoteClientVo;
@@ -36,14 +36,14 @@ public class XcxAuthStrategy implements IAuthStrategy {
     private RemoteUserService remoteUserService;
 
     @Override
-    public void validate(LoginBody loginBody) {
-        ValidatorUtils.validate(loginBody, WechatGroup.class);
-    }
-
-    @Override
-    public LoginVo login(String clientId, LoginBody loginBody, RemoteClientVo client) {
+    public LoginVo login(String clientId, String body, RemoteClientVo client) {
+        XcxLoginBody loginBody = JsonUtils.parseObject(body, XcxLoginBody.class);
+        ValidatorUtils.validate(loginBody);
         // xcxCode 为 小程序调用 wx.login 授权后获取
         String xcxCode = loginBody.getXcxCode();
+        // 多个小程序识别使用
+        String appid = loginBody.getAppid();
+
         // todo 以下自行实现
         // 校验 appid + appsrcret + xcxCode 调用登录凭证校验接口 获取 session_key 与 openid
         String openid = "";

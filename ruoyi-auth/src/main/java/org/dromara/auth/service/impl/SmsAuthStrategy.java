@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.dromara.auth.domain.vo.LoginVo;
-import org.dromara.common.core.domain.model.LoginBody;
+import org.dromara.auth.form.SmsLoginBody;
 import org.dromara.auth.service.IAuthStrategy;
 import org.dromara.auth.service.SysLoginService;
 import org.dromara.common.core.constant.Constants;
@@ -17,7 +17,7 @@ import org.dromara.common.core.utils.MessageUtils;
 import org.dromara.common.core.utils.ServletUtils;
 import org.dromara.common.core.utils.StringUtils;
 import org.dromara.common.core.utils.ValidatorUtils;
-import org.dromara.common.core.validate.auth.SmsGroup;
+import org.dromara.common.json.utils.JsonUtils;
 import org.dromara.common.redis.utils.RedisUtils;
 import org.dromara.common.satoken.utils.LoginHelper;
 import org.dromara.system.api.RemoteUserService;
@@ -41,12 +41,9 @@ public class SmsAuthStrategy implements IAuthStrategy {
     private RemoteUserService remoteUserService;
 
     @Override
-    public void validate(LoginBody loginBody) {
-        ValidatorUtils.validate(loginBody, SmsGroup.class);
-    }
-
-    @Override
-    public LoginVo login(String clientId, LoginBody loginBody, RemoteClientVo client) {
+    public LoginVo login(String clientId, String body, RemoteClientVo client) {
+        SmsLoginBody loginBody = JsonUtils.parseObject(body, SmsLoginBody.class);
+        ValidatorUtils.validate(loginBody);
         String tenantId = loginBody.getTenantId();
         String phonenumber = loginBody.getPhonenumber();
         String smsCode = loginBody.getSmsCode();
