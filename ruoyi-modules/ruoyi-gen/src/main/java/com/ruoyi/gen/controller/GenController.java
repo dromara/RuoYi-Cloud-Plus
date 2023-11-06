@@ -77,7 +77,7 @@ public class GenController extends BaseController {
      * @param tableId 表主键
      */
     @GetMapping(value = "/column/{tableId}")
-    public TableDataInfo<GenTableColumn> columnList(Long tableId) {
+    public TableDataInfo<GenTableColumn> columnList(@PathVariable("tableId") Long tableId) {
         TableDataInfo<GenTableColumn> dataInfo = new TableDataInfo<>();
         List<GenTableColumn> list = genTableService.selectGenTableColumnListByTableId(tableId);
         dataInfo.setRows(list);
