@@ -163,7 +163,7 @@ public class SysMenuServiceImpl implements ISysMenuService {
             router.setQuery(menu.getQueryParam());
             router.setMeta(new MetaVo(menu.getMenuName(), menu.getIcon(), StringUtils.equals("1", menu.getIsCache()), menu.getPath()));
             List<SysMenu> cMenus = menu.getChildren();
-            if (!cMenus.isEmpty() && UserConstants.TYPE_DIR.equals(menu.getMenuType())) {
+            if (CollUtil.isNotEmpty(cMenus) && UserConstants.TYPE_DIR.equals(menu.getMenuType())) {
                 router.setAlwaysShow(true);
                 router.setRedirect("noRedirect");
                 router.setChildren(buildMenus(cMenus));
@@ -438,7 +438,7 @@ public class SysMenuServiceImpl implements ISysMenuService {
      * 内链域名特殊字符替换
      */
     public String innerLinkReplaceEach(String path) {
-        return StringUtils.replaceEach(path, new String[]{Constants.HTTP, Constants.HTTPS, Constants.WWW, "."},
-            new String[]{"", "", "", "/"});
+        return StringUtils.replaceEach(path, new String[]{Constants.HTTP, Constants.HTTPS, Constants.WWW, ".", ":"},
+            new String[]{"", "", "", "/", "/"});
     }
 }
