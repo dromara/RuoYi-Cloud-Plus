@@ -46,7 +46,7 @@ public class PasswordAuthStrategy implements IAuthStrategy {
     private RemoteUserService remoteUserService;
 
     @Override
-    public LoginVo login(String clientId, String body, RemoteClientVo client) {
+    public LoginVo login(String body, RemoteClientVo client) {
         PasswordLoginBody loginBody = JsonUtils.parseObject(body, PasswordLoginBody.class);
         ValidatorUtils.validate(loginBody);
         String tenantId = loginBody.getTenantId();
@@ -70,7 +70,7 @@ public class PasswordAuthStrategy implements IAuthStrategy {
         // 例如: 后台用户30分钟过期 app用户1天过期
         model.setTimeout(client.getTimeout());
         model.setActiveTimeout(client.getActiveTimeout());
-        model.setExtra(LoginHelper.CLIENT_KEY, clientId);
+        model.setExtra(LoginHelper.CLIENT_KEY, client.getClientId());
         // 生成token
         LoginHelper.login(loginUser, model);
 
@@ -80,7 +80,7 @@ public class PasswordAuthStrategy implements IAuthStrategy {
         LoginVo loginVo = new LoginVo();
         loginVo.setAccessToken(StpUtil.getTokenValue());
         loginVo.setExpireIn(StpUtil.getTokenTimeout());
-        loginVo.setClientId(clientId);
+        loginVo.setClientId(client.getClientId());
         return loginVo;
     }
 

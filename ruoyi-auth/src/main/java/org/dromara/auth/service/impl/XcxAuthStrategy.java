@@ -36,7 +36,7 @@ public class XcxAuthStrategy implements IAuthStrategy {
     private RemoteUserService remoteUserService;
 
     @Override
-    public LoginVo login(String clientId, String body, RemoteClientVo client) {
+    public LoginVo login(String body, RemoteClientVo client) {
         XcxLoginBody loginBody = JsonUtils.parseObject(body, XcxLoginBody.class);
         ValidatorUtils.validate(loginBody);
         // xcxCode 为 小程序调用 wx.login 授权后获取
@@ -57,7 +57,7 @@ public class XcxAuthStrategy implements IAuthStrategy {
         // 例如: 后台用户30分钟过期 app用户1天过期
         model.setTimeout(client.getTimeout());
         model.setActiveTimeout(client.getActiveTimeout());
-        model.setExtra(LoginHelper.CLIENT_KEY, clientId);
+        model.setExtra(LoginHelper.CLIENT_KEY, client.getClientId());
         // 生成token
         LoginHelper.login(loginUser, model);
 
@@ -67,7 +67,7 @@ public class XcxAuthStrategy implements IAuthStrategy {
         LoginVo loginVo = new LoginVo();
         loginVo.setAccessToken(StpUtil.getTokenValue());
         loginVo.setExpireIn(StpUtil.getTokenTimeout());
-        loginVo.setClientId(clientId);
+        loginVo.setClientId(client.getClientId());
         loginVo.setOpenid(openid);
         return loginVo;
     }
