@@ -82,7 +82,6 @@ public class SysOssServiceImpl implements ISysOssService {
         for (Long id : StringUtils.splitTo(ossIds, Convert::toLong)) {
             SysOssVo vo = SpringUtils.getAopProxy(this).getById(id);
             if (ObjectUtil.isNotNull(vo)) {
-                list.add(this.matchingUrl(vo).getUrl());
                 try {
                     list.add(this.matchingUrl(vo).getUrl());
                 } catch (Exception ignored) {
