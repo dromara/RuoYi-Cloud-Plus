@@ -6,25 +6,24 @@ import lombok.EqualsAndHashCode;
 import org.dromara.common.core.domain.model.LoginBody;
 
 /**
- * 短信登录对象
+ * 三方登录对象
  *
  * @author Lion Li
  */
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class SmsLoginBody extends LoginBody {
+public class XcxLoginBody extends LoginBody {
 
     /**
-     * 手机号
+     * 小程序id(多个小程序时使用)
      */
-    @NotBlank(message = "{user.phonenumber.not.blank}")
-    private String phonenumber;
+    private String appid;
 
     /**
-     * 短信code
+     * 小程序code
      */
-    @NotBlank(message = "{sms.code.not.blank}")
-    private String smsCode;
+    @NotBlank(message = "{xcx.code.not.blank}")
+    private String xcxCode;
 
 }

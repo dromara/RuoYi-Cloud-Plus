@@ -2,15 +2,15 @@ package org.dromara.common.tenant.handle;
 
 import cn.hutool.core.collection.ListUtil;
 import com.baomidou.mybatisplus.extension.plugins.handler.TenantLineHandler;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import net.sf.jsqlparser.expression.Expression;
+import net.sf.jsqlparser.expression.NullValue;
+import net.sf.jsqlparser.expression.StringValue;
 import org.dromara.common.core.utils.StringUtils;
 import org.dromara.common.satoken.utils.LoginHelper;
 import org.dromara.common.tenant.helper.TenantHelper;
 import org.dromara.common.tenant.properties.TenantProperties;
-import lombok.AllArgsConstructor;
-import net.sf.jsqlparser.expression.Expression;
-import net.sf.jsqlparser.expression.NullValue;
-import net.sf.jsqlparser.expression.StringValue;
 
 import java.util.List;
 
@@ -27,15 +27,10 @@ public class PlusTenantLineHandler implements TenantLineHandler {
 
     @Override
     public Expression getTenantId() {
-        String tenantId = LoginHelper.getTenantId();
+        String tenantId = TenantHelper.getTenantId();
         if (StringUtils.isBlank(tenantId)) {
             log.error("无法获取有效的租户id -> Null");
             return new NullValue();
-        }
-        String dynamicTenantId = TenantHelper.getDynamic();
-        if (StringUtils.isNotBlank(dynamicTenantId)) {
-            // 返回动态租户
-            return new StringValue(dynamicTenantId);
         }
         // 返回固定租户
         return new StringValue(tenantId);

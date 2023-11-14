@@ -14,7 +14,7 @@
     </description>
 
     <properties>
-        <revision>2.1.0</revision>
+        <revision>2.1.1</revision>
         <spring-cloud-alibaba.version>2022.0.0.0</spring-cloud-alibaba.version>
         <sentinel.version>1.8.6</sentinel.version>
         <seata.version>1.7.1</seata.version>

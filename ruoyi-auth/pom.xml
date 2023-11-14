@@ -89,6 +89,10 @@
                 </exclusion>
             </exclusions>
         </dependency>
+        <dependency>
+            <groupId>org.dromara</groupId>
+            <artifactId>ruoyi-api-resource</artifactId>
+        </dependency>
 
         <!-- 自定义负载均衡(多团队开发使用) -->
 <!--        <dependency>-->

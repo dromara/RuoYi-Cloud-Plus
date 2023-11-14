@@ -40,7 +40,6 @@ public class PlusWebSocketHandler extends AbstractWebSocketHandler {
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
         LoginUser loginUser = (LoginUser) session.getAttributes().get(LOGIN_USER_KEY);
-        log.info("PlusWebSocketHandler, 连接：" + session.getId() + "，已收到消息:" + message.getPayload());
         List<Long> userIds = List.of(loginUser.getUserId());
         WebSocketMessageDto webSocketMessageDto = new WebSocketMessageDto();
         webSocketMessageDto.setSessionKeys(userIds);

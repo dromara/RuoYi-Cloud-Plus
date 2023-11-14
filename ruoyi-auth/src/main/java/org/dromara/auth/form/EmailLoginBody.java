@@ -1,9 +1,10 @@
 package org.dromara.auth.form;
 
-import lombok.Data;
-
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import org.dromara.common.core.domain.model.LoginBody;
 
 /**
  * 邮件登录对象
@@ -12,13 +13,8 @@ import jakarta.validation.constraints.NotBlank;
  */
 
 @Data
-public class EmailLoginBody {
-
-    /**
-     * 租户ID
-     */
-    @NotBlank(message = "{tenant.number.not.blank}")
-    private String tenantId;
+@EqualsAndHashCode(callSuper = true)
+public class EmailLoginBody extends LoginBody {
 
     /**
      * 邮箱
