@@ -9,10 +9,10 @@
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](https://gitee.com/dromara/RuoYi-Cloud-Plus/blob/master/LICENSE)
 [![使用IntelliJ IDEA开发维护](https://img.shields.io/badge/IntelliJ%20IDEA-提供支持-blue.svg)](https://www.jetbrains.com/?from=RuoYi-Cloud-Plus)
 <br>
-[![RuoYi-Cloud-Plus](https://img.shields.io/badge/RuoYi_Cloud_Plus-2.0.0-success.svg)](https://gitee.com/dromara/RuoYi-Cloud-Plus)
-[![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.0-blue.svg)]()
+[![RuoYi-Cloud-Plus](https://img.shields.io/badge/RuoYi_Cloud_Plus-2.1.1-success.svg)](https://gitee.com/dromara/RuoYi-Cloud-Plus)
+[![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.1-blue.svg)]()
 [![JDK-17](https://img.shields.io/badge/JDK-17-green.svg)]()
-[![JDK-19](https://img.shields.io/badge/JDK-19-green.svg)]()
+[![JDK-19](https://img.shields.io/badge/JDK-21-green.svg)]()
 
 > RuoYi-Cloud-Plus `微服务通用权限管理系统` 重写 RuoYi-Cloud 全方位升级(不兼容原框架)
 
