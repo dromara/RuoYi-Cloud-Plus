@@ -443,6 +443,7 @@ insert into sys_menu values('106',  '参数设置',     '1',   '7', 'config',   
 insert into sys_menu values('107',  '通知公告',     '1',   '8', 'notice',           'system/notice/index',          '', '1', '0', 'C', '0', '0', 'system:notice:list',          'message',       103, 1, now(), null, null, '通知公告菜单');
 insert into sys_menu values('108',  '日志管理',     '1',   '9', 'log',              '',                             '', '1', '0', 'M', '0', '0', '',                            'log',           103, 1, now(), null, null, '日志管理菜单');
 insert into sys_menu values('109',  '在线用户',     '2',   '1', 'online',           'monitor/online/index',         '', '1', '0', 'C', '0', '0', 'monitor:online:list',         'online',        103, 1, now(), null, null, '在线用户菜单');
+insert into sys_menu values('124',  '缓存监控',     '2',   '1',  'cache',           'monitor/cache/index',          '', '1', '0', 'C', '0', '0',  'monitor:cache:list',          'redis',        103, 1, now(), null, null, '缓存监控');
 insert into sys_menu values('110',  'PowerJob控制台', '2', '2', 'http://localhost:7700',        '',                 '', '0', '0', 'C', '0', '0', 'monitor:job:list',            'job',           103, 1, now(), null, null, '定时任务菜单');
 insert into sys_menu values('111',  'Sentinel控制台','2',  '3', 'http://localhost:8718',        '',                 '', '0', '0', 'C', '0', '0', 'monitor:sentinel:list',       'sentinel',      103, 1, now(), null, null, '流量控制菜单');
 insert into sys_menu values('112',  'Nacos控制台',  '2',   '4', 'http://localhost:8848/nacos',  '',                 '', '0', '0', 'C', '0', '0', 'monitor:nacos:list',          'nacos',         103, 1, now(), null, null, '服务治理菜单');
@@ -452,7 +453,6 @@ insert into sys_menu values('115',  '代码生成',     '3',   '2', 'gen',      
 insert into sys_menu values('121',  '租户管理',     '6',   '1', 'tenant',           'system/tenant/index',          '', '1', '0', 'C', '0', '0', 'system:tenant:list',          'list',          103, 1, now(), null, null, '租户管理菜单');
 insert into sys_menu values('122',  '租户套餐管理',  '6',   '2', 'tenantPackage',    'system/tenantPackage/index',   '', '1', '0', 'C', '0', '0', 'system:tenantPackage:list',   'form',          103, 1, now(), null, null, '租户套餐管理菜单');
 insert into sys_menu values('123',  '客户端管理',   '1',   '11', 'client',           'system/client/index',          '', '1', '0', 'C', '0', '0', 'system:client:list',          'international', 103, 1, now(), null, null, '客户端管理菜单');
-insert into sys_menu values('124',  '缓存监控',     '2',   '1',  'cache',           'monitor/cache/index',          '', '1', '0', 'C', '0', '0',  'monitor:cache:list',          'redis',         103, 1, now(), null, null, '缓存监控');
 -- oss菜单
 insert into sys_menu values('118',  '文件管理',     '1',   '10', 'oss',              'system/oss/index',            '', '1', '0', 'C', '0', '0', 'system:oss:list',             'upload',        103, 1, now(), null, null, '文件管理菜单');
 -- 三级菜单
