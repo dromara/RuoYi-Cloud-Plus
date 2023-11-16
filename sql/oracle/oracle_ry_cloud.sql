@@ -443,6 +443,7 @@ insert into sys_menu values('115',  '代码生成',     '3',   '2', 'gen',      
 insert into sys_menu values('121',  '租户管理',     '6',   '1', 'tenant',           'system/tenant/index',          '', 1, 0, 'C', '0', '0', 'system:tenant:list',          'list',          103, 1, sysdate, null, null, '租户管理菜单');
 insert into sys_menu values('122',  '租户套餐管理', '6',   '2', 'tenantPackage',    'system/tenantPackage/index',   '', 1, 0, 'C', '0', '0', 'system:tenantPackage:list',   'form',          103, 1, sysdate, null, null, '租户套餐管理菜单');
 insert into sys_menu values('123',  '客户端管理',   '1',   '11', 'client',          'system/client/index',          '', 1, 0, 'C', '0', '0', 'system:client:list',          'international', 103, 1, sysdate, null, null, '客户端管理菜单');
+insert into sys_menu values('124',  '缓存监控',     '2',   '1',  'cache',           'monitor/cache/index',          '', 1, 0, 'C', '0', '0', 'monitor:cache:list',          'redis',         103, 1, sysdate, null, null, '缓存监控');
 -- springboot-admin监控
 insert into sys_menu values('117',  'Admin监控',   '2',    '5', 'Admin',            'monitor/admin/index',         '', 1, 0, 'C', '0', '0', 'monitor:admin:list',          'dashboard',     103, 1, sysdate, null, null, 'Admin监控菜单');
 -- oss菜单
