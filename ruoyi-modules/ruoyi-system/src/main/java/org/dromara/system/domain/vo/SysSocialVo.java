@@ -1,6 +1,5 @@
 package org.dromara.system.domain.vo;
 
-import com.alibaba.excel.annotation.ExcelIgnoreUnannotated;
 import io.github.linpeilie.annotations.AutoMapper;
 import lombok.Data;
 import org.dromara.system.domain.SysSocial;
@@ -16,7 +15,6 @@ import java.util.Date;
  * @author thiszhc
  */
 @Data
-@ExcelIgnoreUnannotated
 @AutoMapper(target = SysSocial.class)
 public class SysSocialVo implements Serializable {
 
