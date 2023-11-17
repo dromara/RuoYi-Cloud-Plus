@@ -16,10 +16,7 @@ import org.dromara.auth.domain.vo.LoginVo;
 import org.dromara.auth.form.SocialLoginBody;
 import org.dromara.auth.service.IAuthStrategy;
 import org.dromara.auth.service.SysLoginService;
-import org.dromara.common.core.constant.Constants;
 import org.dromara.common.core.exception.ServiceException;
-import org.dromara.common.core.utils.MessageUtils;
-import org.dromara.common.core.utils.ServletUtils;
 import org.dromara.common.core.utils.ValidatorUtils;
 import org.dromara.common.json.utils.JsonUtils;
 import org.dromara.common.satoken.utils.LoginHelper;
@@ -101,9 +98,6 @@ public class SocialAuthStrategy implements IAuthStrategy {
         model.setExtra(LoginHelper.CLIENT_KEY, client.getClientId());
         // 生成token
         LoginHelper.login(loginUser, model);
-
-        loginService.recordLogininfor(loginUser.getTenantId(), socialVo.getUserName(), Constants.LOGIN_SUCCESS, MessageUtils.message("user.login.success"));
-        remoteUserService.recordLoginInfo(loginUser.getUserId(), ServletUtils.getClientIP());
 
         LoginVo loginVo = new LoginVo();
         loginVo.setAccessToken(StpUtil.getTokenValue());
