@@ -10,6 +10,7 @@ import org.dromara.common.core.exception.ServiceException;
 import org.dromara.common.core.exception.user.UserException;
 import org.dromara.common.core.utils.DateUtils;
 import org.dromara.common.core.utils.MapstructUtils;
+import org.dromara.common.mybatis.helper.DataPermissionHelper;
 import org.dromara.common.tenant.helper.TenantHelper;
 import org.dromara.system.api.RemoteUserService;
 import org.dromara.system.api.domain.bo.RemoteUserBo;
@@ -198,7 +199,7 @@ public class RemoteUserServiceImpl implements RemoteUserService {
         sysUser.setLoginIp(ip);
         sysUser.setLoginDate(DateUtils.getNowDate());
         sysUser.setUpdateBy(userId);
-        userMapper.updateById(sysUser);
+        DataPermissionHelper.ignore(() -> userMapper.updateById(sysUser));
     }
 
 }
