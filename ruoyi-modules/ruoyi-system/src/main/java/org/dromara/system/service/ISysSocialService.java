@@ -50,7 +50,7 @@ public interface ISysSocialService {
      * @param authId 认证ID
      * @return SysSocial
      */
-    SysSocialVo selectByAuthId(String authId);
+    List<SysSocialVo> selectByAuthId(String authId);
 
 
 }
