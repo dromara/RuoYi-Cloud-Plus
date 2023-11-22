@@ -38,7 +38,7 @@
         <satoken.version>1.37.0</satoken.version>
         <lombok.version>1.18.30</lombok.version>
         <logstash.version>7.4</logstash.version>
-        <easy-es.version>1.1.1</easy-es.version>
+        <easy-es.version>2.0.0-beta4</easy-es.version>
         <elasticsearch.version>7.14.0</elasticsearch.version>
         <skywalking-toolkit.version>8.16.0</skywalking-toolkit.version>
         <bouncycastle.version>1.76</bouncycastle.version>
@@ -293,7 +293,7 @@
             </dependency>
 
             <dependency>
-                <groupId>cn.easy-es</groupId>
+                <groupId>org.dromara.easy-es</groupId>
                 <artifactId>easy-es-boot-starter</artifactId>
                 <version>${easy-es.version}</version>
             </dependency>

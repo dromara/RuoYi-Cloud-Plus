@@ -17,7 +17,7 @@
 
 	<dependencies>
         <dependency>
-            <groupId>cn.easy-es</groupId>
+            <groupId>org.dromara.easy-es</groupId>
             <artifactId>easy-es-boot-starter</artifactId>
         </dependency>
     </dependencies>

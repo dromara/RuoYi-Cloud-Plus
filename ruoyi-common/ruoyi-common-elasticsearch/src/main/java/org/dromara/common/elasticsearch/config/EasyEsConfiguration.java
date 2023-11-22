@@ -1,6 +1,6 @@
 package org.dromara.common.elasticsearch.config;
 
-import cn.easyes.starter.register.EsMapperScan;
+import org.dromara.easyes.starter.register.EsMapperScan;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 

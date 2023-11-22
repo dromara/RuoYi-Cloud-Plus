@@ -1,10 +1,10 @@
 package org.dromara.demo.controller;
 
-import cn.easyes.core.conditions.LambdaEsQueryWrapper;
+import lombok.RequiredArgsConstructor;
 import org.dromara.common.core.domain.R;
 import org.dromara.demo.domain.Document;
 import org.dromara.demo.esmapper.DocumentMapper;
-import lombok.RequiredArgsConstructor;
+import org.dromara.easyes.core.conditions.select.LambdaEsQueryWrapper;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.web.bind.annotation.*;
 
