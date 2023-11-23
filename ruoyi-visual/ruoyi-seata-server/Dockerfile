@@ -21,4 +21,5 @@ ENTRYPOINT ["java", \
 #            "-Dskywalking.agent.service_name=ruoyi-seata-server", \
 #            "-Dskywalking.plugin.seata.server=true", \
 #            "-javaagent:/ruoyi/skywalking/agent/skywalking-agent.jar", \
-            "-jar", "app.jar"]
+            "-jar", "app.jar",
+            "-XX:+HeapDumpOnOutOfMemoryError", "-Xlog:gc*,:time,tags,level", "-XX:+UseZGC"]

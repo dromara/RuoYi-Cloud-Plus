@@ -20,4 +20,5 @@ ENTRYPOINT ["java", \
             "-Dserver.port=${SERVER_PORT}", \
 #            "-Dskywalking.agent.service_name=ruoyi-auth", \
 #            "-javaagent:/ruoyi/skywalking/agent/skywalking-agent.jar", \
-            "-jar", "app.jar"]
+            "-jar", "app.jar",
+            "-XX:+HeapDumpOnOutOfMemoryError", "-Xlog:gc*,:time,tags,level", "-XX:+UseZGC"]

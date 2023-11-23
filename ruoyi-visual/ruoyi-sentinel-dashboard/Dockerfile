@@ -18,4 +18,5 @@ ENTRYPOINT ["java", \
             "-Djava.security.egd=file:/dev/./urandom", \
 #            "-Dskywalking.agent.service_name=ruoyi-sentinel-dashboard", \
 #            "-javaagent:/ruoyi/skywalking/agent/skywalking-agent.jar", \
-            "-jar", "app.jar"]
+            "-jar", "app.jar",
+            "-XX:+HeapDumpOnOutOfMemoryError", "-Xlog:gc*,:time,tags,level", "-XX:+UseZGC"]

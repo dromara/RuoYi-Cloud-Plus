@@ -13,4 +13,5 @@ EXPOSE 9100
 
 ADD ./target/ruoyi-monitor.jar ./app.jar
 
-ENTRYPOINT ["java", "-Djava.security.egd=file:/dev/./urandom", "-jar", "app.jar"]
+ENTRYPOINT ["java", "-Djava.security.egd=file:/dev/./urandom", "-jar", "app.jar",
+            "-XX:+HeapDumpOnOutOfMemoryError", "-Xlog:gc*,:time,tags,level", "-XX:+UseZGC"]
