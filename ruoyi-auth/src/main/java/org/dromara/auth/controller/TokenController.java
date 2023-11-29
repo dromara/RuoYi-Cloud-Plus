@@ -35,7 +35,6 @@ import org.dromara.system.api.RemoteSocialService;
 import org.dromara.system.api.RemoteTenantService;
 import org.dromara.system.api.domain.vo.RemoteClientVo;
 import org.dromara.system.api.domain.vo.RemoteTenantVo;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URL;
@@ -49,7 +48,6 @@ import java.util.concurrent.TimeUnit;
  * @author Lion Li
  */
 @Slf4j
-@Validated
 @RequiredArgsConstructor
 @RestController
 public class TokenController {
@@ -77,7 +75,7 @@ public class TokenController {
      */
     @ApiEncrypt
     @PostMapping("/login")
-    public R<LoginVo> login(@Validated @RequestBody String body) {
+    public R<LoginVo> login(@RequestBody String body) {
         LoginBody loginBody = JsonUtils.parseObject(body, LoginBody.class);
         ValidatorUtils.validate(loginBody);
         // 授权类型和客户端id
