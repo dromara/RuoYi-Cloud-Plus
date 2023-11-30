@@ -159,6 +159,11 @@ public class RemoteUserServiceImpl implements RemoteUserService {
         return userService.selectUserNameById(userId);
     }
 
+    @Override
+    public String selectNicknameById(Long userId) {
+        return userService.selectNicknameById(userId);
+    }
+
     /**
      * 构建登录用户
      */

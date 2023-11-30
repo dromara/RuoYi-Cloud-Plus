@@ -74,6 +74,14 @@ public interface RemoteUserService {
     String selectUserNameById(Long userId);
 
     /**
+     * 通过用户ID查询用户昵称
+     *
+     * @param userId 用户id
+     * @return 结果
+     */
+    String selectNicknameById(Long userId);
+
+    /**
      * 更新用户信息
      *
      * @param userId 用户ID
