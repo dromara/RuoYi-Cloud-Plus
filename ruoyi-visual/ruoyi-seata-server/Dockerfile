@@ -20,5 +20,4 @@ ENTRYPOINT java -Djava.security.egd=file:/dev/./urandom \
            #-Dskywalking.agent.service_name=ruoyi-seata-server", \
            #-Dskywalking.plugin.seata.server=true", \
            #-javaagent:/ruoyi/skywalking/agent/skywalking-agent.jar", \
-           -jar app.jar \
-           -XX:+HeapDumpOnOutOfMemoryError -Xlog:gc*,:time,tags,level -XX:+UseZGC ${JAVA_OPTS}
+           -jar app.jar ${JAVA_OPTS}
