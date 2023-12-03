@@ -140,10 +140,10 @@ public class RemoteUserServiceImpl implements RemoteUserService {
     public Boolean registerUserInfo(RemoteUserBo remoteUserBo) throws UserException, ServiceException {
         SysUserBo sysUserBo = MapstructUtils.convert(remoteUserBo, SysUserBo.class);
         String username = sysUserBo.getUserName();
-        if (!("true".equals(configService.selectConfigByKey("sys.account.registerUser")))) {
-            throw new ServiceException("当前系统没有开启注册功能");
-        }
         boolean exist = TenantHelper.dynamic(remoteUserBo.getTenantId(), () -> {
+            if (!("true".equals(configService.selectConfigByKey("sys.account.registerUser")))) {
+                throw new ServiceException("当前系统没有开启注册功能");
+            }
             return userMapper.exists(new LambdaQueryWrapper<SysUser>()
                 .eq(SysUser::getUserName, sysUserBo.getUserName())
                 .ne(ObjectUtil.isNotNull(sysUserBo.getUserId()), SysUser::getUserId, sysUserBo.getUserId()));
