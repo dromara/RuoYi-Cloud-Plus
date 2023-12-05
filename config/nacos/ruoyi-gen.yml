@@ -18,8 +18,6 @@ spring:
 #          url: ${datasource.system-oracle.url}
 #          username: ${datasource.system-oracle.username}
 #          password: ${datasource.system-oracle.password}
-#          hikari:
-#            connectionTestQuery: SELECT 1 FROM DUAL
 #        postgres:
 #          type: ${spring.datasource.type}
 #          driverClassName: org.postgresql.Driver
