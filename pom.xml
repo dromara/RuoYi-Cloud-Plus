@@ -19,7 +19,7 @@
         <java.version>17</java.version>
         <spring-boot.version>3.1.5</spring-boot.version>
         <spring-cloud.version>2022.0.4</spring-cloud.version>
-        <spring-boot-admin.version>3.1.7</spring-boot-admin.version>
+        <spring-boot-admin.version>3.1.8</spring-boot-admin.version>
         <spring-boot.mybatis>3.0.2</spring-boot.mybatis>
         <mybatis.version>3.5.13</mybatis.version>
         <mybatis-plus.version>3.5.4</mybatis-plus.version>
@@ -30,7 +30,7 @@
         <springdoc.version>2.2.0</springdoc.version>
         <therapi-javadoc.version>0.15.0</therapi-javadoc.version>
         <poi.version>5.2.3</poi.version>
-        <easyexcel.version>3.3.2</easyexcel.version>
+        <easyexcel.version>3.3.3</easyexcel.version>
         <hutool.version>5.8.22</hutool.version>
         <redisson.version>3.24.3</redisson.version>
         <lock4j.version>2.2.5</lock4j.version>
@@ -52,7 +52,7 @@
         <fastjson.version>1.2.83</fastjson.version>
 
         <!-- OSS 配置 -->
-        <aws-java-sdk-s3.version>1.12.540</aws-java-sdk-s3.version>
+        <aws-java-sdk-s3.version>1.12.600</aws-java-sdk-s3.version>
         <okhttp.version>4.10.0</okhttp.version>
 
         <!-- SMS 配置 -->
