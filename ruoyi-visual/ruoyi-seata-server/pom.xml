@@ -32,6 +32,7 @@
         <druid.version>1.2.12</druid.version>
         <spring-boot.version>2.7.18</spring-boot.version>
         <native-build-tools-plugin.version>0.9.20</native-build-tools-plugin.version>
+        <logstash-logback-encoder.version>7.2</logstash-logback-encoder.version>
     </properties>
 
     <dependencyManagement>
@@ -196,6 +197,7 @@
         <dependency>
             <groupId>net.logstash.logback</groupId>
             <artifactId>logstash-logback-encoder</artifactId>
+            <version>${logstash-logback-encoder.version}</version>
         </dependency>
         <dependency>
             <groupId>org.codehaus.janino</groupId>
