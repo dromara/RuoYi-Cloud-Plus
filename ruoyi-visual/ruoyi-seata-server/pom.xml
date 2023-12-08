@@ -30,7 +30,7 @@
         <seata.version>1.7.1</seata.version>
         <jcommander.version>1.82</jcommander.version>
         <druid.version>1.2.12</druid.version>
-        <spring-boot.version>2.7.17</spring-boot.version>
+        <spring-boot.version>2.7.18</spring-boot.version>
         <native-build-tools-plugin.version>0.9.20</native-build-tools-plugin.version>
     </properties>
 
