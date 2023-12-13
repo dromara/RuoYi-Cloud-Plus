@@ -1,8 +1,8 @@
 package org.dromara.common.job.config;
 
 import cn.hutool.core.collection.CollUtil;
-import org.apache.commons.lang3.StringUtils;
 import org.dromara.common.core.utils.StreamUtils;
+import org.dromara.common.core.utils.StringUtils;
 import org.dromara.common.job.config.properties.PowerJobProperties;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -10,7 +10,6 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.context.annotation.Bean;
-import org.springframework.scheduling.annotation.EnableScheduling;
 import tech.powerjob.common.utils.CommonUtils;
 import tech.powerjob.common.utils.NetUtils;
 import tech.powerjob.worker.PowerJobSpringWorker;
@@ -20,16 +19,15 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * 启动定时任务
+ * Autoconfiguration class for PowerJob-worker.
  *
- * @author yhan219
- * @since 2023/6/2
+ * @author songyinyin
+ * @since 2020/7/26 16:37
  */
 @AutoConfiguration
-@ConditionalOnProperty(prefix = "powerjob.worker", name = "enabled", havingValue = "true")
 @EnableConfigurationProperties(PowerJobProperties.class)
-@EnableScheduling
-public class PowerJobConfig {
+@ConditionalOnProperty(prefix = "powerjob.worker", name = "enabled", havingValue = "true", matchIfMissing = true)
+public class PowerJobConfig{
 
     @Bean
     public PowerJobSpringWorker initPowerJob(PowerJobProperties properties, DiscoveryClient discoveryClient) {
@@ -87,7 +85,7 @@ public class PowerJobConfig {
          * When enabledTestMode is set as true, PowerJob-worker no longer connects to PowerJob-server
          * or validate appName.
          */
-        config.setEnableTestMode(worker.isEnableTestMode());
+        config.setAllowLazyConnectServer(worker.isAllowLazyConnectServer());
         /*
          * Max length of appended workflow context . Appended workflow context value that is longer than the value will be ignored.
          */
