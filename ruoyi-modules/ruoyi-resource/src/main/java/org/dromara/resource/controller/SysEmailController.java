@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.dromara.common.core.constant.Constants;
 import org.dromara.common.core.constant.GlobalConstants;
 import org.dromara.common.core.domain.R;
+import org.dromara.common.ratelimiter.annotation.RateLimiter;
 import org.dromara.common.web.core.BaseController;
 import org.dromara.common.mail.config.properties.MailProperties;
 import org.dromara.common.mail.utils.MailUtils;
@@ -38,6 +39,7 @@ public class SysEmailController extends BaseController {
      *
      * @param email 邮箱
      */
+    @RateLimiter(key = "#email", time = 60, count = 1)
     @GetMapping("/code")
     public R<Void> emailCode(@NotBlank(message = "{user.email.not.blank}") String email) {
         if (!mailProperties.getEnabled()) {
