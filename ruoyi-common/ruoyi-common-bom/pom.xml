@@ -118,6 +118,13 @@
                 <version>${revision}</version>
             </dependency>
 
+            <!-- 限流 -->
+            <dependency>
+                <groupId>org.dromara</groupId>
+                <artifactId>ruoyi-common-ratelimiter</artifactId>
+                <version>${revision}</version>
+            </dependency>
+
             <dependency>
                 <groupId>org.dromara</groupId>
                 <artifactId>ruoyi-common-idempotent</artifactId>
