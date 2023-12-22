@@ -16,7 +16,7 @@ import org.apache.dubbo.config.annotation.DubboReference;
 @TranslationType(type = TransConstant.OSS_ID_TO_URL)
 public class OssUrlTranslationImpl implements TranslationInterface<String> {
 
-    @DubboReference
+    @DubboReference(mock = "true")
     private RemoteFileService ossService;
 
     @Override

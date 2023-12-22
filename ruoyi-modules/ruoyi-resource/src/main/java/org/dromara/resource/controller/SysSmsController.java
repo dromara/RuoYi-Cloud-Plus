@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.dromara.common.core.constant.Constants;
 import org.dromara.common.core.constant.GlobalConstants;
 import org.dromara.common.core.domain.R;
+import org.dromara.common.ratelimiter.annotation.RateLimiter;
 import org.dromara.common.redis.utils.RedisUtils;
 import org.dromara.common.web.core.BaseController;
 import org.dromara.sms4j.api.SmsBlend;
@@ -39,6 +40,7 @@ public class SysSmsController extends BaseController {
      *
      * @param phonenumber 用户手机号
      */
+    @RateLimiter(key = "#phonenumber", time = 60, count = 1)
     @GetMapping("/code")
     public R<Void> smsCaptcha(@NotBlank(message = "{user.phonenumber.not.blank}") String phonenumber) {
         String key = GlobalConstants.CAPTCHA_CODE_KEY + phonenumber;

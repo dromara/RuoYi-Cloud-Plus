@@ -4,6 +4,7 @@ import cn.dev33.satoken.exception.NotLoginException;
 import cn.dev33.satoken.secure.BCrypt;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ObjectUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,7 +19,7 @@ import org.dromara.common.core.constant.TenantConstants;
 import org.dromara.common.core.enums.LoginType;
 import org.dromara.common.core.enums.TenantStatus;
 import org.dromara.common.core.enums.UserType;
-import org.dromara.common.core.exception.CaptchaException;
+import org.dromara.common.core.exception.user.CaptchaException;
 import org.dromara.common.core.exception.user.CaptchaExpireException;
 import org.dromara.common.core.exception.user.UserException;
 import org.dromara.common.core.utils.MessageUtils;
@@ -43,6 +44,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.Duration;
 import java.util.Date;
+import java.util.List;
 import java.util.function.Supplier;
 
 /**
@@ -83,13 +85,13 @@ public class SysLoginService {
         bo.setUserName(authUserData.getUsername());
         bo.setNickName(authUserData.getNickname());
         // 查询是否已经绑定用户
-        RemoteSocialVo vo = remoteSocialService.selectByAuthId(authId);
-        if (ObjectUtil.isEmpty(vo)) {
+        List<RemoteSocialVo> list = remoteSocialService.selectByAuthId(authId);
+        if (CollUtil.isEmpty(list)) {
             // 没有绑定用户, 新增用户信息
             remoteSocialService.insertByBo(bo);
         } else {
             // 更新用户信息
-            bo.setId(vo.getId());
+            bo.setId(list.get(0).getId());
             remoteSocialService.updateByBo(bo);
         }
     }
@@ -100,6 +102,9 @@ public class SysLoginService {
     public void logout() {
         try {
             LoginUser loginUser = LoginHelper.getLoginUser();
+            if (ObjectUtil.isNull(loginUser)) {
+                return;
+            }
             if (TenantHelper.isEnable() && LoginHelper.isSuperAdmin()) {
                 // 超级管理员 登出清除动态租户
                 TenantHelper.clearDynamic();

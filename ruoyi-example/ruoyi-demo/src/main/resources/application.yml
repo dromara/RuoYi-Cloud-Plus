@@ -90,8 +90,6 @@ easy-es:
   connectTimeout: 5000
   # 通信超时时间 单位:ms
   socketTimeout: 5000
-  # 请求超时时间 单位:ms
-  requestTimeout: 5000
   # 连接请求超时时间 单位:ms
   connectionRequestTimeout: 5000
   # 最大连接数 单位:个
@@ -114,5 +112,3 @@ easy-es:
       enable-track-total-hits: true
       # 数据刷新策略,默认为不刷新
       refresh-policy: immediate
-      # 是否全局开启must查询类型转换为filter查询类型 默认为false不转换
-      enable-must2-filter: false

@@ -8,14 +8,13 @@ RUN mkdir -p /ruoyi/sentinel-dashboard/logs \
 
 WORKDIR /ruoyi/sentinel-dashboard
 
-ENV LANG=C.UTF-8 LC_ALL=C.UTF-8
+ENV LANG=C.UTF-8 LC_ALL=C.UTF-8 JAVA_OPTS=""
 
 EXPOSE 8718
 
 ADD ./target/ruoyi-sentinel-dashboard.jar ./app.jar
 
-ENTRYPOINT ["java", \
-            "-Djava.security.egd=file:/dev/./urandom", \
-#            "-Dskywalking.agent.service_name=ruoyi-sentinel-dashboard", \
-#            "-javaagent:/ruoyi/skywalking/agent/skywalking-agent.jar", \
-            "-jar", "app.jar"]
+ENTRYPOINT java -Djava.security.egd=file:/dev/./urandom \
+           #-Dskywalking.agent.service_name=ruoyi-sentinel-dashboard \
+           #-javaagent:/ruoyi/skywalking/agent/skywalking-agent.jar \
+           -jar app.jar ${JAVA_OPTS}

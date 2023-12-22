@@ -2,9 +2,8 @@ package org.dromara.auth.service.impl;
 
 import cn.dev33.satoken.stp.SaLoginModel;
 import cn.dev33.satoken.stp.StpUtil;
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.map.MapUtil;
-import cn.hutool.core.util.ObjectUtil;
-import cn.hutool.core.util.StrUtil;
 import cn.hutool.http.HttpUtil;
 import cn.hutool.http.Method;
 import lombok.RequiredArgsConstructor;
@@ -16,10 +15,7 @@ import org.dromara.auth.domain.vo.LoginVo;
 import org.dromara.auth.form.SocialLoginBody;
 import org.dromara.auth.service.IAuthStrategy;
 import org.dromara.auth.service.SysLoginService;
-import org.dromara.common.core.constant.Constants;
 import org.dromara.common.core.exception.ServiceException;
-import org.dromara.common.core.utils.MessageUtils;
-import org.dromara.common.core.utils.ServletUtils;
 import org.dromara.common.core.utils.ValidatorUtils;
 import org.dromara.common.json.utils.JsonUtils;
 import org.dromara.common.satoken.utils.LoginHelper;
@@ -31,6 +27,9 @@ import org.dromara.system.api.domain.vo.RemoteClientVo;
 import org.dromara.system.api.domain.vo.RemoteSocialVo;
 import org.dromara.system.api.model.LoginUser;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
 
 /**
  * 第三方授权策略
@@ -53,7 +52,6 @@ public class SocialAuthStrategy implements IAuthStrategy {
     /**
      * 登录-第三方授权登录
      *
-     * @param clientId 客户端id
      * @param body     登录信息
      * @param client   客户端信息
      */
@@ -78,18 +76,17 @@ public class SocialAuthStrategy implements IAuthStrategy {
                 .executeAsync();
         }
 
-        RemoteSocialVo socialVo = remoteSocialService.selectByAuthId(authUserData.getSource() + authUserData.getUuid());
-        if (!ObjectUtil.isNotNull(socialVo)) {
+        List<RemoteSocialVo> list = remoteSocialService.selectByAuthId(authUserData.getSource() + authUserData.getUuid());
+        if (CollUtil.isEmpty(list)) {
             throw new ServiceException("你还没有绑定第三方账号，绑定后才可以登录！");
         }
-        // 验证授权表里面的租户id是否包含当前租户id
-        String tenantId = socialVo.getTenantId();
-        if (ObjectUtil.isNotNull(socialVo) && StrUtil.isNotBlank(tenantId)
-            && !tenantId.contains(loginBody.getTenantId())) {
+        Optional<RemoteSocialVo> opt = list.stream().filter(x -> x.getTenantId().equals(loginBody.getTenantId())).findAny();
+        if (opt.isEmpty()) {
             throw new ServiceException("对不起，你没有权限登录当前租户！");
         }
+        RemoteSocialVo socialVo = opt.get();
 
-        LoginUser loginUser = remoteUserService.getUserInfo(socialVo.getUserId(), tenantId);
+        LoginUser loginUser = remoteUserService.getUserInfo(socialVo.getUserId(), socialVo.getTenantId());
         loginUser.setClientKey(client.getClientKey());
         loginUser.setDeviceType(client.getDeviceType());
         SaLoginModel model = new SaLoginModel();
@@ -101,9 +98,6 @@ public class SocialAuthStrategy implements IAuthStrategy {
         model.setExtra(LoginHelper.CLIENT_KEY, client.getClientId());
         // 生成token
         LoginHelper.login(loginUser, model);
-
-        loginService.recordLogininfor(loginUser.getTenantId(), socialVo.getUserName(), Constants.LOGIN_SUCCESS, MessageUtils.message("user.login.success"));
-        remoteUserService.recordLoginInfo(loginUser.getUserId(), ServletUtils.getClientIP());
 
         LoginVo loginVo = new LoginVo();
         loginVo.setAccessToken(StpUtil.getTokenValue());

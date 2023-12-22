@@ -15,6 +15,8 @@ import org.dromara.common.core.domain.R;
 import org.dromara.common.core.utils.SpringUtils;
 import org.dromara.common.core.utils.StringUtils;
 import org.dromara.common.core.utils.reflect.ReflectUtils;
+import org.dromara.common.ratelimiter.annotation.RateLimiter;
+import org.dromara.common.ratelimiter.enums.LimitType;
 import org.dromara.common.redis.utils.RedisUtils;
 import org.springframework.expression.Expression;
 import org.springframework.expression.ExpressionParser;
@@ -42,6 +44,7 @@ public class CaptchaController {
     /**
      * 生成验证码
      */
+    @RateLimiter(time = 60, count = 10, limitType = LimitType.IP)
     @GetMapping("/code")
     public R<CaptchaVo> getCode() {
         CaptchaVo captchaVo = new CaptchaVo();
