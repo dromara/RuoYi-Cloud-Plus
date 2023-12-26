@@ -79,7 +79,7 @@ public class SysRoleServiceImpl implements ISysRoleService {
             .like(StringUtils.isNotBlank(bo.getRoleKey()), "r.role_key", bo.getRoleKey())
             .between(params.get("beginTime") != null && params.get("endTime") != null,
                 "r.create_time", params.get("beginTime"), params.get("endTime"))
-            .orderByAsc("r.role_sort").orderByAsc("r.create_time");;
+            .orderByAsc("r.role_sort").orderByAsc("r.create_time");
         return wrapper;
     }
 
@@ -91,6 +91,17 @@ public class SysRoleServiceImpl implements ISysRoleService {
      */
     @Override
     public List<SysRoleVo> selectRolesByUserId(Long userId) {
+        return baseMapper.selectRolesByUserId(userId);
+    }
+
+    /**
+     * 根据用户ID查询角色列表(包含被授权状态)
+     *
+     * @param userId 用户ID
+     * @return 角色列表
+     */
+    @Override
+    public List<SysRoleVo> selectRolesAuthByUserId(Long userId) {
         List<SysRoleVo> userRoles = baseMapper.selectRolePermissionByUserId(userId);
         List<SysRoleVo> roles = selectRoleAll();
         for (SysRoleVo role : roles) {
@@ -140,7 +151,8 @@ public class SysRoleServiceImpl implements ISysRoleService {
      */
     @Override
     public List<Long> selectRoleListByUserId(Long userId) {
-        return baseMapper.selectRoleListByUserId(userId);
+        List<SysRoleVo> list = baseMapper.selectRolesByUserId(userId);
+        return StreamUtils.toList(list, SysRoleVo::getRoleId);
     }
 
     /**

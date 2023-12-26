@@ -42,7 +42,7 @@ import java.util.List;
  */
 @RequiredArgsConstructor
 @Service
-public class SysDeptServiceImpl implements ISysDeptService{
+public class SysDeptServiceImpl implements ISysDeptService {
 
     private final SysDeptMapper baseMapper;
     private final SysRoleMapper roleMapper;
@@ -143,6 +143,7 @@ public class SysDeptServiceImpl implements ISysDeptService{
      * @param deptIds 部门ID串逗号分隔
      * @return 部门名称串逗号分隔
      */
+    @Override
     public String selectDeptNameByIds(String deptIds) {
         List<String> list = new ArrayList<>();
         for (Long id : StringUtils.splitTo(deptIds, Convert::toLong)) {
@@ -219,8 +220,7 @@ public class SysDeptServiceImpl implements ISysDeptService{
         if (LoginHelper.isSuperAdmin()) {
             return;
         }
-        SysDeptVo dept = baseMapper.selectDeptById(deptId);
-        if (ObjectUtil.isNull(dept)) {
+        if (baseMapper.countDeptById(deptId) == 0) {
             throw new ServiceException("没有权限访问部门数据！");
         }
     }

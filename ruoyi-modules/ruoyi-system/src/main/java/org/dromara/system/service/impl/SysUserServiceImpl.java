@@ -35,7 +35,6 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -141,7 +140,7 @@ public class SysUserServiceImpl implements ISysUserService {
      */
     @Override
     public SysUserVo selectUserByUserName(String userName) {
-        return baseMapper.selectUserByUserName(userName);
+        return baseMapper.selectVoOne(new LambdaQueryWrapper<SysUser>().eq(SysUser::getUserName, userName));
     }
 
     /**
@@ -152,7 +151,7 @@ public class SysUserServiceImpl implements ISysUserService {
      */
     @Override
     public SysUserVo selectUserByPhonenumber(String phonenumber) {
-        return baseMapper.selectUserByPhonenumber(phonenumber);
+        return baseMapper.selectVoOne(new LambdaQueryWrapper<SysUser>().eq(SysUser::getPhonenumber, phonenumber));
     }
 
     /**
@@ -163,18 +162,18 @@ public class SysUserServiceImpl implements ISysUserService {
      */
     @Override
     public SysUserVo selectUserById(Long userId) {
-        return baseMapper.selectUserById(userId);
+        return baseMapper.selectVoById(userId);
     }
 
     /**
      * 查询用户所属角色组
      *
-     * @param userName 用户名
+     * @param userId 用户ID
      * @return 结果
      */
     @Override
-    public String selectUserRoleGroup(String userName) {
-        List<SysRoleVo> list = roleMapper.selectRolesByUserName(userName);
+    public String selectUserRoleGroup(Long userId) {
+        List<SysRoleVo> list = roleMapper.selectRolesByUserId(userId);
         if (CollUtil.isEmpty(list)) {
             return StringUtils.EMPTY;
         }
@@ -184,12 +183,12 @@ public class SysUserServiceImpl implements ISysUserService {
     /**
      * 查询用户所属岗位组
      *
-     * @param userName 用户名
+     * @param userId 用户ID
      * @return 结果
      */
     @Override
-    public String selectUserPostGroup(String userName) {
-        List<SysPostVo> list = postMapper.selectPostsByUserName(userName);
+    public String selectUserPostGroup(Long userId) {
+        List<SysPostVo> list = postMapper.selectPostsByUserId(userId);
         if (CollUtil.isEmpty(list)) {
             return StringUtils.EMPTY;
         }
@@ -261,7 +260,7 @@ public class SysUserServiceImpl implements ISysUserService {
         if (LoginHelper.isSuperAdmin()) {
             return;
         }
-        if (ObjectUtil.isNull(baseMapper.selectUserById(userId))) {
+        if (baseMapper.countUserById(userId) == 0) {
             throw new ServiceException("没有权限访问用户数据！");
         }
     }
@@ -421,7 +420,7 @@ public class SysUserServiceImpl implements ISysUserService {
                 userPostMapper.delete(new LambdaQueryWrapper<SysUserPost>().eq(SysUserPost::getUserId, user.getUserId()));
             }
             // 新增用户与岗位管理
-            List<SysUserPost> list = StreamUtils.toList(Arrays.asList(posts), postId -> {
+            List<SysUserPost> list = StreamUtils.toList(List.of(posts), postId -> {
                 SysUserPost up = new SysUserPost();
                 up.setUserId(user.getUserId());
                 up.setPostId(postId);
@@ -449,7 +448,7 @@ public class SysUserServiceImpl implements ISysUserService {
             if (!LoginHelper.isSuperAdmin(userId)) {
                 roleList.remove(UserConstants.SUPER_ADMIN_ID);
             }
-            List<Long> canDoRoleList = StreamUtils.filter(Arrays.asList(roleIds), roleList::contains);
+            List<Long> canDoRoleList = StreamUtils.filter(List.of(roleIds), roleList::contains);
             if (CollUtil.isEmpty(canDoRoleList)) {
                 throw new ServiceException("没有权限访问角色的数据");
             }
@@ -502,7 +501,7 @@ public class SysUserServiceImpl implements ISysUserService {
             checkUserAllowed(userId);
             checkUserDataScope(userId);
         }
-        List<Long> ids = Arrays.asList(userIds);
+        List<Long> ids = List.of(userIds);
         // 删除用户与角色关联
         userRoleMapper.delete(new LambdaQueryWrapper<SysUserRole>().in(SysUserRole::getUserId, ids));
         // 删除用户与岗位表

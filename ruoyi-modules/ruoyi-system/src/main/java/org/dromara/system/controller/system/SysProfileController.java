@@ -22,6 +22,7 @@ import org.dromara.system.domain.bo.SysUserProfileBo;
 import org.dromara.system.domain.vo.AvatarVo;
 import org.dromara.system.domain.vo.ProfileVo;
 import org.dromara.system.domain.vo.SysUserVo;
+import org.dromara.system.service.ISysRoleService;
 import org.dromara.system.service.ISysUserService;
 import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
@@ -43,6 +44,7 @@ import java.util.Arrays;
 public class SysProfileController extends BaseController {
 
     private final ISysUserService userService;
+    private final ISysRoleService roleService;
 
     @DubboReference
     private RemoteFileService remoteFileService;
@@ -53,10 +55,11 @@ public class SysProfileController extends BaseController {
     @GetMapping
     public R<ProfileVo> profile() {
         SysUserVo user = userService.selectUserById(LoginHelper.getUserId());
+        user.setRoles(roleService.selectRolesByUserId(user.getUserId()));
         ProfileVo profileVo = new ProfileVo();
         profileVo.setUser(user);
-        profileVo.setRoleGroup(userService.selectUserRoleGroup(user.getUserName()));
-        profileVo.setPostGroup(userService.selectUserPostGroup(user.getUserName()));
+        profileVo.setRoleGroup(userService.selectUserRoleGroup(user.getUserId()));
+        profileVo.setPostGroup(userService.selectUserPostGroup(user.getUserId()));
         return R.ok(profileVo);
     }
 
