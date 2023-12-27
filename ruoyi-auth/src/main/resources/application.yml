@@ -25,6 +25,8 @@ spring:
         # 配置组
         group: @nacos.config.group@
         namespace: ${spring.profiles.active}
+      username: nacos
+      password: nacos
   config:
     import:
       - optional:nacos:application-common.yml
