@@ -32,8 +32,8 @@ seata:
       server-addr: @nacos.server@
       group: @nacos.discovery.group@
       namespace: ${spring.profiles.active}
-      username: @nacos.username@
-      password: @nacos.password@
+      username:
+      password:
       ##if use MSE Nacos with auth, mutex with username/password attribute
       #access-key: ""
       #secret-key: ""
@@ -47,8 +47,8 @@ seata:
       group: @nacos.discovery.group@
       namespace: ${spring.profiles.active}
       cluster: default
-      username: @nacos.username@
-      password: @nacos.password@
+      username:
+      password:
       ##if use MSE Nacos with auth, mutex with username/password attribute
       #access-key: ""
       #secret-key: ""

@@ -27,7 +27,7 @@
     <packaging>jar</packaging>
 
     <properties>
-        <nacos.version>2.3.0</nacos.version>
+        <nacos.version>2.2.1</nacos.version>
         <!-- 需要与 Nacos 内置 Boot 版本保持一致 -->
         <spring-boot.version>2.7.18</spring-boot.version>
         <spring-boot-admin.version>2.7.11</spring-boot-admin.version>
@@ -78,13 +78,6 @@
         </dependency>
         <dependency>
             <groupId>com.alibaba.nacos</groupId>
-            <artifactId>nacos-persistence</artifactId>
-            <version>${nacos.version}</version>
-            <scope>system</scope>
-            <systemPath>${nacos.lib.path}/nacos-persistence-${nacos.version}.jar</systemPath>
-        </dependency>
-        <dependency>
-            <groupId>com.alibaba.nacos</groupId>
             <artifactId>nacos-consistency</artifactId>
             <version>${nacos.version}</version>
             <scope>system</scope>
@@ -92,17 +85,10 @@
         </dependency>
         <dependency>
             <groupId>com.alibaba.nacos</groupId>
-            <artifactId>nacos-control-plugin</artifactId>
+            <artifactId>nacos-contrl-plugin</artifactId>
             <version>${nacos.version}</version>
             <scope>system</scope>
-            <systemPath>${nacos.lib.path}/nacos-control-plugin-${nacos.version}.jar</systemPath>
-        </dependency>
-        <dependency>
-            <groupId>com.alibaba.nacos</groupId>
-            <artifactId>nacos-config-plugin</artifactId>
-            <version>${nacos.version}</version>
-            <scope>system</scope>
-            <systemPath>${nacos.lib.path}/nacos-config-plugin-${nacos.version}.jar</systemPath>
+            <systemPath>${nacos.lib.path}/nacos-contrl-plugin-${nacos.version}.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>com.alibaba.nacos</groupId>
@@ -127,24 +113,10 @@
         </dependency>
         <dependency>
             <groupId>com.alibaba.nacos</groupId>
-            <artifactId>default-auth-plugin</artifactId>
+            <artifactId>nacos-plugin-default-impl</artifactId>
             <version>${nacos.version}</version>
             <scope>system</scope>
-            <systemPath>${nacos.lib.path}/default-auth-plugin-${nacos.version}.jar</systemPath>
-        </dependency>
-        <dependency>
-            <groupId>com.alibaba.nacos</groupId>
-            <artifactId>default-control-plugin</artifactId>
-            <version>${nacos.version}</version>
-            <scope>system</scope>
-            <systemPath>${nacos.lib.path}/default-control-plugin-${nacos.version}.jar</systemPath>
-        </dependency>
-        <dependency>
-            <groupId>com.alibaba.nacos</groupId>
-            <artifactId>nacos-trace-plugin</artifactId>
-            <version>${nacos.version}</version>
-            <scope>system</scope>
-            <systemPath>${nacos.lib.path}/nacos-trace-plugin-${nacos.version}.jar</systemPath>
+            <systemPath>${nacos.lib.path}/nacos-plugin-default-impl-${nacos.version}.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>com.alibaba.nacos</groupId>
@@ -162,18 +134,28 @@
         </dependency>
         <dependency>
             <groupId>com.alibaba.nacos</groupId>
+            <artifactId>nacos-custom-environment-plugin</artifactId>
+            <version>${nacos.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba.nacos</groupId>
             <artifactId>nacos-datasource-plugin</artifactId>
             <version>${nacos.version}</version>
-            <scope>system</scope>
-            <systemPath>${nacos.lib.path}/nacos-datasource-plugin-${nacos.version}.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>com.alibaba.nacos</groupId>
             <artifactId>nacos-encryption-plugin</artifactId>
+            <version>${nacos.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba.nacos</groupId>
+            <artifactId>nacos-trace-plugin</artifactId>
+            <version>${nacos.version}</version>
         </dependency>
         <dependency>
             <groupId>com.alibaba.nacos</groupId>
             <artifactId>nacos-common</artifactId>
+            <version>${nacos.version}</version>
         </dependency>
         <dependency>
             <groupId>com.alibaba.nacos</groupId>
@@ -246,6 +228,10 @@
             <artifactId>rpc-grpc-impl</artifactId>
         </dependency>
         <dependency>
+            <groupId>org.codehaus.jackson</groupId>
+            <artifactId>jackson-core-asl</artifactId>
+        </dependency>
+        <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt-api</artifactId>
         </dependency>
@@ -262,7 +248,6 @@
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
-            <version>31.1-jre</version>
         </dependency>
         <dependency>
             <groupId>org.javatuples</groupId>

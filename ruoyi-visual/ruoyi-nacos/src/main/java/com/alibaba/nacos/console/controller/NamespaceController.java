@@ -21,11 +21,10 @@ import com.alibaba.nacos.auth.annotation.Secured;
 import com.alibaba.nacos.common.model.RestResult;
 import com.alibaba.nacos.common.model.RestResultUtils;
 import com.alibaba.nacos.common.utils.StringUtils;
-import com.alibaba.nacos.console.paramcheck.ConsoleDefaultHttpParamExtractor;
-import com.alibaba.nacos.core.namespace.repository.NamespacePersistService;
-import com.alibaba.nacos.core.namespace.model.Namespace;
-import com.alibaba.nacos.core.paramcheck.ExtractorManager;
-import com.alibaba.nacos.core.service.NamespaceOperationService;
+import com.alibaba.nacos.config.server.service.repository.CommonPersistService;
+import com.alibaba.nacos.console.model.Namespace;
+import com.alibaba.nacos.console.model.NamespaceAllInfo;
+import com.alibaba.nacos.console.service.NamespaceOperationService;
 import com.alibaba.nacos.plugin.auth.constant.ActionTypes;
 import com.alibaba.nacos.plugin.auth.impl.constant.AuthConstants;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,18 +47,15 @@ import java.util.regex.Pattern;
  */
 @RestController
 @RequestMapping("/v1/console/namespaces")
-@ExtractorManager.Extractor(httpExtractor = ConsoleDefaultHttpParamExtractor.class)
 public class NamespaceController {
     
     @Autowired
-    private NamespacePersistService namespacePersistService;
+    private CommonPersistService commonPersistService;
     
     @Autowired
     private NamespaceOperationService namespaceOperationService;
     
     private final Pattern namespaceIdCheckPattern = Pattern.compile("^[\\w-]+");
-
-    private final Pattern namespaceNameCheckPattern = Pattern.compile("^[^@#$%^&*]+$");
     
     private static final int NAMESPACE_ID_MAX_LENGTH = 128;
     
@@ -80,7 +76,7 @@ public class NamespaceController {
      * @return namespace all info
      */
     @GetMapping(params = "show=all")
-    public Namespace getNamespace(@RequestParam("namespaceId") String namespaceId) throws NacosException {
+    public NamespaceAllInfo getNamespace(@RequestParam("namespaceId") String namespaceId) throws NacosException {
         return namespaceOperationService.getNamespace(namespaceId);
     }
     
@@ -106,14 +102,6 @@ public class NamespaceController {
             if (namespaceId.length() > NAMESPACE_ID_MAX_LENGTH) {
                 return false;
             }
-            // check unique
-            if (namespacePersistService.tenantInfoCountByTenantId(namespaceId) > 0) {
-                return false;
-            }
-        }
-        // contains illegal chars
-        if (!namespaceNameCheckPattern.matcher(namespaceName).matches()) {
-            return false;
         }
         try {
             return namespaceOperationService.createNamespace(namespaceId, namespaceName, namespaceDesc);
@@ -133,7 +121,7 @@ public class NamespaceController {
         if (StringUtils.isBlank(namespaceId)) {
             return false;
         }
-        return (namespacePersistService.tenantInfoCountByTenantId(namespaceId) > 0);
+        return (commonPersistService.tenantInfoCountByTenantId(namespaceId) > 0);
     }
     
     /**
@@ -149,10 +137,6 @@ public class NamespaceController {
     public Boolean editNamespace(@RequestParam("namespace") String namespace,
             @RequestParam("namespaceShowName") String namespaceShowName,
             @RequestParam(value = "namespaceDesc", required = false) String namespaceDesc) {
-        // contains illegal chars
-        if (!namespaceNameCheckPattern.matcher(namespaceShowName).matches()) {
-            return false;
-        }
         return namespaceOperationService.editNamespace(namespace, namespaceShowName, namespaceDesc);
     }
     
