@@ -19,8 +19,10 @@ import org.dromara.system.api.model.RoleDTO;
 import org.dromara.system.api.model.XcxLoginUser;
 import org.dromara.system.domain.SysUser;
 import org.dromara.system.domain.bo.SysUserBo;
+import org.dromara.system.domain.vo.SysDeptVo;
 import org.dromara.system.domain.vo.SysRoleVo;
 import org.dromara.system.domain.vo.SysUserVo;
+import org.dromara.system.mapper.SysDeptMapper;
 import org.dromara.system.mapper.SysUserMapper;
 import org.dromara.system.service.ISysConfigService;
 import org.dromara.system.service.ISysPermissionService;
@@ -44,6 +46,7 @@ public class RemoteUserServiceImpl implements RemoteUserService {
     private final ISysPermissionService permissionService;
     private final ISysConfigService configService;
     private final ISysRoleService roleService;
+    private final SysDeptMapper deptMapper;
     private final SysUserMapper userMapper;
 
     @Override
@@ -173,7 +176,8 @@ public class RemoteUserServiceImpl implements RemoteUserService {
         loginUser.setUserType(userVo.getUserType());
         loginUser.setMenuPermission(permissionService.getMenuPermission(userVo.getUserId()));
         loginUser.setRolePermission(permissionService.getRolePermission(userVo.getUserId()));
-        loginUser.setDeptName(ObjectUtil.isNull(userVo.getDept()) ? "" : userVo.getDept().getDeptName());
+        SysDeptVo dept = deptMapper.selectVoById(userVo.getDeptId());
+        loginUser.setDeptName(ObjectUtil.isNull(dept) ? "" : dept.getDeptName());
         List<SysRoleVo> roles = DataPermissionHelper.ignore(() -> {
             return roleService.selectRolesByUserId(userVo.getUserId());
         });
