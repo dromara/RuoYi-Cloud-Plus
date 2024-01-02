@@ -3,7 +3,6 @@ package org.dromara.auth.listener;
 import cn.dev33.satoken.config.SaTokenConfig;
 import cn.dev33.satoken.listener.SaTokenListener;
 import cn.dev33.satoken.stp.SaLoginModel;
-import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.http.useragent.UserAgent;
 import cn.hutool.http.useragent.UserAgentUtil;
 import lombok.RequiredArgsConstructor;
@@ -21,11 +20,9 @@ import org.dromara.common.satoken.utils.LoginHelper;
 import org.dromara.resource.api.RemoteMessageService;
 import org.dromara.system.api.RemoteUserService;
 import org.dromara.system.api.domain.SysUserOnline;
-import org.dromara.system.api.model.LoginUser;
 import org.springframework.stereotype.Component;
 
 import java.time.Duration;
-import java.util.concurrent.ScheduledExecutorService;
 
 /**
  * 用户行为 侦听器的实现
@@ -38,7 +35,6 @@ import java.util.concurrent.ScheduledExecutorService;
 public class UserActionListener implements SaTokenListener {
 
     private final SaTokenConfig tokenConfig;
-    private final ScheduledExecutorService scheduledExecutorService;
     @DubboReference
     private RemoteUserService remoteUserService;
     @DubboReference
@@ -51,7 +47,6 @@ public class UserActionListener implements SaTokenListener {
     public void doLogin(String loginType, Object loginId, String tokenValue, SaLoginModel loginModel) {
         UserAgent userAgent = UserAgentUtil.parse(ServletUtils.getRequest().getHeader("User-Agent"));
         String ip = ServletUtils.getClientIP();
-        LoginUser user = LoginHelper.getLoginUser();
         SysUserOnline userOnline = new SysUserOnline();
         userOnline.setIpaddr(ip);
         userOnline.setLoginLocation(AddressUtils.getRealAddressByIP(ip));
@@ -59,12 +54,11 @@ public class UserActionListener implements SaTokenListener {
         userOnline.setOs(userAgent.getOs().getName());
         userOnline.setLoginTime(System.currentTimeMillis());
         userOnline.setTokenId(tokenValue);
-        userOnline.setUserName(user.getUsername());
-        userOnline.setClientKey(user.getClientKey());
-        userOnline.setDeviceType(user.getDeviceType());
-        if (ObjectUtil.isNotNull(user.getDeptName())) {
-            userOnline.setDeptName(user.getDeptName());
-        }
+        String username = (String) loginModel.getExtra(LoginHelper.USER_NAME_KEY);
+        userOnline.setUserName(username);
+        userOnline.setClientKey((String) loginModel.getExtra(LoginHelper.CLIENT_KEY));
+        userOnline.setDeviceType(loginModel.getDevice());
+        userOnline.setDeptName((String) loginModel.getExtra(LoginHelper.DEPT_NAME_KEY));
         if (tokenConfig.getTimeout() == -1) {
             RedisUtils.setCacheObject(CacheConstants.ONLINE_TOKEN_KEY + tokenValue, userOnline);
         } else {
@@ -72,14 +66,14 @@ public class UserActionListener implements SaTokenListener {
         }
         // 记录登录日志
         LogininforEvent logininforEvent = new LogininforEvent();
-        logininforEvent.setTenantId(user.getTenantId());
-        logininforEvent.setUsername(user.getUsername());
+        logininforEvent.setTenantId((String) loginModel.getExtra(LoginHelper.TENANT_KEY));
+        logininforEvent.setUsername(username);
         logininforEvent.setStatus(Constants.LOGIN_SUCCESS);
         logininforEvent.setMessage(MessageUtils.message("user.login.success"));
         logininforEvent.setRequest(ServletUtils.getRequest());
         SpringUtils.context().publishEvent(logininforEvent);
         // 更新登录信息
-        remoteUserService.recordLoginInfo(user.getUserId(), ServletUtils.getClientIP());
+        remoteUserService.recordLoginInfo((Long) loginModel.getExtra(LoginHelper.USER_KEY), ip);
         log.info("user doLogin, useId:{}, token:{}", loginId, tokenValue);
     }
 
