@@ -9,7 +9,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.dromara.common.core.constant.HttpStatus;
 import org.dromara.common.core.context.ThreadLocalHolder;
-import org.dromara.common.satoken.utils.LoginHelper;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -32,7 +31,7 @@ public class SecurityConfiguration implements WebMvcConfigurer {
         registry.addInterceptor(new SaInterceptor() {
             @Override
             public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
-                ThreadLocalHolder.remove(LoginHelper.LOGIN_USER_KEY);
+                ThreadLocalHolder.clear();
             }
         }).addPathPatterns("/**");
     }
