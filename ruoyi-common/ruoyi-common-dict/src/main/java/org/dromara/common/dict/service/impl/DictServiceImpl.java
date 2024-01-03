@@ -1,9 +1,9 @@
 package org.dromara.common.dict.service.impl;
 
+import cn.dev33.satoken.context.SaHolder;
 import cn.hutool.core.util.ObjectUtil;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.dromara.common.core.constant.CacheConstants;
-import org.dromara.common.core.context.ThreadLocalHolder;
 import org.dromara.common.core.service.DictService;
 import org.dromara.common.core.utils.StreamUtils;
 import org.dromara.common.core.utils.StringUtils;
@@ -38,10 +38,10 @@ public class DictServiceImpl implements DictService {
     @Override
     public String getDictLabel(String dictType, String dictValue, String separator) {
         // 优先从本地缓存获取
-        List<RemoteDictDataVo> datas = ThreadLocalHolder.get(CacheConstants.SYS_DICT_KEY + dictType);
+        List<RemoteDictDataVo> datas = (List<RemoteDictDataVo>) SaHolder.getStorage().get(CacheConstants.SYS_DICT_KEY + dictType);
         if (ObjectUtil.isNull(datas)) {
             datas = remoteDictService.selectDictDataByType(dictType);
-            ThreadLocalHolder.set(CacheConstants.SYS_DICT_KEY + dictType, datas);
+            SaHolder.getStorage().set(CacheConstants.SYS_DICT_KEY + dictType, datas);
         }
 
         Map<String, String> map = StreamUtils.toMap(datas, RemoteDictDataVo::getDictValue, RemoteDictDataVo::getDictLabel);
@@ -65,10 +65,10 @@ public class DictServiceImpl implements DictService {
     @Override
     public String getDictValue(String dictType, String dictLabel, String separator) {
         // 优先从本地缓存获取
-        List<RemoteDictDataVo> datas = ThreadLocalHolder.get(CacheConstants.SYS_DICT_KEY + dictType);
+        List<RemoteDictDataVo> datas = (List<RemoteDictDataVo>) SaHolder.getStorage().get(CacheConstants.SYS_DICT_KEY + dictType);
         if (ObjectUtil.isNull(datas)) {
             datas = remoteDictService.selectDictDataByType(dictType);
-            ThreadLocalHolder.set(CacheConstants.SYS_DICT_KEY + dictType, datas);
+            SaHolder.getStorage().set(CacheConstants.SYS_DICT_KEY + dictType, datas);
         }
 
         Map<String, String> map = StreamUtils.toMap(datas, RemoteDictDataVo::getDictLabel, RemoteDictDataVo::getDictValue);
