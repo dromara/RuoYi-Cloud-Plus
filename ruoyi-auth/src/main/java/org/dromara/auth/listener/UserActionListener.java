@@ -17,6 +17,7 @@ import org.dromara.common.core.utils.ip.AddressUtils;
 import org.dromara.common.log.event.LogininforEvent;
 import org.dromara.common.redis.utils.RedisUtils;
 import org.dromara.common.satoken.utils.LoginHelper;
+import org.dromara.common.tenant.helper.TenantHelper;
 import org.dromara.resource.api.RemoteMessageService;
 import org.dromara.system.api.RemoteUserService;
 import org.dromara.system.api.domain.SysUserOnline;
@@ -55,18 +56,21 @@ public class UserActionListener implements SaTokenListener {
         userOnline.setLoginTime(System.currentTimeMillis());
         userOnline.setTokenId(tokenValue);
         String username = (String) loginModel.getExtra(LoginHelper.USER_NAME_KEY);
+        String tenantId = (String) loginModel.getExtra(LoginHelper.TENANT_KEY);
         userOnline.setUserName(username);
         userOnline.setClientKey((String) loginModel.getExtra(LoginHelper.CLIENT_KEY));
         userOnline.setDeviceType(loginModel.getDevice());
         userOnline.setDeptName((String) loginModel.getExtra(LoginHelper.DEPT_NAME_KEY));
-        if (tokenConfig.getTimeout() == -1) {
-            RedisUtils.setCacheObject(CacheConstants.ONLINE_TOKEN_KEY + tokenValue, userOnline);
-        } else {
-            RedisUtils.setCacheObject(CacheConstants.ONLINE_TOKEN_KEY + tokenValue, userOnline, Duration.ofSeconds(tokenConfig.getTimeout()));
-        }
+        TenantHelper.dynamic(tenantId, () -> {
+            if (tokenConfig.getTimeout() == -1) {
+                RedisUtils.setCacheObject(CacheConstants.ONLINE_TOKEN_KEY + tokenValue, userOnline);
+            } else {
+                RedisUtils.setCacheObject(CacheConstants.ONLINE_TOKEN_KEY + tokenValue, userOnline, Duration.ofSeconds(tokenConfig.getTimeout()));
+            }
+        });
         // 记录登录日志
         LogininforEvent logininforEvent = new LogininforEvent();
-        logininforEvent.setTenantId((String) loginModel.getExtra(LoginHelper.TENANT_KEY));
+        logininforEvent.setTenantId(tenantId);
         logininforEvent.setUsername(username);
         logininforEvent.setStatus(Constants.LOGIN_SUCCESS);
         logininforEvent.setMessage(MessageUtils.message("user.login.success"));
