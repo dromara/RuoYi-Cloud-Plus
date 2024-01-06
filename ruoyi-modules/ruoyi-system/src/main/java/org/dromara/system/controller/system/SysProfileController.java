@@ -10,10 +10,10 @@ import org.dromara.common.core.domain.R;
 import org.dromara.common.core.utils.StringUtils;
 import org.dromara.common.core.utils.file.MimeTypeUtils;
 import org.dromara.common.encrypt.annotation.ApiEncrypt;
-import org.dromara.common.web.core.BaseController;
 import org.dromara.common.log.annotation.Log;
 import org.dromara.common.log.enums.BusinessType;
 import org.dromara.common.satoken.utils.LoginHelper;
+import org.dromara.common.web.core.BaseController;
 import org.dromara.resource.api.RemoteFileService;
 import org.dromara.resource.api.domain.RemoteFile;
 import org.dromara.system.domain.bo.SysUserBo;
@@ -22,7 +22,6 @@ import org.dromara.system.domain.bo.SysUserProfileBo;
 import org.dromara.system.domain.vo.AvatarVo;
 import org.dromara.system.domain.vo.ProfileVo;
 import org.dromara.system.domain.vo.SysUserVo;
-import org.dromara.system.service.ISysRoleService;
 import org.dromara.system.service.ISysUserService;
 import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
@@ -44,7 +43,6 @@ import java.util.Arrays;
 public class SysProfileController extends BaseController {
 
     private final ISysUserService userService;
-    private final ISysRoleService roleService;
 
     @DubboReference
     private RemoteFileService remoteFileService;
@@ -55,7 +53,6 @@ public class SysProfileController extends BaseController {
     @GetMapping
     public R<ProfileVo> profile() {
         SysUserVo user = userService.selectUserById(LoginHelper.getUserId());
-        user.setRoles(roleService.selectRolesByUserId(user.getUserId()));
         ProfileVo profileVo = new ProfileVo();
         profileVo.setUser(user);
         profileVo.setRoleGroup(userService.selectUserRoleGroup(user.getUserId()));

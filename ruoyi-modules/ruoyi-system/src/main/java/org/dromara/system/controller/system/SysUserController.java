@@ -10,7 +10,6 @@ import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.dromara.common.core.constant.UserConstants;
 import org.dromara.common.core.domain.R;
-import org.dromara.common.core.utils.MapstructUtils;
 import org.dromara.common.core.utils.StreamUtils;
 import org.dromara.common.core.utils.StringUtils;
 import org.dromara.common.encrypt.annotation.ApiEncrypt;
@@ -72,9 +71,8 @@ public class SysUserController extends BaseController {
     @SaCheckPermission("system:user:export")
     @PostMapping("/export")
     public void export(SysUserBo user, HttpServletResponse response) {
-        List<SysUserVo> list = userService.selectUserList(user);
-        List<SysUserExportVo> listVo = MapstructUtils.convert(list, SysUserExportVo.class);
-        ExcelUtil.exportExcel(listVo, "用户数据", SysUserExportVo.class, response);
+        List<SysUserExportVo> list = userService.selectUserExportList(user);
+        ExcelUtil.exportExcel(list, "用户数据", SysUserExportVo.class, response);
     }
 
     /**
