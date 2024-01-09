@@ -30,9 +30,6 @@ dubbo:
   consumer:
     # 超时时间
     timeout: 3000
-  scan:
-    # 接口实现类扫描
-    base-packages: org.dromara.**.dubbo
   # 自定义配置
   custom:
     # 全局请求log
