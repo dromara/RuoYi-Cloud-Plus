@@ -2,6 +2,8 @@ package org.dromara.common.core.utils;
 
 
 import cn.hutool.core.convert.Convert;
+import org.dromara.common.core.constant.RegexConstants;
+import org.dromara.common.core.exception.ServiceException;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -10,15 +12,92 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * 正则工具类
+ *
+ * @author Feng
+ */
 public class ReUtil {
     public final static Pattern GROUP_VAR = Pattern.compile("\\$(\\d+)");
 
     /**
      * 正则中需要被转义的关键字
      */
-    public final static Set<Character> RE_KEYS = new HashSet<>(
-            Arrays.asList('$', '(', ')', '*', '+', '.', '[', ']', '?', '\\', '^', '{', '}', '|'));
-    ;
+    public final static Set<Character> RE_KEYS = new HashSet<>(Arrays.asList('$', '(', ')', '*', '+', '.', '[', ']', '?', '\\', '^', '{', '}', '|'));
+
+    /**
+     * 判断字符串是否匹配指定的正则表达式
+     *
+     * @param input 要检查的字符串
+     * @param regex 用于匹配的正则表达式，可以使用 {@link RegexConstants} 中定义的常量
+     * @return 如果字符串与正则表达式匹配，返回 true；否则返回 false
+     * @throws IllegalArgumentException 如果输入字符串或正则表达式为 null
+     */
+    public static boolean isValid(String input, String regex) {
+        // 检查输入参数是否为null，如果是则抛出IllegalArgumentException
+        if (StringUtils.isEmpty(input) || StringUtils.isEmpty(regex)) {
+            throw new ServiceException("输入和正则表达式不得为空");
+        }
+        // 编译正则表达式
+        Pattern pattern = Pattern.compile(regex);
+        // 创建匹配器对象，并将输入字符串与正则表达式进行匹配
+        Matcher matcher = pattern.matcher(input);
+        // 返回匹配结果
+        return matcher.matches();
+    }
+
+    /**
+     * 从输入字符串中提取匹配的部分
+     *
+     * @param input 要提取的输入字符串
+     * @param regex 用于匹配的正则表达式，可以使用 {@link RegexConstants} 中定义的常量
+     * @return 如果找到匹配的部分，则返回匹配的部分，否则返回原始输入字符串
+     */
+    public static String extractFromString(String input, String regex) {
+        // 检查输入参数是否为null，如果是则抛出IllegalArgumentException
+        if (StringUtils.isEmpty(input) || StringUtils.isEmpty(regex)) {
+            throw new ServiceException("输入和正则表达式不得为空");
+        }
+        // 编译正则表达式
+        Pattern pattern = Pattern.compile(regex);
+        // 创建匹配器
+        Matcher matcher = pattern.matcher(input);
+        // 查找匹配
+        if (matcher.find()) {
+            // 获取匹配的部分
+            return matcher.group(1);
+        } else {
+            // 如果没有匹配，返回原始字符串
+            return input;
+        }
+    }
+
+    /**
+     * 从输入字符串中提取匹配的部分，如果没有匹配则返回默认值
+     *
+     * @param input        要提取的输入字符串
+     * @param regex        用于匹配的正则表达式，可以使用 {@link RegexConstants} 中定义的常量
+     * @param defaultInput 如果没有匹配时返回的默认值
+     * @return 如果找到匹配的部分，则返回匹配的部分，否则返回默认值
+     */
+    public static String extractFromString(String input, String regex, String defaultInput) {
+        // 检查输入参数是否为null，如果是则抛出IllegalArgumentException
+        if (StringUtils.isEmpty(input) || StringUtils.isEmpty(regex)) {
+            throw new ServiceException("输入和正则表达式不得为空");
+        }
+        // 编译正则表达式
+        Pattern pattern = Pattern.compile(regex);
+        // 创建匹配器
+        Matcher matcher = pattern.matcher(input);
+        // 查找匹配
+        if (matcher.find()) {
+            // 获取匹配的部分
+            return matcher.group(1);
+        } else {
+            // 如果没有匹配，返回默认值
+            return defaultInput;
+        }
+    }
 
     /**
      * 正则替换指定值<br>

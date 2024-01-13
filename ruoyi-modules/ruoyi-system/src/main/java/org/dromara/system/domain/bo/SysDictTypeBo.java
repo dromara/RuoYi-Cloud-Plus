@@ -1,17 +1,17 @@
 package org.dromara.system.domain.bo;
 
 import io.github.linpeilie.annotations.AutoMapper;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import org.dromara.common.core.validate.AddGroup;
-import org.dromara.common.core.validate.EditGroup;
-import org.dromara.common.mybatis.core.domain.BaseEntity;
-import org.dromara.system.domain.SysDictType;
-
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import org.dromara.common.core.constant.RegexConstants;
+import org.dromara.common.core.validate.AddGroup;
+import org.dromara.common.core.validate.EditGroup;
+import org.dromara.common.mybatis.core.domain.BaseEntity;
+import org.dromara.system.domain.SysDictType;
 
 /**
  * 字典类型业务对象 sys_dict_type
@@ -42,7 +42,7 @@ public class SysDictTypeBo extends BaseEntity {
      */
     @NotBlank(message = "字典类型不能为空", groups = { AddGroup.class, EditGroup.class })
     @Size(min = 0, max = 100, message = "字典类型类型长度不能超过{max}个字符")
-    @Pattern(regexp = "^[a-z][a-z0-9_]*$", message = "字典类型必须以字母开头，且只能为（小写字母，数字，下滑线）")
+    @Pattern(regexp = RegexConstants.DICTIONARY_TYPE_REGEX, message = "字典类型必须以字母开头，且只能为（小写字母，数字，下滑线）")
     private String dictType;
 
     /**
