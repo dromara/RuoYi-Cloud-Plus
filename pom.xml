@@ -52,7 +52,8 @@
         <fastjson.version>1.2.83</fastjson.version>
 
         <!-- OSS 配置 -->
-        <aws-java-sdk-s3.version>1.12.540</aws-java-sdk-s3.version>
+        <aws.sdk.version>2.23.0</aws.sdk.version>
+        <aws.crt.version>0.29.6</aws.crt.version>
         <okhttp.version>4.10.0</okhttp.version>
 
         <!-- SMS 配置 -->
@@ -334,10 +335,23 @@
                 <version>${okhttp.version}</version>
             </dependency>
 
+            <!--  AWS SDK for Java 2.x  -->
             <dependency>
-                <groupId>com.amazonaws</groupId>
-                <artifactId>aws-java-sdk-s3</artifactId>
-                <version>${aws-java-sdk-s3.version}</version>
+                <groupId>software.amazon.awssdk</groupId>
+                <artifactId>s3</artifactId>
+                <version>${aws.sdk.version}</version>
+            </dependency>
+            <!-- 使用AWS基于 CRT 的 S3 客户端 -->
+            <dependency>
+                <groupId>software.amazon.awssdk.crt</groupId>
+                <artifactId>aws-crt</artifactId>
+                <version>${aws.crt.version}</version>
+            </dependency>
+            <!-- 基于 AWS CRT 的 S3 客户端的性能增强的 S3 传输管理器 -->
+            <dependency>
+                <groupId>software.amazon.awssdk</groupId>
+                <artifactId>s3-transfer-manager</artifactId>
+                <version>${aws.sdk.version}</version>
             </dependency>
 
             <!--短信sms4j-->
