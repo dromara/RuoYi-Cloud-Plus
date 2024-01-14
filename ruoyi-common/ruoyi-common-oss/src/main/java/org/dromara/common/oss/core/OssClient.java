@@ -501,31 +501,69 @@ public class OssClient {
      * @return 符合 AWS S3 存储桶访问策略格式的字符串
      */
     private static String getPolicy(String bucketName, PolicyType policyType) {
-        StringBuilder builder = new StringBuilder();
-        builder.append("{\n\"Statement\": [\n{\n\"Action\": [\n");
-        builder.append(switch (policyType) {
-            case WRITE -> "\"s3:GetBucketLocation\",\n\"s3:ListBucketMultipartUploads\"\n";
-            case READ_WRITE -> "\"s3:GetBucketLocation\",\n\"s3:ListBucket\",\n\"s3:ListBucketMultipartUploads\"\n";
-            default -> "\"s3:GetBucketLocation\"\n";
-        });
-        builder.append("],\n\"Effect\": \"Allow\",\n\"Principal\": \"*\",\n\"Resource\": \"arn:aws:s3:::");
-        builder.append(bucketName);
-        builder.append("\"\n},\n");
-        if (policyType == PolicyType.READ) {
-            builder.append("{\n\"Action\": [\n\"s3:ListBucket\"\n],\n\"Effect\": \"Deny\",\n\"Principal\": \"*\",\n\"Resource\": \"arn:aws:s3:::");
-            builder.append(bucketName);
-            builder.append("\"\n},\n");
-        }
-        builder.append("{\n\"Action\": ");
-        builder.append(switch (policyType) {
-            case WRITE -> "[\n\"s3:AbortMultipartUpload\",\n\"s3:DeleteObject\",\n\"s3:ListMultipartUploadParts\",\n\"s3:PutObject\"\n],\n";
-            case READ_WRITE -> "[\n\"s3:AbortMultipartUpload\",\n\"s3:DeleteObject\",\n\"s3:GetObject\",\n\"s3:ListMultipartUploadParts\",\n\"s3:PutObject\"\n],\n";
-            default -> "\"s3:GetObject\",\n";
-        });
-        builder.append("\"Effect\": \"Allow\",\n\"Principal\": \"*\",\n\"Resource\": \"arn:aws:s3:::");
-        builder.append(bucketName);
-        builder.append("/*\"\n}\n],\n\"Version\": \"2012-10-17\"\n}\n");
-        return builder.toString();
+        String policy = switch (policyType) {
+            case WRITE -> """
+                {
+                  "Version": "2012-10-17",
+                  "Statement": []
+                }
+                """;
+            case READ_WRITE -> """
+                {
+                  "Version": "2012-10-17",
+                  "Statement": [
+                    {
+                      "Effect": "Allow",
+                      "Principal": "*",
+                      "Action": [
+                        "s3:GetBucketLocation",
+                        "s3:ListBucket",
+                        "s3:ListBucketMultipartUploads"
+                      ],
+                      "Resource": "arn:aws:s3:::bucketName"
+                    },
+                    {
+                      "Effect": "Allow",
+                      "Principal": "*",
+                      "Action": [
+                        "s3:AbortMultipartUpload",
+                        "s3:DeleteObject",
+                        "s3:GetObject",
+                        "s3:ListMultipartUploadParts",
+                        "s3:PutObject"
+                      ],
+                      "Resource": "arn:aws:s3:::bucketName/*"
+                    }
+                  ]
+                }
+                """;
+            case READ -> """
+                {
+                  "Version": "2012-10-17",
+                  "Statement": [
+                    {
+                      "Effect": "Allow",
+                      "Principal": "*",
+                      "Action": ["s3:GetBucketLocation"],
+                      "Resource": "arn:aws:s3:::bucketName"
+                    },
+                    {
+                      "Effect": "Deny",
+                      "Principal": "*",
+                      "Action": ["s3:ListBucket"],
+                      "Resource": "arn:aws:s3:::bucketName"
+                    },
+                    {
+                      "Effect": "Allow",
+                      "Principal": "*",
+                      "Action": "s3:GetObject",
+                      "Resource": "arn:aws:s3:::bucketName/*"
+                    }
+                  ]
+                }
+                """;
+        };
+        return policy.replaceAll("bucketName", bucketName);
     }
 
 }
