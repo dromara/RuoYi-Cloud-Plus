@@ -61,7 +61,7 @@ public class PowerJobConfig{
         if (worker.getPort() != null) {
             config.setPort(worker.getPort());
         } else {
-            int port = worker.getAkkaPort();
+            int port = worker.getPort();
             if (port <= 0) {
                 port = NetUtils.getRandomPort();
             }
