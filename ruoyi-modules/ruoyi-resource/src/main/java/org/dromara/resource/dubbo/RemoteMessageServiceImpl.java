@@ -8,7 +8,7 @@ import org.dromara.resource.api.RemoteMessageService;
 import org.springframework.stereotype.Service;
 
 /**
- * 短信服务
+ * 消息服务
  *
  * @author Lion Li
  */
