@@ -144,6 +144,8 @@ logging:
     org.apache.dubbo: warn
     com.alibaba.nacos: warn
     tech.powerjob.worker.background: warn
+    org.mybatis.spring.mapper: error
+    org.apache.dubbo.config: error
   config: classpath:logback-plus.xml
 
 # Sa-Token配置
