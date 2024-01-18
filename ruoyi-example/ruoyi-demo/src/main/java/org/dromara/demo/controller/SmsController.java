@@ -55,4 +55,28 @@ public class SmsController {
         return R.ok(smsResponse);
     }
 
+    /**
+     * 加入黑名单
+     *
+     * @param phone 手机号
+     */
+    @GetMapping("/joinInBlacklist")
+    public R<Object> joinInBlacklist(String phone){
+        SmsBlend smsBlend = SmsFactory.getSmsBlend("tx1");
+        smsBlend.joinInBlacklist(phone);
+        return R.ok();
+    }
+
+    /**
+     * 移除黑名单
+     *
+     * @param phone 手机号
+     */
+    @GetMapping("/removeFromBlacklist")
+    public R<Object> removeFromBlacklist(String phone){
+        SmsBlend smsBlend = SmsFactory.getSmsBlend("tx1");
+        smsBlend.removeFromBlacklist(phone);
+        return R.ok();
+    }
+
 }

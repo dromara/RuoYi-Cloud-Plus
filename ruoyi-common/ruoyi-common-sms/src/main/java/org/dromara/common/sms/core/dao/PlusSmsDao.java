@@ -49,6 +49,19 @@ public class PlusSmsDao implements SmsDao {
     }
 
     /**
+     * remove
+     * <p> 根据key移除缓存
+     *
+     * @param key 缓存键
+     * @return 被删除的value
+     * @author :Wind
+     */
+    @Override
+    public Object remove(String key) {
+        return RedisUtils.deleteObject(GlobalConstants.GLOBAL_REDIS_KEY + key);
+    }
+
+    /**
      * 清空
      */
     @Override
