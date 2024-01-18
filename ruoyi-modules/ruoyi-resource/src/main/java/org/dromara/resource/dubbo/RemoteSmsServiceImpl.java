@@ -30,7 +30,8 @@ public class RemoteSmsServiceImpl implements RemoteSmsService {
      * @return SmsBlend 实例，代表指定供应商类型
      */
     private SmsBlend getSmsBlend() {
-        return SmsFactory.getSmsBlend("tx1");
+        // 可自定义厂商配置获取规则 例如根据租户获取 或 负载均衡多个厂商等
+        return SmsFactory.getSmsBlend("config1");
     }
 
     /**
@@ -98,7 +99,7 @@ public class RemoteSmsServiceImpl implements RemoteSmsService {
      * @return 封装了短信发送结果的 RemoteSms 对象
      */
     @Override
-    public RemoteSms massTexting(List<String> phones, String message) {
+    public RemoteSms messageTexting(List<String> phones, String message) {
         // 调用 getSmsBlend 方法获取对应短信供应商的 SmsBlend 实例
         SmsResponse smsResponse = getSmsBlend().massTexting(phones, message);
         return getRemoteSms(smsResponse);
@@ -113,7 +114,7 @@ public class RemoteSmsServiceImpl implements RemoteSmsService {
      * @return 封装了短信发送结果的 RemoteSms 对象
      */
     @Override
-    public RemoteSms massTexting(List<String> phones, String templateId, LinkedHashMap<String, String> messages) {
+    public RemoteSms messageTexting(List<String> phones, String templateId, LinkedHashMap<String, String> messages) {
         // 调用 getSmsBlend 方法获取对应短信供应商的 SmsBlend 实例
         SmsResponse smsResponse = getSmsBlend().massTexting(phones, templateId, messages);
         return getRemoteSms(smsResponse);
@@ -150,7 +151,7 @@ public class RemoteSmsServiceImpl implements RemoteSmsService {
      * @param delayedTime 延迟发送时间（毫秒）
      */
     @Override
-    public void delayedMessage(String phone, String message, Long delayedTime) {
+    public void delayMessage(String phone, String message, Long delayedTime) {
         getSmsBlend().delayedMessage(phone, message, delayedTime);
     }
 
@@ -163,7 +164,7 @@ public class RemoteSmsServiceImpl implements RemoteSmsService {
      * @param delayedTime 延迟发送时间（毫秒）
      */
     @Override
-    public void delayedMessage(String phone, String templateId, LinkedHashMap<String, String> messages, Long delayedTime) {
+    public void delayMessage(String phone, String templateId, LinkedHashMap<String, String> messages, Long delayedTime) {
         getSmsBlend().delayedMessage(phone, templateId, messages, delayedTime);
     }
 
@@ -175,7 +176,7 @@ public class RemoteSmsServiceImpl implements RemoteSmsService {
      * @param delayedTime 延迟发送时间（毫秒）
      */
     @Override
-    public void delayMassTexting(List<String> phones, String message, Long delayedTime) {
+    public void delayMessageTexting(List<String> phones, String message, Long delayedTime) {
         getSmsBlend().delayMassTexting(phones, message, delayedTime);
     }
 
@@ -188,7 +189,7 @@ public class RemoteSmsServiceImpl implements RemoteSmsService {
      * @param delayedTime 延迟发送时间（毫秒）
      */
     @Override
-    public void delayMassTexting(List<String> phones, String templateId, LinkedHashMap<String, String> messages, Long delayedTime) {
+    public void delayMessageTexting(List<String> phones, String templateId, LinkedHashMap<String, String> messages, Long delayedTime) {
         getSmsBlend().delayMassTexting(phones, templateId, messages, delayedTime);
     }
 
@@ -198,7 +199,7 @@ public class RemoteSmsServiceImpl implements RemoteSmsService {
      * @param phone 手机号
      */
     @Override
-    public void joinInBlacklist(String phone) {
+    public void addBlacklist(String phone) {
         getSmsBlend().joinInBlacklist(phone);
     }
 
@@ -208,7 +209,7 @@ public class RemoteSmsServiceImpl implements RemoteSmsService {
      * @param phones 手机号列表
      */
     @Override
-    public void joinInBlacklist(List<String> phones) {
+    public void addBlacklist(List<String> phones) {
         getSmsBlend().batchJoinBlacklist(phones);
     }
 
@@ -218,7 +219,7 @@ public class RemoteSmsServiceImpl implements RemoteSmsService {
      * @param phone 手机号
      */
     @Override
-    public void removeFromBlacklist(String phone) {
+    public void removeBlacklist(String phone) {
         getSmsBlend().removeFromBlacklist(phone);
     }
 
@@ -228,7 +229,7 @@ public class RemoteSmsServiceImpl implements RemoteSmsService {
      * @param phones 手机号
      */
     @Override
-    public void removeFromBlacklist(List<String> phones) {
+    public void removeBlacklist(List<String> phones) {
         getSmsBlend().batchRemovalFromBlacklist(phones);
     }
 

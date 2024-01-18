@@ -34,7 +34,7 @@ public class SmsController {
     public R<Object> sendAliyun(String phones, String templateId) {
         LinkedHashMap<String, String> map = new LinkedHashMap<>(1);
         map.put("code", "1234");
-        SmsBlend smsBlend = SmsFactory.getSmsBlend("tx1");
+        SmsBlend smsBlend = SmsFactory.getSmsBlend("config1");
         SmsResponse smsResponse = smsBlend.sendMessage(phones, templateId, map);
         return R.ok(smsResponse);
     }
@@ -50,19 +50,19 @@ public class SmsController {
         LinkedHashMap<String, String> map = new LinkedHashMap<>(1);
 //        map.put("2", "测试测试");
         map.put("1", "1234");
-        SmsBlend smsBlend = SmsFactory.getSmsBlend("tx1");
+        SmsBlend smsBlend = SmsFactory.getSmsBlend("config2");
         SmsResponse smsResponse = smsBlend.sendMessage(phones, templateId, map);
         return R.ok(smsResponse);
     }
 
     /**
-     * 加入黑名单
+     * 添加黑名单
      *
      * @param phone 手机号
      */
-    @GetMapping("/joinInBlacklist")
-    public R<Object> joinInBlacklist(String phone){
-        SmsBlend smsBlend = SmsFactory.getSmsBlend("tx1");
+    @GetMapping("/addBlacklist")
+    public R<Object> addBlacklist(String phone){
+        SmsBlend smsBlend = SmsFactory.getSmsBlend("config1");
         smsBlend.joinInBlacklist(phone);
         return R.ok();
     }
@@ -72,9 +72,9 @@ public class SmsController {
      *
      * @param phone 手机号
      */
-    @GetMapping("/removeFromBlacklist")
-    public R<Object> removeFromBlacklist(String phone){
-        SmsBlend smsBlend = SmsFactory.getSmsBlend("tx1");
+    @GetMapping("/removeBlacklist")
+    public R<Object> removeBlacklist(String phone){
+        SmsBlend smsBlend = SmsFactory.getSmsBlend("config1");
         smsBlend.removeFromBlacklist(phone);
         return R.ok();
     }

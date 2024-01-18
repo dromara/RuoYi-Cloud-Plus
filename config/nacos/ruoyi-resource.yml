@@ -66,47 +66,21 @@ sms:
   account-max: 30
   # 以下配置来自于 org.dromara.sms4j.provider.config.BaseConfig类中
   blends:
-    # 自定义的标识，也就是configId这里可以是任意值（最好不要是中文）
-    tx1:
+    # 唯一ID 用于发送短信寻找具体配置 随便定义别用中文即可
+    # 可以同时存在两个相同厂商 例如: ali1 ali2 两个不同的阿里短信账号 也可用于区分租户
+    config1:
       # 框架定义的厂商名称标识，标定此配置是哪个厂商，详细请看厂商标识介绍部分
-      supplier: tencent
+      supplier: alibaba
       # 有些称为accessKey有些称之为apiKey，也有称为sdkKey或者appId。
       access-key-id: 您的accessKey
       # 称为accessSecret有些称之为apiSecret
       access-key-secret: 您的accessKeySecret
-      # 您的短信签名
       signature: 您的短信签名
-      #模板ID 如果不需要简化的sendMessage方法可以不配置，如果使用sendMessage的快速发送需此配置
-      template-id: xxxxxxxx
-      #您的sdkAppId
       sdk-app-id: 您的sdkAppId
-      # 随机权重，负载均衡的权重值依赖于此，默认为1，如不需要负载均衡可不进行配置
-      weight: 1
-      #短信自动重试间隔时间  默认五秒
-      retry-interval: 3
-      # 短信重试次数，默认0次不重试，如果你需要短信重试则根据自己的需求修改值即可
-      max-retries: 1
-      # 当前厂商的发送数量上限，默认不设置上限
-      maximum: 10000
-    # 自定义的标识，也就是configId这里可以是任意值（最好不要是中文）
-    tx2:
-      #厂商标识，标定此配置是哪个厂商，详细请看厂商标识介绍部分
+    config2:
+      # 厂商标识，标定此配置是哪个厂商，详细请看厂商标识介绍部分
       supplier: tencent
-      #您的accessKey
       access-key-id: 您的accessKey
-      #您的accessKeySecret
       access-key-secret: 您的accessKeySecret
-      #您的短信签名
       signature: 您的短信签名
-      #模板ID 非必须配置，如果使用sendMessage的快速发送需此配置
-      template-id: xxxxxxxx
-      #您的sdkAppId
       sdk-app-id: 您的sdkAppId
-      # 随机权重，负载均衡的权重值依赖于此，默认为1，如不需要负载均衡可不进行配置
-      weight: 1
-      #短信自动重试间隔时间  默认五秒
-      retry-interval: 3
-      # 短信重试次数，默认0次不重试，如果你需要短信重试则根据自己的需求修改值即可
-      max-retries: 1
-      # 当前厂商的发送数量上限，默认不设置上限
-      maximum: 10000
