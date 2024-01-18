@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
- * 短信服务
+ * 消息服务
  *
  * @author Lion Li
  */

@@ -1,24 +1,145 @@
 package org.dromara.resource.api;
 
-import org.dromara.common.core.exception.ServiceException;
 import org.dromara.resource.api.domain.RemoteSms;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 
 /**
  * 短信服务
  *
- * @author Lion Li
+ * @author Feng
  */
 public interface RemoteSmsService {
 
     /**
-     * 发送短信
+     * 同步方法：发送固定消息模板短信
      *
-     * @param phones     电话号(多个逗号分割)
-     * @param templateId 模板id
-     * @param param      模板对应参数
+     * @param phone   目标手机号
+     * @param message 短信内容
+     * @return 封装了短信发送结果的 RemoteSms 对象
      */
-    RemoteSms send(String phones, String templateId, LinkedHashMap<String, String> param) throws ServiceException;
+    RemoteSms sendMessage(String phone, String message);
+
+    /**
+     * 同步方法：发送固定消息模板多模板参数短信
+     *
+     * @param phone    目标手机号
+     * @param messages 短信模板参数，使用 LinkedHashMap 以保持参数顺序
+     * @return 封装了短信发送结果的 RemoteSms 对象
+     */
+    RemoteSms sendMessage(String phone, LinkedHashMap<String, String> messages);
+
+    /**
+     * 同步方法：使用自定义模板发送短信
+     *
+     * @param phone      目标手机号
+     * @param templateId 短信模板ID
+     * @param messages   短信模板参数，使用 LinkedHashMap 以保持参数顺序
+     * @return 封装了短信发送结果的 RemoteSms 对象
+     */
+    RemoteSms sendMessage(String phone, String templateId, LinkedHashMap<String, String> messages);
+
+    /**
+     * 同步方法：群发固定模板短信
+     *
+     * @param phones  目标手机号列表（1~1000）
+     * @param message 短信内容
+     * @return 封装了短信发送结果的 RemoteSms 对象
+     */
+    RemoteSms massTexting(List<String> phones, String message);
+
+    /**
+     * 同步方法：使用自定义模板群发短信
+     *
+     * @param phones     目标手机号列表（1~1000）（1~1000）
+     * @param templateId 短信模板ID
+     * @param messages   短信模板参数，使用 LinkedHashMap 以保持参数顺序
+     * @return 封装了短信发送结果的 RemoteSms 对象
+     */
+    RemoteSms massTexting(List<String> phones, String templateId, LinkedHashMap<String, String> messages);
+
+    /**
+     * 异步方法：发送固定消息模板短信
+     *
+     * @param phone   目标手机号
+     * @param message 短信内容
+     */
+    void sendMessageAsync(String phone, String message);
+
+    /**
+     * 异步方法：使用自定义模板发送短信
+     *
+     * @param phone      目标手机号
+     * @param templateId 短信模板ID
+     * @param messages   短信模板参数，使用 LinkedHashMap 以保持参数顺序
+     */
+    void sendMessageAsync(String phone, String templateId, LinkedHashMap<String, String> messages);
+
+    /**
+     * 延迟发送：发送固定消息模板短信
+     *
+     * @param phone       目标手机号
+     * @param message     短信内容
+     * @param delayedTime 延迟发送时间（毫秒）
+     */
+    void delayedMessage(String phone, String message, Long delayedTime);
+
+    /**
+     * 延迟发送：使用自定义模板发送定时短信
+     *
+     * @param phone       目标手机号
+     * @param templateId  短信模板ID
+     * @param messages    短信模板参数，使用 LinkedHashMap 以保持参数顺序
+     * @param delayedTime 延迟发送时间（毫秒）
+     */
+    void delayedMessage(String phone, String templateId, LinkedHashMap<String, String> messages, Long delayedTime);
+
+    /**
+     * 延迟群发：群发延迟短信
+     *
+     * @param phones      目标手机号列表（1~1000）
+     * @param message     短信内容
+     * @param delayedTime 延迟发送时间（毫秒）
+     */
+    void delayMassTexting(List<String> phones, String message, Long delayedTime);
+
+    /**
+     * 延迟群发：使用自定义模板发送群体延迟短信
+     *
+     * @param phones      目标手机号列表（1~1000）
+     * @param templateId  短信模板ID
+     * @param messages    短信模板参数，使用 LinkedHashMap 以保持参数顺序
+     * @param delayedTime 延迟发送时间（毫秒）
+     */
+    void delayMassTexting(List<String> phones, String templateId, LinkedHashMap<String, String> messages, Long delayedTime);
+
+    /**
+     * 加入黑名单
+     *
+     * @param phone 手机号
+     */
+    void joinInBlacklist(String phone);
+
+    /**
+     * 加入黑名单
+     *
+     * @param phones 手机号列表
+     */
+    void joinInBlacklist(List<String> phones);
+
+    /**
+     * 移除黑名单
+     *
+     * @param phone 手机号
+     */
+    void removeFromBlacklist(String phone);
+
+    /**
+     * 移除黑名单
+     *
+     * @param phones 手机号
+     */
+    void removeFromBlacklist(List<String> phones);
 
 }

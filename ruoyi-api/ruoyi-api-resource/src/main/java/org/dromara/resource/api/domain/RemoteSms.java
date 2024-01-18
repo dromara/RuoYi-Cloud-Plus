@@ -19,15 +19,15 @@ public class RemoteSms implements Serializable {
     /**
      * 是否成功
      */
-    private Boolean isSuccess;
+    private Boolean success;
 
     /**
-     * 响应消息
+     * 配置标识名 如未配置取对应渠道名例如 Alibaba
      */
-    private String message;
+    private String configId;
 
     /**
-     * 实际响应体
+     * 厂商原返回体
      * <p>
      * 可自行转换为 SDK 对应的 SendSmsResponse
      */
