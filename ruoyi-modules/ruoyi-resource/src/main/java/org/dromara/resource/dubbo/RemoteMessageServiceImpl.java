@@ -3,9 +3,12 @@ package org.dromara.resource.dubbo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboService;
+import org.dromara.common.websocket.dto.WebSocketMessageDto;
 import org.dromara.common.websocket.utils.WebSocketUtils;
 import org.dromara.resource.api.RemoteMessageService;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * 短信服务
@@ -25,8 +28,11 @@ public class RemoteMessageServiceImpl implements RemoteMessageService {
      * @param message    消息文本
      */
     @Override
-    public void sendMessage(Long sessionKey, String message) {
-        WebSocketUtils.sendMessage(sessionKey, message);
+    public void publishMessage(Long sessionKey, String message) {
+        WebSocketMessageDto dto = new WebSocketMessageDto();
+        dto.setMessage(message);
+        dto.setSessionKeys(List.of(sessionKey));
+        WebSocketUtils.publishMessage(dto);
     }
 
     /**
