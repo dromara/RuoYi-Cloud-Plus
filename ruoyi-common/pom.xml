@@ -42,6 +42,7 @@
         <module>ruoyi-common-tenant</module>
         <module>ruoyi-common-websocket</module>
         <module>ruoyi-common-social</module>
+        <module>ruoyi-common-nacos</module>
     </modules>
 
     <artifactId>ruoyi-common</artifactId>
