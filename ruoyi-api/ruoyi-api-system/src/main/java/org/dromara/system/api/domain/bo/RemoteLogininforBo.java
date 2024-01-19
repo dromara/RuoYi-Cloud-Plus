@@ -14,7 +14,6 @@ import java.util.Map;
  *
  * @author Lion Li
  */
-
 @Data
 @NoArgsConstructor
 public class RemoteLogininforBo implements Serializable {

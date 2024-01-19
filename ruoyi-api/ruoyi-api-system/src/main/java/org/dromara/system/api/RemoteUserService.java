@@ -82,6 +82,22 @@ public interface RemoteUserService {
     String selectNicknameById(Long userId);
 
     /**
+     * 通过用户ID查询用户手机号
+     *
+     * @param userId 用户id
+     * @return 用户手机号
+     */
+    String selectPhonenumberById(Long userId);
+
+    /**
+     * 通过用户ID查询用户邮箱
+     *
+     * @param userId 用户id
+     * @return 用户邮箱
+     */
+    String selectEmailById(Long userId);
+
+    /**
      * 更新用户信息
      *
      * @param userId 用户ID

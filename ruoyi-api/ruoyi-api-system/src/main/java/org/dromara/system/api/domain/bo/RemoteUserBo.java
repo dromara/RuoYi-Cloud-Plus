@@ -19,7 +19,6 @@ import java.util.Date;
  *
  * @author Michelle.Chung
  */
-
 @Data
 @NoArgsConstructor
 public class RemoteUserBo implements Serializable {

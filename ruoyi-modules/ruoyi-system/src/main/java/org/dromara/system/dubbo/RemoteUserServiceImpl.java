@@ -148,14 +148,48 @@ public class RemoteUserServiceImpl implements RemoteUserService {
         return userService.registerUser(sysUserBo, remoteUserBo.getTenantId());
     }
 
+    /**
+     * 通过用户ID查询用户账户
+     *
+     * @param userId 用户ID
+     * @return 用户账户
+     */
     @Override
     public String selectUserNameById(Long userId) {
         return userService.selectUserNameById(userId);
     }
 
+    /**
+     * 通过用户ID查询用户昵称
+     *
+     * @param userId 用户ID
+     * @return 用户昵称
+     */
     @Override
     public String selectNicknameById(Long userId) {
         return userService.selectNicknameById(userId);
+    }
+
+    /**
+     * 通过用户ID查询用户手机号
+     *
+     * @param userId 用户id
+     * @return 用户手机号
+     */
+    @Override
+    public String selectPhonenumberById(Long userId) {
+        return userService.selectPhonenumberById(userId);
+    }
+
+    /**
+     * 通过用户ID查询用户邮箱
+     *
+     * @param userId 用户id
+     * @return 用户邮箱
+     */
+    @Override
+    public String selectEmailById(Long userId) {
+        return userService.selectEmailById(userId);
     }
 
     /**
