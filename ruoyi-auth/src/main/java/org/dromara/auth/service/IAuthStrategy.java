@@ -16,6 +16,11 @@ public interface IAuthStrategy {
 
     /**
      * 登录
+     *
+     * @param body      登录对象
+     * @param client    授权管理视图对象
+     * @param grantType 授权类型
+     * @return 登录验证信息
      */
     static LoginVo login(String body, RemoteClientVo client, String grantType) {
         // 授权类型和客户端id
@@ -29,6 +34,10 @@ public interface IAuthStrategy {
 
     /**
      * 登录
+     *
+     * @param body   登录对象
+     * @param client 授权管理视图对象
+     * @return 登录验证信息
      */
     LoginVo login(String body, RemoteClientVo client);
 

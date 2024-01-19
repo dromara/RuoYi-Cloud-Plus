@@ -87,4 +87,5 @@ public class SysOssConfig extends BaseEntity {
      * 桶权限类型(0private 1public 2custom)
      */
     private String accessPolicy;
+
 }

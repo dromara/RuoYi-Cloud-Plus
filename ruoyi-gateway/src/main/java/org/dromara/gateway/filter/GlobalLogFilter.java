@@ -48,6 +48,7 @@ public class GlobalLogFilter implements GlobalFilter, Ordered {
         if (WebFluxUtils.isJsonRequest(exchange)) {
             if (apiDecryptProperties.getEnabled()
                 && ObjectUtil.isNotNull(request.getHeaders().getFirst(apiDecryptProperties.getHeaderFlag()))) {
+                //加密开启并且请求标识不能为空
                 log.info("[PLUS]开始请求 => URL[{}],参数类型[encrypt]", url);
             } else {
                 String jsonParam = WebFluxUtils.resolveBodyFromCacheRequest(exchange);

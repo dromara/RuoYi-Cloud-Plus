@@ -11,7 +11,6 @@ import java.io.Serializable;
  *
  * @author Lion Li
  */
-
 @Data
 @NoArgsConstructor
 public class SysUserOnline implements Serializable {

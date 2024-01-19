@@ -220,10 +220,26 @@ public interface ISysUserService {
     String selectNicknameById(Long userId);
 
     /**
+     * 通过用户ID查询用户手机号
+     *
+     * @param userId 用户id
+     * @return 用户手机号
+     */
+    String selectPhonenumberById(Long userId);
+
+    /**
+     * 通过用户ID查询用户邮箱
+     *
+     * @param userId 用户id
+     * @return 用户邮箱
+     */
+    String selectEmailById(Long userId);
+
+    /**
      * 通过部门id查询当前部门所有用户
      *
-     * @param deptId
-     * @return
+     * @param deptId 部门id
+     * @return 结果
      */
     List<SysUserVo> selectUserListByDept(Long deptId);
 

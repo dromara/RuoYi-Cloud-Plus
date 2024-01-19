@@ -6,6 +6,8 @@ import org.dromara.system.api.domain.vo.RemoteTenantVo;
 import java.util.List;
 
 /**
+ * 租户服务
+ *
  * @author zhujie
  */
 public interface RemoteTenantService {

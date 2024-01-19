@@ -94,7 +94,7 @@ public class SysClientServiceImpl implements ISysClientService {
         SysClient add = MapstructUtils.convert(bo, SysClient.class);
         validEntityBeforeSave(add);
         add.setGrantType(String.join(",", bo.getGrantTypeList()));
-        // 生成clientid
+        // 生成clientId
         String clientKey = bo.getClientKey();
         String clientSecret = bo.getClientSecret();
         add.setClientId(SecureUtil.md5(clientKey + clientSecret));

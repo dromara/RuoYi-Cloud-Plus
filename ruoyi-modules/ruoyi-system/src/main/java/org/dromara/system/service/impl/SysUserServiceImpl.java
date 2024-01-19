@@ -523,8 +523,8 @@ public class SysUserServiceImpl implements ISysUserService {
     /**
      * 通过部门id查询当前部门所有用户
      *
-     * @param deptId
-     * @return
+     * @param deptId 部门ID
+     * @return 用户信息集合信息
      */
     @Override
     public List<SysUserVo> selectUserListByDept(Long deptId) {
@@ -534,6 +534,12 @@ public class SysUserServiceImpl implements ISysUserService {
         return baseMapper.selectVoList(lqw);
     }
 
+    /**
+     * 通过用户ID查询用户账户
+     *
+     * @param userId 用户ID
+     * @return 用户账户
+     */
     @Cacheable(cacheNames = CacheNames.SYS_USER_NAME, key = "#userId")
     @Override
     public String selectUserNameById(Long userId) {
@@ -542,12 +548,44 @@ public class SysUserServiceImpl implements ISysUserService {
         return ObjectUtil.isNull(sysUser) ? null : sysUser.getUserName();
     }
 
+    /**
+     * 通过用户ID查询用户昵称
+     *
+     * @param userId 用户ID
+     * @return 用户昵称
+     */
     @Override
     @Cacheable(cacheNames = CacheNames.SYS_NICKNAME, key = "#userId")
     public String selectNicknameById(Long userId) {
         SysUser sysUser = baseMapper.selectOne(new LambdaQueryWrapper<SysUser>()
             .select(SysUser::getNickName).eq(SysUser::getUserId, userId));
         return ObjectUtil.isNull(sysUser) ? null : sysUser.getNickName();
+    }
+
+    /**
+     * 通过用户ID查询用户手机号
+     *
+     * @param userId 用户id
+     * @return 用户手机号
+     */
+    @Override
+    public String selectPhonenumberById(Long userId) {
+        SysUser sysUser = baseMapper.selectOne(new LambdaQueryWrapper<SysUser>()
+            .select(SysUser::getPhonenumber).eq(SysUser::getUserId, userId));
+        return ObjectUtil.isNull(sysUser) ? null : sysUser.getPhonenumber();
+    }
+
+    /**
+     * 通过用户ID查询用户邮箱
+     *
+     * @param userId 用户id
+     * @return 用户邮箱
+     */
+    @Override
+    public String selectEmailById(Long userId) {
+        SysUser sysUser = baseMapper.selectOne(new LambdaQueryWrapper<SysUser>()
+            .select(SysUser::getEmail).eq(SysUser::getUserId, userId));
+        return ObjectUtil.isNull(sysUser) ? null : sysUser.getEmail();
     }
 
 }

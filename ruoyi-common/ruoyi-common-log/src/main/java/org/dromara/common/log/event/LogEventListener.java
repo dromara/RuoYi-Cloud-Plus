@@ -45,6 +45,9 @@ public class LogEventListener {
         remoteLogService.saveLog(sysOperLog);
     }
 
+    /**
+     * 保存系统访问记录
+     */
     @Async
     @EventListener
     public void saveLogininfor(LogininforEvent logininforEvent) {
@@ -52,10 +55,10 @@ public class LogEventListener {
         final UserAgent userAgent = UserAgentUtil.parse(request.getHeader("User-Agent"));
         final String ip = ServletUtils.getClientIP(request);
         // 客户端信息
-        String clientid = request.getHeader(LoginHelper.CLIENT_KEY);
+        String clientId = request.getHeader(LoginHelper.CLIENT_KEY);
         RemoteClientVo clientVo = null;
-        if (StringUtils.isNotBlank(clientid)) {
-            clientVo = remoteClientService.queryByClientId(clientid);
+        if (StringUtils.isNotBlank(clientId)) {
+            clientVo = remoteClientService.queryByClientId(clientId);
         }
 
         String address = AddressUtils.getRealAddressByIP(ip);
@@ -93,7 +96,15 @@ public class LogEventListener {
         remoteLogService.saveLogininfor(logininfor);
     }
 
+    /**
+     * 将传入的对象转换为带方括号的字符串表示形式
+     * 如果传入对象为 null，则返回空字符串表示的方括号
+     *
+     * @param msg 要转换的对象，可以是任何类型
+     * @return 包含方括号的字符串表示形式
+     */
     private String getBlock(Object msg) {
+        // 如果传入对象为 null，则将其替换为空字符串
         if (msg == null) {
             msg = "";
         }
