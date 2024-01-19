@@ -29,13 +29,40 @@ import java.util.Set;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class LoginHelper {
 
+    /**
+     * 用户信息
+     */
     public static final String LOGIN_USER_KEY = "loginUser";
+
+    /**
+     * 租户ID
+     */
     public static final String TENANT_KEY = "tenantId";
+
+    /**
+     * 用户ID
+     */
     public static final String USER_KEY = "userId";
+
+    /**
+     * 用户名
+     */
     public static final String USER_NAME_KEY = "userName";
+
+    /**
+     * 部门ID
+     */
     public static final String DEPT_KEY = "deptId";
+
+    /**
+     * 部门名称
+     */
     public static final String DEPT_NAME_KEY = "deptName";
-    public static final String CLIENT_KEY = "clientid";
+
+    /**
+     * 客户端ID
+     */
+    public static final String CLIENT_KEY = "clientId";
 
     /**
      * 登录系统 基于 设备类型
@@ -101,6 +128,12 @@ public class LoginHelper {
         return Convert.toLong(getExtra(DEPT_KEY));
     }
 
+    /**
+     * 获取当前 Token 的扩展信息
+     *
+     * @param key 键值
+     * @return 对应的扩展数据
+     */
     private static Object getExtra(String key) {
         try {
             return StpUtil.getExtra(key);
@@ -135,12 +168,17 @@ public class LoginHelper {
         return UserConstants.SUPER_ADMIN_ID.equals(userId);
     }
 
+    /**
+     * 是否为超级管理员
+     *
+     * @return 结果
+     */
     public static boolean isSuperAdmin() {
         return isSuperAdmin(getUserId());
     }
 
     /**
-     * 是否为超级管理员
+     * 是否为租户管理员
      *
      * @param rolePermission 角色权限标识组
      * @return 结果
@@ -149,10 +187,20 @@ public class LoginHelper {
         return rolePermission.contains(TenantConstants.TENANT_ADMIN_ROLE_KEY);
     }
 
+    /**
+     * 是否为租户管理员
+     *
+     * @return 结果
+     */
     public static boolean isTenantAdmin() {
         return Convert.toBool(isTenantAdmin(getLoginUser().getRolePermission()));
     }
 
+    /**
+     * 检查当前用户是否已登录
+     *
+     * @return 结果
+     */
     public static boolean isLogin() {
         return getLoginUser() != null;
     }
