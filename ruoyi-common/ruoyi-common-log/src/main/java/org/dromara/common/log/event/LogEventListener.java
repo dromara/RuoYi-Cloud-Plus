@@ -95,16 +95,8 @@ public class LogEventListener {
         }
         remoteLogService.saveLogininfor(logininfor);
     }
-
-    /**
-     * 将传入的对象转换为带方括号的字符串表示形式
-     * 如果传入对象为 null，则返回空字符串表示的方括号
-     *
-     * @param msg 要转换的对象，可以是任何类型
-     * @return 包含方括号的字符串表示形式
-     */
+    
     private String getBlock(Object msg) {
-        // 如果传入对象为 null，则将其替换为空字符串
         if (msg == null) {
             msg = "";
         }
