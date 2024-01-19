@@ -59,7 +59,6 @@ public class CaptchaController {
         // 生成验证码
         CaptchaType captchaType = captchaProperties.getType();
         boolean isMath = CaptchaType.MATH == captchaType;
-        //如果是则拿取数字验证码位数，如果不是则拿取字符验证码长度
         Integer length = isMath ? captchaProperties.getNumberLength() : captchaProperties.getCharLength();
         CodeGenerator codeGenerator = ReflectUtils.newInstance(captchaType.getClazz(), length);
         AbstractCaptcha captcha = SpringUtils.getBean(captchaProperties.getCategory().getClazz());

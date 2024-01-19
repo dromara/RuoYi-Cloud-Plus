@@ -29,40 +29,13 @@ import java.util.Set;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class LoginHelper {
 
-    /**
-     * 用户信息
-     */
     public static final String LOGIN_USER_KEY = "loginUser";
-
-    /**
-     * 租户ID
-     */
     public static final String TENANT_KEY = "tenantId";
-
-    /**
-     * 用户ID
-     */
     public static final String USER_KEY = "userId";
-
-    /**
-     * 用户名
-     */
     public static final String USER_NAME_KEY = "userName";
-
-    /**
-     * 部门ID
-     */
     public static final String DEPT_KEY = "deptId";
-
-    /**
-     * 部门名称
-     */
     public static final String DEPT_NAME_KEY = "deptName";
-
-    /**
-     * 客户端ID
-     */
-    public static final String CLIENT_KEY = "clientId";
+    public static final String CLIENT_KEY = "clientid";
 
     /**
      * 登录系统 基于 设备类型
