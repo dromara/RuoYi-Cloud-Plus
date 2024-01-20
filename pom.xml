@@ -17,9 +17,9 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>17</java.version>
-        <spring-boot.version>3.2.1</spring-boot.version>
+        <spring-boot.version>3.2.2</spring-boot.version>
         <spring-cloud.version>2023.0.0</spring-cloud.version>
-        <spring-boot-admin.version>3.2.0</spring-boot-admin.version>
+        <spring-boot-admin.version>3.2.1</spring-boot-admin.version>
         <spring-boot.mybatis>3.0.3</spring-boot.mybatis>
         <mybatis.version>3.5.15</mybatis.version>
         <mybatis-plus.version>3.5.5</mybatis-plus.version>
