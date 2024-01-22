@@ -31,6 +31,12 @@
             <groupId>com.alibaba.nacos</groupId>
             <artifactId>logback-adapter</artifactId>
             <version>1.0.0</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.alibaba.nacos</groupId>
+                    <artifactId>nacos-common</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
     </dependencies>
 
