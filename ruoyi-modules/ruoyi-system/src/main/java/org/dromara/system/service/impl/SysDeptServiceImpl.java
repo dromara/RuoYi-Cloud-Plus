@@ -139,6 +139,20 @@ public class SysDeptServiceImpl implements ISysDeptService {
     }
 
     /**
+     * 通过部门ID串查询部门
+     *
+     * @param deptIds 部门id串
+     * @return 部门列表信息
+     */
+    @Override
+    public List<SysDeptVo> selectDeptByIds(List<Long> deptIds) {
+        return baseMapper.selectDeptList(new LambdaQueryWrapper<SysDept>()
+            .select(SysDept::getDeptId, SysDept::getDeptName, SysDept::getLeader)
+            .eq(SysDept::getStatus, UserConstants.DEPT_NORMAL)
+            .in(CollUtil.isNotEmpty(deptIds), SysDept::getDeptId, deptIds));
+    }
+
+    /**
      * 通过部门ID查询部门名称
      *
      * @param deptIds 部门ID串逗号分隔

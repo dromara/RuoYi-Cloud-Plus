@@ -207,6 +207,19 @@ public class SysUserController extends BaseController {
     }
 
     /**
+     * 根据用户ID串批量获取用户基础信息
+     *
+     * @param userIds 用户ID串
+     * @param deptId  部门ID
+     */
+    @SaCheckPermission("system:user:query")
+    @GetMapping("/optionselect")
+    public R<List<SysUserVo>> optionselect(@RequestParam(required = false) Long[] userIds,
+                                           @RequestParam(required = false) Long deptId) {
+        return R.ok(userService.selectUserByIds(List.of(userIds), deptId));
+    }
+
+    /**
      * 重置密码
      */
     @ApiEncrypt

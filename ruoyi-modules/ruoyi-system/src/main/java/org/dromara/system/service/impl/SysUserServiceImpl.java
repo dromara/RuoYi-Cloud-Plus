@@ -172,6 +172,22 @@ public class SysUserServiceImpl implements ISysUserService {
     }
 
     /**
+     * 通过用户ID串查询用户
+     *
+     * @param userIds 用户ID串
+     * @param deptId  部门id
+     * @return 用户列表信息
+     */
+    @Override
+    public List<SysUserVo> selectUserByIds(List<Long> userIds, Long deptId) {
+        return baseMapper.selectVoList(new LambdaQueryWrapper<SysUser>()
+            .select(SysUser::getUserId, SysUser::getUserName, SysUser::getNickName)
+            .eq(SysUser::getStatus, UserConstants.USER_NORMAL)
+            .eq(ObjectUtil.isNotNull(deptId), SysUser::getDeptId, deptId)
+            .in(CollUtil.isNotEmpty(userIds), SysUser::getUserId, userIds));
+    }
+
+    /**
      * 查询用户所属角色组
      *
      * @param userId 用户ID

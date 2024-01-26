@@ -1,10 +1,12 @@
 package org.dromara.system.service.impl;
 
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import org.dromara.common.core.constant.UserConstants;
 import org.dromara.common.core.exception.ServiceException;
 import org.dromara.common.core.utils.MapstructUtils;
 import org.dromara.common.core.utils.StreamUtils;
@@ -95,6 +97,20 @@ public class SysPostServiceImpl implements ISysPostService {
     public List<Long> selectPostListByUserId(Long userId) {
         List<SysPostVo> list = baseMapper.selectPostsByUserId(userId);
         return StreamUtils.toList(list, SysPostVo::getPostId);
+    }
+
+    /**
+     * 通过岗位ID串查询岗位
+     *
+     * @param postIds 岗位id串
+     * @return 岗位列表信息
+     */
+    @Override
+    public List<SysPostVo> selectPostByIds(List<Long> postIds) {
+        return baseMapper.selectVoList(new LambdaQueryWrapper<SysPost>()
+            .select(SysPost::getPostId, SysPost::getPostName, SysPost::getPostCode)
+            .eq(SysPost::getStatus, UserConstants.POST_NORMAL)
+            .in(CollUtil.isNotEmpty(postIds), SysPost::getPostId, postIds));
     }
 
     /**
