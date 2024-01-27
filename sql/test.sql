@@ -1,3 +1,5 @@
+USE `ry-cloud`;
+
 DROP TABLE if EXISTS test_demo;
 CREATE TABLE test_demo
 (
