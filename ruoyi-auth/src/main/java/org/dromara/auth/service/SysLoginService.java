@@ -23,7 +23,6 @@ import org.dromara.common.core.exception.user.CaptchaException;
 import org.dromara.common.core.exception.user.CaptchaExpireException;
 import org.dromara.common.core.exception.user.UserException;
 import org.dromara.common.core.utils.MessageUtils;
-import org.dromara.common.core.utils.ServletUtils;
 import org.dromara.common.core.utils.SpringUtils;
 import org.dromara.common.core.utils.StringUtils;
 import org.dromara.common.log.event.LogininforEvent;
@@ -186,7 +185,6 @@ public class SysLoginService {
         logininforEvent.setUsername(username);
         logininforEvent.setStatus(status);
         logininforEvent.setMessage(message);
-        logininforEvent.setRequest(ServletUtils.getRequest());
         SpringUtils.context().publishEvent(logininforEvent);
     }
 

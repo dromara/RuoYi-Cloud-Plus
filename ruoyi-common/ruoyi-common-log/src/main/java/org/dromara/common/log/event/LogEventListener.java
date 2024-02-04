@@ -18,7 +18,6 @@ import org.dromara.system.api.domain.bo.RemoteLogininforBo;
 import org.dromara.system.api.domain.bo.RemoteOperLogBo;
 import org.dromara.system.api.domain.vo.RemoteClientVo;
 import org.springframework.context.event.EventListener;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 /**
@@ -38,7 +37,6 @@ public class LogEventListener {
     /**
      * 保存系统日志记录
      */
-    @Async
     @EventListener
     public void saveLog(OperLogEvent operLogEvent) {
         RemoteOperLogBo sysOperLog = BeanUtil.toBean(operLogEvent, RemoteOperLogBo.class);
@@ -48,10 +46,9 @@ public class LogEventListener {
     /**
      * 保存系统访问记录
      */
-    @Async
     @EventListener
     public void saveLogininfor(LogininforEvent logininforEvent) {
-        HttpServletRequest request = logininforEvent.getRequest();
+        HttpServletRequest request = ServletUtils.getRequest();
         final UserAgent userAgent = UserAgentUtil.parse(request.getHeader("User-Agent"));
         final String ip = ServletUtils.getClientIP(request);
         // 客户端信息
@@ -95,7 +92,7 @@ public class LogEventListener {
         }
         remoteLogService.saveLogininfor(logininfor);
     }
-    
+
     private String getBlock(Object msg) {
         if (msg == null) {
             msg = "";

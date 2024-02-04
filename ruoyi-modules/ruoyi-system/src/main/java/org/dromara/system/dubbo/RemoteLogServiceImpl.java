@@ -10,6 +10,7 @@ import org.dromara.system.domain.bo.SysLogininforBo;
 import org.dromara.system.domain.bo.SysOperLogBo;
 import org.dromara.system.service.ISysLogininforService;
 import org.dromara.system.service.ISysOperLogService;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 /**
@@ -25,12 +26,14 @@ public class RemoteLogServiceImpl implements RemoteLogService {
     private final ISysOperLogService operLogService;
     private final ISysLogininforService logininforService;
 
+    @Async
     @Override
     public void saveLog(RemoteOperLogBo remoteOperLogBo) {
         SysOperLogBo sysOperLogBo = MapstructUtils.convert(remoteOperLogBo, SysOperLogBo.class);
         operLogService.insertOperlog(sysOperLogBo);
     }
 
+    @Async
     @Override
     public void saveLogininfor(RemoteLogininforBo remoteLogininforBo) {
         SysLogininforBo sysLogininforBo = MapstructUtils.convert(remoteLogininforBo, SysLogininforBo.class);
