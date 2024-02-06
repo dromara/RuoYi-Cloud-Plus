@@ -66,6 +66,12 @@
         <dependency>
             <groupId>org.dromara</groupId>
             <artifactId>ruoyi-common-encrypt</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.dromara</groupId>
+                    <artifactId>ruoyi-common-mybatis</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>
