@@ -207,7 +207,10 @@ public class RemoteUserServiceImpl implements RemoteUserService {
         loginUser.setMenuPermission(permissionService.getMenuPermission(userVo.getUserId()));
         loginUser.setRolePermission(permissionService.getRolePermission(userVo.getUserId()));
         TenantHelper.dynamic(userVo.getTenantId(), () -> {
-            SysDeptVo dept = deptService.selectDeptById(userVo.getDeptId());
+            SysDeptVo dept = null;
+            if (ObjectUtil.isNotNull(userVo.getUserId())) {
+                dept = deptService.selectDeptById(userVo.getDeptId());
+            }
             loginUser.setDeptName(ObjectUtil.isNull(dept) ? "" : dept.getDeptName());
             List<SysRoleVo> roles = roleService.selectRolesByUserId(userVo.getUserId());
             loginUser.setRoles(BeanUtil.copyToList(roles, RoleDTO.class));
