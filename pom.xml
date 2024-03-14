@@ -35,6 +35,7 @@
         <redisson.version>3.27.0</redisson.version>
         <lock4j.version>2.2.7</lock4j.version>
         <powerjob.version>4.3.6</powerjob.version>
+        <easyretry.version>3.1.0</easyretry.version>
         <satoken.version>1.37.0</satoken.version>
         <lombok.version>1.18.30</lombok.version>
         <logstash.version>7.4</logstash.version>
@@ -277,6 +278,23 @@
                 <groupId>tech.powerjob</groupId>
                 <artifactId>powerjob-official-processors</artifactId>
                 <version>${powerjob.version}</version>
+            </dependency>
+
+            <!--  EasyRetry Client -->
+            <dependency>
+                <groupId>com.aizuda</groupId>
+                <artifactId>easy-retry-client-starter</artifactId>
+                <version>${easyretry.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.aizuda</groupId>
+                <artifactId>easy-retry-client-core</artifactId>
+                <version>${easyretry.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.aizuda</groupId>
+                <artifactId>easy-retry-client-job-core</artifactId>
+                <version>${easyretry.version}</version>
             </dependency>
 
             <!-- 加密包引入 -->
