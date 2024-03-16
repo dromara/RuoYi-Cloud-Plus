@@ -1,7 +1,5 @@
 server:
   port: 8800
-  servlet:
-    context-path: /easy-retry
 
 spring:
   application:
