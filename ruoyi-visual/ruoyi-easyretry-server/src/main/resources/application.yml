@@ -28,6 +28,9 @@ logging:
   config: classpath:logback-plus.xml
 
 management:
+  # 解决 er 服务有 context-path 无法监控问题
+  server:
+    port: 8801
   endpoints:
     web:
       exposure:
