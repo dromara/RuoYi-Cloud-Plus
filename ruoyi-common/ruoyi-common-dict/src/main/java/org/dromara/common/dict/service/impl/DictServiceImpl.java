@@ -42,7 +42,7 @@ public class DictServiceImpl implements DictService {
     @Override
     public String getDictLabel(String dictType, String dictValue, String separator) {
         // 优先从本地缓存获取
-        List<RemoteDictDataVo> datas = (List<RemoteDictDataVo>) ceffeine.get(CacheConstants.SYS_DICT_KEY + dictType, k -> {
+        List<RemoteDictDataVo> datas = (List<RemoteDictDataVo>) ceffeine.get(CacheConstants.SYS_DICT_KEY + "remote:" + dictType, k -> {
             return remoteDictService.selectDictDataByType(dictType);
         });
         Map<String, String> map = StreamUtils.toMap(datas, RemoteDictDataVo::getDictValue, RemoteDictDataVo::getDictLabel);
@@ -67,7 +67,7 @@ public class DictServiceImpl implements DictService {
     @Override
     public String getDictValue(String dictType, String dictLabel, String separator) {
         // 优先从本地缓存获取
-        List<RemoteDictDataVo> datas = (List<RemoteDictDataVo>) ceffeine.get(CacheConstants.SYS_DICT_KEY + dictType, k -> {
+        List<RemoteDictDataVo> datas = (List<RemoteDictDataVo>) ceffeine.get(CacheConstants.SYS_DICT_KEY + "remote:" + dictType, k -> {
             return remoteDictService.selectDictDataByType(dictType);
         });
         Map<String, String> map = StreamUtils.toMap(datas, RemoteDictDataVo::getDictLabel, RemoteDictDataVo::getDictValue);
