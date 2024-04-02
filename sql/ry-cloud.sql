@@ -1,7 +1,6 @@
 -- ----------------------------
 -- 第三方平台授权表
 -- ----------------------------
-drop table if exists sys_social;
 create table sys_social
 (
     id                 bigint           not null        comment '主键',
@@ -39,7 +38,6 @@ create table sys_social
 -- ----------------------------
 -- 租户表
 -- ----------------------------
-drop table if exists sys_tenant;
 create table sys_tenant
 (
     id                bigint(20)    not null        comment 'id',
@@ -76,7 +74,6 @@ insert into sys_tenant values(1, '000000', '管理组', '15888888888', 'XXX有�
 -- ----------------------------
 -- 租户套餐表
 -- ----------------------------
-drop table if exists sys_tenant_package;
 create table sys_tenant_package (
     package_id              bigint(20)     not null    comment '租户套餐id',
     package_name            varchar(20)                comment '套餐名称',
@@ -97,7 +94,6 @@ create table sys_tenant_package (
 -- ----------------------------
 -- 1、部门表
 -- ----------------------------
-drop table if exists sys_dept;
 create table sys_dept (
   dept_id           bigint(20)      not null                   comment '部门id',
   tenant_id         varchar(20)     default '000000'           comment '租户编号',
@@ -138,7 +134,6 @@ insert into sys_dept values(109, '000000', 102, '0,100,102',  '财务部门',   
 -- ----------------------------
 -- 2、用户信息表
 -- ----------------------------
-drop table if exists sys_user;
 create table sys_user (
   user_id           bigint(20)      not null                   comment '用户ID',
   tenant_id         varchar(20)     default '000000'           comment '租户编号',
@@ -175,7 +170,6 @@ insert into sys_user values(4, '000000', 102, 'test1', '仅本人 密码666666',
 -- ----------------------------
 -- 3、岗位信息表
 -- ----------------------------
-drop table if exists sys_post;
 create table sys_post
 (
   post_id       bigint(20)      not null                   comment '岗位ID',
@@ -205,7 +199,6 @@ insert into sys_post values(4, '000000', 'user', '普通员工',  4, '0', 103, 1
 -- ----------------------------
 -- 4、角色信息表
 -- ----------------------------
-drop table if exists sys_role;
 create table sys_role (
   role_id              bigint(20)      not null                   comment '角色ID',
   tenant_id            varchar(20)     default '000000'           comment '租户编号',
@@ -237,7 +230,6 @@ insert into sys_role values(4, '000000', '仅本人',      'test2', 4, 5, 1, 1, 
 -- ----------------------------
 -- 5、菜单权限表
 -- ----------------------------
-drop table if exists sys_menu;
 create table sys_menu (
   menu_id           bigint(20)      not null                   comment '菜单ID',
   menu_name         varchar(50)     not null                   comment '菜单名称',
@@ -412,7 +404,6 @@ insert into sys_menu values('1511', '测试树表导出',   '1506', '5', '#',   
 -- ----------------------------
 -- 6、用户和角色关联表  用户N-1角色
 -- ----------------------------
-drop table if exists sys_user_role;
 create table sys_user_role (
   user_id   bigint(20) not null comment '用户ID',
   role_id   bigint(20) not null comment '角色ID',
@@ -430,7 +421,6 @@ INSERT INTO sys_user_role values ('4', '4');
 -- ----------------------------
 -- 7、角色和菜单关联表  角色1-N菜单
 -- ----------------------------
-drop table if exists sys_role_menu;
 create table sys_role_menu (
   role_id   bigint(20) not null comment '角色ID',
   menu_id   bigint(20) not null comment '菜单ID',
@@ -527,7 +517,6 @@ insert into sys_role_menu values ('4', '1511');
 -- ----------------------------
 -- 8、角色和部门关联表  角色1-N部门
 -- ----------------------------
-drop table if exists sys_role_dept;
 create table sys_role_dept (
   role_id   bigint(20) not null comment '角色ID',
   dept_id   bigint(20) not null comment '部门ID',
@@ -538,7 +527,6 @@ create table sys_role_dept (
 -- ----------------------------
 -- 9、用户与岗位关联表  用户1-N岗位
 -- ----------------------------
-drop table if exists sys_user_post;
 create table sys_user_post
 (
   user_id   bigint(20) not null comment '用户ID',
@@ -554,7 +542,6 @@ insert into sys_user_post values ('1', '1');
 -- ----------------------------
 -- 10、操作日志记录
 -- ----------------------------
-drop table if exists sys_oper_log;
 create table sys_oper_log (
   oper_id           bigint(20)      not null                   comment '日志主键',
   tenant_id         varchar(20)     default '000000'           comment '租户编号',
@@ -584,7 +571,6 @@ create table sys_oper_log (
 -- ----------------------------
 -- 11、字典类型表
 -- ----------------------------
-drop table if exists sys_dict_type;
 create table sys_dict_type
 (
   dict_id          bigint(20)      not null                   comment '字典主键',
@@ -616,7 +602,6 @@ insert into sys_dict_type values(12, '000000', '设备类型', 'sys_device_type'
 -- ----------------------------
 -- 12、字典数据表
 -- ----------------------------
-drop table if exists sys_dict_data;
 create table sys_dict_data
 (
   dict_code        bigint(20)      not null                   comment '字典编码',
@@ -675,7 +660,6 @@ insert into sys_dict_data values(38, '000000', 0,  '小程序', 'xcx',       'sy
 -- ----------------------------
 -- 13、参数配置表
 -- ----------------------------
-drop table if exists sys_config;
 create table sys_config (
   config_id         bigint(20)      not null                   comment '参数主键',
   tenant_id         varchar(20)     default '000000'           comment '租户编号',
@@ -702,7 +686,6 @@ insert into sys_config values(11, '000000', 'OSS预览列表资源开关',      
 -- ----------------------------
 -- 14、系统访问记录
 -- ----------------------------
-drop table if exists sys_logininfor;
 create table sys_logininfor (
   info_id        bigint(20)     not null                  comment '访问ID',
   tenant_id      varchar(20)    default '000000'          comment '租户编号',
@@ -725,7 +708,6 @@ create table sys_logininfor (
 -- ----------------------------
 -- 17、通知公告表
 -- ----------------------------
-drop table if exists sys_notice;
 create table sys_notice (
   notice_id         bigint(20)      not null                   comment '公告ID',
   tenant_id         varchar(20)     default '000000'           comment '租户编号',
@@ -752,7 +734,6 @@ insert into sys_notice values('2', '000000', '维护通知：2018-07-01 系统�
 -- ----------------------------
 -- 18、代码生成业务表
 -- ----------------------------
-drop table if exists gen_table;
 create table gen_table (
   table_id          bigint(20)      not null                   comment '编号',
   data_name         varchar(200)    default ''                 comment '数据源名称',
@@ -783,7 +764,6 @@ create table gen_table (
 -- ----------------------------
 -- 19、代码生成业务表字段
 -- ----------------------------
-drop table if exists gen_table_column;
 create table gen_table_column (
   column_id         bigint(20)      not null                   comment '编号',
   table_id          bigint(20)                                 comment '归属表编号',
@@ -814,7 +794,6 @@ create table gen_table_column (
 -- ----------------------------
 -- OSS对象存储表
 -- ----------------------------
-drop table if exists sys_oss;
 create table sys_oss (
   oss_id          bigint(20)   not null                   comment '对象存储主键',
   tenant_id       varchar(20)           default '000000'  comment '租户编号',
@@ -834,7 +813,6 @@ create table sys_oss (
 -- ----------------------------
 -- OSS对象存储动态配置表
 -- ----------------------------
-drop table if exists sys_oss_config;
 create table sys_oss_config (
   oss_config_id   bigint(20)    not null                  comment '主建',
   tenant_id       varchar(20)             default '000000'comment '租户编号',
@@ -869,7 +847,6 @@ insert into sys_oss_config values (5, '000000', 'image',  'ruoyi',            'r
 -- ----------------------------
 -- 系统授权表
 -- ----------------------------
-drop table if exists sys_client;
 create table sys_client (
     id                  bigint(20)    not null            comment 'id',
     client_id           varchar(64)   default null        comment '客户端id',
@@ -892,7 +869,6 @@ create table sys_client (
 insert into sys_client values (1, 'e5cd7e4891bf95d1d19206ce24a7b32e', 'pc', 'pc123', 'password,social', 'pc', 1800, 604800, 0, 0, 103, 1, sysdate(), 1, sysdate());
 insert into sys_client values (2, '428a8310cd442757ae699df5d894f051', 'app', 'app123', 'password,sms,social', 'android', 1800, 604800, 0, 0, 103, 1, sysdate(), 1, sysdate());
 
-DROP TABLE if EXISTS test_demo;
 CREATE TABLE test_demo
 (
     id          bigint(0)    NOT NULL COMMENT '主键',
@@ -912,7 +888,6 @@ CREATE TABLE test_demo
     PRIMARY KEY (id) USING BTREE
 ) ENGINE = InnoDB COMMENT = '测试单表';
 
-DROP TABLE if EXISTS test_tree;
 CREATE TABLE test_tree
 (
     id          bigint(0)    NOT NULL COMMENT '主键',
