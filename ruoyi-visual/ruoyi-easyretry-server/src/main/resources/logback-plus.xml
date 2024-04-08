@@ -23,7 +23,7 @@
     <include resource="logback-skylog.xml" />
 
     <!-- EasyRetry appender -->
-    <appender name="easy_log_server_appender" class="com.aizuda.easy.retry.server.job.task.support.appender.EasyRetryServerLogbackAppender">
+    <appender name="easy_log_server_appender" class="com.aizuda.easy.retry.server.common.appender.EasyRetryServerLogbackAppender">
     </appender>
 
     <!--系统操作日志-->
