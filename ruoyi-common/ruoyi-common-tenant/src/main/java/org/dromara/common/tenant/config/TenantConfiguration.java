@@ -2,8 +2,6 @@ package org.dromara.common.tenant.config;
 
 import cn.dev33.satoken.dao.SaTokenDao;
 import cn.hutool.core.util.ObjectUtil;
-import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
-import com.baomidou.mybatisplus.extension.plugins.inner.InnerInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.TenantLineInnerInterceptor;
 import org.dromara.common.core.utils.reflect.ReflectUtils;
 import org.dromara.common.mybatis.config.MybatisPlusConfiguration;
@@ -25,9 +23,6 @@ import org.springframework.cache.CacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * 租户配置类
  *
@@ -43,25 +38,13 @@ public class TenantConfiguration {
     static class MybatisPlusConfig {
 
         /**
-         * 初始化租户配置
-         */
-        @Bean
-        public boolean tenantInit(MybatisPlusInterceptor mybatisPlusInterceptor,
-                                  TenantProperties tenantProperties) {
-            List<InnerInterceptor> interceptors = new ArrayList<>();
-            // 多租户插件 必须放到第一位
-            interceptors.add(tenantLineInnerInterceptor(tenantProperties));
-            interceptors.addAll(mybatisPlusInterceptor.getInterceptors());
-            mybatisPlusInterceptor.setInterceptors(interceptors);
-            return true;
-        }
-
-        /**
          * 多租户插件
          */
+        @Bean
         public TenantLineInnerInterceptor tenantLineInnerInterceptor(TenantProperties tenantProperties) {
             return new TenantLineInnerInterceptor(new PlusTenantLineHandler(tenantProperties));
         }
+
     }
 
     @Bean
