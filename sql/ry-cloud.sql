@@ -223,8 +223,8 @@ create table sys_role (
 -- 初始化-角色信息表数据
 -- ----------------------------
 insert into sys_role values(1, '000000', '超级管理员',  'superadmin',  1, 1, 1, 1, '0', '0', 103, 1, sysdate(), null, null, '超级管理员');
-insert into sys_role values(3, '000000', '本部门及以下', 'test1', 3, 4, 1, 1, '0', '0', 103, 1, sysdate(), 1, null, null, '');
-insert into sys_role values(4, '000000', '仅本人',      'test2', 4, 5, 1, 1, '0', '0', 103, 1, sysdate(), 1, null, null, '');
+insert into sys_role values(3, '000000', '本部门及以下', 'test1', 3, 4, 1, 1, '0', '0', 103, 1, sysdate(), null, null, '');
+insert into sys_role values(4, '000000', '仅本人',      'test2', 4, 5, 1, 1, '0', '0', 103, 1, sysdate(), null, null, '');
 
 
 -- ----------------------------
