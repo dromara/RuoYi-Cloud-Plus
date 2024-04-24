@@ -102,7 +102,7 @@ public class SysDictDataController extends BaseController {
     @PutMapping
     public R<Void> edit(@Validated @RequestBody SysDictDataBo dict) {
         if (!dictDataService.checkDictDataUnique(dict)) {
-            return R.fail("新增字典数据'" + dict.getDictValue() + "'失败，字典键值已存在");
+            return R.fail("修改字典数据'" + dict.getDictValue() + "'失败，字典键值已存在");
         }
         dictDataService.updateDictData(dict);
         return R.ok();
