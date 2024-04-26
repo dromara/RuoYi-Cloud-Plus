@@ -139,8 +139,7 @@ public class RemoteUserServiceImpl implements RemoteUserService {
                 throw new ServiceException("当前系统没有开启注册功能");
             }
             return userMapper.exists(new LambdaQueryWrapper<SysUser>()
-                .eq(SysUser::getUserName, sysUserBo.getUserName())
-                .ne(ObjectUtil.isNotNull(sysUserBo.getUserId()), SysUser::getUserId, sysUserBo.getUserId()));
+                .eq(SysUser::getUserName, sysUserBo.getUserName()));
         });
         if (exist) {
             throw new UserException("user.register.save.error", username);
