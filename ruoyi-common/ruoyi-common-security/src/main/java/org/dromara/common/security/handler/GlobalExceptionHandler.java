@@ -22,6 +22,7 @@ import org.springframework.web.bind.MissingPathVariableException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
+import org.springframework.web.servlet.NoHandlerFoundException;
 
 /**
  * 全局异常处理器
@@ -80,7 +81,7 @@ public class GlobalExceptionHandler {
                                                                 HttpServletRequest request) {
         String requestURI = request.getRequestURI();
         log.error("请求地址'{}',不支持'{}'请求", requestURI, e.getMethod());
-        return R.fail(e.getMessage());
+        return R.fail(HttpStatus.HTTP_BAD_METHOD, e.getMessage());
     }
 
     /**
@@ -121,6 +122,17 @@ public class GlobalExceptionHandler {
         log.error("请求参数类型不匹配'{}',发生系统异常.", requestURI);
         return R.fail(String.format("请求参数类型不匹配，参数[%s]要求类型为：'%s'，但输入值为：'%s'", e.getName(), e.getRequiredType().getName(), e.getValue()));
     }
+
+    /**
+     * 找不到路由
+     */
+    @ExceptionHandler(NoHandlerFoundException.class)
+    public R<Void> handleNoHandlerFoundException(NoHandlerFoundException e, HttpServletRequest request) {
+        String requestURI = request.getRequestURI();
+        log.error("请求地址'{}'不存在.", requestURI);
+        return R.fail(HttpStatus.HTTP_NOT_FOUND, e.getMessage());
+    }
+
 
     /**
      * 拦截未知的运行时异常
