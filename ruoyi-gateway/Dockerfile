@@ -18,5 +18,5 @@ ADD ./target/ruoyi-gateway.jar ./app.jar
 ENTRYPOINT java -Djava.security.egd=file:/dev/./urandom -Dserver.port=${SERVER_PORT} \
            #-Dskywalking.agent.service_name=ruoyi-gateway \
            #-javaagent:/ruoyi/skywalking/agent/skywalking-agent.jar \
-           -jar app.jar \
-           -XX:+HeapDumpOnOutOfMemoryError -Xlog:gc*,:time,tags,level -XX:+UseZGC ${JAVA_OPTS}
+           -XX:+HeapDumpOnOutOfMemoryError -XX:+UseZGC ${JAVA_OPTS} \
+           -jar app.jar

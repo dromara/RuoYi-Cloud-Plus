@@ -13,5 +13,5 @@ ENV TZ=Asia/Shanghai LANG=C.UTF-8 LC_ALL=C.UTF-8 JAVA_OPTS="-Xms512m -Xmx1024m"
 
 ADD ./target/ruoyi-nacos.jar ./app.jar
 
-ENTRYPOINT java -Djava.security.egd=file:/dev/./urandom -jar app.jar ${JAVA_OPTS}
+ENTRYPOINT java -Djava.security.egd=file:/dev/./urandom ${JAVA_OPTS} -jar app.jar
 

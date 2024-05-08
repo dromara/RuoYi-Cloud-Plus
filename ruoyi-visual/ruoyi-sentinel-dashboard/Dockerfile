@@ -17,4 +17,4 @@ ADD ./target/ruoyi-sentinel-dashboard.jar ./app.jar
 ENTRYPOINT java -Djava.security.egd=file:/dev/./urandom \
            #-Dskywalking.agent.service_name=ruoyi-sentinel-dashboard \
            #-javaagent:/ruoyi/skywalking/agent/skywalking-agent.jar \
-           -jar app.jar ${JAVA_OPTS}
+           ${JAVA_OPTS} -jar app.jar
