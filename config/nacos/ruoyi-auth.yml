@@ -21,7 +21,7 @@ user:
     # 密码锁定时间（默认10分钟）
     lockTime: 10
 
---- # 三方授权
+# 三方授权
 justauth:
   # 前端外网访问地址
   address: http://localhost:80
