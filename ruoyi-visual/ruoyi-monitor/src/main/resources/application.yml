@@ -17,6 +17,8 @@ spring:
     nacos:
       # nacos 服务地址
       server-addr: @nacos.server@
+      username: @nacos.username@
+      password: @nacos.password@
       discovery:
         # 注册组
         group: @nacos.discovery.group@
