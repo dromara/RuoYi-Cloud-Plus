@@ -7,6 +7,8 @@ seata:
       server-addr: ${spring.cloud.nacos.server-addr}
       group: ${spring.cloud.nacos.config.group}
       namespace: ${spring.profiles.active}
+      username: ${spring.cloud.nacos.username}
+      password: ${spring.cloud.nacos.password}
       data-id: seata-server.properties
   registry:
     type: nacos
@@ -14,6 +16,8 @@ seata:
       application: ruoyi-seata-server
       server-addr: ${spring.cloud.nacos.server-addr}
       group: ${spring.cloud.nacos.discovery.group}
+      username: ${spring.cloud.nacos.username}
+      password: ${spring.cloud.nacos.password}
       namespace: ${spring.profiles.active}
   # 关闭自动代理
   enable-auto-data-source-proxy: false
