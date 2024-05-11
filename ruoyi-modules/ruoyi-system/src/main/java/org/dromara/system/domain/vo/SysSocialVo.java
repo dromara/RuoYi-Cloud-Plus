@@ -37,7 +37,7 @@ public class SysSocialVo implements Serializable {
     private String tenantId;
 
     /**
-     * 的唯一ID
+     * 认证唯一ID
      */
     private String authId;
 

@@ -21,7 +21,7 @@ public interface ISysSocialService {
     /**
      * 查询社会化关系列表
      */
-    List<SysSocialVo> queryList();
+    List<SysSocialVo> queryList(SysSocialBo bo);
 
     /**
      * 查询社会化关系列表

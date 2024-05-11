@@ -29,7 +29,7 @@ public class SysSocialBo extends TenantEntity {
     private Long id;
 
     /**
-     * 的唯一ID
+     * 认证唯一ID
      */
     @NotBlank(message = "的唯一ID不能为空", groups = { AddGroup.class, EditGroup.class })
     private String authId;

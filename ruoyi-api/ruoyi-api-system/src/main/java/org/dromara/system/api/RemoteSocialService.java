@@ -21,6 +21,13 @@ public interface RemoteSocialService {
     List<RemoteSocialVo> selectByAuthId(String authId);
 
     /**
+     * 查询列表
+     *
+     * @param bo 社会化关系业务对象
+     */
+    List<RemoteSocialVo> queryList(RemoteSocialBo bo);
+
+    /**
      * 保存社会化关系
      *
      * @param bo 社会化关系业务对象
