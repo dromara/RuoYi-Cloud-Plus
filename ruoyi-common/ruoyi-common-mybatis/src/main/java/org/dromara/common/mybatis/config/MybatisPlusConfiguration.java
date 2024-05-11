@@ -102,7 +102,7 @@ public class MybatisPlusConfiguration {
     /**
      * 数据权限处理实现
      */
-    @Bean
+    @Bean("sdss")
     public SysDataScopeService sysDataScopeService() {
         return new SysDataScopeService();
     }
