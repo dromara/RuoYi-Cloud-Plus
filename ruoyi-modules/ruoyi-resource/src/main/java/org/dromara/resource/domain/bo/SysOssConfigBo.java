@@ -25,9 +25,9 @@ import jakarta.validation.constraints.Size;
 public class SysOssConfigBo extends BaseEntity {
 
     /**
-     * 主建
+     * 主键
      */
-    @NotNull(message = "主建不能为空", groups = {EditGroup.class})
+    @NotNull(message = "主键不能为空", groups = {EditGroup.class})
     private Long ossConfigId;
 
     /**
