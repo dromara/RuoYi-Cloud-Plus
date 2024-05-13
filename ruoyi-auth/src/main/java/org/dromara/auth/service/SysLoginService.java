@@ -20,6 +20,7 @@ import org.dromara.common.core.constant.TenantConstants;
 import org.dromara.common.core.enums.LoginType;
 import org.dromara.common.core.enums.TenantStatus;
 import org.dromara.common.core.enums.UserType;
+import org.dromara.common.core.exception.ServiceException;
 import org.dromara.common.core.exception.user.CaptchaException;
 import org.dromara.common.core.exception.user.CaptchaExpireException;
 import org.dromara.common.core.exception.user.UserException;
@@ -86,6 +87,10 @@ public class SysLoginService {
         bo.setOpenId(authUserData.getUuid());
         bo.setUserName(authUserData.getUsername());
         bo.setNickName(authUserData.getNickname());
+        List<RemoteSocialVo> checkList = remoteSocialService.selectByAuthId(authId);
+        if (CollUtil.isNotEmpty(checkList)) {
+            throw new ServiceException("此三方账号已经被绑定!");
+        }
         // 查询是否已经绑定用户
         RemoteSocialBo params = new RemoteSocialBo();
         params.setUserId(userId);
