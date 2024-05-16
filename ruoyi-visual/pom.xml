@@ -13,7 +13,6 @@
         <module>ruoyi-sentinel-dashboard</module>
         <module>ruoyi-seata-server</module>
         <module>ruoyi-nacos</module>
-        <module>ruoyi-powerjob-server</module>
         <module>ruoyi-easyretry-server</module>
     </modules>
 

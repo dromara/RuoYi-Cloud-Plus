@@ -28,22 +28,6 @@
             <artifactId>spring-cloud-commons</artifactId>
         </dependency>
 
-        <!--PowerJob-->
-        <dependency>
-            <groupId>tech.powerjob</groupId>
-            <artifactId>powerjob-worker</artifactId>
-            <exclusions>
-                <exclusion>
-                    <artifactId>powerjob-remote-impl-akka</artifactId>
-                    <groupId>tech.powerjob</groupId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>tech.powerjob</groupId>
-            <artifactId>powerjob-official-processors</artifactId>
-        </dependency>
-
         <!--  EasyRetry Client -->
         <dependency>
             <groupId>com.aizuda</groupId>
