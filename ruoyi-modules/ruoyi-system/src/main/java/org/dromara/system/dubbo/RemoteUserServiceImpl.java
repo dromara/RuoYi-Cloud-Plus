@@ -211,6 +211,7 @@ public class RemoteUserServiceImpl implements RemoteUserService {
                 dept = deptService.selectDeptById(userVo.getDeptId());
             }
             loginUser.setDeptName(ObjectUtil.isNull(dept) ? "" : dept.getDeptName());
+            loginUser.setDeptCategory(ObjectUtil.isNull(dept) ? "" : dept.getDeptCategory());
             List<SysRoleVo> roles = roleService.selectRolesByUserId(userVo.getUserId());
             loginUser.setRoles(BeanUtil.copyToList(roles, RoleDTO.class));
         });
