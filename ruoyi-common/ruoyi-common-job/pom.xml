@@ -28,21 +28,16 @@
             <artifactId>spring-cloud-commons</artifactId>
         </dependency>
 
-        <!--  EasyRetry Client -->
+        <!--  SnailJob Client -->
         <dependency>
             <groupId>com.aizuda</groupId>
-            <artifactId>easy-retry-client-starter</artifactId>
-            <version>${easyretry.version}</version>
+            <artifactId>snail-job-client-starter</artifactId>
+            <version>${snailjob.version}</version>
         </dependency>
         <dependency>
             <groupId>com.aizuda</groupId>
-            <artifactId>easy-retry-client-core</artifactId>
-            <version>${easyretry.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.aizuda</groupId>
-            <artifactId>easy-retry-client-job-core</artifactId>
-            <version>${easyretry.version}</version>
+            <artifactId>snail-job-client-job-core</artifactId>
+            <version>${snailjob.version}</version>
         </dependency>
 
         <dependency>
