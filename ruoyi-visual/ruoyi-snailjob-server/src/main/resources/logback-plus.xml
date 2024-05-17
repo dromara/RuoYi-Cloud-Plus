@@ -22,14 +22,14 @@
     <!-- 开启 skywalking 日志收集 -->
     <include resource="logback-skylog.xml" />
 
-    <!-- EasyRetry appender -->
-    <appender name="easy_log_server_appender" class="com.aizuda.easy.retry.server.common.appender.EasyRetryServerLogbackAppender">
+    <!-- SnailJob appender -->
+    <appender name="snail_log_server_appender" class="com.aizuda.snailjob.server.common.appender.SnailJobServerLogbackAppender">
     </appender>
 
     <!--系统操作日志-->
     <root level="info">
         <appender-ref ref="console"/>
-        <appender-ref ref="easy_log_server_appender" />
+        <appender-ref ref="snail_log_server_appender" />
     </root>
 
 </configuration>

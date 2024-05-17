@@ -4,8 +4,8 @@ import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 @Data
-@ConfigurationProperties(prefix = "easy-retry.server")
-public class EasyRetryServerProperties {
+@ConfigurationProperties(prefix = "snail-job.server")
+public class SnailJobServerProperties {
 
     private String serverName;
 

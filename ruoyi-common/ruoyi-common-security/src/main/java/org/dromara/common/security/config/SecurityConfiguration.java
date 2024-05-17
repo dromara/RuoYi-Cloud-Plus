@@ -36,8 +36,6 @@ public class SecurityConfiguration implements WebMvcConfigurer {
         return new SaServletFilter()
             .addInclude("/**")
             .addExclude("/actuator/**")
-            // 放行 easy retry 通信接口
-            .addExclude("/job/dispatch/v1", "/job/stop/v1")
             .setAuth(obj -> {
                 if (SaManager.getConfig().getCheckSameToken()) {
                     SaSameUtil.checkCurrentRequestToken();
