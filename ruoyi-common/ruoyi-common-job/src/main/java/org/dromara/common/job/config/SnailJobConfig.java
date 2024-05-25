@@ -32,7 +32,7 @@ import java.util.List;
 @EnableConfigurationProperties(SnailJobServerProperties.class)
 @ConditionalOnProperty(prefix = "snail-job", name = "enabled", havingValue = "true")
 @EnableScheduling
-@EnableSnailJob(group = "${snail-job.group}")
+@EnableSnailJob(group = "${snail-job.group-name}")
 public class SnailJobConfig {
 
     @Autowired
