@@ -10,6 +10,7 @@ import org.dromara.common.core.domain.R;
 import org.dromara.common.core.utils.StringUtils;
 import org.dromara.common.core.utils.file.MimeTypeUtils;
 import org.dromara.common.encrypt.annotation.ApiEncrypt;
+import org.dromara.common.idempotent.annotation.RepeatSubmit;
 import org.dromara.common.log.annotation.Log;
 import org.dromara.common.log.enums.BusinessType;
 import org.dromara.common.satoken.utils.LoginHelper;
@@ -61,12 +62,14 @@ public class SysProfileController extends BaseController {
     }
 
     /**
-     * 修改用户
+     * 修改用户信息
      */
+    @RepeatSubmit
     @Log(title = "个人信息", businessType = BusinessType.UPDATE)
     @PutMapping
-    public R<Void> updateProfile(@RequestBody SysUserProfileBo profile) {
+    public R<Void> updateProfile(@Validated @RequestBody SysUserProfileBo profile) {
         SysUserBo user = BeanUtil.toBean(profile, SysUserBo.class);
+        user.setUserId(LoginHelper.getUserId());
         String username = LoginHelper.getUsername();
         if (StringUtils.isNotEmpty(user.getPhonenumber()) && !userService.checkPhoneUnique(user)) {
             return R.fail("修改用户'" + username + "'失败，手机号码已存在");
@@ -74,7 +77,6 @@ public class SysProfileController extends BaseController {
         if (StringUtils.isNotEmpty(user.getEmail()) && !userService.checkEmailUnique(user)) {
             return R.fail("修改用户'" + username + "'失败，邮箱账号已存在");
         }
-        user.setUserId(LoginHelper.getUserId());
         if (userService.updateUserProfile(user) > 0) {
             return R.ok();
         }
@@ -86,6 +88,7 @@ public class SysProfileController extends BaseController {
      *
      * @param bo 新旧密码
      */
+    @RepeatSubmit
     @ApiEncrypt
     @Log(title = "个人信息", businessType = BusinessType.UPDATE)
     @PutMapping("/updatePwd")
@@ -110,6 +113,7 @@ public class SysProfileController extends BaseController {
      *
      * @param avatarfile 用户头像
      */
+    @RepeatSubmit
     @GlobalTransactional(rollbackFor = Exception.class)
     @Log(title = "用户头像", businessType = BusinessType.UPDATE)
     @PostMapping(value = "/avatar", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)

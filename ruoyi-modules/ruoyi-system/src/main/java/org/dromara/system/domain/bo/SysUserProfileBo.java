@@ -1,15 +1,16 @@
 package org.dromara.system.domain.bo;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import org.dromara.common.mybatis.core.domain.BaseEntity;
+import org.dromara.common.core.constant.RegexConstants;
 import org.dromara.common.core.xss.Xss;
+import org.dromara.common.mybatis.core.domain.BaseEntity;
 import org.dromara.common.sensitive.annotation.Sensitive;
 import org.dromara.common.sensitive.core.SensitiveStrategy;
-
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.Size;
 
 /**
  * 个人信息业务处理
@@ -21,11 +22,6 @@ import jakarta.validation.constraints.Size;
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 public class SysUserProfileBo extends BaseEntity {
-
-    /**
-     * 用户ID
-     */
-    private Long userId;
 
     /**
      * 用户昵称
@@ -46,6 +42,7 @@ public class SysUserProfileBo extends BaseEntity {
      * 手机号码
      */
     @Sensitive(strategy = SensitiveStrategy.PHONE)
+    @Pattern(regexp = RegexConstants.MOBILE, message = "手机号格式不正确")
     private String phonenumber;
 
     /**
