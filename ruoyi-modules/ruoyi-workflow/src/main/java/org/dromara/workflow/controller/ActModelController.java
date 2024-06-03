@@ -5,7 +5,6 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.RequiredArgsConstructor;
 import org.dromara.common.core.domain.R;
-import org.dromara.common.core.utils.SpringUtils;
 import org.dromara.common.core.validate.AddGroup;
 import org.dromara.common.core.validate.EditGroup;
 import org.dromara.common.idempotent.annotation.RepeatSubmit;
@@ -13,11 +12,7 @@ import org.dromara.common.log.annotation.Log;
 import org.dromara.common.log.enums.BusinessType;
 import org.dromara.common.mybatis.core.page.PageQuery;
 import org.dromara.common.mybatis.core.page.TableDataInfo;
-import org.dromara.common.satoken.utils.LoginHelper;
 import org.dromara.common.web.core.BaseController;
-import org.dromara.resource.api.RemoteFileService;
-import org.dromara.resource.api.domain.RemoteFile;
-import org.dromara.system.api.model.LoginUser;
 import org.dromara.workflow.domain.bo.ModelBo;
 import org.dromara.workflow.domain.vo.ModelVo;
 import org.dromara.workflow.service.IActModelService;
@@ -53,8 +48,6 @@ public class ActModelController extends BaseController {
      */
     @GetMapping("/list")
     public TableDataInfo<Model> page(ModelBo modelBo, PageQuery pageQuery) {
-        RemoteFileService bean = SpringUtils.getBean(RemoteFileService.class);
-        List<RemoteFile> remoteFiles = bean.selectByIds("1");
         return actModelService.page(modelBo, pageQuery);
     }
 

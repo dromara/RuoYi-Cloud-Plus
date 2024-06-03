@@ -25,7 +25,6 @@ import org.dromara.workflow.domain.vo.MultiInstanceVo;
 import org.dromara.workflow.domain.vo.ParticipantVo;
 import org.dromara.workflow.flowable.cmd.UpdateHiTaskInstCmd;
 import org.dromara.workflow.mapper.ActHiTaskinstMapper;
-import org.dromara.workflow.service.IActHiProcinstService;
 import org.flowable.bpmn.model.BpmnModel;
 import org.flowable.bpmn.model.FlowNode;
 import org.flowable.common.engine.api.delegate.Expression;
@@ -50,8 +49,6 @@ import java.util.*;
 public class WorkflowUtils {
 
     private static final ProcessEngine PROCESS_ENGINE = SpringUtils.getBean(ProcessEngine.class);
-    private static final RemoteUserService USER_SERVICE = SpringUtils.getBean(RemoteUserService.class);
-    private static final IActHiProcinstService ACT_HI_PROCINST_SERVICE = SpringUtils.getBean(IActHiProcinstService.class);
     private static final ActHiTaskinstMapper ACT_HI_TASKINST_MAPPER = SpringUtils.getBean(ActHiTaskinstMapper.class);
 
     /**
@@ -129,6 +126,7 @@ public class WorkflowUtils {
      * @param taskId 任务id
      */
     public static ParticipantVo getCurrentTaskParticipant(String taskId) {
+        RemoteUserService remoteUserService = SpringUtils.getBean(RemoteUserService.class);
         ParticipantVo participantVo = new ParticipantVo();
         List<HistoricIdentityLink> linksForTask = PROCESS_ENGINE.getHistoryService().getHistoricIdentityLinksForTask(taskId);
         Task task = QueryUtils.taskQuery().taskId(taskId).singleResult();
@@ -136,10 +134,11 @@ public class WorkflowUtils {
             List<HistoricIdentityLink> groupList = StreamUtils.filter(linksForTask, e -> StringUtils.isNotBlank(e.getGroupId()));
             if (CollUtil.isNotEmpty(groupList)) {
                 List<Long> groupIds = StreamUtils.toList(groupList, e -> Long.valueOf(e.getGroupId()));
-                List<Long> userIds = USER_SERVICE.selectUserIdsByRoleIds(groupIds);
+
+                List<Long> userIds = remoteUserService.selectUserIdsByRoleIds(groupIds);
                 if (CollUtil.isNotEmpty(userIds)) {
                     participantVo.setGroupIds(groupIds);
-                    List<RemoteUserVo> userList = USER_SERVICE.selectListByIds(userIds);
+                    List<RemoteUserVo> userList = remoteUserService.selectListByIds(userIds);
                     if (CollUtil.isNotEmpty(userList)) {
                         List<Long> userIdList = StreamUtils.toList(userList, RemoteUserVo::getUserId);
                         List<String> nickNames = StreamUtils.toList(userList, RemoteUserVo::getNickName);
@@ -158,7 +157,7 @@ public class WorkflowUtils {
 
                     }
                 }
-                List<RemoteUserVo> userList = USER_SERVICE.selectListByIds(userIdList);
+                List<RemoteUserVo> userList = remoteUserService.selectListByIds(userIdList);
                 if (CollUtil.isNotEmpty(userList)) {
                     List<Long> userIds = StreamUtils.toList(userList, RemoteUserVo::getUserId);
                     List<String> nickNames = StreamUtils.toList(userList, RemoteUserVo::getNickName);
@@ -237,6 +236,7 @@ public class WorkflowUtils {
      * @param message     消息内容，为空则发送默认配置的消息内容
      */
     public static void sendMessage(List<Task> list, String name, List<String> messageType, String message) {
+        RemoteUserService remoteUserService = SpringUtils.getBean(RemoteUserService.class);
         Set<Long> userIds = new HashSet<>();
         if (StringUtils.isBlank(message)) {
             message = "有新的【" + name + "】单据已经提交至您的待办，请您及时处理。";
@@ -244,7 +244,7 @@ public class WorkflowUtils {
         for (Task t : list) {
             ParticipantVo taskParticipant = WorkflowUtils.getCurrentTaskParticipant(t.getId());
             if (CollUtil.isNotEmpty(taskParticipant.getGroupIds())) {
-                List<Long> userIdList = USER_SERVICE.selectUserIdsByRoleIds(taskParticipant.getGroupIds());
+                List<Long> userIdList = remoteUserService.selectUserIdsByRoleIds(taskParticipant.getGroupIds());
                 if (CollUtil.isNotEmpty(userIdList)) {
                     userIds.addAll(userIdList);
                 }
@@ -255,7 +255,7 @@ public class WorkflowUtils {
             }
         }
         if (CollUtil.isNotEmpty(userIds)) {
-            List<RemoteUserVo> userList = USER_SERVICE.selectListByIds(new ArrayList<>(userIds));
+            List<RemoteUserVo> userList = remoteUserService.selectListByIds(new ArrayList<>(userIds));
             for (String code : messageType) {
                 MessageTypeEnum messageTypeEnum = MessageTypeEnum.getByCode(code);
                 if (ObjectUtil.isNotEmpty(messageTypeEnum)) {

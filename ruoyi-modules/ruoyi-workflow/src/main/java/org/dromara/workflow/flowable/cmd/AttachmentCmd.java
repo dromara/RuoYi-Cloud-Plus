@@ -38,7 +38,8 @@ public class AttachmentCmd implements Command<Boolean> {
     public Boolean execute(CommandContext commandContext) {
         try {
             if (StringUtils.isNotBlank(fileId)) {
-                List<RemoteFile> ossList = SpringUtils.getBean(RemoteFileService.class).selectByIds(fileId);
+                RemoteFileService remoteFileService = SpringUtils.getBean(RemoteFileService.class);
+                List<RemoteFile> ossList = remoteFileService.selectByIds(fileId);
                 if (CollUtil.isNotEmpty(ossList)) {
                     for (RemoteFile oss : ossList) {
                         AttachmentEntityManager attachmentEntityManager = CommandContextUtil.getAttachmentEntityManager();

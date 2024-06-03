@@ -15,7 +15,7 @@ import org.dromara.common.mybatis.core.page.TableDataInfo;
 import org.dromara.workflow.api.domain.RemoteWorkflowService;
 import org.dromara.workflow.api.domain.event.ProcessEvent;
 import org.dromara.workflow.api.domain.event.ProcessTaskEvent;
-import org.dromara.workflow.common.enums.BusinessStatusEnum;
+import org.dromara.common.core.enums.BusinessStatusEnum;
 import org.dromara.workflow.domain.TestLeave;
 import org.dromara.workflow.domain.bo.TestLeaveBo;
 import org.dromara.workflow.domain.vo.TestLeaveVo;
