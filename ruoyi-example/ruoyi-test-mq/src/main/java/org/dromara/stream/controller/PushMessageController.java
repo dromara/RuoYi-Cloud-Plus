@@ -1,12 +1,8 @@
 package org.dromara.stream.controller;
 
-import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
-import org.dromara.stream.mq.producer.kafkaMq.KafkaNormalProducer;
-import org.dromara.stream.mq.producer.rabbitMq.DelayRabbitProducer;
-import org.dromara.stream.mq.producer.rabbitMq.NormalRabbitProducer;
-import org.dromara.stream.mq.producer.rocketMq.NormalRocketProducer;
-import org.dromara.stream.mq.producer.rocketMq.TransactionRocketProducer;
+import org.dromara.stream.producer.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,57 +12,58 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @Slf4j
 @RestController
-@RequestMapping("push/message")
+@RequestMapping
 public class PushMessageController {
 
-    @Resource
+    @Autowired
     private NormalRabbitProducer normalRabbitProducer;
-
-    @Resource
+    @Autowired
     private DelayRabbitProducer delayRabbitProducer;
-
-    @Resource
+    @Autowired
     private NormalRocketProducer normalRocketProducer;
-
-    @Resource
+    @Autowired
     private TransactionRocketProducer transactionRocketProducer;
-
-    @Resource
+    @Autowired
     private KafkaNormalProducer normalKafkaProducer;
 
     /**
-     * rabbit普通消息的处理
+     * rabbitmq 普通消息
      */
-    @GetMapping("/rabbitMsg/sendNormal")
-    public void sendMq() {
-        normalRabbitProducer.sendMq("hello normal RabbitMsg");
+    @GetMapping("/rabbit/send")
+    public void rabbitSend() {
+        normalRabbitProducer.send("hello normal RabbitMsg");
     }
 
     /**
-     * rabbit延迟队列类型：类似生产者
+     * rabbitmq 延迟队列消息
      */
-    @GetMapping("/rabbitMsg/sendDelay")
-    public void sendMessage() {
-        delayRabbitProducer.sendDelayMessage("Hello ttl RabbitMsg");
+    @GetMapping("/rabbit/sendDelay")
+    public void rabbitSendDelay(long delay) {
+        delayRabbitProducer.sendDelayMessage("Hello ttl RabbitMsg", delay);
     }
 
     /**
-     * rockerMQ实例
+     * rocketmq 发送消息
      * 需要手动创建相关的Topic和group
      */
-    @GetMapping("/rocketMq/send")
-    public void sendRockerMq(){
+    @GetMapping("/rocket/send")
+    public void rocketSend(){
         normalRocketProducer.sendMessage();
     }
-    @GetMapping("/rocketMq/transactionMsg")
-    public void sendRockerMqTransactionMsg(){
+
+    /**
+     * rocketmq 事务消息
+     */
+    @GetMapping("/rocket/transaction")
+    public void rocketTransaction(){
         transactionRocketProducer.sendTransactionMessage();
     }
+
     /**
-     * kafkaSpringboot集成
+     * kafka 发送消息
      */
-    @GetMapping("/kafkaMsg/send")
-    public void sendKafkaMsg(){
+    @GetMapping("/kafka/send")
+    public void kafkaSend(){
         normalKafkaProducer.sendKafkaMsg();
     }
 }

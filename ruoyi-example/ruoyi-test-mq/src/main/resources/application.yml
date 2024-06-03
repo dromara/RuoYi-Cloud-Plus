@@ -9,22 +9,31 @@ spring:
   profiles:
     # 环境配置
     active: @profiles.active@
-  #MQ配置
+
+--- # rabbitmq 配置
+spring:
   rabbitmq:
-    host: 192.168.1.13
+    host: localhost
     port: 5672
-    username: mq
-    password: mq
+    username: guest
+    password: guest
     publisher-returns: true
     publisher-confirm-type: correlated
+
+--- # kafka 配置
+spring:
   kafka:
-    bootstrap-servers: 192.168.1.13:9092
+    bootstrap-servers: localhost:9092
     producer:
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+
+--- # rocketmq 配置
 rocketmq:
-    name-server: 192.168.1.13:9876
+    name-server: localhost:9876
     producer:
-      group: dist-test # 生产者组
+      # 生产者组
+      group: dist-test
+
 --- # nacos 配置
 spring:
   cloud:

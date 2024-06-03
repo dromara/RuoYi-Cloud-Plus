@@ -73,10 +73,10 @@ spring:
           filters:
             - StripPrefix=1
         # MQ演示服务
-        - id: ruoyi-stream-mq
-          uri: lb://ruoyi-stream-mq
+        - id: ruoyi-test-mq
+          uri: lb://ruoyi-test-mq
           predicates:
-            - Path=/stream-mq/**
+            - Path=/test-mq/**
           filters:
             - StripPrefix=1
 

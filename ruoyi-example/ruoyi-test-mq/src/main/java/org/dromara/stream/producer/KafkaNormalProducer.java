@@ -1,7 +1,7 @@
-package org.dromara.stream.mq.producer.kafkaMq;
+package org.dromara.stream.producer;
 
-import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 
@@ -14,11 +14,12 @@ import java.util.concurrent.CompletableFuture;
 @Slf4j
 @Component
 public class KafkaNormalProducer {
-    @Resource
+
+    @Autowired
     private KafkaTemplate kafkaTemplate;
 
-    public void sendKafkaMsg(){
-        CompletableFuture send = kafkaTemplate.send("test-topic","hello", "kafkaTest");
+    public void sendKafkaMsg() {
+        CompletableFuture send = kafkaTemplate.send("test-topic", "hello", "kafkaTest");
         send.join();
     }
 }

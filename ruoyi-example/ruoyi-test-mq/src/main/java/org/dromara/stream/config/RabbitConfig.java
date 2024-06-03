@@ -16,6 +16,7 @@ public class RabbitConfig {
     public static final String EXCHANGE_NAME = "demo-exchange";
     public static final String QUEUE_NAME = "demo-queue";
     public static final String ROUTING_KEY = "demo.routing.key";
+
     /**
      * 创建交换机
      * ExchangeBuilder有四种交换机模式
@@ -29,6 +30,7 @@ public class RabbitConfig {
     public TopicExchange exchange() {
         return new TopicExchange(EXCHANGE_NAME);
     }
+
 	/**
 	 * 创建队列
 	 * durable 队列是否持久化 队列调用此方法就是持久化 可查看方法的源码
@@ -38,6 +40,7 @@ public class RabbitConfig {
     public Queue queue() {
         return new Queue(QUEUE_NAME, false);
     }
+
 	/**
 	* 绑定交换机和队列
 	* bing 方法参数可以是队列和交换机

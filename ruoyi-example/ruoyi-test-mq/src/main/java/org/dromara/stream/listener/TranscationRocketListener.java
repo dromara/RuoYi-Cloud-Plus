@@ -1,4 +1,4 @@
-package org.dromara.stream.mq.listener;
+package org.dromara.stream.listener;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.spring.annotation.RocketMQTransactionListener;
@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 @Component
 @RocketMQTransactionListener
 public class TranscationRocketListener implements RocketMQLocalTransactionListener {
+
     @Override
     public RocketMQLocalTransactionState executeLocalTransaction(Message message, Object o) {
         log.info("执行本地事务");
@@ -39,4 +40,5 @@ public class TranscationRocketListener implements RocketMQLocalTransactionListen
         log.info("【监听器】检查本地交易===>{}", message);
         return RocketMQLocalTransactionState.COMMIT;
     }
+
 }

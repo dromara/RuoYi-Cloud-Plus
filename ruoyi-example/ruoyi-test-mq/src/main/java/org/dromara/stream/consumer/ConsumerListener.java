@@ -1,4 +1,4 @@
-package org.dromara.stream.mq.consumer.rabbit;
+package org.dromara.stream.consumer;
 
 import lombok.extern.slf4j.Slf4j;
 import org.dromara.stream.config.RabbitConfig;
