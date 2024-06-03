@@ -67,4 +67,12 @@ public interface RemoteWorkflowService {
      */
     void setVariablesLocal(String taskId, Map<String, Object> variables);
 
+    /**
+     * 按照业务id查询流程实例id
+     *
+     * @param businessKey 业务id
+     * @return 结果
+     */
+    String getInstanceIdByBusinessKey(String businessKey);
+
 }

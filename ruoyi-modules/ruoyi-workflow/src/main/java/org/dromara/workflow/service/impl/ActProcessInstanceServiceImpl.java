@@ -33,7 +33,7 @@ import org.dromara.workflow.service.IWfNodeConfigService;
 import org.dromara.workflow.service.IWfTaskBackNodeService;
 import org.dromara.workflow.utils.QueryUtils;
 import org.dromara.workflow.utils.WorkflowUtils;
-import org.flowable.bpmn.model.BpmnModel;
+import org.flowable.bpmn.model.*;
 import org.flowable.engine.*;
 import org.flowable.engine.history.HistoricActivityInstance;
 import org.flowable.engine.history.HistoricProcessInstance;
@@ -280,7 +280,7 @@ public class ActProcessInstanceServiceImpl implements IActProcessInstanceService
             }
         }
         map.put("taskList", taskList);
-        List<ActHistoryInfoVo> historyTaskList = getHistoryTaskList(processInstanceId);
+        List<ActHistoryInfoVo> historyTaskList = getHistoryTaskList(processInstanceId, processInstance.getProcessDefinitionVersion());
         map.put("historyList", historyTaskList);
         InputStream inputStream = repositoryService.getResourceAsStream(processDefinition.getDeploymentId(), processDefinition.getResourceName());
         xml.append(IoUtil.read(inputStream, StandardCharsets.UTF_8));
@@ -292,8 +292,9 @@ public class ActProcessInstanceServiceImpl implements IActProcessInstanceService
      * 获取历史任务节点信息
      *
      * @param processInstanceId 流程实例id
+     * @param version           版本
      */
-    private List<ActHistoryInfoVo> getHistoryTaskList(String processInstanceId) {
+    private List<ActHistoryInfoVo> getHistoryTaskList(String processInstanceId, Integer version) {
         //查询任务办理记录
         List<HistoricTaskInstance> list = QueryUtils.hisTaskInstanceQuery(processInstanceId).orderByHistoricTaskInstanceEndTime().desc().list();
         list = StreamUtils.sorted(list, Comparator.comparing(HistoricTaskInstance::getEndTime, Comparator.nullsFirst(Date::compareTo)).reversed());
@@ -305,27 +306,48 @@ public class ActProcessInstanceServiceImpl implements IActProcessInstanceService
             if (ObjectUtil.isNotEmpty(historicTaskInstance.getDurationInMillis())) {
                 actHistoryInfoVo.setRunDuration(getDuration(historicTaskInstance.getDurationInMillis()));
             }
+            actHistoryInfoVo.setVersion(version);
             actHistoryInfoVoList.add(actHistoryInfoVo);
         }
         List<ActHistoryInfoVo> historyInfoVoList = new ArrayList<>();
         Map<String, List<ActHistoryInfoVo>> groupByKey = StreamUtils.groupByKey(actHistoryInfoVoList, ActHistoryInfoVo::getTaskDefinitionKey);
         for (Map.Entry<String, List<ActHistoryInfoVo>> entry : groupByKey.entrySet()) {
             ActHistoryInfoVo historyInfoVo = new ActHistoryInfoVo();
-            BeanUtils.copyProperties(entry.getValue().get(0), historyInfoVo);
-            actHistoryInfoVoList.stream().filter(e -> e.getTaskDefinitionKey().equals(entry.getKey()) && e.getEndTime() == null).findFirst()
-                .ifPresent(e -> {
-                    historyInfoVo.setStatus("待处理");
-                    historyInfoVo.setStartTime(e.getStartTime());
-                    historyInfoVo.setEndTime(null);
-                    historyInfoVo.setRunDuration(null);
-                    if (ObjectUtil.isEmpty(e.getAssignee())) {
-                        ParticipantVo participantVo = WorkflowUtils.getCurrentTaskParticipant(e.getId());
+            if (entry.getValue().size() > 1) {
+                List<ActHistoryInfoVo> historyInfoVos = StreamUtils.filter(entry.getValue(), e -> StringUtils.isNotBlank(e.getAssignee()));
+                if (CollUtil.isNotEmpty(historyInfoVos)) {
+                    ActHistoryInfoVo infoVo = historyInfoVos.get(0);
+                    BeanUtils.copyProperties(infoVo, historyInfoVo);
+                    historyInfoVo.setStatus(infoVo.getEndTime() == null ? "待处理" : "已处理");
+                    historyInfoVo.setStartTime(infoVo.getStartTime());
+                    historyInfoVo.setEndTime(infoVo.getEndTime() == null ? null : infoVo.getEndTime());
+                    historyInfoVo.setRunDuration(infoVo.getEndTime() == null ? null : infoVo.getRunDuration());
+                    if (ObjectUtil.isEmpty(infoVo.getAssignee())) {
+                        ParticipantVo participantVo = WorkflowUtils.getCurrentTaskParticipant(infoVo.getId());
                         if (ObjectUtil.isNotEmpty(participantVo) && CollUtil.isNotEmpty(participantVo.getCandidate())) {
                             historyInfoVo.setAssignee(StreamUtils.join(participantVo.getCandidate(), Convert::toStr));
                         }
                     }
-                });
+                }
+            } else {
+                actHistoryInfoVoList.stream().filter(e -> e.getTaskDefinitionKey().equals(entry.getKey())).findFirst()
+                    .ifPresent(e -> {
+                        BeanUtils.copyProperties(e, historyInfoVo);
+                        historyInfoVo.setStatus(e.getEndTime() == null ? "待处理" : "已处理");
+                        historyInfoVo.setStartTime(e.getStartTime());
+                        historyInfoVo.setEndTime(e.getEndTime() == null ? null : e.getEndTime());
+                        historyInfoVo.setRunDuration(e.getEndTime() == null ? null : e.getRunDuration());
+                        if (ObjectUtil.isEmpty(e.getAssignee())) {
+                            ParticipantVo participantVo = WorkflowUtils.getCurrentTaskParticipant(e.getId());
+                            if (ObjectUtil.isNotEmpty(participantVo) && CollUtil.isNotEmpty(participantVo.getCandidate())) {
+                                historyInfoVo.setAssignee(StreamUtils.join(participantVo.getCandidate(), Convert::toStr));
+                            }
+                        }
+                    });
+
+            }
             historyInfoVoList.add(historyInfoVo);
+
         }
         return historyInfoVoList;
     }

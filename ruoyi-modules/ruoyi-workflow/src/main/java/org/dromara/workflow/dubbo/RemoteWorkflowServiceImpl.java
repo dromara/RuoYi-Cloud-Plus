@@ -56,4 +56,15 @@ public class RemoteWorkflowServiceImpl implements RemoteWorkflowService {
     public void setVariablesLocal(String taskId, Map<String, Object> variables) {
         workflowService.setVariablesLocal(taskId, variables);
     }
+
+    /**
+     * 按照业务id查询流程实例id
+     *
+     * @param businessKey 业务id
+     * @return 结果
+     */
+    @Override
+    public String getInstanceIdByBusinessKey(String businessKey) {
+        return workflowService.getInstanceIdByBusinessKey(businessKey);
+    }
 }
