@@ -1,0 +1,44 @@
+server:
+  port: 9402
+
+# Spring
+spring:
+  application:
+    # 应用名称
+    name: ruoyi-test-mq
+  profiles:
+    # 环境配置
+    active: @profiles.active@
+  #MQ配置
+  rabbitmq:
+    host: 192.168.1.13
+    port: 5672
+    username: mq
+    password: mq
+    publisher-returns: true
+    publisher-confirm-type: correlated
+  kafka:
+    bootstrap-servers: 192.168.1.13:9092
+    producer:
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+rocketmq:
+    name-server: 192.168.1.13:9876
+    producer:
+      group: dist-test # 生产者组
+--- # nacos 配置
+spring:
+  cloud:
+    nacos:
+      # nacos 服务地址
+      server-addr: @nacos.server@
+      discovery:
+        # 注册组
+        group: @nacos.discovery.group@
+        namespace: ${spring.profiles.active}
+      config:
+        # 配置组
+        group: @nacos.config.group@
+        namespace: ${spring.profiles.active}
+  config:
+    import:
+      - optional:nacos:application-common.yml

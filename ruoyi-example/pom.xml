@@ -10,7 +10,7 @@
 
     <modules>
         <module>ruoyi-demo</module>
-        <module>ruoyi-stream-mq</module>
+        <module>ruoyi-test-mq</module>
     </modules>
 
     <artifactId>ruoyi-example</artifactId>
