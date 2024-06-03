@@ -1,7 +1,6 @@
 package org.dromara.system.dubbo;
 
 import cn.hutool.core.bean.BeanUtil;
-import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import lombok.RequiredArgsConstructor;
@@ -11,8 +10,6 @@ import org.dromara.common.core.exception.ServiceException;
 import org.dromara.common.core.exception.user.UserException;
 import org.dromara.common.core.utils.DateUtils;
 import org.dromara.common.core.utils.MapstructUtils;
-import org.dromara.common.core.utils.SpringUtils;
-import org.dromara.common.core.utils.StringUtils;
 import org.dromara.common.mybatis.helper.DataPermissionHelper;
 import org.dromara.common.tenant.helper.TenantHelper;
 import org.dromara.system.api.RemoteUserService;
@@ -30,7 +27,6 @@ import org.dromara.system.mapper.SysUserMapper;
 import org.dromara.system.service.*;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -182,14 +178,7 @@ public class RemoteUserServiceImpl implements RemoteUserService {
      */
     @Override
     public String selectNicknameByIds(String userIds) {
-        List<String> list = new ArrayList<>();
-        for (Long id : StringUtils.splitTo(userIds, Convert::toLong)) {
-            String nickname = SpringUtils.getAopProxy(this).selectNicknameById(id);
-            if (StringUtils.isNotBlank(nickname)) {
-                list.add(nickname);
-            }
-        }
-        return String.join(StringUtils.SEPARATOR, list);
+        return userService.selectNicknameByIds(userIds);
     }
 
     /**

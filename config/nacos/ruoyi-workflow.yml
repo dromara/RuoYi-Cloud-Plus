@@ -24,11 +24,12 @@ spring:
 #          username: ${datasource.system-postgres.username}
 #          password: ${datasource.system-postgres.password}
 
---- #flowable配置
+# flowable配置
 flowable:
-  async-executor-activate: false #关闭定时任务JOB
-  #  将databaseSchemaUpdate设置为true。当Flowable发现库与数据库表结构不一致时，会自动将数据库表结构升级至新版本。
-  database-schema-update: false
+  # 关闭定时任务JOB
+  async-executor-activate: false
+  # 将databaseSchemaUpdate设置为true。当Flowable发现库与数据库表结构不一致时，会自动将数据库表结构升级至新版本。
+  database-schema-update: true
   activity-font-name: 宋体
   label-font-name: 宋体
   annotation-font-name: 宋体

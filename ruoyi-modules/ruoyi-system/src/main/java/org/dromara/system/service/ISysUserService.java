@@ -229,6 +229,14 @@ public interface ISysUserService {
     String selectNicknameById(Long userId);
 
     /**
+     * 通过用户ID查询用户账户
+     *
+     * @param userIds 用户ID
+     * @return 用户账户
+     */
+    String selectNicknameByIds(String userIds);
+
+    /**
      * 通过用户ID查询用户手机号
      *
      * @param userId 用户id
@@ -259,4 +267,5 @@ public interface ISysUserService {
      * @return 用户ids
      */
     List<Long> selectUserIdsByRoleIds(List<Long> roleIds);
+
 }

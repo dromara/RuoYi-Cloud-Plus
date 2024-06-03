@@ -274,8 +274,8 @@ comment on column sys_user.remark       is '备注';
 -- 初始化-用户信息表数据
 -- ----------------------------
 insert into sys_user values(1, '000000', 103, 'admin', '疯狂的狮子Li', 'sys_user', 'crazyLionLi@163.com', '15888888888', '1', null, '$2a$10$7JB720yubVSZvUI0rEqK/.VqGOZTH.ulu33dHOiBE8ByOhJIrdAu2', '0', '0', '127.0.0.1', now(), 103, 1, now(), null, null, '管理员');
-insert into sys_user VALUES(3, '000000', 108, 'test', '本部门及以下 密码666666', 'sys_user', '', '', '0', null, '$2a$10$b8yUzN0C71sbz.PhNOCgJe.Tu1yWC3RNrTyjSQ8p1W0.aaUXUJ.Ne', '0', '0', '127.0.0.1', now(), 103, 1, now(), 3, now(), NULL);
-insert into sys_user VALUES(4, '000000', 102, 'test1', '仅本人 密码666666', 'sys_user', '', '', '0', null, '$2a$10$b8yUzN0C71sbz.PhNOCgJe.Tu1yWC3RNrTyjSQ8p1W0.aaUXUJ.Ne', '0', '0', '127.0.0.1', now(), 103, 1, now(), 4, now(), NULL);
+insert into sys_user values(3, '000000', 108, 'test', '本部门及以下 密码666666', 'sys_user', '', '', '0', null, '$2a$10$b8yUzN0C71sbz.PhNOCgJe.Tu1yWC3RNrTyjSQ8p1W0.aaUXUJ.Ne', '0', '0', '127.0.0.1', now(), 103, 1, now(), 3, now(), NULL);
+insert into sys_user values(4, '000000', 102, 'test1', '仅本人 密码666666', 'sys_user', '', '', '0', null, '$2a$10$b8yUzN0C71sbz.PhNOCgJe.Tu1yWC3RNrTyjSQ8p1W0.aaUXUJ.Ne', '0', '0', '127.0.0.1', now(), 103, 1, now(), 4, now(), NULL);
 
 
 -- ----------------------------
@@ -433,7 +433,7 @@ insert into sys_menu values('6', '系统管理', '0', '2', 'tenant',           n
 insert into sys_menu values('2', '系统监控', '0', '3', 'monitor',          null, '', '1', '0', 'M', '0', '0', '', 'monitor',  103, 1, now(), null, null, '系统监控目录');
 insert into sys_menu values('3', '系统工具', '0', '4', 'tool',             null, '', '1', '0', 'M', '0', '0', '', 'tool',     103, 1, now(), null, null, '系统工具目录');
 insert into sys_menu values('4', 'PLUS官网', '0', '5', 'https://gitee.com/dromara/RuoYi-Cloud-Plus', null, '', '0', '0', 'M', '0', '0', '', 'guide',    103, 1, now(), null, null, 'RuoYi-Cloud-Plus官网地址');
-insert into sys_menu VALUES('5', '测试菜单', '0', '5', 'demo',             null, '', '1', '0', 'M', '0', '0', null, 'star',       103, 1, now(), null, null, '测试菜单');
+insert into sys_menu values('5', '测试菜单', '0', '5', 'demo',             null, '', '1', '0', 'M', '0', '0', null, 'star',       103, 1, now(), null, null, '测试菜单');
 -- 二级菜单
 insert into sys_menu values('100',  '用户管理',     '1',   '1', 'user',             'system/user/index',            '', '1', '0', 'C', '0', '0', 'system:user:list',            'user',          103, 1, now(), null, null, '用户管理菜单');
 insert into sys_menu values('101',  '角色管理',     '1',   '2', 'role',             'system/role/index',            '', '1', '0', 'C', '0', '0', 'system:role:list',            'peoples',       103, 1, now(), null, null, '角色管理菜单');
@@ -554,19 +554,51 @@ insert into sys_menu values('1063', '客户端管理修改', '123', '3',  '#', '
 insert into sys_menu values('1064', '客户端管理删除', '123', '4',  '#', '', '', '1', '0', 'F', '0', '0', 'system:client:remove',       '#', 103, 1, now(), null, null, '');
 insert into sys_menu values('1065', '客户端管理导出', '123', '5',  '#', '', '', '1', '0', 'F', '0', '0', 'system:client:export',       '#', 103, 1, now(), null, null, '');
 -- 测试菜单
-INSERT INTO sys_menu VALUES('1500', '测试单表',     '5',   '1', 'demo', 'demo/demo/index', '',  '1', '0', 'C', '0', '0', 'demo:demo:list', '#', 103, 1, now(), NULL, NULL, '测试单表菜单');
-INSERT INTO sys_menu VALUES('1501', '测试单表查询', '1500', '1', '#', '', '',  '1', '0', 'F', '0', '0', 'demo:demo:query',                  '#', 103, 1, now(), NULL, NULL, '');
-INSERT INTO sys_menu VALUES('1502', '测试单表新增', '1500', '2', '#', '', '',  '1', '0', 'F', '0', '0', 'demo:demo:add',                    '#', 103, 1, now(), NULL, NULL, '');
-INSERT INTO sys_menu VALUES('1503', '测试单表修改', '1500', '3', '#', '', '',  '1', '0', 'F', '0', '0', 'demo:demo:edit',                   '#', 103, 1, now(), NULL, NULL, '');
-INSERT INTO sys_menu VALUES('1504', '测试单表删除', '1500', '4', '#', '', '',  '1', '0', 'F', '0', '0', 'demo:demo:remove',                 '#', 103, 1, now(), NULL, NULL, '');
-INSERT INTO sys_menu VALUES('1505', '测试单表导出', '1500', '5', '#', '', '',  '1', '0', 'F', '0', '0', 'demo:demo:export',                 '#', 103, 1, now(), NULL, NULL, '');
-INSERT INTO sys_menu VALUES('1506', '测试树表',     '5',   '1', 'tree', 'demo/tree/index', '',  '1', '0', 'C', '0', '0', 'demo:tree:list', '#', 103, 1, now(), NULL, NULL, '测试树表菜单');
-INSERT INTO sys_menu VALUES('1507', '测试树表查询', '1506', '1', '#', '', '',  '1', '0', 'F', '0', '0', 'demo:tree:query',                  '#', 103, 1, now(), NULL, NULL, '');
-INSERT INTO sys_menu VALUES('1508', '测试树表新增', '1506', '2', '#', '', '',  '1', '0', 'F', '0', '0', 'demo:tree:add',                    '#', 103, 1, now(), NULL, NULL, '');
-INSERT INTO sys_menu VALUES('1509', '测试树表修改', '1506', '3', '#', '', '',  '1', '0', 'F', '0', '0', 'demo:tree:edit',                   '#', 103, 1, now(), NULL, NULL, '');
-INSERT INTO sys_menu VALUES('1510', '测试树表删除', '1506', '4', '#', '', '',  '1', '0', 'F', '0', '0', 'demo:tree:remove',                 '#', 103, 1, now(), NULL, NULL, '');
-INSERT INTO sys_menu VALUES('1511', '测试树表导出', '1506', '5', '#', '', '',  '1', '0', 'F', '0', '0', 'demo:tree:export',                 '#', 103, 1, now(), NULL, NULL, '');
-
+insert into sys_menu values('1500', '测试单表',     '5',   '1', 'demo', 'demo/demo/index', '',  '1', '0', 'C', '0', '0', 'demo:demo:list', '#', 103, 1, now(), NULL, NULL, '测试单表菜单');
+insert into sys_menu values('1501', '测试单表查询', '1500', '1', '#', '', '',  '1', '0', 'F', '0', '0', 'demo:demo:query',                  '#', 103, 1, now(), NULL, NULL, '');
+insert into sys_menu values('1502', '测试单表新增', '1500', '2', '#', '', '',  '1', '0', 'F', '0', '0', 'demo:demo:add',                    '#', 103, 1, now(), NULL, NULL, '');
+insert into sys_menu values('1503', '测试单表修改', '1500', '3', '#', '', '',  '1', '0', 'F', '0', '0', 'demo:demo:edit',                   '#', 103, 1, now(), NULL, NULL, '');
+insert into sys_menu values('1504', '测试单表删除', '1500', '4', '#', '', '',  '1', '0', 'F', '0', '0', 'demo:demo:remove',                 '#', 103, 1, now(), NULL, NULL, '');
+insert into sys_menu values('1505', '测试单表导出', '1500', '5', '#', '', '',  '1', '0', 'F', '0', '0', 'demo:demo:export',                 '#', 103, 1, now(), NULL, NULL, '');
+insert into sys_menu values('1506', '测试树表',     '5',   '1', 'tree', 'demo/tree/index', '',  '1', '0', 'C', '0', '0', 'demo:tree:list', '#', 103, 1, now(), NULL, NULL, '测试树表菜单');
+insert into sys_menu values('1507', '测试树表查询', '1506', '1', '#', '', '',  '1', '0', 'F', '0', '0', 'demo:tree:query',                  '#', 103, 1, now(), NULL, NULL, '');
+insert into sys_menu values('1508', '测试树表新增', '1506', '2', '#', '', '',  '1', '0', 'F', '0', '0', 'demo:tree:add',                    '#', 103, 1, now(), NULL, NULL, '');
+insert into sys_menu values('1509', '测试树表修改', '1506', '3', '#', '', '',  '1', '0', 'F', '0', '0', 'demo:tree:edit',                   '#', 103, 1, now(), NULL, NULL, '');
+insert into sys_menu values('1510', '测试树表删除', '1506', '4', '#', '', '',  '1', '0', 'F', '0', '0', 'demo:tree:remove',                 '#', 103, 1, now(), NULL, NULL, '');
+insert into sys_menu values('1511', '测试树表导出', '1506', '5', '#', '', '',  '1', '0', 'F', '0', '0', 'demo:tree:export',                 '#', 103, 1, now(), NULL, NULL, '');
+-- 工作流相关
+insert into sys_menu values('11616', '工作流'  , '0',     '6', 'workflow',          '',                                 '', '1', '0', 'M', '0', '0', '',                       'workflow', 103, 1, now(), NULL, NULL, '');
+insert into sys_menu values('11617', '模型管理', '11616', '2', 'model',             'workflow/model/index',             '', '1', '1', 'C', '0', '0', 'workflow:model:list',    'model', 103, 1, now(), NULL, NULL, '');
+insert into sys_menu values('11618', '我的任务', '0',     '7', 'task',              '',                                 '', '1', '0', 'M', '0', '0', '',                       'my-task', 103, 1, now(), NULL, NULL, '');
+insert into sys_menu values('11619', '我的待办', '11618', '2', 'taskWaiting',       'workflow/task/taskWaiting',        '', '1', '1', 'C', '0', '0', '',                       'waiting', 103, 1, now(), NULL, NULL, '');
+insert into sys_menu values('11632', '我的已办', '11618', '3', 'taskFinish',       'workflow/task/taskFinish',          '', '1', '1', 'C', '0', '0', '',                       'finish', 103, 1, now(), NULL, NULL, '');
+insert into sys_menu values('11633', '我的抄送', '11618', '4', 'taskCopyList',       'workflow/task/taskCopyList',      '', '1', '1', 'C', '0', '0', '',                       'my-copy', 103, 1, now(), NULL, NULL, '');
+insert into sys_menu values('11620', '流程定义', '11616', '3', 'processDefinition', 'workflow/processDefinition/index', '', '1', '1', 'C', '0', '0', '',                       'process-definition', 103, 1, now(), NULL, NULL, '');
+insert into sys_menu values('11621', '流程实例', '11630', '1', 'processInstance',   'workflow/processInstance/index',   '', '1', '1', 'C', '0', '0', '',                       'tree-table', 103, 1, now(), NULL, NULL, '');
+insert into sys_menu values('11622', '流程分类', '11616', '1', 'category',          'workflow/category/index',          '', '1', '0', 'C', '0', '0', 'workflow:category:list', 'category', 103, 1, now(), NULL, NULL, '');
+insert into sys_menu values('11629', '我发起的', '11618', '1', 'myDocument',        'workflow/task/myDocument',         '', '1', '1', 'C', '0', '0', '',                       'guide', 103, 1, now(), NULL, NULL, '');
+insert into sys_menu values('11630', '流程监控', '11616', '4', 'monitor',           '',                                 '', '1', '0', 'M', '0', '0', '',                       'monitor', 103, 1, now(), NULL, NULL, '');
+insert into sys_menu values('11631', '待办任务', '11630', '2', 'allTaskWaiting',    'workflow/task/allTaskWaiting',     '', '1', '1', 'C', '0', '0', '',                       'waiting', 103, 1, now(), NULL, NULL, '');
+-- 流程分类管理相关按钮
+insert into sys_menu values('11623', '流程分类查询', '11622', '1', '#', '', '', 1, 0, 'F', '0', '0', 'workflow:category:query', '#', 103, 1, now(), null, null, '');
+insert into sys_menu values('11624', '流程分类新增', '11622', '2', '#', '', '', 1, 0, 'F', '0', '0', 'workflow:category:add',   '#', 103, 1, now(), null, null, '');
+insert into sys_menu values('11625', '流程分类修改', '11622', '3', '#', '', '', 1, 0, 'F', '0', '0', 'workflow:category:edit',  '#', 103, 1, now(), null, null, '');
+insert into sys_menu values('11626', '流程分类删除', '11622', '4', '#', '', '', 1, 0, 'F', '0', '0', 'workflow:category:remove','#', 103, 1, now(), null, null, '');
+insert into sys_menu values('11627', '流程分类导出', '11622', '5', '#', '', '', 1, 0, 'F', '0', '0', 'workflow:category:export','#', 103, 1, now(), null, null, '');
+insert into sys_menu values('11638', '请假申请',    '5',     '1', 'leave', 'workflow/leave/index', '', 1, 0, 'C', '0', '0', 'workflow:leave:list', '#', 103, 1, now(), NULL, NULL, '请假申请菜单');
+insert into sys_menu values('11639', '请假申请查询', '11638', '1,' '#', '', '', 1, 0, 'F', '0', '0', 'workflow:leave:query',    '#', 103, 1, now(), NULL, NULL, '');
+insert into sys_menu values('11640', '请假申请新增', '11638', '2', '#', '', '', 1, 0, 'F', '0', '0', 'workflow:leave:add',      '#', 103, 1, now(), NULL, NULL, '');
+insert into sys_menu values('11641', '请假申请修改', '11638', '3', '#', '', '', 1, 0, 'F', '0', '0', 'workflow:leave:edit',     '#', 103, 1, now(), NULL, NULL, '');
+insert into sys_menu values('11642', '请假申请删除', '11638', '4', '#', '', '', 1, 0, 'F', '0', '0', 'workflow:leave:remove',   '#', 103, 1, now(), NULL, NULL, '');
+insert into sys_menu values('11643', '请假申请导出', '11638', '5', '#', '', '', 1, 0, 'F', '0', '0', 'workflow:leave:export',   '#', 103, 1, now(), NULL, NULL, '');
+-- 表单管理 SQL
+insert into sys_menu values('11628', '表单管理', '11616', '5', 'formManage', 'workflow/formManage/index', '', 1, 0, 'C', '0', '0', 'workflow:formManage:list', 'tree-table', 103, 1, now(), null, null, '表单管理菜单');
+-- 表单管理按钮 SQL
+insert into sys_menu values('11644', '表单管理查询', '11628', '1',  '#', '', '', 1, 0, 'F', '0', '0', 'workflow:formManage:query',        '', 103, 1, now(), null, null, '');
+insert into sys_menu values('11645', '表单管理新增', '11628', '2',  '#', '', '', 1, 0, 'F', '0', '0', 'workflow:formManage:add',          '', 103, 1, now(), null, null, '');
+insert into sys_menu values('11646', '表单管理修改', '11628', '3',  '#', '', '', 1, 0, 'F', '0', '0', 'workflow:formManage:edit',         '', 103, 1, now(), null, null, '');
+insert into sys_menu values('11647', '表单管理删除', '11628', '4',  '#', '', '', 1, 0, 'F', '0', '0', 'workflow:formManage:remove',       '', 103, 1, now(), null, null, '');
+insert into sys_menu values('11648', '表单管理导出', '11628', '5',  '#', '', '', 1, 0, 'F', '0', '0', 'workflow:formManage:export',       'tree-table', 103, 1, now(), null, null, '');
 
 -- ----------------------------
 -- 6、用户和角色关联表  用户N-1角色
@@ -817,6 +849,8 @@ insert into sys_dict_type values(9, '000000', '操作类型', 'sys_oper_type',  
 insert into sys_dict_type values(10, '000000', '系统状态', 'sys_common_status',  103, 1, now(), null, null, '登录状态列表');
 insert into sys_dict_type values(11, '000000', '授权类型', 'sys_grant_type',     103, 1, now(), null, null, '认证授权类型');
 insert into sys_dict_type values(12, '000000', '设备类型', 'sys_device_type',    103, 1, now(), null, null, '客户端设备类型');
+insert into sys_dict_type values(13, '000000', '业务状态', 'wf_business_status', 103, 1, now(), NULL, NULL, '业务状态列表');
+insert into sys_dict_type values(14, '000000', '表单类型', 'wf_form_type',       103, 1, now(), NULL, NULL, '表单类型列表');
 
 
 -- ----------------------------
@@ -893,6 +927,15 @@ insert into sys_dict_data values(35, '000000', 0,  'PC', 'pc',              'sys
 insert into sys_dict_data values(36, '000000', 0,  '安卓', 'android',       'sys_device_type',   '',   'default', 'N', 103, 1, now(), null, null, '安卓');
 insert into sys_dict_data values(37, '000000', 0,  'iOS', 'ios',            'sys_device_type',   '',   'default', 'N', 103, 1, now(), null, null, 'iOS');
 insert into sys_dict_data values(38, '000000', 0,  '小程序', 'xcx',         'sys_device_type',   '',   'default', 'N', 103, 1, now(), null, null, '小程序');
+insert into sys_dict_data values(39, '000000', 1, '已撤销', 'cancel', 'wf_business_status', '', 'danger', 'N', 103, 1, now(), NULL, NULL, '已撤销');
+insert into sys_dict_data values(40, '000000', 2, '草稿', 'draft', 'wf_business_status', '', 'info', 'N', 103, 1, now(), NULL, NULL, '草稿');
+insert into sys_dict_data values(41, '000000', 3, '待审核', 'waiting', 'wf_business_status', '', 'primary', 'N', 103, 1,now(), NULL, NULL, '待审核');
+insert into sys_dict_data values(42, '000000', 4, '已完成', 'finish', 'wf_business_status', '', 'success', 'N', 103, 1, now(), NULL, NULL, '已完成');
+insert into sys_dict_data values(43, '000000', 5, '已作废', 'invalid', 'wf_business_status', '', 'danger', 'N', 103, 1, now(), NULL, NULL, '已作废');
+insert into sys_dict_data values(44, '000000', 6, '已退回', 'back', 'wf_business_status', '', 'danger', 'N', 103, 1, now(), NULL, NULL, '已退回');
+insert into sys_dict_data values(45, '000000', 7, '已终止', 'termination', 'wf_business_status', '', 'danger', 'N', 103, 1,now(), NULL, NULL, '已终止');
+insert into sys_dict_data values(46, '000000', 1, '自定义表单', 'static', 'wf_form_type', '', 'success', 'N', 103, 1, now(), NULL, NULL, '自定义表单');
+insert into sys_dict_data values(47, '000000', 2, '动态表单', 'dynamic', 'wf_form_type', '', 'primary', 'N', 103, 1, now(), NULL, NULL, '动态表单');
 
 
 -- ----------------------------
@@ -1323,33 +1366,33 @@ comment on column test_tree.update_time is '更新时间';
 comment on column test_tree.update_by is '更新人';
 comment on column test_tree.del_flag is '删除标志';
 
-INSERT INTO test_demo VALUES (1, '000000', 102, 4, 1, '测试数据权限', '测试', 0, 103, now(), 1, NULL, NULL, 0);
-INSERT INTO test_demo VALUES (2, '000000', 102, 3, 2, '子节点1', '111', 0, 103, now(), 1, NULL, NULL, 0);
-INSERT INTO test_demo VALUES (3, '000000', 102, 3, 3, '子节点2', '222', 0, 103, now(), 1, NULL, NULL, 0);
-INSERT INTO test_demo VALUES (4, '000000', 108, 4, 4, '测试数据', 'demo', 0, 103, now(), 1, NULL, NULL, 0);
-INSERT INTO test_demo VALUES (5, '000000', 108, 3, 13, '子节点11', '1111', 0, 103, now(), 1, NULL, NULL, 0);
-INSERT INTO test_demo VALUES (6, '000000', 108, 3, 12, '子节点22', '2222', 0, 103, now(), 1, NULL, NULL, 0);
-INSERT INTO test_demo VALUES (7, '000000', 108, 3, 11, '子节点33', '3333', 0, 103, now(), 1, NULL, NULL, 0);
-INSERT INTO test_demo VALUES (8, '000000', 108, 3, 10, '子节点44', '4444', 0, 103, now(), 1, NULL, NULL, 0);
-INSERT INTO test_demo VALUES (9, '000000', 108, 3, 9, '子节点55', '5555', 0, 103, now(), 1, NULL, NULL, 0);
-INSERT INTO test_demo VALUES (10, '000000', 108, 3, 8, '子节点66', '6666', 0, 103, now(), 1, NULL, NULL, 0);
-INSERT INTO test_demo VALUES (11, '000000', 108, 3, 7, '子节点77', '7777', 0, 103, now(), 1, NULL, NULL, 0);
-INSERT INTO test_demo VALUES (12, '000000', 108, 3, 6, '子节点88', '8888', 0, 103, now(), 1, NULL, NULL, 0);
-INSERT INTO test_demo VALUES (13, '000000', 108, 3, 5, '子节点99', '9999', 0, 103, now(), 1, NULL, NULL, 0);
+insert into test_demo values (1, '000000', 102, 4, 1, '测试数据权限', '测试', 0, 103, now(), 1, NULL, NULL, 0);
+insert into test_demo values (2, '000000', 102, 3, 2, '子节点1', '111', 0, 103, now(), 1, NULL, NULL, 0);
+insert into test_demo values (3, '000000', 102, 3, 3, '子节点2', '222', 0, 103, now(), 1, NULL, NULL, 0);
+insert into test_demo values (4, '000000', 108, 4, 4, '测试数据', 'demo', 0, 103, now(), 1, NULL, NULL, 0);
+insert into test_demo values (5, '000000', 108, 3, 13, '子节点11', '1111', 0, 103, now(), 1, NULL, NULL, 0);
+insert into test_demo values (6, '000000', 108, 3, 12, '子节点22', '2222', 0, 103, now(), 1, NULL, NULL, 0);
+insert into test_demo values (7, '000000', 108, 3, 11, '子节点33', '3333', 0, 103, now(), 1, NULL, NULL, 0);
+insert into test_demo values (8, '000000', 108, 3, 10, '子节点44', '4444', 0, 103, now(), 1, NULL, NULL, 0);
+insert into test_demo values (9, '000000', 108, 3, 9, '子节点55', '5555', 0, 103, now(), 1, NULL, NULL, 0);
+insert into test_demo values (10, '000000', 108, 3, 8, '子节点66', '6666', 0, 103, now(), 1, NULL, NULL, 0);
+insert into test_demo values (11, '000000', 108, 3, 7, '子节点77', '7777', 0, 103, now(), 1, NULL, NULL, 0);
+insert into test_demo values (12, '000000', 108, 3, 6, '子节点88', '8888', 0, 103, now(), 1, NULL, NULL, 0);
+insert into test_demo values (13, '000000', 108, 3, 5, '子节点99', '9999', 0, 103, now(), 1, NULL, NULL, 0);
 
-INSERT INTO test_tree VALUES (1, '000000', 0, 102, 4, '测试数据权限', 0, 103, now(), 1, NULL, NULL, 0);
-INSERT INTO test_tree VALUES (2, '000000', 1, 102, 3, '子节点1', 0, 103, now(), 1, NULL, NULL, 0);
-INSERT INTO test_tree VALUES (3, '000000', 2, 102, 3, '子节点2', 0, 103, now(), 1, NULL, NULL, 0);
-INSERT INTO test_tree VALUES (4, '000000', 0, 108, 4, '测试树1', 0, 103, now(), 1, NULL, NULL, 0);
-INSERT INTO test_tree VALUES (5, '000000', 4, 108, 3, '子节点11', 0, 103, now(), 1, NULL, NULL, 0);
-INSERT INTO test_tree VALUES (6, '000000', 4, 108, 3, '子节点22', 0, 103, now(), 1, NULL, NULL, 0);
-INSERT INTO test_tree VALUES (7, '000000', 4, 108, 3, '子节点33', 0, 103, now(), 1, NULL, NULL, 0);
-INSERT INTO test_tree VALUES (8, '000000', 5, 108, 3, '子节点44', 0, 103, now(), 1, NULL, NULL, 0);
-INSERT INTO test_tree VALUES (9, '000000', 6, 108, 3, '子节点55', 0, 103, now(), 1, NULL, NULL, 0);
-INSERT INTO test_tree VALUES (10, '000000', 7, 108, 3, '子节点66', 0, 103, now(), 1, NULL, NULL, 0);
-INSERT INTO test_tree VALUES (11, '000000', 7, 108, 3, '子节点77', 0, 103, now(), 1, NULL, NULL, 0);
-INSERT INTO test_tree VALUES (12, '000000', 10, 108, 3, '子节点88', 0, 103, now(), 1, NULL, NULL, 0);
-INSERT INTO test_tree VALUES (13, '000000', 10, 108, 3, '子节点99', 0, 103, now(), 1, NULL, NULL, 0);
+insert into test_tree values (1, '000000', 0, 102, 4, '测试数据权限', 0, 103, now(), 1, NULL, NULL, 0);
+insert into test_tree values (2, '000000', 1, 102, 3, '子节点1', 0, 103, now(), 1, NULL, NULL, 0);
+insert into test_tree values (3, '000000', 2, 102, 3, '子节点2', 0, 103, now(), 1, NULL, NULL, 0);
+insert into test_tree values (4, '000000', 0, 108, 4, '测试树1', 0, 103, now(), 1, NULL, NULL, 0);
+insert into test_tree values (5, '000000', 4, 108, 3, '子节点11', 0, 103, now(), 1, NULL, NULL, 0);
+insert into test_tree values (6, '000000', 4, 108, 3, '子节点22', 0, 103, now(), 1, NULL, NULL, 0);
+insert into test_tree values (7, '000000', 4, 108, 3, '子节点33', 0, 103, now(), 1, NULL, NULL, 0);
+insert into test_tree values (8, '000000', 5, 108, 3, '子节点44', 0, 103, now(), 1, NULL, NULL, 0);
+insert into test_tree values (9, '000000', 6, 108, 3, '子节点55', 0, 103, now(), 1, NULL, NULL, 0);
+insert into test_tree values (10, '000000', 7, 108, 3, '子节点66', 0, 103, now(), 1, NULL, NULL, 0);
+insert into test_tree values (11, '000000', 7, 108, 3, '子节点77', 0, 103, now(), 1, NULL, NULL, 0);
+insert into test_tree values (12, '000000', 10, 108, 3, '子节点88', 0, 103, now(), 1, NULL, NULL, 0);
+insert into test_tree values (13, '000000', 10, 108, 3, '子节点99', 0, 103, now(), 1, NULL, NULL, 0);
 
 
 -- 字符串自动转时间 避免框架时间查询报错问题

@@ -131,6 +131,11 @@
 
         <dependency>
             <groupId>org.dromara</groupId>
+            <artifactId>ruoyi-common-seata</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.dromara</groupId>
             <artifactId>ruoyi-api-workflow</artifactId>
         </dependency>
     </dependencies>

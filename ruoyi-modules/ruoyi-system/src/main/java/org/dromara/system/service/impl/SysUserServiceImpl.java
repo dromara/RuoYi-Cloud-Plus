@@ -1,6 +1,7 @@
 package org.dromara.system.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
@@ -15,6 +16,7 @@ import org.dromara.common.core.constant.CacheNames;
 import org.dromara.common.core.constant.UserConstants;
 import org.dromara.common.core.exception.ServiceException;
 import org.dromara.common.core.utils.MapstructUtils;
+import org.dromara.common.core.utils.SpringUtils;
 import org.dromara.common.core.utils.StreamUtils;
 import org.dromara.common.core.utils.StringUtils;
 import org.dromara.common.mybatis.core.page.PageQuery;
@@ -37,6 +39,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -586,6 +589,18 @@ public class SysUserServiceImpl implements ISysUserService {
         SysUser sysUser = baseMapper.selectOne(new LambdaQueryWrapper<SysUser>()
             .select(SysUser::getNickName).eq(SysUser::getUserId, userId));
         return ObjectUtil.isNull(sysUser) ? null : sysUser.getNickName();
+    }
+
+    @Override
+    public String selectNicknameByIds(String userIds) {
+        List<String> list = new ArrayList<>();
+        for (Long id : StringUtils.splitTo(userIds, Convert::toLong)) {
+            String nickname = SpringUtils.getAopProxy(this).selectNicknameById(id);
+            if (StringUtils.isNotBlank(nickname)) {
+                list.add(nickname);
+            }
+        }
+        return String.join(StringUtils.SEPARATOR, list);
     }
 
     /**
