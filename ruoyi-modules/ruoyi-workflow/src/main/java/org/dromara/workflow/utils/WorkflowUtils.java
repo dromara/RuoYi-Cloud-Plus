@@ -1,6 +1,5 @@
 package org.dromara.workflow.utils;
 
-import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
@@ -10,21 +9,17 @@ import lombok.NoArgsConstructor;
 import org.dromara.common.core.utils.SpringUtils;
 import org.dromara.common.core.utils.StreamUtils;
 import org.dromara.common.core.utils.StringUtils;
-import org.dromara.common.core.utils.reflect.ReflectUtils;
 import org.dromara.common.mail.utils.MailUtils;
 import org.dromara.common.satoken.utils.LoginHelper;
 import org.dromara.common.tenant.helper.TenantHelper;
 import org.dromara.common.websocket.dto.WebSocketMessageDto;
 import org.dromara.common.websocket.utils.WebSocketUtils;
 import org.dromara.system.api.RemoteUserService;
-import org.dromara.system.api.domain.dto.UserDTO;
+import org.dromara.system.api.domain.vo.RemoteUserVo;
 import org.dromara.system.api.model.RoleDTO;
-import org.dromara.workflow.api.domain.dto.BusinessInstanceDTO;
 import org.dromara.workflow.common.constant.FlowConstant;
-import org.dromara.workflow.common.enums.BusinessStatusEnum;
 import org.dromara.workflow.common.enums.MessageTypeEnum;
 import org.dromara.workflow.common.enums.TaskStatusEnum;
-import org.dromara.workflow.domain.ActHiProcinst;
 import org.dromara.workflow.domain.ActHiTaskinst;
 import org.dromara.workflow.domain.vo.MultiInstanceVo;
 import org.dromara.workflow.domain.vo.ParticipantVo;
@@ -45,8 +40,6 @@ import org.flowable.task.api.history.HistoricTaskInstance;
 import org.flowable.task.service.impl.persistence.entity.TaskEntity;
 
 import java.util.*;
-
-import static org.dromara.workflow.common.constant.FlowConstant.BUSINESS_INSTANCE_DTO;
 
 /**
  * 工作流工具
@@ -146,10 +139,10 @@ public class WorkflowUtils {
                 List<Long> userIds = USER_SERVICE.selectUserIdsByRoleIds(groupIds);
                 if (CollUtil.isNotEmpty(userIds)) {
                     participantVo.setGroupIds(groupIds);
-                    List<UserDTO> userList = USER_SERVICE.selectListByIds(userIds);
+                    List<RemoteUserVo> userList = USER_SERVICE.selectListByIds(userIds);
                     if (CollUtil.isNotEmpty(userList)) {
-                        List<Long> userIdList = StreamUtils.toList(userList, UserDTO::getUserId);
-                        List<String> nickNames = StreamUtils.toList(userList, UserDTO::getNickName);
+                        List<Long> userIdList = StreamUtils.toList(userList, RemoteUserVo::getUserId);
+                        List<String> nickNames = StreamUtils.toList(userList, RemoteUserVo::getNickName);
                         participantVo.setCandidate(userIdList);
                         participantVo.setCandidateName(nickNames);
                         participantVo.setClaim(!StringUtils.isBlank(task.getAssignee()));
@@ -165,10 +158,10 @@ public class WorkflowUtils {
 
                     }
                 }
-                List<UserDTO> userList = USER_SERVICE.selectListByIds(userIdList);
+                List<RemoteUserVo> userList = USER_SERVICE.selectListByIds(userIdList);
                 if (CollUtil.isNotEmpty(userList)) {
-                    List<Long> userIds = StreamUtils.toList(userList, UserDTO::getUserId);
-                    List<String> nickNames = StreamUtils.toList(userList, UserDTO::getNickName);
+                    List<Long> userIds = StreamUtils.toList(userList, RemoteUserVo::getUserId);
+                    List<String> nickNames = StreamUtils.toList(userList, RemoteUserVo::getNickName);
                     participantVo.setCandidate(userIds);
                     participantVo.setCandidateName(nickNames);
                     // 判断当前任务是否具有多个办理人
@@ -236,67 +229,6 @@ public class WorkflowUtils {
     }
 
     /**
-     * 设置流程实例对象
-     *
-     * @param obj         业务对象
-     * @param businessKey 业务id
-     */
-    public static void setBusinessInstanceDTO(Object obj, String businessKey) {
-        if (StringUtils.isBlank(businessKey) || obj == null) {
-            return;
-        }
-        ActHiProcinst actHiProcinst = ACT_HI_PROCINST_SERVICE.selectByBusinessKey(businessKey);
-        if (actHiProcinst == null) {
-            BusinessInstanceDTO businessInstanceDTO = new BusinessInstanceDTO();
-            businessInstanceDTO.setBusinessStatus(BusinessStatusEnum.DRAFT.getStatus());
-            ReflectUtils.invokeSetter(obj, BUSINESS_INSTANCE_DTO, businessInstanceDTO);
-            return;
-        }
-        BusinessInstanceDTO businessInstanceDTO = BeanUtil.toBean(actHiProcinst, BusinessInstanceDTO.class);
-        businessInstanceDTO.setBusinessStatusName(BusinessStatusEnum.findByStatus(businessInstanceDTO.getBusinessStatus()));
-        businessInstanceDTO.setProcessDefinitionId(actHiProcinst.getProcDefId());
-        ReflectUtils.invokeSetter(obj, BUSINESS_INSTANCE_DTO, businessInstanceDTO);
-    }
-
-    /**
-     * 设置流程实例对象
-     *
-     * @param obj       业务对象
-     * @param idList    业务id
-     * @param fieldName 主键属性名称
-     */
-    public static void setBusinessInstanceListDTO(Object obj, List<String> idList, String fieldName) {
-        if (CollUtil.isEmpty(idList) || obj == null) {
-            return;
-        }
-        List<ActHiProcinst> actHiProcinstList = ACT_HI_PROCINST_SERVICE.selectByBusinessKeyIn(idList);
-        if (obj instanceof Collection<?> collection) {
-            for (Object o : collection) {
-                String fieldValue = ReflectUtils.invokeGetter(o, fieldName).toString();
-                if (CollUtil.isEmpty(actHiProcinstList)) {
-                    BusinessInstanceDTO businessInstanceDTO = new BusinessInstanceDTO();
-                    businessInstanceDTO.setBusinessStatus(BusinessStatusEnum.DRAFT.getStatus());
-                    businessInstanceDTO.setBusinessStatusName(BusinessStatusEnum.findByStatus(businessInstanceDTO.getBusinessStatus()));
-                    ReflectUtils.invokeSetter(o, BUSINESS_INSTANCE_DTO, businessInstanceDTO);
-                } else {
-                    ActHiProcinst actHiProcinst = actHiProcinstList.stream().filter(e -> e.getBusinessKey().equals(fieldValue)).findFirst().orElse(null);
-                    if (ObjectUtil.isNotEmpty(actHiProcinst)) {
-                        BusinessInstanceDTO businessInstanceDTO = BeanUtil.toBean(actHiProcinst, BusinessInstanceDTO.class);
-                        businessInstanceDTO.setBusinessStatusName(BusinessStatusEnum.findByStatus(businessInstanceDTO.getBusinessStatus()));
-                        businessInstanceDTO.setProcessDefinitionId(actHiProcinst.getProcDefId());
-                        ReflectUtils.invokeSetter(o, BUSINESS_INSTANCE_DTO, businessInstanceDTO);
-                    } else {
-                        BusinessInstanceDTO businessInstanceDTO = new BusinessInstanceDTO();
-                        businessInstanceDTO.setBusinessStatus(BusinessStatusEnum.DRAFT.getStatus());
-                        businessInstanceDTO.setBusinessStatusName(BusinessStatusEnum.findByStatus(businessInstanceDTO.getBusinessStatus()));
-                        ReflectUtils.invokeSetter(o, BUSINESS_INSTANCE_DTO, businessInstanceDTO);
-                    }
-                }
-            }
-        }
-    }
-
-    /**
      * 发送消息
      *
      * @param list        任务
@@ -323,7 +255,7 @@ public class WorkflowUtils {
             }
         }
         if (CollUtil.isNotEmpty(userIds)) {
-            List<UserDTO> userList = USER_SERVICE.selectListByIds(new ArrayList<>(userIds));
+            List<RemoteUserVo> userList = USER_SERVICE.selectListByIds(new ArrayList<>(userIds));
             for (String code : messageType) {
                 MessageTypeEnum messageTypeEnum = MessageTypeEnum.getByCode(code);
                 if (ObjectUtil.isNotEmpty(messageTypeEnum)) {
@@ -335,7 +267,7 @@ public class WorkflowUtils {
                             WebSocketUtils.publishMessage(dto);
                             break;
                         case EMAIL_MESSAGE:
-                            MailUtils.sendText(StreamUtils.join(userList, UserDTO::getEmail), "单据审批提醒", message);
+                            MailUtils.sendText(StreamUtils.join(userList, RemoteUserVo::getEmail), "单据审批提醒", message);
                             break;
                         case SMS_MESSAGE:
                             //todo 短信发送

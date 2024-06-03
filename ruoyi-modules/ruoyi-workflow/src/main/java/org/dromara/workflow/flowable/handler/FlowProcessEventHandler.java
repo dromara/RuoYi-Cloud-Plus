@@ -1,6 +1,5 @@
 package org.dromara.workflow.flowable.handler;
 
-import org.dromara.common.core.utils.ServletUtils;
 import org.dromara.common.core.utils.SpringUtils;
 import org.dromara.workflow.api.domain.event.ProcessEvent;
 import org.dromara.workflow.api.domain.event.ProcessTaskEvent;
@@ -29,7 +28,6 @@ public class FlowProcessEventHandler {
         processEvent.setBusinessKey(businessKey);
         processEvent.setStatus(status);
         processEvent.setSubmit(submit);
-        processEvent.setRequest(ServletUtils.getRequest());
         SpringUtils.context().publishEvent(processEvent);
     }
 
@@ -45,7 +43,6 @@ public class FlowProcessEventHandler {
         processTaskEvent.setKeyNode(keyNode);
         processTaskEvent.setTaskId(taskId);
         processTaskEvent.setBusinessKey(businessKey);
-        processTaskEvent.setRequest(ServletUtils.getRequest());
         SpringUtils.context().publishEvent(processTaskEvent);
     }
 }

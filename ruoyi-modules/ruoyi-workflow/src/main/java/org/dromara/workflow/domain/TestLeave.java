@@ -1,4 +1,4 @@
-package org.dromara.workflow.testleave.domain;
+package org.dromara.workflow.domain;
 
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;

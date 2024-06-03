@@ -1,26 +1,24 @@
 package org.dromara.resource.dubbo;
 
-import cn.hutool.core.bean.BeanUtil;
-import cn.hutool.core.bean.copier.CopyOptions;
 import cn.hutool.core.convert.Convert;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.dubbo.config.annotation.DubboService;
 import org.dromara.common.core.exception.ServiceException;
+import org.dromara.common.core.utils.MapstructUtils;
 import org.dromara.common.core.utils.StringUtils;
 import org.dromara.common.oss.core.OssClient;
 import org.dromara.common.oss.entity.UploadResult;
 import org.dromara.common.oss.factory.OssFactory;
 import org.dromara.resource.api.RemoteFileService;
+import org.dromara.resource.api.domain.RemoteFile;
 import org.dromara.resource.domain.bo.SysOssBo;
 import org.dromara.resource.domain.vo.SysOssVo;
 import org.dromara.resource.service.ISysOssService;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.dubbo.config.annotation.DubboService;
-import org.dromara.resource.api.domain.RemoteFile;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * 文件请求处理
@@ -57,6 +55,8 @@ public class RemoteFileServiceImpl implements RemoteFileService {
             sysFile.setOssId(oss.getOssId());
             sysFile.setName(uploadResult.getFilename());
             sysFile.setUrl(uploadResult.getUrl());
+            sysFile.setOriginalName(originalFilename);
+            sysFile.setFileSuffix(suffix);
             return sysFile;
         } catch (Exception e) {
             log.error("上传文件失败", e);
@@ -83,7 +83,6 @@ public class RemoteFileServiceImpl implements RemoteFileService {
      */
     public List<RemoteFile> selectByIds(String ossIds){
         List<SysOssVo> sysOssVos = sysOssService.listByIds(StringUtils.splitTo(ossIds, Convert::toLong));
-        return BeanUtil.copyToList(sysOssVos, RemoteFile.class,
-            CopyOptions.create().setFieldMapping(Map.of("fileName", "name")));
+        return MapstructUtils.convert(sysOssVos, RemoteFile.class);
     }
 }

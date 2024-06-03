@@ -1,7 +1,5 @@
 package org.dromara.workflow.api.domain;
 
-import org.dromara.workflow.api.domain.dto.BusinessInstanceDTO;
-
 import java.util.List;
 import java.util.Map;
 
@@ -34,20 +32,6 @@ public interface RemoteWorkflowService {
      * @param businessKey 业务id
      */
     String getBusinessStatus(String businessKey);
-
-    /**
-     * 获取流程实例对象
-     *
-     * @param businessKey 业务id
-     */
-    BusinessInstanceDTO getBusinessInstance(String businessKey);
-
-    /**
-     * 获取流程实例对象
-     *
-     * @param businessKeys 业务id集合
-     */
-    List<BusinessInstanceDTO> getBusinessInstance(List<String> businessKeys);
 
     /**
      * 设置流程变量(全局变量)

@@ -1,6 +1,5 @@
 package org.dromara.workflow.api.domain.event;
 
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.Data;
 
 import java.io.Serial;
@@ -37,11 +36,5 @@ public class ProcessEvent implements Serializable {
      * 当为true时为申请人节点办理
      */
     private boolean submit;
-
-    /**
-     * 请求体
-     */
-    private HttpServletRequest request;
-
 
 }

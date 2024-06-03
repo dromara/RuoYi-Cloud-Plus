@@ -1,4 +1,4 @@
-package org.dromara.system.api.domain.dto;
+package org.dromara.system.api.domain.vo;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,7 +15,7 @@ import java.util.Date;
  */
 @Data
 @NoArgsConstructor
-public class UserDTO implements Serializable {
+public class RemoteUserVo implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;

@@ -16,7 +16,7 @@ import org.dromara.common.mybatis.core.page.TableDataInfo;
 import org.dromara.common.satoken.utils.LoginHelper;
 import org.dromara.common.tenant.helper.TenantHelper;
 import org.dromara.system.api.RemoteUserService;
-import org.dromara.system.api.domain.dto.UserDTO;
+import org.dromara.system.api.domain.vo.RemoteUserVo;
 import org.dromara.system.api.model.RoleDTO;
 import org.dromara.workflow.common.constant.FlowConstant;
 import org.dromara.workflow.common.enums.BusinessStatusEnum;
@@ -818,7 +818,7 @@ public class ActTaskServiceImpl implements IActTaskService {
 
         if (multiInstance.getType() instanceof SequentialMultiInstanceBehavior) {
             List<Long> userIds = StreamUtils.filter(assigneeList, e -> !String.valueOf(e).equals(task.getAssignee()));
-            List<UserDTO> userList = userService.selectListByIds(userIds);
+            List<RemoteUserVo> userList = userService.selectListByIds(userIds);
             for (Long userId : userIds) {
                 TaskVo taskVo = new TaskVo();
                 taskVo.setId("串行会签");
@@ -836,7 +836,7 @@ public class ActTaskServiceImpl implements IActTaskService {
             List<Task> tasks = StreamUtils.filter(taskList, e -> StringUtils.isBlank(e.getParentTaskId()) && !e.getExecutionId().equals(task.getExecutionId()) && e.getTaskDefinitionKey().equals(task.getTaskDefinitionKey()));
             if (CollUtil.isNotEmpty(tasks)) {
                 List<Long> userIds = StreamUtils.toList(tasks, e -> Long.valueOf(e.getAssignee()));
-                List<UserDTO> userList = userService.selectListByIds(userIds);
+                List<RemoteUserVo> userList = userService.selectListByIds(userIds);
                 for (Task t : tasks) {
                     TaskVo taskVo = new TaskVo();
                     taskVo.setId(t.getId());

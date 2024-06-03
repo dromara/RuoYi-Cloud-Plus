@@ -3,7 +3,7 @@ package org.dromara.system.api;
 import org.dromara.common.core.exception.ServiceException;
 import org.dromara.common.core.exception.user.UserException;
 import org.dromara.system.api.domain.bo.RemoteUserBo;
-import org.dromara.system.api.domain.dto.UserDTO;
+import org.dromara.system.api.domain.vo.RemoteUserVo;
 import org.dromara.system.api.model.LoginUser;
 import org.dromara.system.api.model.XcxLoginUser;
 
@@ -85,6 +85,14 @@ public interface RemoteUserService {
     String selectNicknameById(Long userId);
 
     /**
+     * 通过用户ID查询用户账户
+     *
+     * @param userIds 用户ID 多个用逗号隔开
+     * @return 用户名称
+     */
+    String selectNicknameByIds(String userIds);
+
+    /**
      * 通过用户ID查询用户手机号
      *
      * @param userId 用户id
@@ -114,7 +122,7 @@ public interface RemoteUserService {
      * @param userIds 用户ids
      * @return 用户列表
      */
-    List<UserDTO> selectListByIds(List<Long> userIds);
+    List<RemoteUserVo> selectListByIds(List<Long> userIds);
 
     /**
      * 通过角色ID查询用户ID

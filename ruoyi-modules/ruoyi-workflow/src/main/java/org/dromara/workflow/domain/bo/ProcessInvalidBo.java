@@ -1,4 +1,4 @@
-package org.dromara.workflow.api.domain.bo;
+package org.dromara.workflow.domain.bo;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;

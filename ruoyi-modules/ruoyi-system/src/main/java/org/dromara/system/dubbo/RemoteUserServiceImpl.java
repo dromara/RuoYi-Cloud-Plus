@@ -1,6 +1,7 @@
 package org.dromara.system.dubbo;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import lombok.RequiredArgsConstructor;
@@ -10,11 +11,13 @@ import org.dromara.common.core.exception.ServiceException;
 import org.dromara.common.core.exception.user.UserException;
 import org.dromara.common.core.utils.DateUtils;
 import org.dromara.common.core.utils.MapstructUtils;
+import org.dromara.common.core.utils.SpringUtils;
+import org.dromara.common.core.utils.StringUtils;
 import org.dromara.common.mybatis.helper.DataPermissionHelper;
 import org.dromara.common.tenant.helper.TenantHelper;
 import org.dromara.system.api.RemoteUserService;
 import org.dromara.system.api.domain.bo.RemoteUserBo;
-import org.dromara.system.api.domain.dto.UserDTO;
+import org.dromara.system.api.domain.vo.RemoteUserVo;
 import org.dromara.system.api.model.LoginUser;
 import org.dromara.system.api.model.RoleDTO;
 import org.dromara.system.api.model.XcxLoginUser;
@@ -27,6 +30,7 @@ import org.dromara.system.mapper.SysUserMapper;
 import org.dromara.system.service.*;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -171,6 +175,24 @@ public class RemoteUserServiceImpl implements RemoteUserService {
     }
 
     /**
+     * 通过用户ID查询用户账户
+     *
+     * @param userIds 用户ID 多个用逗号隔开
+     * @return 用户账户
+     */
+    @Override
+    public String selectNicknameByIds(String userIds) {
+        List<String> list = new ArrayList<>();
+        for (Long id : StringUtils.splitTo(userIds, Convert::toLong)) {
+            String nickname = SpringUtils.getAopProxy(this).selectNicknameById(id);
+            if (StringUtils.isNotBlank(nickname)) {
+                list.add(nickname);
+            }
+        }
+        return String.join(StringUtils.SEPARATOR, list);
+    }
+
+    /**
      * 通过用户ID查询用户手机号
      *
      * @param userId 用户id
@@ -236,9 +258,9 @@ public class RemoteUserServiceImpl implements RemoteUserService {
     }
 
     @Override
-    public List<UserDTO> selectListByIds(List<Long> userIds) {
+    public List<RemoteUserVo> selectListByIds(List<Long> userIds) {
         List<SysUserVo> sysUserVos = userService.selectUserByIds(userIds, null);
-        return BeanUtil.copyToList(sysUserVos, UserDTO.class);
+        return MapstructUtils.convert(sysUserVos, RemoteUserVo.class);
     }
 
     @Override

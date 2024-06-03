@@ -1,4 +1,4 @@
-package org.dromara.workflow.testleave.domain.bo;
+package org.dromara.workflow.domain.bo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.github.linpeilie.annotations.AutoMapper;
@@ -9,7 +9,7 @@ import lombok.EqualsAndHashCode;
 import org.dromara.common.core.validate.AddGroup;
 import org.dromara.common.core.validate.EditGroup;
 import org.dromara.common.mybatis.core.domain.BaseEntity;
-import org.dromara.workflow.testleave.domain.TestLeave;
+import org.dromara.workflow.domain.TestLeave;
 
 import java.util.Date;
 

@@ -58,13 +58,6 @@ public class PageQuery implements Serializable {
      */
     public static final int DEFAULT_PAGE_SIZE = Integer.MAX_VALUE;
 
-    public static final PageQuery DEFAULT_PAGE = new PageQuery(DEFAULT_PAGE_NUM, DEFAULT_PAGE_SIZE);
-
-    private PageQuery(Integer pageNum, Integer pageSize) {
-        this.pageSize = pageSize;
-        this.pageNum = pageNum;
-    }
-
     public <T> Page<T> build() {
         Integer pageNum = ObjectUtil.defaultIfNull(getPageNum(), DEFAULT_PAGE_NUM);
         Integer pageSize = ObjectUtil.defaultIfNull(getPageSize(), DEFAULT_PAGE_SIZE);

@@ -275,6 +275,22 @@ services:
     privileged: true
     network_mode: "host"
 
+  ruoyi-workflow:
+    image: ruoyi/ruoyi-workflow:2.2.0
+    container_name: ruoyi-workflow
+    environment:
+      # 时区上海
+      TZ: Asia/Shanghai
+    ports:
+      - "9205:9205"
+    volumes:
+      # 配置文件
+      - /docker/ruoyi-workflow/logs/:/ruoyi/workflow/logs
+      # skywalking 探针
+      - /docker/skywalking/agent/:/ruoyi/skywalking/agent
+    privileged: true
+    network_mode: "host"
+
 
 #################################################################################################
 #################################### 以下为扩展根据需求搭建 #########################################
