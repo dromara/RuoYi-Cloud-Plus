@@ -252,4 +252,11 @@ public interface ISysUserService {
      */
     List<SysUserVo> selectUserListByDept(Long deptId);
 
+    /**
+     * 通过角色ID查询用户ID
+     *
+     * @param roleIds 角色ids
+     * @return 用户ids
+     */
+    List<Long> selectUserIdsByRoleIds(List<Long> roleIds);
 }

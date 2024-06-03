@@ -3,8 +3,11 @@ package org.dromara.system.api;
 import org.dromara.common.core.exception.ServiceException;
 import org.dromara.common.core.exception.user.UserException;
 import org.dromara.system.api.domain.bo.RemoteUserBo;
+import org.dromara.system.api.domain.dto.UserDTO;
 import org.dromara.system.api.model.LoginUser;
 import org.dromara.system.api.model.XcxLoginUser;
+
+import java.util.List;
 
 /**
  * 用户服务
@@ -105,4 +108,19 @@ public interface RemoteUserService {
      */
     void recordLoginInfo(Long userId, String ip);
 
+    /**
+     * 通过用户ID查询用户列表
+     *
+     * @param userIds 用户ids
+     * @return 用户列表
+     */
+    List<UserDTO> selectListByIds(List<Long> userIds);
+
+    /**
+     * 通过角色ID查询用户ID
+     *
+     * @param roleIds 角色ids
+     * @return 用户ids
+     */
+    List<Long> selectUserIdsByRoleIds(List<Long> roleIds);
 }

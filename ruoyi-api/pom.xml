@@ -12,6 +12,7 @@
         <module>ruoyi-api-bom</module>
         <module>ruoyi-api-system</module>
         <module>ruoyi-api-resource</module>
+        <module>ruoyi-api-workflow</module>
     </modules>
 
     <artifactId>ruoyi-api</artifactId>

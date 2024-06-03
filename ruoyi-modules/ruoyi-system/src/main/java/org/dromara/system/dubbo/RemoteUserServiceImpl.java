@@ -14,6 +14,7 @@ import org.dromara.common.mybatis.helper.DataPermissionHelper;
 import org.dromara.common.tenant.helper.TenantHelper;
 import org.dromara.system.api.RemoteUserService;
 import org.dromara.system.api.domain.bo.RemoteUserBo;
+import org.dromara.system.api.domain.dto.UserDTO;
 import org.dromara.system.api.model.LoginUser;
 import org.dromara.system.api.model.RoleDTO;
 import org.dromara.system.api.model.XcxLoginUser;
@@ -232,6 +233,17 @@ public class RemoteUserServiceImpl implements RemoteUserService {
         sysUser.setLoginDate(DateUtils.getNowDate());
         sysUser.setUpdateBy(userId);
         DataPermissionHelper.ignore(() -> userMapper.updateById(sysUser));
+    }
+
+    @Override
+    public List<UserDTO> selectListByIds(List<Long> userIds) {
+        List<SysUserVo> sysUserVos = userService.selectUserByIds(userIds, null);
+        return BeanUtil.copyToList(sysUserVos, UserDTO.class);
+    }
+
+    @Override
+    public List<Long> selectUserIdsByRoleIds(List<Long> roleIds) {
+        return userService.selectUserIdsByRoleIds(roleIds);
     }
 
 }

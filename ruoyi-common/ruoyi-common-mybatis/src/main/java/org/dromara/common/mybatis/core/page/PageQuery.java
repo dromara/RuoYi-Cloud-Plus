@@ -4,10 +4,11 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.metadata.OrderItem;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.dromara.common.core.exception.ServiceException;
 import org.dromara.common.core.utils.StringUtils;
 import org.dromara.common.core.utils.sql.SqlUtil;
-import lombok.Data;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -21,6 +22,7 @@ import java.util.List;
  */
 
 @Data
+@NoArgsConstructor
 public class PageQuery implements Serializable {
 
     @Serial
@@ -55,6 +57,13 @@ public class PageQuery implements Serializable {
      * 每页显示记录数 默认值 默认查全部
      */
     public static final int DEFAULT_PAGE_SIZE = Integer.MAX_VALUE;
+
+    public static final PageQuery DEFAULT_PAGE = new PageQuery(DEFAULT_PAGE_NUM, DEFAULT_PAGE_SIZE);
+
+    private PageQuery(Integer pageNum, Integer pageSize) {
+        this.pageSize = pageSize;
+        this.pageNum = pageNum;
+    }
 
     public <T> Page<T> build() {
         Integer pageNum = ObjectUtil.defaultIfNull(getPageNum(), DEFAULT_PAGE_NUM);
@@ -109,6 +118,10 @@ public class PageQuery implements Serializable {
             }
         }
         return list;
+    }
+
+    public Integer getFirstNum() {
+        return (pageNum - 1) * pageSize;
     }
 
 }

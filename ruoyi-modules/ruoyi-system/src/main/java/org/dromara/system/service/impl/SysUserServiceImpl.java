@@ -553,6 +553,13 @@ public class SysUserServiceImpl implements ISysUserService {
         return baseMapper.selectVoList(lqw);
     }
 
+    @Override
+    public List<Long> selectUserIdsByRoleIds(List<Long> roleIds) {
+        List<SysUserRole> userRoles = userRoleMapper.selectList(
+            new LambdaQueryWrapper<SysUserRole>().in(SysUserRole::getRoleId, roleIds));
+        return StreamUtils.toList(userRoles, SysUserRole::getUserId);
+    }
+
     /**
      * 通过用户ID查询用户账户
      *
