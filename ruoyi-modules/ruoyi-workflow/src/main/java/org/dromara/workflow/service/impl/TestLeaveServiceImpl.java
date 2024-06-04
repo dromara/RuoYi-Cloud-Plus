@@ -122,7 +122,9 @@ public class TestLeaveServiceImpl implements ITestLeaveService {
     public void processHandler(ProcessEvent processEvent) {
         log.info("当前任务执行了{}", processEvent.toString());
         TestLeave testLeave = baseMapper.selectById(Long.valueOf(processEvent.getBusinessKey()));
-        testLeave.setStatus(processEvent.getStatus());
+        if (processEvent.isSubmit()) {
+            testLeave.setStatus(BusinessStatusEnum.WAITING.getStatus());
+        }
         baseMapper.updateById(testLeave);
     }
 
