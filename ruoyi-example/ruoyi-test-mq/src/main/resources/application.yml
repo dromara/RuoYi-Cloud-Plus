@@ -24,8 +24,12 @@ spring:
 spring:
   kafka:
     bootstrap-servers: localhost:9092
+    consumer:
+      group-id: test-group-id # 消费者组ID
+      auto-offset-reset: earliest # 当没有偏移量或偏移量无效时，从何处开始消费
     producer:
-      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
 
 --- # rocketmq 配置
 rocketmq:

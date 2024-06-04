@@ -5,8 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 
-import java.util.concurrent.CompletableFuture;
-
 /**
  * @author xbhog
  * @date 2024/05/19 18:02
@@ -16,10 +14,9 @@ import java.util.concurrent.CompletableFuture;
 public class KafkaNormalProducer {
 
     @Autowired
-    private KafkaTemplate kafkaTemplate;
+    private KafkaTemplate<String, String> kafkaTemplate;
 
     public void sendKafkaMsg() {
-        CompletableFuture send = kafkaTemplate.send("test-topic", "hello", "kafkaTest");
-        send.join();
+        kafkaTemplate.send("test-topic", "hello", "kafkaTest");
     }
 }
