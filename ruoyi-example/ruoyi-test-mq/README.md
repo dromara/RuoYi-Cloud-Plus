@@ -2,13 +2,10 @@
 
 ## 模块说明
 
-1. rabbit: 普通消息、延迟队列
-2. rocket：普通消息、事务消息
+1. rabbitmq: 普通消息、延迟队列
+2. rocketmq：普通消息、事务消息、延迟消息
 3. kafka：普通消息、stream流的使用
 
-后续可实现的：
-
-1. rocket 顺序、异步、延时等
 
 ## 使用方式
 
@@ -23,7 +20,7 @@ sh mqadmin updateTopic -n <nameserver_address> -t <topic_name> -c <cluster_name>
 ```
 
 ```shell
-bin/mqadmin updatetopic -n localhost:9876 -t TestTopic -c DefaultCluster
+bin/mqadmin updatetopic -n localhost:9876 -t test-topic -c DefaultCluster
 ```
 
 创建事务消息的topic
@@ -33,7 +30,7 @@ sh mqadmin updateTopic -n <nameserver_address> -t <topic_name> -c <cluster_name>
 ```
 
 ```shell
-bin/mqadmin updatetopic -n localhost:9876 -t transaction_topic -c DefaultCluster -a +message.type=TRANSACTION
+bin/mqadmin updatetopic -n localhost:9876 -t transaction-topic -c DefaultCluster -a +message.type=TRANSACTION
 ```
 
 kafka:
@@ -43,5 +40,5 @@ kafka-topics.sh --create --topic <topic_name> --bootstrap-server <broker_list> -
 ```
 
 ```shell
-kafka-topics.sh --create --topic my_topic --bootstrap-server localhost:9092 --partitions 3 --replication-factor 1
+kafka-topics.sh --create --topic test-topic --bootstrap-server localhost:9092 --partitions 3 --replication-factor 1
 ```

@@ -36,10 +36,10 @@ spring:
 
 --- # rocketmq 配置
 rocketmq:
-    name-server: localhost:9876
-    producer:
-      # 生产者组
-      group: dist-test
+  name-server: localhost:9876
+  producer:
+    # 生产者组
+    group: dist-test
 
 --- # nacos 配置
 spring:
