@@ -30,6 +30,9 @@ spring:
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.apache.kafka.common.serialization.StringSerializer
+    streams:
+      properties:
+        application.id: kafka-streams-id # 应用ID
 
 --- # rocketmq 配置
 rocketmq:

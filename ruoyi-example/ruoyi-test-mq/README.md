@@ -4,12 +4,11 @@
 
 1. rabbit: 普通消息、延迟队列
 2. rocket：普通消息、事务消息
-3. kafka：普通消息
+3. kafka：普通消息、stream流的使用
 
 后续可实现的：
 
-1. kafka stream流的使用
-2. rocket 顺序、异步、延时等
+1. rocket 顺序、异步、延时等
 
 ## 使用方式
 
