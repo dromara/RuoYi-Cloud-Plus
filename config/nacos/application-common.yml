@@ -146,6 +146,8 @@ logging:
     com.alibaba.nacos: warn
     org.mybatis.spring.mapper: error
     org.apache.dubbo.config: error
+    # 临时处理 spring 调整日志级别导致启动警告问题 不影响使用等待 alibaba 适配
+    org.springframework.context.support.PostProcessorRegistrationDelegate: error
   config: classpath:logback-plus.xml
 
 # Sa-Token配置
