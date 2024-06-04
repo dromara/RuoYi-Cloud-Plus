@@ -13,12 +13,11 @@ import org.springframework.stereotype.Component;
  */
 @Slf4j
 @Component
-public class ConsumerListener {
+public class RabbitConsumer {
 
     /**
-     * 设置监听哪一个队列 这个队列是RabbitConfig里面设置好的队列名字
      * 普通消息
-     **/
+     */
     @RabbitListener(queues = RabbitConfig.QUEUE_NAME)
     public void listenQueue(Message message) {
         log.info("【消费者】Start consuming data：{}",new String(message.getBody()));
