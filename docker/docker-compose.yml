@@ -363,14 +363,17 @@ services:
       - "10909:10909"
       - "10912:10912"
     environment:
-      JAVA_OPT_EXT: -server -Xms512M -Xmx512M -Xmn256m
+      JAVA_OPT: -server -Xms512M -Xmx512M
+      NAMESRV_ADDR: 127.0.0.1:9876
+    # --enable-proxy 开启broker与proxy共用模式 生产部署建议将proxy单独部署
     command: sh mqbroker --enable-proxy -c /home/rocketmq/rocketmq-5.2.0/conf/broker.conf
     depends_on:
-      - mqnamesrv
+      - rmqnamesrv
     volumes:
       - /docker/rocketmq/broker1/conf/broker.conf:/home/rocketmq/rocketmq-5.2.0/conf/broker.conf
       - /docker/rocketmq/broker1/logs:/home/rocketmq/logs/rocketmqlogs
       - /docker/rocketmq/broker1/store:/home/rocketmq/store
+    privileged: true
     network_mode: "host"
 
   rmqconsole:
