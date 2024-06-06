@@ -15,10 +15,10 @@
  */
 package com.alibaba.csp.sentinel.dashboard.discovery;
 
-import java.util.Objects;
-
 import com.alibaba.csp.sentinel.dashboard.config.DashboardConfig;
 import com.alibaba.csp.sentinel.util.StringUtil;
+
+import java.util.Objects;
 
 public class MachineInfo implements Comparable<MachineInfo> {
 
@@ -90,7 +90,7 @@ public class MachineInfo implements Comparable<MachineInfo> {
     public long getHeartbeatVersion() {
         return heartbeatVersion;
     }
-    
+
     public void setHeartbeatVersion(long heartbeatVersion) {
         this.heartbeatVersion = heartbeatVersion;
     }
@@ -103,15 +103,15 @@ public class MachineInfo implements Comparable<MachineInfo> {
         this.version = version;
         return this;
     }
-    
+
     public boolean isHealthy() {
         long delta = System.currentTimeMillis() - lastHeartbeat;
         return delta < DashboardConfig.getUnhealthyMachineMillis();
     }
-    
+
     /**
      * whether dead should be removed
-     * 
+     *
      * @return
      */
     public boolean isDead() {
@@ -121,11 +121,11 @@ public class MachineInfo implements Comparable<MachineInfo> {
         }
         return false;
     }
-    
+
     public long getLastHeartbeat() {
         return lastHeartbeat;
     }
-    
+
     public void setLastHeartbeat(long lastHeartbeat) {
         this.lastHeartbeat = lastHeartbeat;
     }

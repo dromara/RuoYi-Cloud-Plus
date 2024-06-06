@@ -13,31 +13,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.alibaba.csp.sentinel.dashboard.auth;
+package com.alibaba.csp.sentinel.dashboard.entity.rule;
 
-import java.lang.annotation.*;
+import com.alibaba.csp.sentinel.slots.block.Rule;
+
+import java.util.Date;
 
 /**
- * @author lkxiaolou
- * @since 1.7.1
+ * @author leyou
  */
-@Retention(RetentionPolicy.RUNTIME)
-@Documented
-@Target({ElementType.METHOD})
-public @interface AuthAction {
+public interface RuleEntity {
 
-    /**
-     * @return the privilege type
-     */
-    AuthService.PrivilegeType value();
+    Long getId();
 
-    /**
-     * @return the target name to control
-     */
-    String targetName() default "app";
+    void setId(Long id);
 
-    /**
-     * @return the message when permission is denied
-     */
-    String message() default "Permission denied";
+    String getApp();
+
+    String getIp();
+
+    Integer getPort();
+
+    Date getGmtCreate();
+
+    Rule toRule();
 }
