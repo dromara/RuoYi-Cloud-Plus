@@ -5,6 +5,7 @@ security:
     enabled: true
     excludeUrls:
       - /system/notice
+      - /workflow/model/save
       - /workflow/model/editModelXml
   # 不校验白名单
   ignore:
