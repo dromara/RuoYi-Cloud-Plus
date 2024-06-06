@@ -18,4 +18,5 @@ public interface RemoteDictService {
      * @return 字典数据集合信息
      */
     List<RemoteDictDataVo> selectDictDataByType(String dictType);
+
 }

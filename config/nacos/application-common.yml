@@ -30,9 +30,6 @@ dubbo:
   consumer:
     # 超时时间
     timeout: 3000
-  scan:
-    # 接口实现类扫描
-    base-packages: org.dromara.**.dubbo
   # 自定义配置
   custom:
     # 全局请求log
@@ -41,6 +38,10 @@ dubbo:
     log-level: info
 
 spring:
+  threads:
+    # 开启虚拟线程 仅jdk21可用
+    virtual:
+      enabled: false
   # 资源信息
   messages:
     # 国际化资源文件路径
@@ -52,6 +53,8 @@ spring:
       # 上传单个文件大小限制
       max-file-size: 10MB
   mvc:
+    # 设置静态资源路径 防止所有请求都去查静态资源
+    static-path-pattern: /static/**
     format:
       date-time: yyyy-MM-dd HH:mm:ss
   #jackson配置
@@ -141,7 +144,10 @@ logging:
     org.springframework: warn
     org.apache.dubbo: warn
     com.alibaba.nacos: warn
-    tech.powerjob.worker.background: warn
+    org.mybatis.spring.mapper: error
+    org.apache.dubbo.config: error
+    # 临时处理 spring 调整日志级别导致启动警告问题 不影响使用等待 alibaba 适配
+    org.springframework.context.support.PostProcessorRegistrationDelegate: error
   config: classpath:logback-plus.xml
 
 # Sa-Token配置
@@ -160,8 +166,7 @@ sa-token:
 # MyBatisPlus配置
 # https://baomidou.com/config/
 mybatis-plus:
-  # 不支持多包, 如有需要可在注解配置 或 提升扫包等级
-  # 例如 com.**.**.mapper
+  # 多包名使用 例如 org.dromara.**.mapper,org.xxx.**.mapper
   mapperPackage: org.dromara.**.mapper
   # 对应的 XML 文件位置
   mapperLocations: classpath*:mapper/**/*Mapper.xml

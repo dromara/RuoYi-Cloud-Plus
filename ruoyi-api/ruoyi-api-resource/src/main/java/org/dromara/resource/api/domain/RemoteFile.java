@@ -31,4 +31,14 @@ public class RemoteFile implements Serializable {
      */
     private String url;
 
+    /**
+     * 原名
+     */
+    private String originalName;
+
+    /**
+     * 文件后缀名
+     */
+    private String fileSuffix;
+
 }

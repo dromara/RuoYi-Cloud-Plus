@@ -19,16 +19,15 @@ import jakarta.validation.constraints.Size;
  * @author 孤舟烟雨
  * @date 2021-08-13
  */
-
 @Data
 @EqualsAndHashCode(callSuper = true)
 @AutoMapper(target = SysOssConfig.class, reverseConvertGenerate = false)
 public class SysOssConfigBo extends BaseEntity {
 
     /**
-     * 主建
+     * 主键
      */
-    @NotNull(message = "主建不能为空", groups = {EditGroup.class})
+    @NotNull(message = "主键不能为空", groups = {EditGroup.class})
     private Long ossConfigId;
 
     /**
@@ -106,6 +105,5 @@ public class SysOssConfigBo extends BaseEntity {
      */
     @NotBlank(message = "桶权限类型不能为空", groups = {AddGroup.class, EditGroup.class})
     private String accessPolicy;
-
 
 }

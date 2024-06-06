@@ -53,6 +53,14 @@ public interface ISysDeptService {
     SysDeptVo selectDeptById(Long deptId);
 
     /**
+     * 通过部门ID串查询部门
+     *
+     * @param deptIds 部门id串
+     * @return 部门列表信息
+     */
+    List<SysDeptVo> selectDeptByIds(List<Long> deptIds);
+
+    /**
      * 通过部门ID查询部门名称
      *
      * @param deptIds 部门ID串逗号分隔
@@ -91,6 +99,14 @@ public interface ISysDeptService {
      * @return 结果
      */
     boolean checkDeptNameUnique(SysDeptBo dept);
+
+    /**
+     * 校验部门类别编码是否唯一
+     *
+     * @param dept 部门信息
+     * @return 结果
+     */
+    boolean checkDeptCategoryUnique(SysDeptBo dept);
 
     /**
      * 校验部门是否有数据权限

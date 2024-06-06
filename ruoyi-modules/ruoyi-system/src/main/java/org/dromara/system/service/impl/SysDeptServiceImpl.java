@@ -42,7 +42,7 @@ import java.util.List;
  */
 @RequiredArgsConstructor
 @Service
-public class SysDeptServiceImpl implements ISysDeptService{
+public class SysDeptServiceImpl implements ISysDeptService {
 
     private final SysDeptMapper baseMapper;
     private final SysRoleMapper roleMapper;
@@ -81,7 +81,9 @@ public class SysDeptServiceImpl implements ISysDeptService{
         lqw.eq(ObjectUtil.isNotNull(bo.getDeptId()), SysDept::getDeptId, bo.getDeptId());
         lqw.eq(ObjectUtil.isNotNull(bo.getParentId()), SysDept::getParentId, bo.getParentId());
         lqw.like(StringUtils.isNotBlank(bo.getDeptName()), SysDept::getDeptName, bo.getDeptName());
+        lqw.like(StringUtils.isNotBlank(bo.getDeptCategory()), SysDept::getDeptCategory, bo.getDeptCategory());
         lqw.eq(StringUtils.isNotBlank(bo.getStatus()), SysDept::getStatus, bo.getStatus());
+        lqw.orderByAsc(SysDept::getAncestors);
         lqw.orderByAsc(SysDept::getParentId);
         lqw.orderByAsc(SysDept::getOrderNum);
         lqw.orderByAsc(SysDept::getDeptId);
@@ -138,11 +140,26 @@ public class SysDeptServiceImpl implements ISysDeptService{
     }
 
     /**
+     * 通过部门ID串查询部门
+     *
+     * @param deptIds 部门id串
+     * @return 部门列表信息
+     */
+    @Override
+    public List<SysDeptVo> selectDeptByIds(List<Long> deptIds) {
+        return baseMapper.selectDeptList(new LambdaQueryWrapper<SysDept>()
+            .select(SysDept::getDeptId, SysDept::getDeptName, SysDept::getLeader)
+            .eq(SysDept::getStatus, UserConstants.DEPT_NORMAL)
+            .in(CollUtil.isNotEmpty(deptIds), SysDept::getDeptId, deptIds));
+    }
+
+    /**
      * 通过部门ID查询部门名称
      *
      * @param deptIds 部门ID串逗号分隔
      * @return 部门名称串逗号分隔
      */
+    @Override
     public String selectDeptNameByIds(String deptIds) {
         List<String> list = new ArrayList<>();
         for (Long id : StringUtils.splitTo(deptIds, Convert::toLong)) {
@@ -207,6 +224,20 @@ public class SysDeptServiceImpl implements ISysDeptService{
     }
 
     /**
+     * 校验部门类别编码是否唯一
+     *
+     * @param dept 部门信息
+     * @return 结果
+     */
+    @Override
+    public boolean checkDeptCategoryUnique(SysDeptBo dept) {
+        boolean exist = baseMapper.exists(new LambdaQueryWrapper<SysDept>()
+            .eq(SysDept::getDeptCategory, dept.getDeptCategory())
+            .ne(ObjectUtil.isNotNull(dept.getDeptId()), SysDept::getDeptId, dept.getDeptId()));
+        return !exist;
+    }
+
+    /**
      * 校验部门是否有数据权限
      *
      * @param deptId 部门id
@@ -219,8 +250,7 @@ public class SysDeptServiceImpl implements ISysDeptService{
         if (LoginHelper.isSuperAdmin()) {
             return;
         }
-        SysDeptVo dept = baseMapper.selectDeptById(deptId);
-        if (ObjectUtil.isNull(dept)) {
+        if (baseMapper.countDeptById(deptId) == 0) {
             throw new ServiceException("没有权限访问部门数据！");
         }
     }

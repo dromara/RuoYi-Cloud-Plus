@@ -41,6 +41,11 @@ public class SysDept extends TenantEntity {
     private String deptName;
 
     /**
+     * 部门类别编码
+     */
+    private String deptCategory;
+
+    /**
      * 显示顺序
      */
     private Integer orderNum;

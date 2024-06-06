@@ -21,6 +21,11 @@ public class NicknameTranslationImpl implements TranslationInterface<String> {
 
     @Override
     public String translation(Object key, String other) {
-        return remoteUserService.selectNicknameById((Long) key);
+        if (key instanceof Long id) {
+            return remoteUserService.selectNicknameByIds(id.toString());
+        } else if (key instanceof String ids) {
+            return remoteUserService.selectNicknameByIds(ids);
+        }
+        return null;
     }
 }

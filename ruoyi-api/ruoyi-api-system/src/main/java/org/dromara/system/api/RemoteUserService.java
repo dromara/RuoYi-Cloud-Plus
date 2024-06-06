@@ -3,8 +3,11 @@ package org.dromara.system.api;
 import org.dromara.common.core.exception.ServiceException;
 import org.dromara.common.core.exception.user.UserException;
 import org.dromara.system.api.domain.bo.RemoteUserBo;
+import org.dromara.system.api.domain.vo.RemoteUserVo;
 import org.dromara.system.api.model.LoginUser;
 import org.dromara.system.api.model.XcxLoginUser;
+
+import java.util.List;
 
 /**
  * 用户服务
@@ -82,6 +85,30 @@ public interface RemoteUserService {
     String selectNicknameById(Long userId);
 
     /**
+     * 通过用户ID查询用户账户
+     *
+     * @param userIds 用户ID 多个用逗号隔开
+     * @return 用户名称
+     */
+    String selectNicknameByIds(String userIds);
+
+    /**
+     * 通过用户ID查询用户手机号
+     *
+     * @param userId 用户id
+     * @return 用户手机号
+     */
+    String selectPhonenumberById(Long userId);
+
+    /**
+     * 通过用户ID查询用户邮箱
+     *
+     * @param userId 用户id
+     * @return 用户邮箱
+     */
+    String selectEmailById(Long userId);
+
+    /**
      * 更新用户信息
      *
      * @param userId 用户ID
@@ -89,4 +116,19 @@ public interface RemoteUserService {
      */
     void recordLoginInfo(Long userId, String ip);
 
+    /**
+     * 通过用户ID查询用户列表
+     *
+     * @param userIds 用户ids
+     * @return 用户列表
+     */
+    List<RemoteUserVo> selectListByIds(List<Long> userIds);
+
+    /**
+     * 通过角色ID查询用户ID
+     *
+     * @param roleIds 角色ids
+     * @return 用户ids
+     */
+    List<Long> selectUserIdsByRoleIds(List<Long> roleIds);
 }

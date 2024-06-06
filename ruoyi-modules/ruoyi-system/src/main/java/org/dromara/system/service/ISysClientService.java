@@ -48,7 +48,7 @@ public interface ISysClientService {
     /**
      * 修改状态
      */
-    int updateUserStatus(Long id, String status);
+    int updateUserStatus(String clientId, String status);
 
     /**
      * 校验并批量删除客户端管理信息

@@ -20,9 +20,9 @@ public class RemoteMessageServiceStub implements RemoteMessageService {
      * @param sessionKey session主键 一般为用户id
      * @param message    消息文本
      */
-    public void sendMessage(Long sessionKey, String message) {
+    public void publishMessage(Long sessionKey, String message) {
         try {
-            remoteMessageService.sendMessage(sessionKey, message);
+            remoteMessageService.publishMessage(sessionKey, message);
         } catch (Exception e) {
             log.warn("websocket 功能未开启或服务未找到");
         }

@@ -32,14 +32,6 @@ public class SysLogininforServiceImpl implements ISysLogininforService {
 
     private final SysLogininforMapper baseMapper;
 
-
-    private String getBlock(Object msg) {
-        if (msg == null) {
-            msg = "";
-        }
-        return "[" + msg.toString() + "]";
-    }
-
     @Override
     public TableDataInfo<SysLogininforVo> selectPageLogininforList(SysLogininforBo logininfor, PageQuery pageQuery) {
         Map<String, Object> params = logininfor.getParams();

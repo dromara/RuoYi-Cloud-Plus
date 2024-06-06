@@ -2,13 +2,13 @@ package org.dromara.system.domain.vo;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import io.github.linpeilie.annotations.AutoMapper;
-import lombok.Data;
 import org.dromara.common.sensitive.annotation.Sensitive;
 import org.dromara.common.sensitive.core.SensitiveStrategy;
 import org.dromara.common.translation.annotation.Translation;
 import org.dromara.common.translation.constant.TransConstant;
 import org.dromara.system.domain.SysUser;
+import io.github.linpeilie.annotations.AutoMapper;
+import lombok.Data;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -114,9 +114,10 @@ public class SysUserVo implements Serializable {
     private Date createTime;
 
     /**
-     * 部门对象
+     * 部门名
      */
-    private SysDeptVo dept;
+    @Translation(type = TransConstant.DEPT_ID_TO_NAME, mapper = "deptId")
+    private String deptName;
 
     /**
      * 角色对象

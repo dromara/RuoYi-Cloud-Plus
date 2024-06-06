@@ -9,7 +9,7 @@
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](https://gitee.com/dromara/RuoYi-Cloud-Plus/blob/master/LICENSE)
 [![使用IntelliJ IDEA开发维护](https://img.shields.io/badge/IntelliJ%20IDEA-提供支持-blue.svg)](https://www.jetbrains.com/?from=RuoYi-Cloud-Plus)
 <br>
-[![RuoYi-Cloud-Plus](https://img.shields.io/badge/RuoYi_Cloud_Plus-2.1.2-success.svg)](https://gitee.com/dromara/RuoYi-Cloud-Plus)
+[![RuoYi-Cloud-Plus](https://img.shields.io/badge/RuoYi_Cloud_Plus-2.2.0-success.svg)](https://gitee.com/dromara/RuoYi-Cloud-Plus)
 [![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.1-blue.svg)]()
 [![JDK-17](https://img.shields.io/badge/JDK-17-green.svg)]()
 [![JDK-19](https://img.shields.io/badge/JDK-21-green.svg)]()
@@ -27,8 +27,10 @@
 
 ## 赞助商
 
-MaxKey - https://gitee.com/dromara/MaxKey <br>
-CCFlow - https://gitee.com/opencc/RuoYi-JFlow <br>
+MaxKey 业界领先单点登录产品 - https://gitee.com/dromara/MaxKey <br>
+CCFlow 驰聘低代码-流程-表单 - https://gitee.com/opencc/RuoYi-JFlow <br>
+数舵科技 软件定制开发APP小程序等 - http://www.shuduokeji.com/ <br>
+引迈信息 软件开发平台 - https://www.jnpfsoft.com/index.html?from=plus-doc <br>
 [如何成为赞助商 加群联系作者详谈](https://plus-doc.dromara.org/#/common/add_group)
 
 # 本框架与RuoYi的功能差异
@@ -66,10 +68,10 @@ CCFlow - https://gitee.com/opencc/RuoYi-JFlow <br>
 | WebSocket协议 | 基于 Spring 封装的 WebSocket 协议 扩展了Token鉴权与分布式会话同步 不再只是基于单机的废物                                                         | 无                                                                                  |
 | 序列化         | 采用 Jackson Spring官方内置序列化 靠谱!!!                                                                                    | 采用 fastjson bugjson 远近闻名                                                           | 
 | 分布式幂等       | 参考美团GTIS防重系统简化实现(细节可看文档)                                                                                          | 手动编写注解基于aop实现                                                                      |
-| 分布式任务调度     | 采用 PowerJob 天生支持分布式 统一的管理中心 底层基于JPA实现 支持多种数据库                                                                     | 采用 Quartz 基于数据库锁性能差 集群需要做很多配置与改造                                                   | 
+| 分布式任务调度     | 采用 SnailJob 天生支持分布式 统一的管理中心 支持多种数据库 支持分片重试DAG任务流等                                                                 | 采用 Quartz 基于数据库锁性能差 集群需要做很多配置与改造                                                   | 
 | 分布式日志中心     | 采用 ELK 业界成熟解决方案 实时收集所有服务的运行日志 快速发现定位问题                                                                            | 无                                                                                  | 
 | 分布式搜索引擎     | 采用 ElasticSearch、Easy-Es 以 Mybatis-Plus 方式操作 ElasticSearch                                                        | 无                                                                                  | 
-| 分布式消息队列     | 采用 SpringCloud-Stream 支持 Kafka、RocketMQ、RabbitMQ                                                                  | 无                                                                                  | 
+| 分布式消息队列     | 采用 支持 Kafka、RocketMQ、RabbitMQ 各种 延迟消息 事务消息 流消息                                                                    | 无                                                                                  | 
 | 分库分表功能      | 采用 Apache Sharding-Proxy 代理服务无入侵支持分库分表 只需编写分库分表规则即可                                                               | 无                                                                                  |
 | 文件存储        | 采用 Minio 分布式文件存储 天生支持多机、多硬盘、多分片、多副本存储<br/>支持权限管理 安全可靠 文件可加密存储                                                     | 采用 本机文件存储 文件裸漏 易丢失泄漏 不支持集群有单点效应                                                    |
 | 云存储         | 采用 AWS S3 协议客户端 支持 七牛、阿里、腾讯 等一切支持S3协议的厂家                                                                          | 不支持                                                                                |

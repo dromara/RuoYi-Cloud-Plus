@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="60 seconds" debug="false">
+
+    <!-- 日志存放路径 -->
+    <property name="log.path" value="logs/${project.artifactId}"/>
+    <!-- 日志输出格式 -->
+    <property name="console.log.pattern"
+              value="%red(%d{yyyy-MM-dd HH:mm:ss}) %green([%thread]) %highlight(%-5level) %boldMagenta(%logger{36}%n) - %msg%n"/>
+
+    <!-- 控制台输出 -->
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${console.log.pattern}</pattern>
+            <charset>utf-8</charset>
+        </encoder>
+    </appender>
+
+    <include resource="logback-common.xml" />
+
+    <include resource="logback-logstash.xml" />
+
+    <!-- 开启 skywalking 日志收集 -->
+    <include resource="logback-skylog.xml" />
+
+    <!-- SnailJob appender -->
+    <appender name="snail_log_server_appender" class="com.aizuda.snailjob.server.common.appender.SnailJobServerLogbackAppender">
+    </appender>
+
+    <!--系统操作日志-->
+    <root level="info">
+        <appender-ref ref="console"/>
+        <appender-ref ref="snail_log_server_appender" />
+    </root>
+
+</configuration>

@@ -14,7 +14,7 @@
     </description>
 
     <properties>
-        <revision>2.1.2</revision>
+        <revision>2.2.0-BETA</revision>
     </properties>
 
     <dependencyManagement>
@@ -215,6 +215,12 @@
             <dependency>
                 <groupId>org.dromara</groupId>
                 <artifactId>ruoyi-common-social</artifactId>
+                <version>${revision}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.dromara</groupId>
+                <artifactId>ruoyi-common-nacos</artifactId>
                 <version>${revision}</version>
             </dependency>
 

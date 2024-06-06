@@ -5,6 +5,7 @@ security:
     enabled: true
     excludeUrls:
       - /system/notice
+      - /workflow/model/editModelXml
   # 不校验白名单
   ignore:
     whites:
@@ -59,6 +60,11 @@ spring:
             - Path=/resource/**
           filters:
             - StripPrefix=1
+        # workflow服务
+        - id: ruoyi-workflow
+          uri: lb://ruoyi-workflow
+          predicates:
+            - Path=/workflow/**
         # 演示服务
         - id: ruoyi-demo
           uri: lb://ruoyi-demo
@@ -67,10 +73,10 @@ spring:
           filters:
             - StripPrefix=1
         # MQ演示服务
-        - id: ruoyi-stream-mq
-          uri: lb://ruoyi-stream-mq
+        - id: ruoyi-test-mq
+          uri: lb://ruoyi-test-mq
           predicates:
-            - Path=/stream-mq/**
+            - Path=/test-mq/**
           filters:
             - StripPrefix=1
 

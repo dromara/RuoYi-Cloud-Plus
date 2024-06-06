@@ -1,8 +1,6 @@
 package org.dromara.system.domain.vo;
 
 import com.alibaba.excel.annotation.ExcelProperty;
-import io.github.linpeilie.annotations.AutoMapper;
-import io.github.linpeilie.annotations.ReverseAutoMapping;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.dromara.common.excel.annotation.ExcelDictFormat;
@@ -20,7 +18,6 @@ import java.util.Date;
 
 @Data
 @NoArgsConstructor
-@AutoMapper(target = SysUserVo.class, convertGenerate = false)
 public class SysUserExportVo implements Serializable {
 
     @Serial
@@ -85,14 +82,12 @@ public class SysUserExportVo implements Serializable {
     /**
      * 部门名称
      */
-    @ReverseAutoMapping(target = "deptName", source = "dept.deptName")
     @ExcelProperty(value = "部门名称")
     private String deptName;
 
     /**
      * 负责人
      */
-    @ReverseAutoMapping(target = "leaderName", source = "dept.leaderName")
     @ExcelProperty(value = "部门负责人")
     private String leaderName;
 

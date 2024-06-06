@@ -6,6 +6,7 @@ import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ObjectUtil;
+import com.baomidou.lock.annotation.Lock4j;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import me.zhyd.oauth.model.AuthUser;
@@ -19,11 +20,11 @@ import org.dromara.common.core.constant.TenantConstants;
 import org.dromara.common.core.enums.LoginType;
 import org.dromara.common.core.enums.TenantStatus;
 import org.dromara.common.core.enums.UserType;
+import org.dromara.common.core.exception.ServiceException;
 import org.dromara.common.core.exception.user.CaptchaException;
 import org.dromara.common.core.exception.user.CaptchaExpireException;
 import org.dromara.common.core.exception.user.UserException;
 import org.dromara.common.core.utils.MessageUtils;
-import org.dromara.common.core.utils.ServletUtils;
 import org.dromara.common.core.utils.SpringUtils;
 import org.dromara.common.core.utils.StringUtils;
 import org.dromara.common.log.event.LogininforEvent;
@@ -74,18 +75,27 @@ public class SysLoginService {
      *
      * @param authUserData 授权响应实体
      */
+    @Lock4j
     public void socialRegister(AuthUser authUserData) {
         String authId = authUserData.getSource() + authUserData.getUuid();
         // 第三方用户信息
         RemoteSocialBo bo = BeanUtil.toBean(authUserData, RemoteSocialBo.class);
         BeanUtil.copyProperties(authUserData.getToken(), bo);
-        bo.setUserId(LoginHelper.getUserId());
+        Long userId = LoginHelper.getUserId();
+        bo.setUserId(userId);
         bo.setAuthId(authId);
         bo.setOpenId(authUserData.getUuid());
         bo.setUserName(authUserData.getUsername());
         bo.setNickName(authUserData.getNickname());
+        List<RemoteSocialVo> checkList = remoteSocialService.selectByAuthId(authId);
+        if (CollUtil.isNotEmpty(checkList)) {
+            throw new ServiceException("此三方账号已经被绑定!");
+        }
         // 查询是否已经绑定用户
-        List<RemoteSocialVo> list = remoteSocialService.selectByAuthId(authId);
+        RemoteSocialBo params = new RemoteSocialBo();
+        params.setUserId(userId);
+        params.setSource(bo.getSource());
+        List<RemoteSocialVo> list = remoteSocialService.queryList(params);
         if (CollUtil.isEmpty(list)) {
             // 没有绑定用户, 新增用户信息
             remoteSocialService.insertByBo(bo);
@@ -93,6 +103,8 @@ public class SysLoginService {
             // 更新用户信息
             bo.setId(list.get(0).getId());
             remoteSocialService.updateByBo(bo);
+            // 如果要绑定的平台账号已经被绑定过了 是否抛异常自行决断
+            // throw new ServiceException("此平台账号已经被绑定!");
         }
     }
 
@@ -158,7 +170,7 @@ public class SysLoginService {
      * @param uuid     唯一标识
      */
     public void validateCaptcha(String tenantId, String username, String code, String uuid) {
-        String verifyKey = GlobalConstants.CAPTCHA_CODE_KEY + StringUtils.defaultString(uuid, "");
+        String verifyKey = GlobalConstants.CAPTCHA_CODE_KEY + StringUtils.blankToDefault(uuid, "");
         String captcha = RedisUtils.getCacheObject(verifyKey);
         RedisUtils.deleteObject(verifyKey);
         if (captcha == null) {
@@ -186,7 +198,6 @@ public class SysLoginService {
         logininforEvent.setUsername(username);
         logininforEvent.setStatus(status);
         logininforEvent.setMessage(message);
-        logininforEvent.setRequest(ServletUtils.getRequest());
         SpringUtils.context().publishEvent(logininforEvent);
     }
 

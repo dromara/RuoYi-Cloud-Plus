@@ -1,0 +1,44 @@
+spring:
+  datasource:
+    dynamic:
+      # 设置默认的数据源或者数据源组,默认值即为 master
+      primary: master
+      datasource:
+        # 主库数据源
+        master:
+          type: ${spring.datasource.type}
+          driver-class-name: com.mysql.cj.jdbc.Driver
+          url: ${datasource.workflow.url}
+          username: ${datasource.workflow.username}
+          password: ${datasource.workflow.password}
+#        oracle:
+#          type: ${spring.datasource.type}
+#          driverClassName: oracle.jdbc.OracleDriver
+#          url: ${datasource.system-oracle.url}
+#          username: ${datasource.system-oracle.username}
+#          password: ${datasource.system-oracle.password}
+#        postgres:
+#          type: ${spring.datasource.type}
+#          driverClassName: org.postgresql.Driver
+#          url: ${datasource.system-postgres.url}
+#          username: ${datasource.system-postgres.username}
+#          password: ${datasource.system-postgres.password}
+
+# flowable配置
+flowable:
+  # 关闭定时任务JOB
+  async-executor-activate: false
+  # 将databaseSchemaUpdate设置为true。当Flowable发现库与数据库表结构不一致时，会自动将数据库表结构升级至新版本。
+  database-schema-update: true
+  activity-font-name: 宋体
+  label-font-name: 宋体
+  annotation-font-name: 宋体
+  # 关闭各个模块生成表，目前只使用工作流基础表
+  idm:
+    enabled: false
+  cmmn:
+    enabled: false
+  dmn:
+    enabled: false
+  app:
+    enabled: false

@@ -29,7 +29,7 @@ services:
     network_mode: "host"
 
   nacos:
-    image: ruoyi/ruoyi-nacos:2.1.2
+    image: ruoyi/ruoyi-nacos:2.2.0
     container_name: nacos
     ports:
       - "8848:8848"
@@ -96,7 +96,7 @@ services:
     network_mode: "host"
 
   seata-server:
-    image: ruoyi/ruoyi-seata-server:2.1.2
+    image: ruoyi/ruoyi-seata-server:2.2.0
     container_name: seata-server
     ports:
       - "7091:7091"
@@ -135,7 +135,7 @@ services:
     network_mode: "host"
 
   sentinel:
-    image: ruoyi/ruoyi-sentinel-dashboard:2.1.2
+    image: ruoyi/ruoyi-sentinel-dashboard:2.2.0
     container_name: sentinel
     environment:
       TZ: Asia/Shanghai
@@ -150,7 +150,7 @@ services:
     network_mode: "host"
 
   ruoyi-monitor:
-    image: ruoyi/ruoyi-monitor:2.1.2
+    image: ruoyi/ruoyi-monitor:2.2.0
     container_name: ruoyi-monitor
     environment:
       # 时区上海
@@ -165,23 +165,22 @@ services:
     privileged: true
     network_mode: "host"
 
-  ruoyi-powerjob-server:
-    image: ruoyi/ruoyi-powerjob-server:2.1.2
-    container_name: ruoyi-powerjob-server
+  ruoyi-snailjob-server:
+    image: ruoyi/ruoyi-snailjob-server:2.2.0
+    container_name: ruoyi-snailjob-server
     environment:
       # 时区上海
       TZ: Asia/Shanghai
     ports:
-      - "7700:7700"
-      - "10086:10086"
-      - "10010:10010"
+      - "8800:8800"
+      - "1788:1788"
     volumes:
-      - /docker/powerjob/logs/:/ruoyi/powerjob/logs
+      - /docker/snailjob/logs/:/ruoyi/snailjob/logs
     privileged: true
     network_mode: "host"
 
   ruoyi-gateway:
-    image: ruoyi/ruoyi-gateway:2.1.2
+    image: ruoyi/ruoyi-gateway:2.2.0
     container_name: ruoyi-gateway
     environment:
       # 时区上海
@@ -197,7 +196,7 @@ services:
     network_mode: "host"
 
   ruoyi-auth:
-    image: ruoyi/ruoyi-auth:2.1.2
+    image: ruoyi/ruoyi-auth:2.2.0
     container_name: ruoyi-auth
     environment:
       # 时区上海
@@ -213,7 +212,7 @@ services:
     network_mode: "host"
 
   ruoyi-system:
-    image: ruoyi/ruoyi-system:2.1.2
+    image: ruoyi/ruoyi-system:2.2.0
     container_name: ruoyi-system
     environment:
       # 时区上海
@@ -229,7 +228,7 @@ services:
     network_mode: "host"
 
   ruoyi-gen:
-    image: ruoyi/ruoyi-gen:2.1.2
+    image: ruoyi/ruoyi-gen:2.2.0
     container_name: ruoyi-gen
     environment:
       # 时区上海
@@ -245,7 +244,7 @@ services:
     network_mode: "host"
 
   ruoyi-job:
-    image: ruoyi/ruoyi-job:2.1.2
+    image: ruoyi/ruoyi-job:2.2.0
     container_name: ruoyi-job
     environment:
       # 时区上海
@@ -261,7 +260,7 @@ services:
     network_mode: "host"
 
   ruoyi-resource:
-    image: ruoyi/ruoyi-resource:2.1.2
+    image: ruoyi/ruoyi-resource:2.2.0
     container_name: ruoyi-resource
     environment:
       # 时区上海
@@ -271,6 +270,22 @@ services:
     volumes:
       # 配置文件
       - /docker/ruoyi-resource/logs/:/ruoyi/resource/logs
+      # skywalking 探针
+      - /docker/skywalking/agent/:/ruoyi/skywalking/agent
+    privileged: true
+    network_mode: "host"
+
+  ruoyi-workflow:
+    image: ruoyi/ruoyi-workflow:2.2.0
+    container_name: ruoyi-workflow
+    environment:
+      # 时区上海
+      TZ: Asia/Shanghai
+    ports:
+      - "9205:9205"
+    volumes:
+      # 配置文件
+      - /docker/ruoyi-workflow/logs/:/ruoyi/workflow/logs
       # skywalking 探针
       - /docker/skywalking/agent/:/ruoyi/skywalking/agent
     privileged: true
@@ -328,9 +343,9 @@ services:
       - elasticsearch
     network_mode: "host"
 
-  mqnamesrv:
-    image: apache/rocketmq:4.9.4
-    container_name: mqnamesrv
+  rmqnamesrv:
+    image: apache/rocketmq:5.2.0
+    container_name: rmqnamesrv
     ports:
       - "9876:9876"
     environment:
@@ -340,25 +355,25 @@ services:
       - /docker/rocketmq/namesrv/logs:/home/rocketmq/logs/rocketmqlogs
     network_mode: "host"
 
-  mqbroker1:
-    image: apache/rocketmq:4.9.4
-    container_name: mqbroker1
+  rmqbroker1:
+    image: apache/rocketmq:5.2.0
+    container_name: rmqbroker1
     ports:
       - "10911:10911"
       - "10909:10909"
       - "10912:10912"
     environment:
       JAVA_OPT_EXT: -server -Xms512M -Xmx512M -Xmn256m
-    command: sh mqbroker -c /home/rocketmq/rocketmq-4.9.4/conf/broker.conf
+    command: sh mqbroker --enable-proxy -c /home/rocketmq/rocketmq-5.2.0/conf/broker.conf
     depends_on:
       - mqnamesrv
     volumes:
-      - /docker/rocketmq/broker1/conf/broker.conf:/home/rocketmq/rocketmq-4.9.4/conf/broker.conf
+      - /docker/rocketmq/broker1/conf/broker.conf:/home/rocketmq/rocketmq-5.2.0/conf/broker.conf
       - /docker/rocketmq/broker1/logs:/home/rocketmq/logs/rocketmqlogs
       - /docker/rocketmq/broker1/store:/home/rocketmq/store
     network_mode: "host"
 
-  mqconsole:
+  rmqconsole:
     image: styletang/rocketmq-console-ng
     container_name: mqconsole
     ports:
@@ -366,11 +381,11 @@ services:
     environment:
       JAVA_OPTS: -Dserver.port=19876 -Drocketmq.namesrv.addr=127.0.0.1:9876 -Dcom.rocketmq.sendMessageWithVIPChannel=false
     depends_on:
-      - mqnamesrv
+      - rmqnamesrv
     network_mode: "host"
 
   rabbitmq:
-    image: rabbitmq:3.10.6
+    image: rabbitmq:3.13.3
     container_name: rabbitmq
     build:
       context: ./rabbitmq
@@ -402,7 +417,7 @@ services:
     network_mode: "host"
 
   kafka:
-    image: 'bitnami/kafka:3.2.0'
+    image: 'bitnami/kafka:3.6.2'
     container_name: kafka
     ports:
       - "9092:9092"

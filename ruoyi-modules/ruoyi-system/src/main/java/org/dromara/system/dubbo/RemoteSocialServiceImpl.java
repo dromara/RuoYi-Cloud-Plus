@@ -8,7 +8,6 @@ import org.dromara.system.api.domain.bo.RemoteSocialBo;
 import org.dromara.system.api.domain.vo.RemoteSocialVo;
 import org.dromara.system.domain.bo.SysSocialBo;
 import org.dromara.system.domain.vo.SysSocialVo;
-import org.dromara.system.mapper.SysSocialMapper;
 import org.dromara.system.service.ISysSocialService;
 import org.springframework.stereotype.Service;
 
@@ -25,7 +24,6 @@ import java.util.List;
 public class RemoteSocialServiceImpl implements RemoteSocialService {
 
     private final ISysSocialService sysSocialService;
-    private final SysSocialMapper sysSocialMapper;
 
     /**
      * 根据 authId 查询用户信息
@@ -33,6 +31,13 @@ public class RemoteSocialServiceImpl implements RemoteSocialService {
     @Override
     public List<RemoteSocialVo> selectByAuthId(String authId) {
         List<SysSocialVo> list = sysSocialService.selectByAuthId(authId);
+        return MapstructUtils.convert(list, RemoteSocialVo.class);
+    }
+
+    @Override
+    public List<RemoteSocialVo> queryList(RemoteSocialBo bo) {
+        SysSocialBo params = MapstructUtils.convert(bo, SysSocialBo.class);
+        List<SysSocialVo> list = sysSocialService.queryList(params);
         return MapstructUtils.convert(list, RemoteSocialVo.class);
     }
 

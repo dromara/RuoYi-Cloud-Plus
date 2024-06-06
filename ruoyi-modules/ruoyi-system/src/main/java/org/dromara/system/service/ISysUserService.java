@@ -3,6 +3,7 @@ package org.dromara.system.service;
 import org.dromara.common.mybatis.core.page.PageQuery;
 import org.dromara.common.mybatis.core.page.TableDataInfo;
 import org.dromara.system.domain.bo.SysUserBo;
+import org.dromara.system.domain.vo.SysUserExportVo;
 import org.dromara.system.domain.vo.SysUserVo;
 
 import java.util.List;
@@ -23,7 +24,7 @@ public interface ISysUserService {
      * @param user 用户信息
      * @return 用户信息集合信息
      */
-    List<SysUserVo> selectUserList(SysUserBo user);
+    List<SysUserExportVo> selectUserExportList(SysUserBo user);
 
     /**
      * 根据条件分页查询已分配用户角色列表
@@ -66,20 +67,29 @@ public interface ISysUserService {
     SysUserVo selectUserById(Long userId);
 
     /**
+     * 通过用户ID串查询用户
+     *
+     * @param userIds 用户ID串
+     * @param deptId  部门id
+     * @return 用户列表信息
+     */
+    List<SysUserVo> selectUserByIds(List<Long> userIds, Long deptId);
+
+    /**
      * 根据用户ID查询用户所属角色组
      *
-     * @param userName 用户名
+     * @param userId 用户ID
      * @return 结果
      */
-    String selectUserRoleGroup(String userName);
+    String selectUserRoleGroup(Long userId);
 
     /**
      * 根据用户ID查询用户所属岗位组
      *
-     * @param userName 用户名
+     * @param userId 用户ID
      * @return 结果
      */
-    String selectUserPostGroup(String userName);
+    String selectUserPostGroup(Long userId);
 
     /**
      * 校验用户名称是否唯一
@@ -219,11 +229,43 @@ public interface ISysUserService {
     String selectNicknameById(Long userId);
 
     /**
+     * 通过用户ID查询用户账户
+     *
+     * @param userIds 用户ID
+     * @return 用户账户
+     */
+    String selectNicknameByIds(String userIds);
+
+    /**
+     * 通过用户ID查询用户手机号
+     *
+     * @param userId 用户id
+     * @return 用户手机号
+     */
+    String selectPhonenumberById(Long userId);
+
+    /**
+     * 通过用户ID查询用户邮箱
+     *
+     * @param userId 用户id
+     * @return 用户邮箱
+     */
+    String selectEmailById(Long userId);
+
+    /**
      * 通过部门id查询当前部门所有用户
      *
-     * @param deptId
-     * @return
+     * @param deptId 部门id
+     * @return 结果
      */
     List<SysUserVo> selectUserListByDept(Long deptId);
+
+    /**
+     * 通过角色ID查询用户ID
+     *
+     * @param roleIds 角色ids
+     * @return 用户ids
+     */
+    List<Long> selectUserIdsByRoleIds(List<Long> roleIds);
 
 }

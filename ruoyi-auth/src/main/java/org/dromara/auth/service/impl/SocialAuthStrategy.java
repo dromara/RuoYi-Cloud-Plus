@@ -21,6 +21,7 @@ import org.dromara.common.json.utils.JsonUtils;
 import org.dromara.common.satoken.utils.LoginHelper;
 import org.dromara.common.social.config.properties.SocialProperties;
 import org.dromara.common.social.utils.SocialUtils;
+import org.dromara.common.tenant.helper.TenantHelper;
 import org.dromara.system.api.RemoteSocialService;
 import org.dromara.system.api.RemoteUserService;
 import org.dromara.system.api.domain.vo.RemoteClientVo;
@@ -80,11 +81,16 @@ public class SocialAuthStrategy implements IAuthStrategy {
         if (CollUtil.isEmpty(list)) {
             throw new ServiceException("你还没有绑定第三方账号，绑定后才可以登录！");
         }
-        Optional<RemoteSocialVo> opt = list.stream().filter(x -> x.getTenantId().equals(loginBody.getTenantId())).findAny();
-        if (opt.isEmpty()) {
-            throw new ServiceException("对不起，你没有权限登录当前租户！");
+        RemoteSocialVo socialVo;
+        if (TenantHelper.isEnable()) {
+            Optional<RemoteSocialVo> opt = list.stream().filter(x -> x.getTenantId().equals(loginBody.getTenantId())).findAny();
+            if (opt.isEmpty()) {
+                throw new ServiceException("对不起，你没有权限登录当前租户！");
+            }
+            socialVo = opt.get();
+        } else {
+            socialVo = list.get(0);
         }
-        RemoteSocialVo socialVo = opt.get();
 
         LoginUser loginUser = remoteUserService.getUserInfo(socialVo.getUserId(), socialVo.getTenantId());
         loginUser.setClientKey(client.getClientKey());

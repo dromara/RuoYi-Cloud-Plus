@@ -10,7 +10,6 @@ import org.dromara.common.core.domain.model.LoginBody;
  *
  * @author Lion Li
  */
-
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class XcxLoginBody extends LoginBody {

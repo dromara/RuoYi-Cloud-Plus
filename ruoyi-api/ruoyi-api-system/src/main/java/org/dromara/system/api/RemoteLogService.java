@@ -23,4 +23,5 @@ public interface RemoteLogService {
      * @param sysLogininfor 访问实体
      */
     void saveLogininfor(RemoteLogininforBo sysLogininfor);
+
 }

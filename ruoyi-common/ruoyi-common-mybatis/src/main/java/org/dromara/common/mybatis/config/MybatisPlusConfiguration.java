@@ -1,34 +1,33 @@
 package org.dromara.common.mybatis.config;
 
 import cn.hutool.core.net.NetUtil;
-import com.baomidou.mybatisplus.autoconfigure.DdlApplicationRunner;
-import com.baomidou.mybatisplus.autoconfigure.MybatisPlusAutoConfiguration;
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import com.baomidou.mybatisplus.core.incrementer.DefaultIdentifierGenerator;
 import com.baomidou.mybatisplus.core.incrementer.IdentifierGenerator;
-import com.baomidou.mybatisplus.extension.ddl.IDdl;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.OptimisticLockerInnerInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
+import com.baomidou.mybatisplus.extension.plugins.inner.TenantLineInnerInterceptor;
 import org.dromara.common.core.factory.YmlPropertySourceFactory;
+import org.dromara.common.core.utils.SpringUtils;
 import org.dromara.common.mybatis.handler.InjectionMetaObjectHandler;
+import org.dromara.common.mybatis.handler.MybatisExceptionHandler;
 import org.dromara.common.mybatis.interceptor.PlusDataPermissionInterceptor;
+import org.dromara.common.mybatis.service.SysDataScopeService;
 import org.mybatis.spring.annotation.MapperScan;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.BeansException;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-
-import java.util.List;
 
 /**
  * mybatis-plus配置类(下方注释有插件介绍)
  *
  * @author Lion Li
  */
+@AutoConfiguration
 @EnableTransactionManagement(proxyTargetClass = true)
-@AutoConfiguration(before = MybatisPlusAutoConfiguration.class)
 @MapperScan("${mybatis-plus.mapperPackage}")
 @PropertySource(value = "classpath:common-mybatis.yml", factory = YmlPropertySourceFactory.class)
 public class MybatisPlusConfiguration {
@@ -36,6 +35,12 @@ public class MybatisPlusConfiguration {
     @Bean
     public MybatisPlusInterceptor mybatisPlusInterceptor() {
         MybatisPlusInterceptor interceptor = new MybatisPlusInterceptor();
+        // 多租户插件 必须放到第一位
+        try {
+            TenantLineInnerInterceptor tenant = SpringUtils.getBean(TenantLineInnerInterceptor.class);
+            interceptor.addInnerInterceptor(tenant);
+        } catch (BeansException ignore) {
+        }
         // 数据权限处理
         interceptor.addInnerInterceptor(dataPermissionInterceptor());
         // 分页插件
@@ -49,7 +54,7 @@ public class MybatisPlusConfiguration {
      * 数据权限拦截器
      */
     public PlusDataPermissionInterceptor dataPermissionInterceptor() {
-        return new PlusDataPermissionInterceptor();
+        return new PlusDataPermissionInterceptor(SpringUtils.getProperty("mybatis-plus.mapperPackage"));
     }
 
     /**
@@ -57,8 +62,6 @@ public class MybatisPlusConfiguration {
      */
     public PaginationInnerInterceptor paginationInnerInterceptor() {
         PaginationInnerInterceptor paginationInnerInterceptor = new PaginationInnerInterceptor();
-        // 设置最大单页限制数量，默认 500 条，-1 不受限制
-        paginationInnerInterceptor.setMaxLimit(-1L);
         // 分页合理化
         paginationInnerInterceptor.setOverflow(true);
         return paginationInnerInterceptor;
@@ -89,6 +92,22 @@ public class MybatisPlusConfiguration {
     }
 
     /**
+     * 异常处理器
+     */
+    @Bean
+    public MybatisExceptionHandler mybatisExceptionHandler() {
+        return new MybatisExceptionHandler();
+    }
+
+    /**
+     * 数据权限处理实现
+     */
+    @Bean("sdss")
+    public SysDataScopeService sysDataScopeService() {
+        return new SysDataScopeService();
+    }
+
+    /**
      * PaginationInnerInterceptor 分页插件，自动识别数据库类型
      * https://baomidou.com/pages/97710a/
      * OptimisticLockerInnerInterceptor 乐观锁插件
@@ -107,10 +126,5 @@ public class MybatisPlusConfiguration {
      * DynamicTableNameInnerInterceptor 动态表名插件
      * https://baomidou.com/pages/2a45ff/
      */
-
-    @Bean
-    public DdlApplicationRunner ddlApplicationRunner(@Autowired(required = false) List<IDdl> ddlList) {
-        return new DdlApplicationRunner(ddlList);
-    }
 
 }

@@ -13,7 +13,7 @@ public interface RemoteMessageService {
      * @param sessionKey session主键 一般为用户id
      * @param message    消息文本
      */
-    void sendMessage(Long sessionKey, String message);
+    void publishMessage(Long sessionKey, String message);
 
     void publishAll(String message);
 }

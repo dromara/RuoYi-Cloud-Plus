@@ -36,6 +36,11 @@ public class LoginUser implements Serializable {
     private Long deptId;
 
     /**
+     * 部门类别编码
+     */
+    private String deptCategory;
+
+    /**
      * 部门名
      */
     private String deptName;

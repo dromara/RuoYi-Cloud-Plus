@@ -1,8 +1,8 @@
-FROM rabbitmq:3.10.6-management
+FROM rabbitmq:3.13.3-management
 
 MAINTAINER Lion Li
 
-ADD ./rabbitmq_delayed_message_exchange-3.10.2.ez /plugins
+ADD ./rabbitmq_delayed_message_exchange-3.13.0.ez /plugins
 
 RUN rabbitmq-plugins enable rabbitmq_delayed_message_exchange
 

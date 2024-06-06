@@ -67,5 +67,4 @@ public class RemoteClientVo implements Serializable {
      */
     private String status;
 
-
 }

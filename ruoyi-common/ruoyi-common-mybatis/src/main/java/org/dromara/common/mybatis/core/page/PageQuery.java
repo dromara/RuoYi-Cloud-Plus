@@ -4,10 +4,11 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.metadata.OrderItem;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.dromara.common.core.exception.ServiceException;
 import org.dromara.common.core.utils.StringUtils;
 import org.dromara.common.core.utils.sql.SqlUtil;
-import lombok.Data;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -21,6 +22,7 @@ import java.util.List;
  */
 
 @Data
+@NoArgsConstructor
 public class PageQuery implements Serializable {
 
     @Serial
@@ -109,6 +111,10 @@ public class PageQuery implements Serializable {
             }
         }
         return list;
+    }
+
+    public Integer getFirstNum() {
+        return (pageNum - 1) * pageSize;
     }
 
 }

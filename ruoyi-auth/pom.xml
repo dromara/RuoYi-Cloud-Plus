@@ -16,16 +16,9 @@
 
     <dependencies>
 
-        <!-- SpringCloud Alibaba Nacos -->
         <dependency>
-            <groupId>com.alibaba.cloud</groupId>
-            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
-        </dependency>
-
-        <!-- SpringCloud Alibaba Nacos Config -->
-        <dependency>
-            <groupId>com.alibaba.cloud</groupId>
-            <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
+            <groupId>org.dromara</groupId>
+            <artifactId>ruoyi-common-nacos</artifactId>
         </dependency>
 
         <dependency>
@@ -87,12 +80,6 @@
         <dependency>
             <groupId>org.dromara</groupId>
             <artifactId>ruoyi-common-tenant</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.dromara</groupId>
-                    <artifactId>ruoyi-common-mybatis</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.dromara</groupId>
