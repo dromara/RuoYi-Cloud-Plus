@@ -586,7 +586,7 @@ insert into sys_menu values('11625', '流程分类修改', '11622', '3', '#', ''
 insert into sys_menu values('11626', '流程分类删除', '11622', '4', '#', '', '', 1, 0, 'F', '0', '0', 'workflow:category:remove','#', 103, 1, now(), null, null, '');
 insert into sys_menu values('11627', '流程分类导出', '11622', '5', '#', '', '', 1, 0, 'F', '0', '0', 'workflow:category:export','#', 103, 1, now(), null, null, '');
 insert into sys_menu values('11638', '请假申请',    '5',     '1', 'leave', 'workflow/leave/index', '', 1, 0, 'C', '0', '0', 'workflow:leave:list', '#', 103, 1, now(), NULL, NULL, '请假申请菜单');
-insert into sys_menu values('11639', '请假申请查询', '11638', '1,' '#', '', '', 1, 0, 'F', '0', '0', 'workflow:leave:query',    '#', 103, 1, now(), NULL, NULL, '');
+insert into sys_menu values('11639', '请假申请查询', '11638', '1', '#', '', '', 1, 0, 'F', '0', '0', 'workflow:leave:query',    '#', 103, 1, now(), NULL, NULL, '');
 insert into sys_menu values('11640', '请假申请新增', '11638', '2', '#', '', '', 1, 0, 'F', '0', '0', 'workflow:leave:add',      '#', 103, 1, now(), NULL, NULL, '');
 insert into sys_menu values('11641', '请假申请修改', '11638', '3', '#', '', '', 1, 0, 'F', '0', '0', 'workflow:leave:edit',     '#', 103, 1, now(), NULL, NULL, '');
 insert into sys_menu values('11642', '请假申请删除', '11638', '4', '#', '', '', 1, 0, 'F', '0', '0', 'workflow:leave:remove',   '#', 103, 1, now(), NULL, NULL, '');
