@@ -85,6 +85,9 @@ public class TestLeaveServiceImpl implements ITestLeaveService {
     @Override
     public TestLeaveVo insertByBo(TestLeaveBo bo) {
         TestLeave add = MapstructUtils.convert(bo, TestLeave.class);
+        if (StringUtils.isBlank(add.getStatus())) {
+            add.setStatus(BusinessStatusEnum.DRAFT.getStatus());
+        }
         boolean flag = baseMapper.insert(add) > 0;
         if (flag) {
             bo.setId(add.getId());
@@ -115,13 +118,16 @@ public class TestLeaveServiceImpl implements ITestLeaveService {
 
     /**
      * 总体流程监听(例如: 提交 退回 撤销 终止 作废等)
+     * 正常使用只需#processEvent.key=='leave1'
+     * 示例为了方便则使用startsWith匹配了全部示例key
      *
      * @param processEvent 参数
      */
-    @EventListener(condition = "#processEvent.key=='leave1'")
+    @EventListener(condition = "#processEvent.key.startsWith('leave')")
     public void processHandler(ProcessEvent processEvent) {
         log.info("当前任务执行了{}", processEvent.toString());
         TestLeave testLeave = baseMapper.selectById(Long.valueOf(processEvent.getBusinessKey()));
+        testLeave.setStatus(processEvent.getStatus());
         if (processEvent.isSubmit()) {
             testLeave.setStatus(BusinessStatusEnum.WAITING.getStatus());
         }
@@ -140,6 +146,4 @@ public class TestLeaveServiceImpl implements ITestLeaveService {
         testLeave.setStatus(BusinessStatusEnum.WAITING.getStatus());
         baseMapper.updateById(testLeave);
     }
-
-
 }
