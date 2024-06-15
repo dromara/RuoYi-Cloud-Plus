@@ -17,10 +17,10 @@ import org.apache.dubbo.config.annotation.DubboReference;
 public class OssUrlTranslationImpl implements TranslationInterface<String> {
 
     @DubboReference(mock = "true")
-    private RemoteFileService ossService;
+    private RemoteFileService remoteFileService;
 
     @Override
     public String translation(Object key, String other) {
-        return ossService.selectUrlByIds(key.toString());
+        return remoteFileService.selectUrlByIds(key.toString());
     }
 }
