@@ -11,7 +11,7 @@
 
 rocketmq：
 
-**注意：需要进入到rockerMQ文件路径中执行**
+**注意：由于rocketmq并没有自动创建topic的功能, 所以需要进入到rockerMQ文件路径中执行**
 
 创建普通消息的topic
 
