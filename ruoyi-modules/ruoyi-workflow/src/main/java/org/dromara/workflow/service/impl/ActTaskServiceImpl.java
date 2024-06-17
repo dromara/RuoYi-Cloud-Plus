@@ -15,6 +15,7 @@ import org.dromara.common.mybatis.core.page.PageQuery;
 import org.dromara.common.mybatis.core.page.TableDataInfo;
 import org.dromara.common.satoken.utils.LoginHelper;
 import org.dromara.common.tenant.helper.TenantHelper;
+import org.dromara.resource.api.RemoteFileService;
 import org.dromara.system.api.RemoteUserService;
 import org.dromara.system.api.domain.vo.RemoteUserVo;
 import org.dromara.system.api.model.RoleDTO;
@@ -79,9 +80,11 @@ public class ActTaskServiceImpl implements IActTaskService {
     private final ActHiTaskinstMapper actHiTaskinstMapper;
     private final IWfNodeConfigService wfNodeConfigService;
     private final IWfDefinitionConfigService wfDefinitionConfigService;
-    @DubboReference
-    private final RemoteUserService userService;
     private final FlowProcessEventHandler flowProcessEventHandler;
+    @DubboReference
+    private RemoteUserService remoteUserService;
+    @DubboReference
+    private RemoteFileService remoteFileService;
 
     /**
      * 启动任务
@@ -177,7 +180,7 @@ public class ActTaskServiceImpl implements IActTaskService {
                 return true;
             }
             //附件上传
-            AttachmentCmd attachmentCmd = new AttachmentCmd(completeTaskBo.getFileId(), task.getId(), task.getProcessInstanceId());
+            AttachmentCmd attachmentCmd = new AttachmentCmd(completeTaskBo.getFileId(), task.getId(), task.getProcessInstanceId(), remoteFileService);
             managementService.executeCommand(attachmentCmd);
             String businessStatus = WorkflowUtils.getBusinessStatus(processInstance.getBusinessKey());
             //流程提交监听
@@ -241,7 +244,7 @@ public class ActTaskServiceImpl implements IActTaskService {
      */
     @Async
     public void sendMessage(List<Task> list, String name, List<String> messageType, String message) {
-        WorkflowUtils.sendMessage(list, name, messageType, message);
+        WorkflowUtils.sendMessage(list, name, messageType, message, remoteUserService);
     }
 
     /**
@@ -275,7 +278,7 @@ public class ActTaskServiceImpl implements IActTaskService {
             List<WfNodeConfigVo> wfNodeConfigVoList = wfNodeConfigService.selectByDefIds(processDefinitionIds);
             for (TaskVo task : taskList) {
                 task.setBusinessStatusName(BusinessStatusEnum.findByStatus(task.getBusinessStatus()));
-                task.setParticipantVo(WorkflowUtils.getCurrentTaskParticipant(task.getId()));
+                task.setParticipantVo(WorkflowUtils.getCurrentTaskParticipant(task.getId(), remoteUserService));
                 task.setMultiInstance(WorkflowUtils.isMultiInstance(task.getProcessDefinitionId(), task.getTaskDefinitionKey()) != null);
                 if (CollUtil.isNotEmpty(wfNodeConfigVoList)) {
                     wfNodeConfigVoList.stream().filter(e -> e.getDefinitionId().equals(task.getProcessDefinitionId()) && FlowConstant.TRUE.equals(e.getApplyUserTask())).findFirst().ifPresent(task::setWfNodeConfigVo);
@@ -340,7 +343,7 @@ public class ActTaskServiceImpl implements IActTaskService {
                     });
                 }
                 taskVo.setAssignee(StringUtils.isNotBlank(task.getAssignee()) ? Long.valueOf(task.getAssignee()) : null);
-                taskVo.setParticipantVo(WorkflowUtils.getCurrentTaskParticipant(task.getId()));
+                taskVo.setParticipantVo(WorkflowUtils.getCurrentTaskParticipant(task.getId(), remoteUserService));
                 taskVo.setMultiInstance(WorkflowUtils.isMultiInstance(task.getProcessDefinitionId(), task.getTaskDefinitionKey()) != null);
                 if (CollUtil.isNotEmpty(wfNodeConfigVoList)) {
                     wfNodeConfigVoList.stream().filter(e -> e.getDefinitionId().equals(task.getProcessDefinitionId()) && FlowConstant.TRUE.equals(e.getApplyUserTask())).findFirst().ifPresent(taskVo::setWfNodeConfigVo);
@@ -820,7 +823,7 @@ public class ActTaskServiceImpl implements IActTaskService {
 
         if (multiInstance.getType() instanceof SequentialMultiInstanceBehavior) {
             List<Long> userIds = StreamUtils.filter(assigneeList, e -> !String.valueOf(e).equals(task.getAssignee()));
-            List<RemoteUserVo> userList = userService.selectListByIds(userIds);
+            List<RemoteUserVo> userList = remoteUserService.selectListByIds(userIds);
             for (Long userId : userIds) {
                 TaskVo taskVo = new TaskVo();
                 taskVo.setId("串行会签");
@@ -838,7 +841,7 @@ public class ActTaskServiceImpl implements IActTaskService {
             List<Task> tasks = StreamUtils.filter(taskList, e -> StringUtils.isBlank(e.getParentTaskId()) && !e.getExecutionId().equals(task.getExecutionId()) && e.getTaskDefinitionKey().equals(task.getTaskDefinitionKey()));
             if (CollUtil.isNotEmpty(tasks)) {
                 List<Long> userIds = StreamUtils.toList(tasks, e -> Long.valueOf(e.getAssignee()));
-                List<RemoteUserVo> userList = userService.selectListByIds(userIds);
+                List<RemoteUserVo> userList = remoteUserService.selectListByIds(userIds);
                 for (Task t : tasks) {
                     TaskVo taskVo = new TaskVo();
                     taskVo.setId(t.getId());

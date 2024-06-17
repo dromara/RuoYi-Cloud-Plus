@@ -1,7 +1,6 @@
 package org.dromara.workflow.flowable.cmd;
 
 import cn.hutool.core.collection.CollUtil;
-import org.dromara.common.core.utils.SpringUtils;
 import org.dromara.common.core.utils.StringUtils;
 import org.dromara.common.satoken.utils.LoginHelper;
 import org.dromara.resource.api.RemoteFileService;
@@ -28,17 +27,20 @@ public class AttachmentCmd implements Command<Boolean> {
 
     private final String processInstanceId;
 
-    public AttachmentCmd(String fileId, String taskId, String processInstanceId) {
+    private final RemoteFileService remoteFileService;
+
+    public AttachmentCmd(String fileId, String taskId, String processInstanceId,
+                         RemoteFileService remoteFileService) {
         this.fileId = fileId;
         this.taskId = taskId;
         this.processInstanceId = processInstanceId;
+        this.remoteFileService = remoteFileService;
     }
 
     @Override
     public Boolean execute(CommandContext commandContext) {
         try {
             if (StringUtils.isNotBlank(fileId)) {
-                RemoteFileService remoteFileService = SpringUtils.getBean(RemoteFileService.class);
                 List<RemoteFile> ossList = remoteFileService.selectByIds(fileId);
                 if (CollUtil.isNotEmpty(ossList)) {
                     for (RemoteFile oss : ossList) {
