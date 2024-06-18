@@ -91,9 +91,12 @@ public class TokenController {
             return R.fail(MessageUtils.message("auth.grant.type.blocked"));
         }
         // 校验租户
-        sysLoginService.checkTenant(loginBody.getTenantId());
+        RemoteTenantVo tenant = sysLoginService.checkTenant(loginBody.getTenantId());
         // 登录
         LoginVo loginVo = IAuthStrategy.login(body, clientVo, grantType);
+        if (StringUtils.isNotBlank(tenant.getTenantId())) {
+            loginVo.setDomain(tenant.getDomain());
+        }
 
         Long userId = LoginHelper.getUserId();
         scheduledExecutorService.schedule(() -> {
@@ -126,7 +129,7 @@ public class TokenController {
      * @return 结果
      */
     @PostMapping("/social/callback")
-    public R<Void> socialCallback(@RequestBody SocialLoginBody loginBody) {
+    public R<LoginVo> socialCallback(@RequestBody SocialLoginBody loginBody) {
         // 获取第三方登录信息
         AuthResponse<AuthUser> response = SocialUtils.loginAuth(
             loginBody.getSource(), loginBody.getSocialCode(),
@@ -137,7 +140,13 @@ public class TokenController {
             return R.fail(response.getMsg());
         }
         sysLoginService.socialRegister(authUserData);
-        return R.ok();
+
+        LoginVo loginVo = new LoginVo();
+        RemoteTenantVo tenant = sysLoginService.checkTenant(LoginHelper.getTenantId());
+        if (StringUtils.isNotBlank(tenant.getTenantId())) {
+            loginVo.setDomain(tenant.getDomain());
+        }
+        return R.ok(loginVo);
     }
 
 
