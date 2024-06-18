@@ -224,6 +224,12 @@
                 <version>${revision}</version>
             </dependency>
 
+            <dependency>
+                <groupId>org.dromara</groupId>
+                <artifactId>ruoyi-common-bus</artifactId>
+                <version>${revision}</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 </project>

@@ -85,6 +85,16 @@ spring:
         # 控制台地址 从1.3.0开始使用 server-name 注册
         # dashboard: localhost:8718
 
+    bus:
+      id: ${spring.application.name}
+      base-packages: org.dromara.**.event
+  # 消息总线 也可以使用 kafka 参考 spring-cloud-bus 用法
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: ruoyi
+    password: ruoyi123
+
   # redis通用配置 子服务可以自行配置进行覆盖
   data:
     redis:
