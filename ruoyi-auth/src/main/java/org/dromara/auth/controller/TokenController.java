@@ -1,5 +1,6 @@
 package org.dromara.auth.controller;
 
+import cn.hutool.core.codec.Base64;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ObjectUtil;
 import jakarta.servlet.http.HttpServletRequest;
@@ -38,7 +39,10 @@ import org.dromara.system.api.domain.vo.RemoteTenantVo;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
@@ -109,13 +113,18 @@ public class TokenController {
      * @return 结果
      */
     @GetMapping("/binding/{source}")
-    public R<String> authBinding(@PathVariable("source") String source) {
+    public R<String> authBinding(@PathVariable("source") String source,
+                                 @RequestParam String tenantId, @RequestParam String domain) {
         SocialLoginConfigProperties obj = socialProperties.getType().get(source);
         if (ObjectUtil.isNull(obj)) {
             return R.fail(source + "平台账号暂不支持");
         }
         AuthRequest authRequest = SocialUtils.getAuthRequest(source, socialProperties);
-        String authorizeUrl = authRequest.authorize(AuthStateUtils.createState());
+        Map<String, String> map = new HashMap<>();
+        map.put("tenantId", tenantId);
+        map.put("domain", domain);
+        map.put("state", AuthStateUtils.createState());
+        String authorizeUrl = authRequest.authorize(Base64.encode(JsonUtils.toJsonString(map), StandardCharsets.UTF_8));
         return R.ok("操作成功", authorizeUrl);
     }
 
