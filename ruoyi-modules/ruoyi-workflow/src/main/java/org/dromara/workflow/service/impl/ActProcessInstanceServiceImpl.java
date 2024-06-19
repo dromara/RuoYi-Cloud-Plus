@@ -490,7 +490,7 @@ public class ActProcessInstanceServiceImpl implements IActProcessInstanceService
                 historicProcessInstance.getBusinessKey(), BusinessStatusEnum.INVALID.getStatus(), false);
             return true;
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
             throw new ServiceException(e.getMessage());
         }
     }
@@ -525,7 +525,7 @@ public class ActProcessInstanceServiceImpl implements IActProcessInstanceService
             wfTaskBackNodeService.deleteByInstanceIds(processInstanceIds);
             return true;
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
             throw new ServiceException(e.getMessage());
         }
     }
@@ -549,7 +549,7 @@ public class ActProcessInstanceServiceImpl implements IActProcessInstanceService
             wfTaskBackNodeService.deleteByInstanceIds(processInstanceIds);
             return true;
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
             throw new ServiceException(e.getMessage());
         }
     }
@@ -599,7 +599,7 @@ public class ActProcessInstanceServiceImpl implements IActProcessInstanceService
                 processInstance.getBusinessKey(), BusinessStatusEnum.CANCEL.getStatus(), false);
             return true;
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
             throw new ServiceException("撤销失败:" + e.getMessage());
         }
     }
