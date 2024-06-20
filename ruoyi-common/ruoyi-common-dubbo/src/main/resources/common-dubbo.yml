@@ -19,6 +19,14 @@ dubbo:
     password: ${spring.cloud.nacos.password}
     parameters:
       namespace: ${spring.profiles.active}
+  metadata-report:
+    address: redis://${spring.data.redis.host}:${spring.data.redis.port}
+    group: DUBBO_GROUP
+    username: dubbo
+    password: ${spring.data.redis.password}
+    parameters:
+      namespace: ${spring.profiles.active}
+      database: ${spring.data.redis.database}
   # 消费者相关配置
   consumer:
     # 结果缓存(LRU算法)

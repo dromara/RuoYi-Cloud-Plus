@@ -167,6 +167,12 @@
             </dependency>
 
             <dependency>
+                <groupId>org.apache.dubbo</groupId>
+                <artifactId>dubbo-metadata-report-redis</artifactId>
+                <version>${dubbo.version}</version>
+            </dependency>
+
+            <dependency>
                 <groupId>com.alibaba.spring</groupId>
                 <artifactId>spring-context-support</artifactId>
                 <version>${spring.context.support.version}</version>
