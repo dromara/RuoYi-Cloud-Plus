@@ -1,5 +1,6 @@
 package org.dromara.auth.controller;
 
+import cn.dev33.satoken.exception.NotLoginException;
 import cn.hutool.core.codec.Base64;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ObjectUtil;
@@ -191,8 +192,26 @@ public class TokenController {
      */
     @GetMapping("/tenant/list")
     public R<LoginTenantVo> tenantList(HttpServletRequest request) throws Exception {
+        // 返回对象
+        LoginTenantVo result = new LoginTenantVo();
+        boolean enable = TenantHelper.isEnable();
+        result.setTenantEnabled(enable);
+        // 如果未开启租户这直接返回
+        if (!enable) {
+            return R.ok(result);
+        }
+
         List<RemoteTenantVo> tenantList = remoteTenantService.queryList();
         List<TenantListVo> voList = MapstructUtils.convert(tenantList, TenantListVo.class);
+        try {
+            // 如果只超管返回所有租户
+            if (LoginHelper.isSuperAdmin()) {
+                result.setVoList(voList);
+                return R.ok(result);
+            }
+        } catch (NotLoginException ignored) {
+        }
+
         // 获取域名
         String host;
         String referer = request.getHeader("referer");
@@ -205,11 +224,8 @@ public class TokenController {
         // 根据域名进行筛选
         List<TenantListVo> list = StreamUtils.filter(voList, vo ->
             StringUtils.equals(vo.getDomain(), host));
-        // 返回对象
-        LoginTenantVo vo = new LoginTenantVo();
-        vo.setVoList(CollUtil.isNotEmpty(list) ? list : voList);
-        vo.setTenantEnabled(TenantHelper.isEnable());
-        return R.ok(vo);
+        result.setVoList(CollUtil.isNotEmpty(list) ? list : voList);
+        return R.ok(result);
     }
 
 }
