@@ -121,6 +121,7 @@ create table wf_definition_config
     process_key   varchar(255) not null,
     version       bigint       not null,
     tenant_id     varchar(20),
+    remark        varchar(500),
     create_dept   bigint,
     create_by     bigint,
     create_time   timestamp,
@@ -135,6 +136,7 @@ comment on column wf_definition_config.definition_id is '流程定义ID';
 comment on column wf_definition_config.process_key is '流程KEY';
 comment on column wf_definition_config.version is '流程版本';
 comment on column wf_definition_config.tenant_id is '租户id';
+comment on column wf_definition_config.remark is '备注';
 comment on column wf_definition_config.create_dept is '创建部门';
 comment on column wf_definition_config.create_by is '创建者';
 comment on column wf_definition_config.create_time is '创建时间';
