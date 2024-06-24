@@ -374,6 +374,13 @@
                 <version>${fastjson.version}</version>
             </dependency>
 
+            <!-- dubbo 专用 -->
+            <dependency>
+                <groupId>redis.clients</groupId>
+                <artifactId>jedis</artifactId>
+                <version>5.1.0</version>
+            </dependency>
+
             <dependency>
                 <groupId>com.alibaba</groupId>
                 <artifactId>transmittable-thread-local</artifactId>
