@@ -33,6 +33,7 @@
         <spring-boot.version>2.7.18</spring-boot.version>
         <native-build-tools-plugin.version>0.9.20</native-build-tools-plugin.version>
         <logstash-logback-encoder.version>7.2</logstash-logback-encoder.version>
+        <jedis.version>3.8.0</jedis.version>
     </properties>
 
     <dependencyManagement>
@@ -177,6 +178,7 @@
         <dependency>
             <groupId>redis.clients</groupId>
             <artifactId>jedis</artifactId>
+            <version>${jedis.version}</version>
         </dependency>
 
         <dependency>
