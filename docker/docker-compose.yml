@@ -456,7 +456,7 @@ services:
     network_mode: "host"
 
   sky-oap:
-    image: apache/skywalking-oap-server:9.3.0
+    image: apache/skywalking-oap-server:9.7.0
     container_name: sky-oap
     ports:
       - "11800:11800"
@@ -473,7 +473,7 @@ services:
     network_mode: "host"
 
   sky-ui:
-    image: apache/skywalking-ui:9.3.0
+    image: apache/skywalking-ui:9.7.0
     container_name: sky-ui
     ports:
       - "18080:18080"

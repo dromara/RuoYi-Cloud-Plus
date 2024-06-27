@@ -39,7 +39,7 @@
         <logstash.version>7.4</logstash.version>
         <easy-es.version>2.0.0</easy-es.version>
         <elasticsearch.version>7.14.0</elasticsearch.version>
-        <skywalking-toolkit.version>8.16.0</skywalking-toolkit.version>
+        <skywalking-toolkit.version>9.2.0</skywalking-toolkit.version>
         <bouncycastle.version>1.76</bouncycastle.version>
         <alibaba-ttl.version>2.14.4</alibaba-ttl.version>
         <mapstruct-plus.version>1.3.6</mapstruct-plus.version>

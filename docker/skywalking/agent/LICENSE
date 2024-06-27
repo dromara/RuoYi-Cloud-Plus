@@ -215,12 +215,13 @@ Apache 2.0 licenses
 The following components are provided under the Apache License. See project link for details.
 The text of each license is the standard Apache 2.0 license.
 
-    raphw (byte-buddy) 1.12.19: http://bytebuddy.net/ , Apache 2.0
-    Google: grpc-java 1.50.0: https://github.com/grpc/grpc-java, Apache 2.0
+    raphw (byte-buddy) 1.14.9: http://bytebuddy.net/ , Apache 2.0
+    Google: grpc-java 1.53.0: https://github.com/grpc/grpc-java, Apache 2.0
     Google: gson 2.8.9: https://github.com/google/gson , Apache 2.0
     Google: proto-google-common-protos 2.0.1: https://github.com/googleapis/googleapis , Apache 2.0
     Google: jsr305 3.0.2: http://central.maven.org/maven2/com/google/code/findbugs/jsr305/3.0.0/jsr305-3.0.0.pom , Apache 2.0
-    netty 4.1.86: https://github.com/netty/netty/blob/4.1/LICENSE.txt, Apache 2.0
+    Google: guava 32.0.1: https://github.com/google/guava , Apache 2.0
+    netty 4.1.100: https://github.com/netty/netty/blob/4.1/LICENSE.txt, Apache 2.0
 
 ========================================================================
 BSD licenses
