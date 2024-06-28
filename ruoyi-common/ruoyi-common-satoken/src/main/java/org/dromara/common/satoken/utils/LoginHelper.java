@@ -88,6 +88,13 @@ public class LoginHelper {
     }
 
     /**
+     * 获取用户账户
+     */
+    public static String getUsername() {
+        return Convert.toStr(getExtra(USER_NAME_KEY));
+    }
+
+    /**
      * 获取租户ID
      */
     public static String getTenantId() {
@@ -128,13 +135,6 @@ public class LoginHelper {
             return null;
         }
 
-    }
-
-    /**
-     * 获取用户账户
-     */
-    public static String getUsername() {
-        return getLoginUser().getUsername();
     }
 
     /**
