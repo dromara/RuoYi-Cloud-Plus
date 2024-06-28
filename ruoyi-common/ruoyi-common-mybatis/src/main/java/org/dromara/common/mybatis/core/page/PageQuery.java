@@ -20,7 +20,6 @@ import java.util.List;
  *
  * @author Lion Li
  */
-
 @Data
 @NoArgsConstructor
 public class PageQuery implements Serializable {
@@ -58,6 +57,9 @@ public class PageQuery implements Serializable {
      */
     public static final int DEFAULT_PAGE_SIZE = Integer.MAX_VALUE;
 
+    /**
+     * 构建分页对象
+     */
     public <T> Page<T> build() {
         Integer pageNum = ObjectUtil.defaultIfNull(getPageNum(), DEFAULT_PAGE_NUM);
         Integer pageSize = ObjectUtil.defaultIfNull(getPageSize(), DEFAULT_PAGE_SIZE);
