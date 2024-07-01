@@ -11,8 +11,18 @@ import lombok.AllArgsConstructor;
 public enum RequestLogEnum {
 
     /**
-     * info 基础信息 param 参数信息 full 全部
+     * info 基础信息
      */
-    INFO, PARAM, FULL;
+    INFO,
+
+    /**
+     * param 参数信息
+     */
+    PARAM,
+
+    /**
+     * full 全部
+     */
+    FULL;
 
 }

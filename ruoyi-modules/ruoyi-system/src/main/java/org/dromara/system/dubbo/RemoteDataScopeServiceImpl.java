@@ -32,6 +32,12 @@ public class RemoteDataScopeServiceImpl implements RemoteDataScopeService {
     private final SysRoleDeptMapper roleDeptMapper;
     private final SysDeptMapper deptMapper;
 
+    /**
+     * 获取角色自定义权限语句
+     *
+     * @param roleId 角色ID
+     * @return 返回角色的自定义权限语句，如果没有找到则返回 null
+     */
     @Override
     public String getRoleCustom(Long roleId) {
         List<SysRoleDept> list = roleDeptMapper.selectList(
@@ -44,6 +50,12 @@ public class RemoteDataScopeServiceImpl implements RemoteDataScopeService {
         return null;
     }
 
+    /**
+     * 获取部门和下级权限语句
+     *
+     * @param deptId 部门ID
+     * @return 返回部门及其下级的权限语句，如果没有找到则返回 null
+     */
     @Override
     public String getDeptAndChild(Long deptId) {
         List<SysDept> deptList = deptMapper.selectList(new LambdaQueryWrapper<SysDept>()

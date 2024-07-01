@@ -85,6 +85,9 @@ public class TestLeaveServiceImpl implements ITestLeaveService {
     @Override
     public TestLeaveVo insertByBo(TestLeaveBo bo) {
         TestLeave add = MapstructUtils.convert(bo, TestLeave.class);
+        if (StringUtils.isBlank(add.getStatus())) {
+            add.setStatus(BusinessStatusEnum.DRAFT.getStatus());
+        }
         boolean flag = baseMapper.insert(add) > 0;
         if (flag) {
             bo.setId(add.getId());
@@ -110,18 +113,21 @@ public class TestLeaveServiceImpl implements ITestLeaveService {
     public Boolean deleteWithValidByIds(Collection<Long> ids) {
         List<String> idList = StreamUtils.toList(ids, String::valueOf);
         workflowService.deleteRunAndHisInstance(idList);
-        return baseMapper.deleteBatchIds(ids) > 0;
+        return baseMapper.deleteByIds(ids) > 0;
     }
 
     /**
      * 总体流程监听(例如: 提交 退回 撤销 终止 作废等)
+     * 正常使用只需#processEvent.key=='leave1'
+     * 示例为了方便则使用startsWith匹配了全部示例key
      *
      * @param processEvent 参数
      */
-    @EventListener(condition = "#processEvent.key=='leave1'")
+    @EventListener(condition = "#processEvent.key.startsWith('leave')")
     public void processHandler(ProcessEvent processEvent) {
         log.info("当前任务执行了{}", processEvent.toString());
         TestLeave testLeave = baseMapper.selectById(Long.valueOf(processEvent.getBusinessKey()));
+        testLeave.setStatus(processEvent.getStatus());
         if (processEvent.isSubmit()) {
             testLeave.setStatus(BusinessStatusEnum.WAITING.getStatus());
         }
@@ -130,16 +136,19 @@ public class TestLeaveServiceImpl implements ITestLeaveService {
 
     /**
      * 执行办理任务监听
+     * 示例：也可通过  @EventListener(condition = "#processTaskEvent.key=='leave1'")进行判断
+     * 在方法中判断流程节点key
+     * if ("xxx".equals(processTaskEvent.getTaskDefinitionKey())) {
+     * //执行业务逻辑
+     * }
      *
      * @param processTaskEvent 参数
      */
-    @EventListener(condition = "#processTaskEvent.keyNode=='leave1_Activity_14633hx'")
+    @EventListener(condition = "#processTaskEvent.key=='leave1' && #processTaskEvent.taskDefinitionKey=='Activity_14633hx'")
     public void processTaskHandler(ProcessTaskEvent processTaskEvent) {
         log.info("当前任务执行了{}", processTaskEvent.toString());
         TestLeave testLeave = baseMapper.selectById(Long.valueOf(processTaskEvent.getBusinessKey()));
         testLeave.setStatus(BusinessStatusEnum.WAITING.getStatus());
         baseMapper.updateById(testLeave);
     }
-
-
 }

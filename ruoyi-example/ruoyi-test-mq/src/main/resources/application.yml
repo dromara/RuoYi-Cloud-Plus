@@ -33,6 +33,8 @@ spring:
     streams:
       properties:
         application.id: kafka-streams-id # 应用ID
+    properties:
+      auto.create.topics.enable: true # 开启自动创建话题功能，默认是false，根据需要设置
 
 --- # rocketmq 配置
 rocketmq:
@@ -47,6 +49,8 @@ spring:
     nacos:
       # nacos 服务地址
       server-addr: @nacos.server@
+      username: @nacos.username@
+      password: @nacos.password@
       discovery:
         # 注册组
         group: @nacos.discovery.group@

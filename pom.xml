@@ -13,7 +13,7 @@
     <description>RuoYi-Cloud-Plus微服务系统</description>
 
     <properties>
-        <revision>2.2.0-BETA</revision>
+        <revision>2.2.0-BETA2</revision>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>17</java.version>
@@ -21,9 +21,9 @@
         <spring-cloud.version>2023.0.2</spring-cloud.version>
         <spring-boot-admin.version>3.2.3</spring-boot-admin.version>
         <mybatis.version>3.5.16</mybatis.version>
-        <mybatis-plus.version>3.5.6</mybatis-plus.version>
+        <mybatis-plus.version>3.5.7</mybatis-plus.version>
         <p6spy.version>3.9.1</p6spy.version>
-        <dynamic-ds.version>4.3.0</dynamic-ds.version>
+        <dynamic-ds.version>4.3.1</dynamic-ds.version>
         <velocity.version>2.3</velocity.version>
         <swagger.core.version>2.2.21</swagger.core.version>
         <springdoc.version>2.5.0</springdoc.version>
@@ -31,15 +31,15 @@
         <poi.version>5.2.3</poi.version>
         <easyexcel.version>3.3.4</easyexcel.version>
         <hutool.version>5.8.27</hutool.version>
-        <redisson.version>3.29.0</redisson.version>
+        <redisson.version>3.31.0</redisson.version>
         <lock4j.version>2.2.7</lock4j.version>
-        <snailjob.version>1.0.0-beta3</snailjob.version>
+        <snailjob.version>1.0.1</snailjob.version>
         <satoken.version>1.38.0</satoken.version>
         <lombok.version>1.18.32</lombok.version>
         <logstash.version>7.4</logstash.version>
         <easy-es.version>2.0.0</easy-es.version>
         <elasticsearch.version>7.14.0</elasticsearch.version>
-        <skywalking-toolkit.version>8.16.0</skywalking-toolkit.version>
+        <skywalking-toolkit.version>9.2.0</skywalking-toolkit.version>
         <bouncycastle.version>1.76</bouncycastle.version>
         <alibaba-ttl.version>2.14.4</alibaba-ttl.version>
         <mapstruct-plus.version>1.3.6</mapstruct-plus.version>
@@ -372,6 +372,13 @@
                 <groupId>com.alibaba</groupId>
                 <artifactId>fastjson</artifactId>
                 <version>${fastjson.version}</version>
+            </dependency>
+
+            <!-- dubbo 专用 -->
+            <dependency>
+                <groupId>redis.clients</groupId>
+                <artifactId>jedis</artifactId>
+                <version>5.1.0</version>
             </dependency>
 
             <dependency>

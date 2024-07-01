@@ -43,6 +43,7 @@
         <module>ruoyi-common-websocket</module>
         <module>ruoyi-common-social</module>
         <module>ruoyi-common-nacos</module>
+        <module>ruoyi-common-bus</module>
     </modules>
 
     <artifactId>ruoyi-common</artifactId>

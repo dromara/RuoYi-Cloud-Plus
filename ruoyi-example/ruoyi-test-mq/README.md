@@ -11,7 +11,7 @@
 
 rocketmq：
 
-**注意：需要进入到rockerMQ文件路径中执行**
+**注意：由于rocketmq并没有自动创建topic的功能, 所以需要进入到rockerMQ文件路径中执行**
 
 创建普通消息的topic
 
@@ -31,14 +31,4 @@ sh mqadmin updateTopic -n <nameserver_address> -t <topic_name> -c <cluster_name>
 
 ```shell
 bin/mqadmin updatetopic -n localhost:9876 -t transaction-topic -c DefaultCluster -a +message.type=TRANSACTION
-```
-
-kafka:
-
-```shell
-kafka-topics.sh --create --topic <topic_name> --bootstrap-server <broker_list> --partitions <num_partitions> --replication-factor <replication_factor>
-```
-
-```shell
-kafka-topics.sh --create --topic test-topic --bootstrap-server localhost:9092 --partitions 3 --replication-factor 1
 ```

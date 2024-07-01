@@ -7,6 +7,7 @@ import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.dromara.common.core.exception.ServiceException;
 import org.dromara.common.core.utils.StreamUtils;
@@ -15,6 +16,7 @@ import org.dromara.common.mybatis.core.page.PageQuery;
 import org.dromara.common.mybatis.core.page.TableDataInfo;
 import org.dromara.common.satoken.utils.LoginHelper;
 import org.dromara.common.tenant.helper.TenantHelper;
+import org.dromara.resource.api.RemoteFileService;
 import org.dromara.system.api.RemoteUserService;
 import org.dromara.system.api.domain.vo.RemoteUserVo;
 import org.dromara.system.api.model.RoleDTO;
@@ -65,6 +67,7 @@ import static org.dromara.workflow.common.constant.FlowConstant.*;
  *
  * @author may
  */
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class ActTaskServiceImpl implements IActTaskService {
@@ -79,9 +82,11 @@ public class ActTaskServiceImpl implements IActTaskService {
     private final ActHiTaskinstMapper actHiTaskinstMapper;
     private final IWfNodeConfigService wfNodeConfigService;
     private final IWfDefinitionConfigService wfDefinitionConfigService;
-    @DubboReference
-    private final RemoteUserService userService;
     private final FlowProcessEventHandler flowProcessEventHandler;
+    @DubboReference
+    private RemoteUserService remoteUserService;
+    @DubboReference
+    private RemoteFileService remoteFileService;
 
     /**
      * 启动任务
@@ -177,7 +182,7 @@ public class ActTaskServiceImpl implements IActTaskService {
                 return true;
             }
             //附件上传
-            AttachmentCmd attachmentCmd = new AttachmentCmd(completeTaskBo.getFileId(), task.getId(), task.getProcessInstanceId());
+            AttachmentCmd attachmentCmd = new AttachmentCmd(completeTaskBo.getFileId(), task.getId(), task.getProcessInstanceId(), remoteFileService);
             managementService.executeCommand(attachmentCmd);
             String businessStatus = WorkflowUtils.getBusinessStatus(processInstance.getBusinessKey());
             //流程提交监听
@@ -186,8 +191,8 @@ public class ActTaskServiceImpl implements IActTaskService {
             }
             runtimeService.updateBusinessStatus(task.getProcessInstanceId(), BusinessStatusEnum.WAITING.getStatus());
             //办理监听
-            String keyNode = processInstance.getProcessDefinitionKey() + "_" + task.getTaskDefinitionKey();
-            flowProcessEventHandler.processTaskHandler(keyNode, task.getId(), processInstance.getBusinessKey());
+            flowProcessEventHandler.processTaskHandler(processInstance.getProcessDefinitionKey(), task.getTaskDefinitionKey(),
+                task.getId(), processInstance.getBusinessKey());
             //办理意见
             taskService.addComment(completeTaskBo.getTaskId(), task.getProcessInstanceId(), TaskStatusEnum.PASS.getStatus(), StringUtils.isBlank(completeTaskBo.getMessage()) ? "同意" : completeTaskBo.getMessage());
             //办理任务
@@ -227,6 +232,7 @@ public class ActTaskServiceImpl implements IActTaskService {
             }
             return true;
         } catch (Exception e) {
+            log.error(e.getMessage(), e);
             throw new ServiceException(e.getMessage());
         }
     }
@@ -241,7 +247,7 @@ public class ActTaskServiceImpl implements IActTaskService {
      */
     @Async
     public void sendMessage(List<Task> list, String name, List<String> messageType, String message) {
-        WorkflowUtils.sendMessage(list, name, messageType, message);
+        WorkflowUtils.sendMessage(list, name, messageType, message, remoteUserService);
     }
 
     /**
@@ -275,7 +281,7 @@ public class ActTaskServiceImpl implements IActTaskService {
             List<WfNodeConfigVo> wfNodeConfigVoList = wfNodeConfigService.selectByDefIds(processDefinitionIds);
             for (TaskVo task : taskList) {
                 task.setBusinessStatusName(BusinessStatusEnum.findByStatus(task.getBusinessStatus()));
-                task.setParticipantVo(WorkflowUtils.getCurrentTaskParticipant(task.getId()));
+                task.setParticipantVo(WorkflowUtils.getCurrentTaskParticipant(task.getId(), remoteUserService));
                 task.setMultiInstance(WorkflowUtils.isMultiInstance(task.getProcessDefinitionId(), task.getTaskDefinitionKey()) != null);
                 if (CollUtil.isNotEmpty(wfNodeConfigVoList)) {
                     wfNodeConfigVoList.stream().filter(e -> e.getDefinitionId().equals(task.getProcessDefinitionId()) && FlowConstant.TRUE.equals(e.getApplyUserTask())).findFirst().ifPresent(task::setWfNodeConfigVo);
@@ -340,7 +346,7 @@ public class ActTaskServiceImpl implements IActTaskService {
                     });
                 }
                 taskVo.setAssignee(StringUtils.isNotBlank(task.getAssignee()) ? Long.valueOf(task.getAssignee()) : null);
-                taskVo.setParticipantVo(WorkflowUtils.getCurrentTaskParticipant(task.getId()));
+                taskVo.setParticipantVo(WorkflowUtils.getCurrentTaskParticipant(task.getId(), remoteUserService));
                 taskVo.setMultiInstance(WorkflowUtils.isMultiInstance(task.getProcessDefinitionId(), task.getTaskDefinitionKey()) != null);
                 if (CollUtil.isNotEmpty(wfNodeConfigVoList)) {
                     wfNodeConfigVoList.stream().filter(e -> e.getDefinitionId().equals(task.getProcessDefinitionId()) && FlowConstant.TRUE.equals(e.getApplyUserTask())).findFirst().ifPresent(taskVo::setWfNodeConfigVo);
@@ -475,7 +481,7 @@ public class ActTaskServiceImpl implements IActTaskService {
             taskService.complete(newTask.getId());
             return true;
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
             throw new ServiceException(e.getMessage());
         }
     }
@@ -545,7 +551,7 @@ public class ActTaskServiceImpl implements IActTaskService {
             taskService.setAssignee(task.getId(), transmitBo.getUserId());
             return true;
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
             throw new ServiceException(e.getMessage());
         }
     }
@@ -593,7 +599,7 @@ public class ActTaskServiceImpl implements IActTaskService {
             taskService.complete(newTask.getId());
             return true;
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
             throw new ServiceException(e.getMessage());
         }
     }
@@ -643,7 +649,7 @@ public class ActTaskServiceImpl implements IActTaskService {
             taskService.complete(newTask.getId());
             return true;
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
             throw new ServiceException(e.getMessage());
         }
     }
@@ -693,7 +699,7 @@ public class ActTaskServiceImpl implements IActTaskService {
             if (multiInstance == null && taskList.size() > 1) {
                 List<Task> tasks = StreamUtils.filter(taskList, e -> !e.getTaskDefinitionKey().equals(task.getTaskDefinitionKey()));
                 if (CollUtil.isNotEmpty(tasks)) {
-                    actHiTaskinstMapper.deleteBatchIds(StreamUtils.toList(tasks, Task::getId));
+                    actHiTaskinstMapper.deleteByIds(StreamUtils.toList(tasks, Task::getId));
                 }
             }
 
@@ -723,6 +729,7 @@ public class ActTaskServiceImpl implements IActTaskService {
             //删除驳回后的流程节点
             wfTaskBackNodeService.deleteBackTaskNode(processInstanceId, backProcessBo.getTargetActivityId());
         } catch (Exception e) {
+            log.error(e.getMessage(), e);
             throw new ServiceException(e.getMessage());
         }
         return task.getProcessInstanceId();
@@ -743,6 +750,7 @@ public class ActTaskServiceImpl implements IActTaskService {
                 taskService.setAssignee(task.getId(), userId);
             }
         } catch (Exception e) {
+            log.error(e.getMessage(), e);
             throw new ServiceException("修改失败：" + e.getMessage());
         }
         return true;
@@ -820,7 +828,7 @@ public class ActTaskServiceImpl implements IActTaskService {
 
         if (multiInstance.getType() instanceof SequentialMultiInstanceBehavior) {
             List<Long> userIds = StreamUtils.filter(assigneeList, e -> !String.valueOf(e).equals(task.getAssignee()));
-            List<RemoteUserVo> userList = userService.selectListByIds(userIds);
+            List<RemoteUserVo> userList = remoteUserService.selectListByIds(userIds);
             for (Long userId : userIds) {
                 TaskVo taskVo = new TaskVo();
                 taskVo.setId("串行会签");
@@ -838,7 +846,7 @@ public class ActTaskServiceImpl implements IActTaskService {
             List<Task> tasks = StreamUtils.filter(taskList, e -> StringUtils.isBlank(e.getParentTaskId()) && !e.getExecutionId().equals(task.getExecutionId()) && e.getTaskDefinitionKey().equals(task.getTaskDefinitionKey()));
             if (CollUtil.isNotEmpty(tasks)) {
                 List<Long> userIds = StreamUtils.toList(tasks, e -> Long.valueOf(e.getAssignee()));
-                List<RemoteUserVo> userList = userService.selectListByIds(userIds);
+                List<RemoteUserVo> userList = remoteUserService.selectListByIds(userIds);
                 for (Task t : tasks) {
                     TaskVo taskVo = new TaskVo();
                     taskVo.setId(t.getId());

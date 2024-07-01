@@ -173,7 +173,7 @@ services:
       TZ: Asia/Shanghai
     ports:
       - "8800:8800"
-      - "1788:1788"
+      - "17888:17888"
     volumes:
       - /docker/snailjob/logs/:/ruoyi/snailjob/logs
     privileged: true
@@ -363,19 +363,22 @@ services:
       - "10909:10909"
       - "10912:10912"
     environment:
-      JAVA_OPT_EXT: -server -Xms512M -Xmx512M -Xmn256m
+      JAVA_OPT: -server -Xms512M -Xmx512M
+      NAMESRV_ADDR: 127.0.0.1:9876
+    # --enable-proxy 开启broker与proxy共用模式 生产部署建议将proxy单独部署
     command: sh mqbroker --enable-proxy -c /home/rocketmq/rocketmq-5.2.0/conf/broker.conf
     depends_on:
-      - mqnamesrv
+      - rmqnamesrv
     volumes:
       - /docker/rocketmq/broker1/conf/broker.conf:/home/rocketmq/rocketmq-5.2.0/conf/broker.conf
       - /docker/rocketmq/broker1/logs:/home/rocketmq/logs/rocketmqlogs
       - /docker/rocketmq/broker1/store:/home/rocketmq/store
+    privileged: true
     network_mode: "host"
 
   rmqconsole:
-    image: styletang/rocketmq-console-ng
-    container_name: mqconsole
+    image: apacherocketmq/rocketmq-dashboard:latest
+    container_name: rmqconsole
     ports:
       - "19876:19876"
     environment:
@@ -453,7 +456,7 @@ services:
     network_mode: "host"
 
   sky-oap:
-    image: apache/skywalking-oap-server:9.3.0
+    image: apache/skywalking-oap-server:9.7.0
     container_name: sky-oap
     ports:
       - "11800:11800"
@@ -470,7 +473,7 @@ services:
     network_mode: "host"
 
   sky-ui:
-    image: apache/skywalking-ui:9.3.0
+    image: apache/skywalking-ui:9.7.0
     container_name: sky-ui
     ports:
       - "18080:18080"

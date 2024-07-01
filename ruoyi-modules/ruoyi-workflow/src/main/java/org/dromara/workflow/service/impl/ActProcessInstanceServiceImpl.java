@@ -9,12 +9,14 @@ import cn.hutool.core.util.ObjectUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.dubbo.config.annotation.DubboReference;
 import org.dromara.common.core.exception.ServiceException;
 import org.dromara.common.core.utils.StreamUtils;
 import org.dromara.common.core.utils.StringUtils;
 import org.dromara.common.mybatis.core.page.PageQuery;
 import org.dromara.common.mybatis.core.page.TableDataInfo;
 import org.dromara.common.satoken.utils.LoginHelper;
+import org.dromara.system.api.RemoteUserService;
 import org.dromara.workflow.common.constant.FlowConstant;
 import org.dromara.common.core.enums.BusinessStatusEnum;
 import org.dromara.workflow.common.enums.TaskStatusEnum;
@@ -77,6 +79,8 @@ public class ActProcessInstanceServiceImpl implements IActProcessInstanceService
     private final IWfTaskBackNodeService wfTaskBackNodeService;
     private final IWfNodeConfigService wfNodeConfigService;
     private final FlowProcessEventHandler flowProcessEventHandler;
+    @DubboReference
+    private final RemoteUserService remoteUserService;
 
     @Value("${flowable.activity-font-name}")
     private String activityFontName;
@@ -323,7 +327,7 @@ public class ActProcessInstanceServiceImpl implements IActProcessInstanceService
                     historyInfoVo.setEndTime(infoVo.getEndTime() == null ? null : infoVo.getEndTime());
                     historyInfoVo.setRunDuration(infoVo.getEndTime() == null ? null : infoVo.getRunDuration());
                     if (ObjectUtil.isEmpty(infoVo.getAssignee())) {
-                        ParticipantVo participantVo = WorkflowUtils.getCurrentTaskParticipant(infoVo.getId());
+                        ParticipantVo participantVo = WorkflowUtils.getCurrentTaskParticipant(infoVo.getId(), remoteUserService);
                         if (ObjectUtil.isNotEmpty(participantVo) && CollUtil.isNotEmpty(participantVo.getCandidate())) {
                             historyInfoVo.setAssignee(StreamUtils.join(participantVo.getCandidate(), Convert::toStr));
                         }
@@ -338,7 +342,7 @@ public class ActProcessInstanceServiceImpl implements IActProcessInstanceService
                         historyInfoVo.setEndTime(e.getEndTime() == null ? null : e.getEndTime());
                         historyInfoVo.setRunDuration(e.getEndTime() == null ? null : e.getRunDuration());
                         if (ObjectUtil.isEmpty(e.getAssignee())) {
-                            ParticipantVo participantVo = WorkflowUtils.getCurrentTaskParticipant(e.getId());
+                            ParticipantVo participantVo = WorkflowUtils.getCurrentTaskParticipant(e.getId(), remoteUserService);
                             if (ObjectUtil.isNotEmpty(participantVo) && CollUtil.isNotEmpty(participantVo.getCandidate())) {
                                 historyInfoVo.setAssignee(StreamUtils.join(participantVo.getCandidate(), Convert::toStr));
                             }
@@ -394,7 +398,7 @@ public class ActProcessInstanceServiceImpl implements IActProcessInstanceService
             }
             //设置人员id
             if (ObjectUtil.isEmpty(historicTaskInstance.getAssignee())) {
-                ParticipantVo participantVo = WorkflowUtils.getCurrentTaskParticipant(historicTaskInstance.getId());
+                ParticipantVo participantVo = WorkflowUtils.getCurrentTaskParticipant(historicTaskInstance.getId(), remoteUserService);
                 if (ObjectUtil.isNotEmpty(participantVo) && CollUtil.isNotEmpty(participantVo.getCandidate())) {
                     actHistoryInfoVo.setAssignee(StreamUtils.join(participantVo.getCandidate(), Convert::toStr));
                 }
@@ -486,7 +490,7 @@ public class ActProcessInstanceServiceImpl implements IActProcessInstanceService
                 historicProcessInstance.getBusinessKey(), BusinessStatusEnum.INVALID.getStatus(), false);
             return true;
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
             throw new ServiceException(e.getMessage());
         }
     }
@@ -521,7 +525,7 @@ public class ActProcessInstanceServiceImpl implements IActProcessInstanceService
             wfTaskBackNodeService.deleteByInstanceIds(processInstanceIds);
             return true;
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
             throw new ServiceException(e.getMessage());
         }
     }
@@ -545,7 +549,7 @@ public class ActProcessInstanceServiceImpl implements IActProcessInstanceService
             wfTaskBackNodeService.deleteByInstanceIds(processInstanceIds);
             return true;
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
             throw new ServiceException(e.getMessage());
         }
     }
@@ -595,7 +599,7 @@ public class ActProcessInstanceServiceImpl implements IActProcessInstanceService
                 processInstance.getBusinessKey(), BusinessStatusEnum.CANCEL.getStatus(), false);
             return true;
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
             throw new ServiceException("撤销失败:" + e.getMessage());
         }
     }
@@ -675,7 +679,7 @@ public class ActProcessInstanceServiceImpl implements IActProcessInstanceService
                 message = "您的【" + processInstance.getName() + "】单据还未审批，请您及时处理。";
             }
             List<Task> list = QueryUtils.taskQuery(taskUrgingBo.getProcessInstanceId()).list();
-            WorkflowUtils.sendMessage(list, processInstance.getName(), taskUrgingBo.getMessageType(), message);
+            WorkflowUtils.sendMessage(list, processInstance.getName(), taskUrgingBo.getMessageType(), message, remoteUserService);
         } catch (ServiceException e) {
             throw new ServiceException(e.getMessage());
         }

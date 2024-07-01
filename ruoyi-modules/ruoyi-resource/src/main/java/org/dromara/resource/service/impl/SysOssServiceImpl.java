@@ -240,7 +240,7 @@ public class SysOssServiceImpl implements ISysOssService {
             OssClient storage = OssFactory.instance(sysOss.getService());
             storage.delete(sysOss.getUrl());
         }
-        return baseMapper.deleteBatchIds(ids) > 0;
+        return baseMapper.deleteByIds(ids) > 0;
     }
 
     /**

@@ -16,6 +16,9 @@ import org.springframework.context.annotation.PropertySource;
 @PropertySource(value = "classpath:common-dubbo.yml", factory = YmlPropertySourceFactory.class)
 public class DubboConfiguration {
 
+    /**
+     * dubbo自定义IP注入(避免IP不正确问题)
+     */
     @Bean
     public BeanFactoryPostProcessor customBeanFactoryPostProcessor() {
         return new CustomBeanFactoryPostProcessor();
