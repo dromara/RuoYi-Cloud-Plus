@@ -24,7 +24,7 @@ snail-job:
     server-name: ruoyi-snailjob-server
     # 服务名优先 ip垫底
     host: 127.0.0.1
-    port: 11788
+    port: 17888
   # 详见 script/sql/ry_job.sql `sj_namespace` 表
   namespace: ${spring.profiles.active}
   # 随主应用端口飘逸
