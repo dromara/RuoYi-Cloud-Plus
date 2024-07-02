@@ -23,7 +23,12 @@ public class RemoteDictServiceImpl implements RemoteDictService {
 
     private final ISysDictTypeService sysDictTypeService;
 
-
+    /**
+     * 根据字典类型查询字典数据
+     *
+     * @param dictType 字典类型
+     * @return 字典数据集合信息
+     */
     @Override
     public List<RemoteDictDataVo> selectDictDataByType(String dictType) {
         List<SysDictDataVo> list = sysDictTypeService.selectDictDataByType(dictType);

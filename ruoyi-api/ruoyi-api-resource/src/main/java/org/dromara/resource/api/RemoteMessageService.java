@@ -15,5 +15,10 @@ public interface RemoteMessageService {
      */
     void publishMessage(Long sessionKey, String message);
 
+    /**
+     * 发布订阅的消息(群发)
+     *
+     * @param message 消息内容
+     */
     void publishAll(String message);
 }

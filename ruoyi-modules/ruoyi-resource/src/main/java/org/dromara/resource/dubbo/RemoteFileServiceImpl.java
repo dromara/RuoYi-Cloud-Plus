@@ -81,6 +81,7 @@ public class RemoteFileServiceImpl implements RemoteFileService {
      * @param ossIds ossId串逗号分隔
      * @return 列表
      */
+    @Override
     public List<RemoteFile> selectByIds(String ossIds){
         List<SysOssVo> sysOssVos = sysOssService.listByIds(StringUtils.splitTo(ossIds, Convert::toLong));
         return MapstructUtils.convert(sysOssVos, RemoteFile.class);
