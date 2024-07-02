@@ -14,7 +14,6 @@ import org.apache.dubbo.config.annotation.DubboReference;
 import org.dromara.auth.domain.vo.LoginVo;
 import org.dromara.auth.form.SocialLoginBody;
 import org.dromara.auth.service.IAuthStrategy;
-import org.dromara.auth.service.SysLoginService;
 import org.dromara.common.core.exception.ServiceException;
 import org.dromara.common.core.utils.ValidatorUtils;
 import org.dromara.common.json.utils.JsonUtils;
@@ -43,7 +42,6 @@ import java.util.Optional;
 public class SocialAuthStrategy implements IAuthStrategy {
 
     private final SocialProperties socialProperties;
-    private final SysLoginService loginService;
 
     @DubboReference
     private RemoteSocialService remoteSocialService;
