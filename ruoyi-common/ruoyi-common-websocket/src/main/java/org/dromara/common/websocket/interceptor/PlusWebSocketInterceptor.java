@@ -1,5 +1,6 @@
 package org.dromara.common.websocket.interceptor;
 
+import cn.dev33.satoken.exception.NotLoginException;
 import lombok.extern.slf4j.Slf4j;
 import org.dromara.common.satoken.utils.LoginHelper;
 import org.dromara.system.api.model.LoginUser;
@@ -31,9 +32,14 @@ public class PlusWebSocketInterceptor implements HandshakeInterceptor {
      */
     @Override
     public boolean beforeHandshake(ServerHttpRequest request, ServerHttpResponse response, WebSocketHandler wsHandler, Map<String, Object> attributes) {
-        LoginUser loginUser = LoginHelper.getLoginUser();
-        attributes.put(LOGIN_USER_KEY, loginUser);
-        return true;
+        try {
+            LoginUser loginUser = LoginHelper.getLoginUser();
+            attributes.put(LOGIN_USER_KEY, loginUser);
+            return true;
+        } catch (NotLoginException e) {
+            log.error("WebSocket 认证失败'{}',无法访问系统资源", e.getMessage());
+            return false;
+        }
     }
 
     /**
