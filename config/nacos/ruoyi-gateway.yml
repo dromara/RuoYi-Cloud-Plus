@@ -92,6 +92,8 @@ spring:
             server-addr: ${spring.cloud.nacos.server-addr}
             dataId: sentinel-${spring.application.name}.json
             groupId: ${spring.cloud.nacos.config.group}
+            username: ${spring.cloud.nacos.username}
+            password: ${spring.cloud.nacos.password}
             namespace: ${spring.profiles.active}
             data-type: json
             rule-type: gw-flow
