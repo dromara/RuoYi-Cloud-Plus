@@ -12,7 +12,7 @@
     <artifactId>ruoyi-common-dubbo</artifactId>
 
     <description>
-        ruoyi-common-dubbo
+        ruoyi-common-dubbo RPC服务
     </description>
 
     <dependencies>

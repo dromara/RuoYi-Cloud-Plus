@@ -11,7 +11,7 @@
     <artifactId>ruoyi-common-nacos</artifactId>
 
     <description>
-        ruoyi-common-nacos
+        ruoyi-common-nacos 配置中心
     </description>
 
     <dependencies>

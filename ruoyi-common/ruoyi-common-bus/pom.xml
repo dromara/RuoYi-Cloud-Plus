@@ -12,7 +12,7 @@
     <artifactId>ruoyi-common-bus</artifactId>
 
     <description>
-        ruoyi-common-bus 模块
+        ruoyi-common-bus 消息总线模块
     </description>
 
     <dependencies>

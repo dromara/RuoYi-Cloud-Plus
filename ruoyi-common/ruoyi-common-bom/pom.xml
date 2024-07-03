@@ -40,6 +40,7 @@
                 <version>${revision}</version>
             </dependency>
 
+            <!-- 权限认证服务 -->
             <dependency>
                 <groupId>org.dromara</groupId>
                 <artifactId>ruoyi-common-satoken</artifactId>
@@ -88,91 +89,105 @@
                 <version>${revision}</version>
             </dependency>
 
+            <!-- 定时任务 -->
             <dependency>
                 <groupId>org.dromara</groupId>
                 <artifactId>ruoyi-common-job</artifactId>
                 <version>${revision}</version>
             </dependency>
 
+            <!-- RPC服务 -->
             <dependency>
                 <groupId>org.dromara</groupId>
                 <artifactId>ruoyi-common-dubbo</artifactId>
                 <version>${revision}</version>
             </dependency>
 
+            <!-- 分布式事务 -->
             <dependency>
                 <groupId>org.dromara</groupId>
                 <artifactId>ruoyi-common-seata</artifactId>
                 <version>${revision}</version>
             </dependency>
 
+            <!-- 自定义负载均衡 -->
             <dependency>
                 <groupId>org.dromara</groupId>
                 <artifactId>ruoyi-common-loadbalancer</artifactId>
                 <version>${revision}</version>
             </dependency>
 
+            <!-- oss服务 -->
             <dependency>
                 <groupId>org.dromara</groupId>
                 <artifactId>ruoyi-common-oss</artifactId>
                 <version>${revision}</version>
             </dependency>
 
-            <!-- 限流 -->
+            <!-- 限流功能 -->
             <dependency>
                 <groupId>org.dromara</groupId>
                 <artifactId>ruoyi-common-ratelimiter</artifactId>
                 <version>${revision}</version>
             </dependency>
 
+            <!-- 幂等功能 -->
             <dependency>
                 <groupId>org.dromara</groupId>
                 <artifactId>ruoyi-common-idempotent</artifactId>
                 <version>${revision}</version>
             </dependency>
 
+            <!-- 邮件模块 -->
             <dependency>
                 <groupId>org.dromara</groupId>
                 <artifactId>ruoyi-common-mail</artifactId>
                 <version>${revision}</version>
             </dependency>
 
+            <!-- 短信模块 -->
             <dependency>
                 <groupId>org.dromara</groupId>
                 <artifactId>ruoyi-common-sms</artifactId>
                 <version>${revision}</version>
             </dependency>
 
+            <!-- logstash日志推送模块 -->
             <dependency>
                 <groupId>org.dromara</groupId>
                 <artifactId>ruoyi-common-logstash</artifactId>
                 <version>${revision}</version>
             </dependency>
 
+            <!-- ES搜索引擎服务 -->
             <dependency>
                 <groupId>org.dromara</groupId>
                 <artifactId>ruoyi-common-elasticsearch</artifactId>
                 <version>${revision}</version>
             </dependency>
 
+            <!-- 限流模块 -->
             <dependency>
                 <groupId>org.dromara</groupId>
                 <artifactId>ruoyi-common-sentinel</artifactId>
                 <version>${revision}</version>
             </dependency>
 
+            <!-- skywalking日志收集模块 -->
             <dependency>
                 <groupId>org.dromara</groupId>
                 <artifactId>ruoyi-common-skylog</artifactId>
                 <version>${revision}</version>
             </dependency>
 
+            <!-- prometheus监控 -->
             <dependency>
                 <groupId>org.dromara</groupId>
                 <artifactId>ruoyi-common-prometheus</artifactId>
                 <version>${revision}</version>
             </dependency>
 
+            <!-- 通用翻译功能 -->
             <dependency>
                 <groupId>org.dromara</groupId>
                 <artifactId>ruoyi-common-translation</artifactId>
@@ -193,6 +208,7 @@
                 <version>${revision}</version>
             </dependency>
 
+            <!-- 数据加解密模块 -->
             <dependency>
                 <groupId>org.dromara</groupId>
                 <artifactId>ruoyi-common-encrypt</artifactId>
@@ -206,24 +222,28 @@
                 <version>${revision}</version>
             </dependency>
 
+            <!-- websocket模块 -->
             <dependency>
                 <groupId>org.dromara</groupId>
                 <artifactId>ruoyi-common-websocket</artifactId>
                 <version>${revision}</version>
             </dependency>
 
+            <!-- 授权认证 -->
             <dependency>
                 <groupId>org.dromara</groupId>
                 <artifactId>ruoyi-common-social</artifactId>
                 <version>${revision}</version>
             </dependency>
 
+            <!-- 配置中心 -->
             <dependency>
                 <groupId>org.dromara</groupId>
                 <artifactId>ruoyi-common-nacos</artifactId>
                 <version>${revision}</version>
             </dependency>
 
+            <!-- 消息总线模块 -->
             <dependency>
                 <groupId>org.dromara</groupId>
                 <artifactId>ruoyi-common-bus</artifactId>
