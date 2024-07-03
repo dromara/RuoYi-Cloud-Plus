@@ -26,5 +26,10 @@
 <!--            <groupId>org.springframework.cloud</groupId>-->
 <!--            <artifactId>spring-cloud-starter-bus-kafka</artifactId>-->
 <!--        </dependency>-->
+        <!-- rocketmq -->
+<!--        <dependency>-->
+<!--            <groupId>com.alibaba.cloud</groupId>-->
+<!--            <artifactId>spring-cloud-starter-bus-rocketmq</artifactId>-->
+<!--        </dependency>-->
     </dependencies>
 </project>
