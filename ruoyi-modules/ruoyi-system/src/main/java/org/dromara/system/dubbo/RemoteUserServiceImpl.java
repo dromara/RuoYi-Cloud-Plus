@@ -259,7 +259,7 @@ public class RemoteUserServiceImpl implements RemoteUserService {
         loginUser.setRolePermission(permissionService.getRolePermission(userVo.getUserId()));
         TenantHelper.dynamic(userVo.getTenantId(), () -> {
             SysDeptVo dept = null;
-            if (ObjectUtil.isNotNull(userVo.getUserId())) {
+            if (ObjectUtil.isNotNull(userVo.getDeptId())) {
                 dept = deptService.selectDeptById(userVo.getDeptId());
             }
             loginUser.setDeptName(ObjectUtil.isNull(dept) ? "" : dept.getDeptName());
