@@ -272,10 +272,10 @@ public class ActProcessInstanceServiceImpl implements IActProcessInstanceService
         }
         ProcessInstance processInstance = QueryUtils.instanceQuery(processInstanceId).singleResult();
         if (processInstance != null) {
-            taskList = taskList.stream().filter(e -> !e.get("activityType").equals(FlowConstant.END_EVENT)).collect(Collectors.toList());
+            taskList = StreamUtils.filter(taskList, e -> !e.get("activityType").equals(FlowConstant.END_EVENT));
         }
         //查询出运行中节点
-        List<Map<String, Object>> runtimeNodeList = taskList.stream().filter(e -> !(Boolean) e.get("completed")).collect(Collectors.toList());
+        List<Map<String, Object>> runtimeNodeList = StreamUtils.filter(taskList, e -> !(Boolean) e.get("completed"));
         if (CollUtil.isNotEmpty(runtimeNodeList)) {
             Iterator<Map<String, Object>> iterator = taskList.iterator();
             while (iterator.hasNext()) {
