@@ -259,15 +259,15 @@ public class ActProcessInstanceServiceImpl implements IActProcessInstanceService
         List<HistoricActivityInstance> highLightedFlowList = QueryUtils.hisActivityInstanceQuery(processInstanceId).orderByHistoricActivityInstanceStartTime().asc().list();
         for (HistoricActivityInstance tempActivity : highLightedFlowList) {
             Map<String, Object> task = new HashMap<>();
-            if (!FlowConstant.SEQUENCE_FLOW.equals(tempActivity.getActivityType()) &&
-                !FlowConstant.PARALLEL_GATEWAY.equals(tempActivity.getActivityType()) &&
-                !FlowConstant.EXCLUSIVE_GATEWAY.equals(tempActivity.getActivityType()) &&
-                !FlowConstant.INCLUSIVE_GATEWAY.equals(tempActivity.getActivityType())
-            ) {
-                task.put("key", tempActivity.getActivityId());
-                task.put("completed", tempActivity.getEndTime() != null);
-                task.put("activityType", tempActivity.getActivityType());
-                taskList.add(task);
+            switch (tempActivity.getActivityType()) {
+                case FlowConstant.SEQUENCE_FLOW, FlowConstant.PARALLEL_GATEWAY,
+                     FlowConstant.EXCLUSIVE_GATEWAY, FlowConstant.INCLUSIVE_GATEWAY -> {}
+                default -> {
+                    task.put("key", tempActivity.getActivityId());
+                    task.put("completed", tempActivity.getEndTime() != null);
+                    task.put("activityType", tempActivity.getActivityType());
+                    taskList.add(task);
+                }
             }
         }
         ProcessInstance processInstance = QueryUtils.instanceQuery(processInstanceId).singleResult();
