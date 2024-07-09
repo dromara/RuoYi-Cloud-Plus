@@ -67,8 +67,8 @@ public class DubboRequestFilter implements Filter {
         Result result = invoker.invoke(invocation);
         // 计算调用耗时
         long elapsed = System.currentTimeMillis() - startTime;
-        // 如果发生异常且调用的是泛化服务，则记录异常日志
-        if (result.hasException() && invoker.getInterface().equals(GenericService.class)) {
+        // 如果发生异常且调用的不是泛化服务，则记录异常日志
+        if (result.hasException() && !invoker.getInterface().equals(GenericService.class)) {
             log.error("DUBBO - 服务异常: {},Exception={}", baselog, result.getException());
         } else {
             // 根据日志级别输出服务响应信息
