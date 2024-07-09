@@ -46,6 +46,13 @@ public class RemoteUserServiceImpl implements RemoteUserService {
     private final ISysDeptService deptService;
     private final SysUserMapper userMapper;
 
+    /**
+     * 通过用户名查询用户信息
+     *
+     * @param username 用户名
+     * @param tenantId 租户id
+     * @return 结果
+     */
     @Override
     public LoginUser getUserInfo(String username, String tenantId) throws UserException {
         return TenantHelper.dynamic(tenantId, () -> {
@@ -62,6 +69,13 @@ public class RemoteUserServiceImpl implements RemoteUserService {
         });
     }
 
+    /**
+     * 通过用户id查询用户信息
+     *
+     * @param userId   用户id
+     * @param tenantId 租户id
+     * @return 结果
+     */
     @Override
     public LoginUser getUserInfo(Long userId, String tenantId) throws UserException {
         return TenantHelper.dynamic(tenantId, () -> {
@@ -78,6 +92,13 @@ public class RemoteUserServiceImpl implements RemoteUserService {
         });
     }
 
+    /**
+     * 通过手机号查询用户信息
+     *
+     * @param phonenumber 手机号
+     * @param tenantId    租户id
+     * @return 结果
+     */
     @Override
     public LoginUser getUserInfoByPhonenumber(String phonenumber, String tenantId) throws UserException {
         return TenantHelper.dynamic(tenantId, () -> {
@@ -94,6 +115,13 @@ public class RemoteUserServiceImpl implements RemoteUserService {
         });
     }
 
+    /**
+     * 通过邮箱查询用户信息
+     *
+     * @param email    邮箱
+     * @param tenantId 租户id
+     * @return 结果
+     */
     @Override
     public LoginUser getUserInfoByEmail(String email, String tenantId) throws UserException {
         return TenantHelper.dynamic(tenantId, () -> {
@@ -110,6 +138,12 @@ public class RemoteUserServiceImpl implements RemoteUserService {
         });
     }
 
+    /**
+     * 通过openid查询用户信息
+     *
+     * @param openid openid
+     * @return 结果
+     */
     @Override
     public XcxLoginUser getUserInfoByOpenid(String openid) throws UserException {
         // todo 自行实现 userService.selectUserByOpenid(openid);
@@ -131,6 +165,12 @@ public class RemoteUserServiceImpl implements RemoteUserService {
         return loginUser;
     }
 
+    /**
+     * 注册用户信息
+     *
+     * @param remoteUserBo 用户信息
+     * @return 结果
+     */
     @Override
     public Boolean registerUserInfo(RemoteUserBo remoteUserBo) throws UserException, ServiceException {
         SysUserBo sysUserBo = MapstructUtils.convert(remoteUserBo, SysUserBo.class);
@@ -219,7 +259,7 @@ public class RemoteUserServiceImpl implements RemoteUserService {
         loginUser.setRolePermission(permissionService.getRolePermission(userVo.getUserId()));
         TenantHelper.dynamic(userVo.getTenantId(), () -> {
             SysDeptVo dept = null;
-            if (ObjectUtil.isNotNull(userVo.getUserId())) {
+            if (ObjectUtil.isNotNull(userVo.getDeptId())) {
                 dept = deptService.selectDeptById(userVo.getDeptId());
             }
             loginUser.setDeptName(ObjectUtil.isNull(dept) ? "" : dept.getDeptName());
@@ -246,12 +286,24 @@ public class RemoteUserServiceImpl implements RemoteUserService {
         DataPermissionHelper.ignore(() -> userMapper.updateById(sysUser));
     }
 
+    /**
+     * 通过用户ID查询用户列表
+     *
+     * @param userIds 用户ids
+     * @return 用户列表
+     */
     @Override
     public List<RemoteUserVo> selectListByIds(List<Long> userIds) {
         List<SysUserVo> sysUserVos = userService.selectUserByIds(userIds, null);
         return MapstructUtils.convert(sysUserVos, RemoteUserVo.class);
     }
 
+    /**
+     * 通过角色ID查询用户ID
+     *
+     * @param roleIds 角色ids
+     * @return 用户ids
+     */
     @Override
     public List<Long> selectUserIdsByRoleIds(List<Long> roleIds) {
         return userService.selectUserIdsByRoleIds(roleIds);

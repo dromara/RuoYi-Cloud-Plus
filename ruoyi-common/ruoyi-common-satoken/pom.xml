@@ -12,7 +12,7 @@
     <artifactId>ruoyi-common-satoken</artifactId>
 
     <description>
-        ruoyi-common-satoken
+        ruoyi-common-satoken 权限认证服务
     </description>
 
     <dependencies>

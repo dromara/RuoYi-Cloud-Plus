@@ -20,6 +20,7 @@ public class RemoteMessageServiceStub implements RemoteMessageService {
      * @param sessionKey session主键 一般为用户id
      * @param message    消息文本
      */
+    @Override
     public void publishMessage(Long sessionKey, String message) {
         try {
             remoteMessageService.publishMessage(sessionKey, message);
@@ -28,6 +29,12 @@ public class RemoteMessageServiceStub implements RemoteMessageService {
         }
     }
 
+    /**
+     * 发布订阅的消息(群发)
+     *
+     * @param message 消息内容
+     */
+    @Override
     public void publishAll(String message) {
         try {
             remoteMessageService.publishAll(message);

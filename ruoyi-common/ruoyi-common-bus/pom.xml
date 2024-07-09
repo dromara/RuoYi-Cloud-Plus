@@ -12,7 +12,7 @@
     <artifactId>ruoyi-common-bus</artifactId>
 
     <description>
-        ruoyi-common-bus 模块
+        ruoyi-common-bus 消息总线模块
     </description>
 
     <dependencies>
@@ -25,6 +25,11 @@
 <!--        <dependency>-->
 <!--            <groupId>org.springframework.cloud</groupId>-->
 <!--            <artifactId>spring-cloud-starter-bus-kafka</artifactId>-->
+<!--        </dependency>-->
+        <!-- rocketmq -->
+<!--        <dependency>-->
+<!--            <groupId>com.alibaba.cloud</groupId>-->
+<!--            <artifactId>spring-cloud-starter-bus-rocketmq</artifactId>-->
 <!--        </dependency>-->
     </dependencies>
 </project>

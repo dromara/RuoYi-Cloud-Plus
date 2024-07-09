@@ -20,6 +20,7 @@ public class RemoteFileServiceMock implements RemoteFileService {
      * @param file 文件信息
      * @return 结果
      */
+    @Override
     public RemoteFile upload(String name, String originalFilename, String contentType, byte[] file) {
         log.warn("服务调用异常 -> 降级处理");
         return null;
@@ -31,11 +32,18 @@ public class RemoteFileServiceMock implements RemoteFileService {
      * @param ossIds ossId串逗号分隔
      * @return url串逗号分隔
      */
+    @Override
     public String selectUrlByIds(String ossIds) {
         log.warn("服务调用异常 -> 降级处理");
         return StringUtils.EMPTY;
     }
 
+    /**
+     * 通过ossId查询列表
+     *
+     * @param ossIds ossId串逗号分隔
+     * @return 列表
+     */
     @Override
     public List<RemoteFile> selectByIds(String ossIds) {
         log.warn("服务调用异常 -> 降级处理");
