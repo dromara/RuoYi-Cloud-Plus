@@ -1,6 +1,5 @@
 package org.dromara.auth.controller;
 
-import cn.dev33.satoken.annotation.SaIgnore;
 import cn.hutool.captcha.AbstractCaptcha;
 import cn.hutool.captcha.generator.CodeGenerator;
 import cn.hutool.core.util.IdUtil;
@@ -32,7 +31,6 @@ import java.time.Duration;
  *
  * @author Lion Li
  */
-@SaIgnore
 @Slf4j
 @Validated
 @RequiredArgsConstructor
