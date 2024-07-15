@@ -33,7 +33,7 @@
         <hutool.version>5.8.27</hutool.version>
         <redisson.version>3.31.0</redisson.version>
         <lock4j.version>2.2.7</lock4j.version>
-        <snailjob.version>1.0.1</snailjob.version>
+        <snailjob.version>1.1.0</snailjob.version>
         <satoken.version>1.38.0</satoken.version>
         <lombok.version>1.18.32</lombok.version>
         <logstash.version>7.4</logstash.version>
