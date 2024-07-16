@@ -74,8 +74,6 @@ spring:
     sentinel:
       # sentinel 开关
       enabled: true
-      # 取消控制台懒加载
-      eager: true
       transport:
         # dashboard控制台服务名 用于服务发现
         # 如无此配置将默认使用下方 dashboard 配置直接注册

@@ -1,4 +1,4 @@
-package org.dromara.common.sentinel.config.properties;
+package org.dromara.common.sentinel.config;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
