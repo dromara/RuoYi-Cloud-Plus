@@ -15,7 +15,7 @@
 
     <properties>
         <revision>2.2.0</revision>
-        <spring-cloud-alibaba.version>2023.0.1.0</spring-cloud-alibaba.version>
+        <spring-cloud-alibaba.version>2023.0.1.2</spring-cloud-alibaba.version>
         <sentinel.version>1.8.8</sentinel.version>
         <seata.version>1.7.1</seata.version>
         <nacos.client.version>2.3.3</nacos.client.version>
@@ -123,7 +123,7 @@
             </dependency>
             <dependency>
                 <groupId>com.alibaba.csp</groupId>
-                <artifactId>sentinel-spring-webmvc-adapter</artifactId>
+                <artifactId>sentinel-spring-webmvc-v6x-adapter</artifactId>
                 <version>${sentinel.version}</version>
             </dependency>
             <dependency>
