@@ -4,7 +4,7 @@
 
 1. rabbitmq: 普通消息、延迟队列
 2. rocketmq：普通消息、事务消息、延迟消息
-3. kafka：普通消息、stream流的使用
+3. kafka：普通消息
 
 
 ## 使用方式
