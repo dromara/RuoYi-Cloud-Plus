@@ -30,9 +30,6 @@ spring:
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.apache.kafka.common.serialization.StringSerializer
-    streams:
-      properties:
-        application.id: kafka-streams-id # 应用ID
     # 以下配置均应该在 kafka 配置文件内编写 写到此处是为了方便调试
     properties:
       # 开启自动创建话题功能，默认是false，根据需要设置
