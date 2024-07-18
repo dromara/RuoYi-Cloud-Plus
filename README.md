@@ -12,7 +12,7 @@
 [![RuoYi-Cloud-Plus](https://img.shields.io/badge/RuoYi_Cloud_Plus-2.2.0-success.svg)](https://gitee.com/dromara/RuoYi-Cloud-Plus)
 [![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.1-blue.svg)]()
 [![JDK-17](https://img.shields.io/badge/JDK-17-green.svg)]()
-[![JDK-19](https://img.shields.io/badge/JDK-21-green.svg)]()
+[![JDK-21](https://img.shields.io/badge/JDK-21-green.svg)]()
 
 > RuoYi-Cloud-Plus `微服务通用权限管理系统` 重写 RuoYi-Cloud 全方位升级(不兼容原框架)
 
