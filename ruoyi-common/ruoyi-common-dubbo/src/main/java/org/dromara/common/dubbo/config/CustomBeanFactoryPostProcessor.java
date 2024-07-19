@@ -1,5 +1,6 @@
 package org.dromara.common.dubbo.config;
 
+import org.dromara.common.core.utils.StringUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
@@ -34,6 +35,10 @@ public class CustomBeanFactoryPostProcessor implements BeanFactoryPostProcessor,
      */
     @Override
     public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
+        String property = System.getProperty("DUBBO_IP_TO_REGISTRY");
+        if (StringUtils.isNotBlank(property)) {
+            return;
+        }
         // 获取 InetUtils bean，用于获取 IP 地址
         InetUtils inetUtils = beanFactory.getBean(InetUtils.class);
         String ip = "127.0.0.1";
