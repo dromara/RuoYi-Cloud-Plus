@@ -3,16 +3,21 @@ package org.dromara.gen.service;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.lang.Dict;
+import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.dynamic.datasource.annotation.DS;
 import com.baomidou.dynamic.datasource.annotation.DSTransactional;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.incrementer.IdentifierGenerator;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.anyline.metadata.Column;
+import org.anyline.metadata.Table;
+import org.anyline.proxy.ServiceProxy;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
@@ -59,6 +64,8 @@ public class GenTableServiceImpl implements IGenTableService {
     private final GenTableColumnMapper genTableColumnMapper;
     private final IdentifierGenerator identifierGenerator;
 
+    private static final String[] TABLE_IGNORE = new String[]{"sj_", "act_", "flw_", "gen_"};
+
     /**
      * 查询业务字段列表
      *
@@ -95,7 +102,7 @@ public class GenTableServiceImpl implements IGenTableService {
         Map<String, Object> params = genTable.getParams();
         QueryWrapper<GenTable> wrapper = Wrappers.query();
         wrapper
-            .eq(StringUtils.isNotEmpty(genTable.getDataName()),"data_name", genTable.getDataName())
+            .eq(StringUtils.isNotEmpty(genTable.getDataName()), "data_name", genTable.getDataName())
             .like(StringUtils.isNotBlank(genTable.getTableName()), "lower(table_name)", StringUtils.lowerCase(genTable.getTableName()))
             .like(StringUtils.isNotBlank(genTable.getTableComment()), "lower(table_comment)", StringUtils.lowerCase(genTable.getTableComment()))
             .between(params.get("beginTime") != null && params.get("endTime") != null,
@@ -103,11 +110,57 @@ public class GenTableServiceImpl implements IGenTableService {
         return wrapper;
     }
 
+    /**
+     * 查询数据库列表
+     *
+     * @param genTable  包含查询条件的GenTable对象
+     * @param pageQuery 包含分页信息的PageQuery对象
+     * @return 包含分页结果的TableDataInfo对象
+     */
     @DS("#genTable.dataName")
     @Override
     public TableDataInfo<GenTable> selectPageDbTableList(GenTable genTable, PageQuery pageQuery) {
-        genTable.getParams().put("genTableNames",baseMapper.selectTableNameList(genTable.getDataName()));
-        Page<GenTable> page = baseMapper.selectPageDbTableList(pageQuery.build(), genTable);
+        // 获取查询条件
+        String tableName = genTable.getTableName();
+        String tableComment = genTable.getTableComment();
+        // 获取分页参数
+        Integer pageNum = pageQuery.getPageNum();
+        Integer pageSize = pageQuery.getPageSize();
+
+        LinkedHashMap<String, Table<?>> tablesMap = ServiceProxy.metadata().tables();
+        if (CollUtil.isEmpty(tablesMap)) {
+            return TableDataInfo.build();
+        }
+        // 过滤并转换表格数据
+        List<GenTable> tables = tablesMap.values().stream()
+            .filter(x -> !StringUtils.containsAnyIgnoreCase(x.getName(), TABLE_IGNORE))
+            .filter(x -> {
+                boolean nameMatches = true;
+                boolean commentMatches = true;
+                // 进行表名称的模糊查询
+                if (StringUtils.isNotBlank(tableName)) {
+                    nameMatches = StringUtils.containsIgnoreCase(x.getName(), tableName);
+                }
+                // 进行表描述的模糊查询
+                if (StringUtils.isNotBlank(tableComment)) {
+                    commentMatches = StringUtils.containsIgnoreCase(x.getComment(), tableComment);
+                }
+                // 同时匹配名称和描述
+                return nameMatches && commentMatches;
+            })
+            .map(x -> {
+                GenTable gen = new GenTable();
+                gen.setTableName(x.getName());
+                gen.setTableComment(x.getComment());
+                gen.setCreateTime(x.getCreateTime());
+                gen.setUpdateTime(x.getUpdateTime());
+                return gen;
+            }).toList();
+
+        // 创建分页对象，并设置总记录数
+        IPage<GenTable> page = new Page<>(pageNum, pageSize, tables.size());
+        // 使用CollUtil进行分页，并设置分页记录
+        page.setRecords(CollUtil.page(pageNum - 1, pageSize, tables));
         return TableDataInfo.build(page);
     }
 
@@ -121,7 +174,29 @@ public class GenTableServiceImpl implements IGenTableService {
     @DS("#dataName")
     @Override
     public List<GenTable> selectDbTableListByNames(String[] tableNames, String dataName) {
-        return baseMapper.selectDbTableListByNames(tableNames);
+        Set<String> tableNameSet = new HashSet<>(List.of(tableNames));
+        LinkedHashMap<String, Table<?>> tablesMap = ServiceProxy.metadata().tables();
+
+        if (CollUtil.isEmpty(tablesMap)) {
+            return new ArrayList<>();
+        }
+
+        List<Table<?>> tableList = tablesMap.values().stream()
+            .filter(x -> !StringUtils.containsAnyIgnoreCase(x.getName(), TABLE_IGNORE))
+            .filter(x -> tableNameSet.contains(x.getName())).toList();
+
+        if (ArrayUtil.isEmpty(tableList)) {
+            return new ArrayList<>();
+        }
+        return tableList.stream().map(x -> {
+            GenTable gen = new GenTable();
+            gen.setDataName(dataName);
+            gen.setTableName(x.getName());
+            gen.setTableComment(x.getComment());
+            gen.setCreateTime(x.getCreateTime());
+            gen.setUpdateTime(x.getUpdateTime());
+            return gen;
+        }).toList();
     }
 
     /**
@@ -183,7 +258,7 @@ public class GenTableServiceImpl implements IGenTableService {
                 int row = baseMapper.insert(table);
                 if (row > 0) {
                     // 保存列信息
-                    List<GenTableColumn> genTableColumns = genTableColumnMapper.selectDbTableColumnsByName(tableName, dataName);
+                    List<GenTableColumn> genTableColumns = selectDbTableColumnsByName(tableName, dataName);
                     List<GenTableColumn> saveColumns = new ArrayList<>();
                     for (GenTableColumn column : genTableColumns) {
                         GenUtils.initColumnField(column, table);
@@ -197,6 +272,35 @@ public class GenTableServiceImpl implements IGenTableService {
         } catch (Exception e) {
             throw new ServiceException("导入失败：" + e.getMessage());
         }
+    }
+
+    /**
+     * 根据表名称查询列信息
+     *
+     * @param tableName 表名称
+     * @param dataName  数据源名称
+     * @return 列信息
+     */
+    @DS("#dataName")
+    private List<GenTableColumn> selectDbTableColumnsByName(String tableName, String dataName) {
+        Table<?> table = ServiceProxy.metadata().table(tableName);
+        if (Objects.isNull(table)) {
+            return new ArrayList<>();
+        }
+        LinkedHashMap<String, Column> columns = table.getColumns();
+        List<GenTableColumn> tableColumns = new ArrayList<>();
+        columns.forEach((columnName, column) -> {
+            GenTableColumn tableColumn = new GenTableColumn();
+            tableColumn.setIsPk(String.valueOf(column.isPrimaryKey()));
+            tableColumn.setColumnName(column.getName());
+            tableColumn.setColumnComment(column.getComment());
+            tableColumn.setColumnType(column.getTypeName().toLowerCase());
+            tableColumn.setSort(column.getPosition());
+            tableColumn.setIsRequired(column.isNullable() == 0 ? "1" : "0");
+            tableColumn.setIsIncrement(column.isAutoIncrement() == -1 ? "0" : "1");
+            tableColumns.add(tableColumn);
+        });
+        return tableColumns;
     }
 
     /**
@@ -294,7 +398,7 @@ public class GenTableServiceImpl implements IGenTableService {
         List<GenTableColumn> tableColumns = table.getColumns();
         Map<String, GenTableColumn> tableColumnMap = StreamUtils.toIdentityMap(tableColumns, GenTableColumn::getColumnName);
 
-        List<GenTableColumn> dbTableColumns = genTableColumnMapper.selectDbTableColumnsByName(table.getTableName(), table.getDataName());
+        List<GenTableColumn> dbTableColumns = selectDbTableColumnsByName(table.getTableName(), table.getDataName());
         if (CollUtil.isEmpty(dbTableColumns)) {
             throw new ServiceException("同步数据失败，原表结构不存在");
         }

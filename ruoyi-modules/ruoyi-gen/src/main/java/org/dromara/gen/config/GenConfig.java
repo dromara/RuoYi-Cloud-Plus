@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 @Component
 @ConfigurationProperties(prefix = "gen")
 public class GenConfig {
+
     /**
      * 作者
      */
