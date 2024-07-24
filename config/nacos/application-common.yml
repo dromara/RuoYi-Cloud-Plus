@@ -70,6 +70,12 @@ spring:
       # 允许对象忽略json中不存在的属性
       fail_on_unknown_properties: false
   cloud:
+    nacos:
+      discovery:
+        metadata:
+          # admin 监控账号密码
+          username: ruoyi
+          userpassword: 123456
     # sentinel 配置
     sentinel:
       # sentinel 开关
