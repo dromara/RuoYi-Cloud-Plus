@@ -17,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.anyline.metadata.Column;
 import org.anyline.metadata.Table;
+import org.anyline.proxy.CacheProxy;
 import org.anyline.proxy.ServiceProxy;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
@@ -293,11 +294,9 @@ public class GenTableServiceImpl implements IGenTableService {
      */
     @DS("#dataName")
     private List<GenTableColumn> selectDbTableColumnsByName(String tableName, String dataName) {
-        Table<?> table = ServiceProxy.metadata().table(tableName);
-        if (Objects.isNull(table)) {
-            return new ArrayList<>();
-        }
-        LinkedHashMap<String, Column> columns = table.getColumns();
+        // 清理anyline缓存
+        CacheProxy.clear();
+        LinkedHashMap<String, Column> columns = ServiceProxy.metadata().columns(tableName);
         List<GenTableColumn> tableColumns = new ArrayList<>();
         columns.forEach((columnName, column) -> {
             GenTableColumn tableColumn = new GenTableColumn();
