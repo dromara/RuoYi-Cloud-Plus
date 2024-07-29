@@ -74,8 +74,9 @@ public class SysOssServiceImpl implements ISysOssService {
     @Override
     public List<SysOssVo> listByIds(Collection<Long> ossIds) {
         List<SysOssVo> list = new ArrayList<>();
+        SysOssServiceImpl ossService = SpringUtils.getAopProxy(this);
         for (Long id : ossIds) {
-            SysOssVo vo = getById(id);
+            SysOssVo vo = ossService.getById(id);
             if (ObjectUtil.isNotNull(vo)) {
                 try {
                     list.add(this.matchingUrl(vo));
@@ -97,8 +98,9 @@ public class SysOssServiceImpl implements ISysOssService {
     @Override
     public String selectUrlByIds(String ossIds) {
         List<String> list = new ArrayList<>();
+        SysOssServiceImpl ossService = SpringUtils.getAopProxy(this);
         for (Long id : StringUtils.splitTo(ossIds, Convert::toLong)) {
-            SysOssVo vo = SpringUtils.getAopProxy(this).getById(id);
+            SysOssVo vo = ossService.getById(id);
             if (ObjectUtil.isNotNull(vo)) {
                 try {
                     list.add(this.matchingUrl(vo).getUrl());
