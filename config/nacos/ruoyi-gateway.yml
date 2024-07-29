@@ -18,6 +18,7 @@ security:
       - /auth/register
       - /auth/tenant/list
       - /resource/sms/code
+      - /resource/sse/close
       - /*/v3/api-docs
       - /*/error
       - /csrf
