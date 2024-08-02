@@ -14,6 +14,7 @@ import org.apache.dubbo.config.annotation.DubboReference;
 import org.dromara.auth.form.RegisterBody;
 import org.dromara.auth.properties.CaptchaProperties;
 import org.dromara.auth.properties.UserPasswordProperties;
+import org.dromara.common.core.constant.CacheConstants;
 import org.dromara.common.core.constant.Constants;
 import org.dromara.common.core.constant.GlobalConstants;
 import org.dromara.common.core.constant.TenantConstants;
@@ -205,7 +206,7 @@ public class SysLoginService {
      * 登录校验
      */
     public void checkLogin(LoginType loginType, String tenantId, String username, Supplier<Boolean> supplier) {
-        String errorKey = GlobalConstants.PWD_ERR_CNT_KEY + username;
+        String errorKey = CacheConstants.PWD_ERR_CNT_KEY + username;
         String loginFail = Constants.LOGIN_FAIL;
         Integer maxRetryCount = userPasswordProperties.getMaxRetryCount();
         Integer lockTime = userPasswordProperties.getLockTime();
