@@ -27,6 +27,7 @@ dubbo:
     parameters:
       namespace: ${spring.profiles.active}
       database: ${spring.data.redis.database}
+      timeout: ${spring.data.redis.timeout}
   # 消费者相关配置
   consumer:
     # 结果缓存(LRU算法)

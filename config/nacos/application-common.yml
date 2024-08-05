@@ -107,7 +107,8 @@ spring:
       # redis 密码必须配置
       password: ruoyi123
       database: 0
-      timeout: 10s
+      # 需要使用数字
+      timeout: 10000
       ssl.enabled: false
 
 # redisson 配置
