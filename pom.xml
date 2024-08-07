@@ -28,8 +28,7 @@
         <swagger.core.version>2.2.22</swagger.core.version>
         <springdoc.version>2.6.0</springdoc.version>
         <therapi-javadoc.version>0.15.0</therapi-javadoc.version>
-        <poi.version>5.2.3</poi.version>
-        <easyexcel.version>3.3.4</easyexcel.version>
+        <easyexcel.version>4.0.2</easyexcel.version>
         <hutool.version>5.8.29</hutool.version>
         <redisson.version>3.33.0</redisson.version>
         <lock4j.version>2.2.7</lock4j.version>
@@ -237,25 +236,9 @@
             </dependency>
 
             <dependency>
-                <groupId>org.apache.poi</groupId>
-                <artifactId>poi</artifactId>
-                <version>${poi.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.poi</groupId>
-                <artifactId>poi-ooxml</artifactId>
-                <version>${poi.version}</version>
-            </dependency>
-            <dependency>
                 <groupId>com.alibaba</groupId>
                 <artifactId>easyexcel</artifactId>
                 <version>${easyexcel.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>org.apache.poi</groupId>
-                        <artifactId>poi-ooxml-schemas</artifactId>
-                    </exclusion>
-                </exclusions>
             </dependency>
 
             <!-- 代码生成使用模板 -->
