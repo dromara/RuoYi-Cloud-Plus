@@ -21,10 +21,7 @@ import org.apache.dubbo.common.URL;
 import org.apache.dubbo.common.config.configcenter.ConfigItem;
 import org.apache.dubbo.common.logger.ErrorTypeAwareLogger;
 import org.apache.dubbo.common.logger.LoggerFactory;
-import org.apache.dubbo.common.utils.ConcurrentHashMapUtils;
-import org.apache.dubbo.common.utils.ConcurrentHashSet;
-import org.apache.dubbo.common.utils.JsonUtils;
-import org.apache.dubbo.common.utils.StringUtils;
+import org.apache.dubbo.common.utils.*;
 import org.apache.dubbo.metadata.MappingChangedEvent;
 import org.apache.dubbo.metadata.MappingListener;
 import org.apache.dubbo.metadata.MetadataInfo;
@@ -457,9 +454,8 @@ public class RedisMetadataReport extends AbstractMetadataReport {
             logger.info("sub from redis:" + key + " message:" + msg);
             String applicationNames = getMappingData(buildMappingKey(DEFAULT_MAPPING_GROUP), msg);
             MappingChangedEvent mappingChangedEvent = new MappingChangedEvent(msg, getAppNames(applicationNames));
-            Set<MappingListener> mappingListeners = listeners.get(msg);
-            if (mappingListeners != null && !mappingListeners.isEmpty()) {
-                for (MappingListener mappingListener : mappingListeners) {
+            if (!CollectionUtils.isEmpty(listeners.get(msg))) {
+                for (MappingListener mappingListener : listeners.get(msg)) {
                     mappingListener.onEvent(mappingChangedEvent);
                 }
             }
