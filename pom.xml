@@ -29,7 +29,7 @@
         <springdoc.version>2.6.0</springdoc.version>
         <therapi-javadoc.version>0.15.0</therapi-javadoc.version>
         <easyexcel.version>4.0.2</easyexcel.version>
-        <hutool.version>5.8.29</hutool.version>
+        <hutool.version>5.8.31</hutool.version>
         <redisson.version>3.34.1</redisson.version>
         <lock4j.version>2.2.7</lock4j.version>
         <snailjob.version>1.1.1</snailjob.version>
