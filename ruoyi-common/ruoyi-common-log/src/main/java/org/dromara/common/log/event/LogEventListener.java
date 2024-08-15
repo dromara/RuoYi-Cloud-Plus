@@ -11,12 +11,14 @@ import org.dromara.common.core.constant.Constants;
 import org.dromara.common.core.utils.ServletUtils;
 import org.dromara.common.core.utils.StringUtils;
 import org.dromara.common.core.utils.ip.AddressUtils;
+import org.dromara.common.log.enums.BusinessStatus;
 import org.dromara.common.satoken.utils.LoginHelper;
 import org.dromara.system.api.RemoteClientService;
 import org.dromara.system.api.RemoteLogService;
 import org.dromara.system.api.domain.bo.RemoteLogininforBo;
 import org.dromara.system.api.domain.bo.RemoteOperLogBo;
 import org.dromara.system.api.domain.vo.RemoteClientVo;
+import org.dromara.system.api.model.LoginUser;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
@@ -40,6 +42,18 @@ public class LogEventListener {
     @EventListener
     public void saveLog(OperLogEvent operLogEvent) {
         RemoteOperLogBo sysOperLog = BeanUtil.toBean(operLogEvent, RemoteOperLogBo.class);
+        sysOperLog.setTenantId(LoginHelper.getTenantId());
+        sysOperLog.setStatus(BusinessStatus.SUCCESS.ordinal());
+        // 请求的地址
+        String ip = ServletUtils.getClientIP();
+        sysOperLog.setOperIp(ip);
+        HttpServletRequest request = ServletUtils.getRequest();
+        sysOperLog.setOperUrl(StringUtils.substring(request.getRequestURI(), 0, 255));
+        LoginUser loginUser = LoginHelper.getLoginUser();
+        sysOperLog.setOperName(loginUser.getUsername());
+        sysOperLog.setDeptName(loginUser.getDeptName());
+        // 设置请求方式
+        sysOperLog.setRequestMethod(request.getMethod());
         remoteLogService.saveLog(sysOperLog);
     }
 
