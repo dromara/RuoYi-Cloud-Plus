@@ -2,6 +2,7 @@ package org.dromara.system.dubbo;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.convert.Convert;
+import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import lombok.RequiredArgsConstructor;
 import org.apache.dubbo.config.annotation.DubboService;
@@ -40,6 +41,9 @@ public class RemoteDataScopeServiceImpl implements RemoteDataScopeService {
      */
     @Override
     public String getRoleCustom(Long roleId) {
+        if (ObjectUtil.isNull(roleId)) {
+            return "-1";
+        }
         List<SysRoleDept> list = roleDeptMapper.selectList(
             new LambdaQueryWrapper<SysRoleDept>()
                 .select(SysRoleDept::getDeptId)
@@ -47,7 +51,7 @@ public class RemoteDataScopeServiceImpl implements RemoteDataScopeService {
         if (CollUtil.isNotEmpty(list)) {
             return StreamUtils.join(list, rd -> Convert.toStr(rd.getDeptId()));
         }
-        return null;
+        return "-1";
     }
 
     /**
@@ -58,6 +62,9 @@ public class RemoteDataScopeServiceImpl implements RemoteDataScopeService {
      */
     @Override
     public String getDeptAndChild(Long deptId) {
+        if (ObjectUtil.isNull(deptId)) {
+            return "-1";
+        }
         List<SysDept> deptList = deptMapper.selectList(new LambdaQueryWrapper<SysDept>()
             .select(SysDept::getDeptId)
             .apply(DataBaseHelper.findInSet(deptId, "ancestors")));
@@ -66,7 +73,7 @@ public class RemoteDataScopeServiceImpl implements RemoteDataScopeService {
         if (CollUtil.isNotEmpty(ids)) {
             return StreamUtils.join(ids, Convert::toStr);
         }
-        return null;
+        return "-1";
     }
 
 }
