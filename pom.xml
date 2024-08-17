@@ -40,7 +40,6 @@
         <elasticsearch.version>7.14.0</elasticsearch.version>
         <skywalking-toolkit.version>9.2.0</skywalking-toolkit.version>
         <bouncycastle.version>1.76</bouncycastle.version>
-        <alibaba-ttl.version>2.14.4</alibaba-ttl.version>
         <mapstruct-plus.version>1.4.3</mapstruct-plus.version>
         <mapstruct-plus.lombok.version>0.2.0</mapstruct-plus.lombok.version>
         <justauth.version>1.16.6</justauth.version>
@@ -387,12 +386,6 @@
                 <groupId>redis.clients</groupId>
                 <artifactId>jedis</artifactId>
                 <version>5.1.0</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.alibaba</groupId>
-                <artifactId>transmittable-thread-local</artifactId>
-                <version>${alibaba-ttl.version}</version>
             </dependency>
 
             <dependency>
