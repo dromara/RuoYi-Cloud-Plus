@@ -19,6 +19,7 @@ import org.dromara.common.core.utils.ValidatorUtils;
 import org.dromara.common.json.utils.JsonUtils;
 import org.dromara.common.redis.utils.RedisUtils;
 import org.dromara.common.satoken.utils.LoginHelper;
+import org.dromara.common.tenant.helper.TenantHelper;
 import org.dromara.system.api.RemoteUserService;
 import org.dromara.system.api.domain.vo.RemoteClientVo;
 import org.dromara.system.api.model.LoginUser;
@@ -46,10 +47,11 @@ public class EmailAuthStrategy implements IAuthStrategy {
         String tenantId = loginBody.getTenantId();
         String email = loginBody.getEmail();
         String emailCode = loginBody.getEmailCode();
-
-        // 通过邮箱查找用户
-        LoginUser loginUser = remoteUserService.getUserInfoByEmail(email, tenantId);
-        loginService.checkLogin(LoginType.EMAIL, tenantId, loginUser.getUsername(), () -> !validateEmailCode(tenantId, email, emailCode));
+        LoginUser loginUser = TenantHelper.dynamic(tenantId, () -> {
+            LoginUser user = remoteUserService.getUserInfoByEmail(email, tenantId);
+            loginService.checkLogin(LoginType.EMAIL, tenantId, user.getUsername(), () -> !validateEmailCode(tenantId, email, emailCode));
+            return user;
+        });
         loginUser.setClientKey(client.getClientKey());
         loginUser.setDeviceType(client.getDeviceType());
         SaLoginModel model = new SaLoginModel();

@@ -1,6 +1,7 @@
 package org.dromara.system.dubbo;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.lang.Opt;
 import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +11,7 @@ import org.dromara.common.core.exception.ServiceException;
 import org.dromara.common.core.exception.user.UserException;
 import org.dromara.common.core.utils.DateUtils;
 import org.dromara.common.core.utils.MapstructUtils;
+import org.dromara.common.core.utils.StringUtils;
 import org.dromara.common.mybatis.helper.DataPermissionHelper;
 import org.dromara.common.tenant.helper.TenantHelper;
 import org.dromara.system.api.RemoteUserService;
@@ -257,16 +259,13 @@ public class RemoteUserServiceImpl implements RemoteUserService {
         loginUser.setUserType(userVo.getUserType());
         loginUser.setMenuPermission(permissionService.getMenuPermission(userVo.getUserId()));
         loginUser.setRolePermission(permissionService.getRolePermission(userVo.getUserId()));
-        TenantHelper.dynamic(userVo.getTenantId(), () -> {
-            SysDeptVo dept = null;
-            if (ObjectUtil.isNotNull(userVo.getDeptId())) {
-                dept = deptService.selectDeptById(userVo.getDeptId());
-            }
-            loginUser.setDeptName(ObjectUtil.isNull(dept) ? "" : dept.getDeptName());
-            loginUser.setDeptCategory(ObjectUtil.isNull(dept) ? "" : dept.getDeptCategory());
-            List<SysRoleVo> roles = roleService.selectRolesByUserId(userVo.getUserId());
-            loginUser.setRoles(BeanUtil.copyToList(roles, RoleDTO.class));
-        });
+        if (ObjectUtil.isNotNull(userVo.getDeptId())) {
+            Opt<SysDeptVo> deptOpt = Opt.of(userVo.getDeptId()).map(deptService::selectDeptById);
+            loginUser.setDeptName(deptOpt.map(SysDeptVo::getDeptName).orElse(StringUtils.EMPTY));
+            loginUser.setDeptCategory(deptOpt.map(SysDeptVo::getDeptCategory).orElse(StringUtils.EMPTY));
+        }
+        List<SysRoleVo> roles = roleService.selectRolesByUserId(userVo.getUserId());
+        loginUser.setRoles(BeanUtil.copyToList(roles, RoleDTO.class));
         return loginUser;
     }
 

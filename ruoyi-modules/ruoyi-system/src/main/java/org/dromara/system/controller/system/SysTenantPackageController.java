@@ -17,6 +17,7 @@ import org.dromara.common.mybatis.core.page.TableDataInfo;
 import org.dromara.system.domain.bo.SysTenantPackageBo;
 import org.dromara.system.domain.vo.SysTenantPackageVo;
 import org.dromara.system.service.ISysTenantPackageService;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,6 +36,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/tenant/package")
+@ConditionalOnProperty(value = "tenant.enable", havingValue = "true")
 public class SysTenantPackageController extends BaseController {
 
     private final ISysTenantPackageService tenantPackageService;
@@ -93,6 +95,9 @@ public class SysTenantPackageController extends BaseController {
     @RepeatSubmit()
     @PostMapping()
     public R<Void> add(@Validated(AddGroup.class) @RequestBody SysTenantPackageBo bo) {
+        if (!tenantPackageService.checkPackageNameUnique(bo)) {
+            return R.fail("新增套餐'" + bo.getPackageName() + "'失败，套餐名称已存在");
+        }
         return toAjax(tenantPackageService.insertByBo(bo));
     }
 
@@ -105,6 +110,9 @@ public class SysTenantPackageController extends BaseController {
     @RepeatSubmit()
     @PutMapping()
     public R<Void> edit(@Validated(EditGroup.class) @RequestBody SysTenantPackageBo bo) {
+        if (!tenantPackageService.checkPackageNameUnique(bo)) {
+            return R.fail("修改套餐'" + bo.getPackageName() + "'失败，套餐名称已存在");
+        }
         return toAjax(tenantPackageService.updateByBo(bo));
     }
 

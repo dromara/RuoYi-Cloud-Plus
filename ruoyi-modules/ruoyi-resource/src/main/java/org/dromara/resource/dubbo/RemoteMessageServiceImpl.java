@@ -3,8 +3,8 @@ package org.dromara.resource.dubbo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboService;
-import org.dromara.common.websocket.dto.WebSocketMessageDto;
-import org.dromara.common.websocket.utils.WebSocketUtils;
+import org.dromara.common.sse.dto.SseMessageDto;
+import org.dromara.common.sse.utils.SseMessageUtils;
 import org.dromara.resource.api.RemoteMessageService;
 import org.springframework.stereotype.Service;
 
@@ -29,10 +29,10 @@ public class RemoteMessageServiceImpl implements RemoteMessageService {
      */
     @Override
     public void publishMessage(Long sessionKey, String message) {
-        WebSocketMessageDto dto = new WebSocketMessageDto();
+        SseMessageDto dto = new SseMessageDto();
         dto.setMessage(message);
-        dto.setSessionKeys(List.of(sessionKey));
-        WebSocketUtils.publishMessage(dto);
+        dto.setUserIds(List.of(sessionKey));
+        SseMessageUtils.publishMessage(dto);
     }
 
     /**
@@ -42,7 +42,7 @@ public class RemoteMessageServiceImpl implements RemoteMessageService {
      */
     @Override
     public void publishAll(String message) {
-        WebSocketUtils.publishAll(message);
+        SseMessageUtils.publishAll(message);
     }
 
 }

@@ -22,6 +22,7 @@ import org.dromara.common.core.utils.ValidatorUtils;
 import org.dromara.common.json.utils.JsonUtils;
 import org.dromara.common.redis.utils.RedisUtils;
 import org.dromara.common.satoken.utils.LoginHelper;
+import org.dromara.common.tenant.helper.TenantHelper;
 import org.dromara.system.api.RemoteUserService;
 import org.dromara.system.api.domain.vo.RemoteClientVo;
 import org.dromara.system.api.model.LoginUser;
@@ -58,9 +59,11 @@ public class PasswordAuthStrategy implements IAuthStrategy {
         if (captchaProperties.getEnabled()) {
             validateCaptcha(tenantId, username, code, uuid);
         }
-
-        LoginUser loginUser = remoteUserService.getUserInfo(username, tenantId);
-        loginService.checkLogin(LoginType.PASSWORD, tenantId, username, () -> !BCrypt.checkpw(password, loginUser.getPassword()));
+        LoginUser loginUser = TenantHelper.dynamic(tenantId, () -> {
+            LoginUser user = remoteUserService.getUserInfo(username, tenantId);
+            loginService.checkLogin(LoginType.PASSWORD, tenantId, username, () -> !BCrypt.checkpw(password, user.getPassword()));
+            return user;
+        });
         loginUser.setClientKey(client.getClientKey());
         loginUser.setDeviceType(client.getDeviceType());
         SaLoginModel model = new SaLoginModel();

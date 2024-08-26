@@ -16,7 +16,6 @@ import org.dromara.common.mybatis.core.domain.BaseEntity;
  *
  * @author Lion Li
  */
-
 @Data
 @EqualsAndHashCode(callSuper = true)
 @TableName("gen_table_column")

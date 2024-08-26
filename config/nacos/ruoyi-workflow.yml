@@ -26,6 +26,10 @@ spring:
 
 # flowable配置
 flowable:
+  # 开关 用于启动/停用工作流
+  enabled: true
+  process.enabled: ${flowable.enabled}
+  eventregistry.enabled: ${flowable.enabled}
   # 关闭定时任务JOB
   async-executor-activate: false
   # 将databaseSchemaUpdate设置为true。当Flowable发现库与数据库表结构不一致时，会自动将数据库表结构升级至新版本。

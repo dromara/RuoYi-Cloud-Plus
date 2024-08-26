@@ -46,6 +46,11 @@ public interface ISysTenantPackageService {
     Boolean updateByBo(SysTenantPackageBo bo);
 
     /**
+     * 校验套餐名称是否唯一
+     */
+    boolean checkPackageNameUnique(SysTenantPackageBo bo);
+
+    /**
      * 修改套餐状态
      */
     int updatePackageStatus(SysTenantPackageBo bo);

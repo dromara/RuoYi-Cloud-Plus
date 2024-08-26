@@ -72,17 +72,6 @@
             <artifactId>ruoyi-common-sms</artifactId>
         </dependency>
 
-        <!-- 短信 用哪个导入哪个依赖 -->
-<!--        <dependency>-->
-<!--            <groupId>com.aliyun</groupId>-->
-<!--            <artifactId>dysmsapi20170525</artifactId>-->
-<!--        </dependency>-->
-
-<!--        <dependency>-->
-<!--            <groupId>com.tencentcloudapi</groupId>-->
-<!--            <artifactId>tencentcloud-sdk-java-sms</artifactId>-->
-<!--        </dependency>-->
-
         <dependency>
             <groupId>org.dromara</groupId>
             <artifactId>ruoyi-common-mybatis</artifactId>
@@ -106,6 +95,11 @@
         <dependency>
             <groupId>org.dromara</groupId>
             <artifactId>ruoyi-common-websocket</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.dromara</groupId>
+            <artifactId>ruoyi-common-sse</artifactId>
         </dependency>
 
         <!-- RuoYi Api System -->

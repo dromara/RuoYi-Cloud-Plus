@@ -70,12 +70,16 @@ spring:
       # 允许对象忽略json中不存在的属性
       fail_on_unknown_properties: false
   cloud:
+    nacos:
+      discovery:
+        metadata:
+          # admin 监控账号密码
+          username: ruoyi
+          userpassword: 123456
     # sentinel 配置
     sentinel:
       # sentinel 开关
       enabled: true
-      # 取消控制台懒加载
-      eager: true
       transport:
         # dashboard控制台服务名 用于服务发现
         # 如无此配置将默认使用下方 dashboard 配置直接注册
@@ -103,7 +107,8 @@ spring:
       # redis 密码必须配置
       password: ruoyi123
       database: 0
-      timeout: 10s
+      # 需要使用数字
+      timeout: 10000
       ssl.enabled: false
 
 # redisson 配置
@@ -154,6 +159,7 @@ logging:
     org.springframework: warn
     org.apache.dubbo: warn
     com.alibaba.nacos: warn
+    com.alibaba.cloud.sentinel: warn
     org.mybatis.spring.mapper: error
     org.apache.dubbo.config: error
     # 临时处理 spring 调整日志级别导致启动警告问题 不影响使用等待 alibaba 适配

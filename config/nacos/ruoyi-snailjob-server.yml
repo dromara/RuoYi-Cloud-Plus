@@ -13,6 +13,15 @@ spring:
       idle-timeout: 600000
       max-lifetime: 900000
       keepaliveTime: 30000
+  cloud:
+    nacos:
+      discovery:
+        metadata:
+          # 解决 er 服务有 context-path 无法监控问题
+          management.context-path: ${server.servlet.context-path}/actuator
+          # 监控账号密码
+          username: ruoyi
+          userpassword: 123456
 
 # snail-job 服务端配置
 snail-job:
