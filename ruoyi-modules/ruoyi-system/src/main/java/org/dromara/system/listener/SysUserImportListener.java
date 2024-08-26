@@ -80,7 +80,11 @@ public class SysUserImportListener extends AnalysisEventListener<SysUserImportVo
         } catch (Exception e) {
             failureNum++;
             String msg = "<br/>" + failureNum + "、账号 " + userVo.getUserName() + " 导入失败：";
-            failureMsg.append(msg).append(e.getMessage());
+            String message = e.getMessage();
+            if (e instanceof ConstraintViolationException cvException) {
+                message = StreamUtils.join(cvException.getConstraintViolations(), ConstraintViolation::getMessage, ", ");
+            }
+            failureMsg.append(msg).append(message);
             log.error(msg, e);
         }
     }
