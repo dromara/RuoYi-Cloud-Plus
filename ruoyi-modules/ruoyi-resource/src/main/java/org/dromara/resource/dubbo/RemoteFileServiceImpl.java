@@ -42,7 +42,7 @@ public class RemoteFileServiceImpl implements RemoteFileService {
         try {
             String suffix = StringUtils.substring(originalFilename, originalFilename.lastIndexOf("."), originalFilename.length());
             OssClient storage = OssFactory.instance();
-            UploadResult uploadResult = storage.uploadSuffix(file, suffix);
+            UploadResult uploadResult = storage.uploadSuffix(file, suffix, contentType);
             // 保存文件信息
             SysOssBo oss = new SysOssBo();
             oss.setUrl(uploadResult.getUrl());
