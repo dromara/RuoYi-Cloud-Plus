@@ -149,11 +149,11 @@ public class GenTableServiceImpl implements IGenTableService {
                 boolean commentMatches = true;
                 // 进行表名称的模糊查询
                 if (StringUtils.isNotBlank(tableName)) {
-                    nameMatches = StringUtils.containsIgnoreCase(x.getName(), tableName);
+                    nameMatches = StringUtils.startsWithIgnoreCase(x.getName(), tableName);
                 }
                 // 进行表描述的模糊查询
                 if (StringUtils.isNotBlank(tableComment)) {
-                    commentMatches = StringUtils.containsIgnoreCase(x.getComment(), tableComment);
+                    commentMatches = StringUtils.startsWithIgnoreCase(x.getComment(), tableComment);
                 }
                 // 同时匹配名称和描述
                 return nameMatches && commentMatches;
