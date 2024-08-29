@@ -137,7 +137,7 @@ public class GenTableServiceImpl implements IGenTableService {
         }
         // 过滤并转换表格数据
         List<GenTable> tables = tablesMap.values().stream()
-            .filter(x -> !StringUtils.containsAnyIgnoreCase(x.getName(), TABLE_IGNORE))
+            .filter(x -> !startWithAnyIgnoreCase(x.getName(), TABLE_IGNORE))
             .filter(x -> {
                 if (CollUtil.isEmpty(tableNames)) {
                     return true;
@@ -149,11 +149,11 @@ public class GenTableServiceImpl implements IGenTableService {
                 boolean commentMatches = true;
                 // 进行表名称的模糊查询
                 if (StringUtils.isNotBlank(tableName)) {
-                    nameMatches = StringUtils.startsWithIgnoreCase(x.getName(), tableName);
+                    nameMatches = StringUtils.containsIgnoreCase(x.getName(), tableName);
                 }
                 // 进行表描述的模糊查询
                 if (StringUtils.isNotBlank(tableComment)) {
-                    commentMatches = StringUtils.startsWithIgnoreCase(x.getComment(), tableComment);
+                    commentMatches = StringUtils.containsIgnoreCase(x.getComment(), tableComment);
                 }
                 // 同时匹配名称和描述
                 return nameMatches && commentMatches;
@@ -172,6 +172,16 @@ public class GenTableServiceImpl implements IGenTableService {
         // 手动分页 set数据
         page.setRecords(CollUtil.page((int) page.getCurrent() - 1, (int) page.getSize(), tables));
         return TableDataInfo.build(page);
+    }
+
+    public static boolean startWithAnyIgnoreCase(CharSequence cs, CharSequence... searchCharSequences) {
+        // 判断是否是以指定字符串开头
+        for (CharSequence searchCharSequence : searchCharSequences) {
+            if (StringUtils.startsWithIgnoreCase(cs, searchCharSequence)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
