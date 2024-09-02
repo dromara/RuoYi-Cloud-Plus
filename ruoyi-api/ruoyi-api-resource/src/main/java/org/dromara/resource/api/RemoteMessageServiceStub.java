@@ -25,7 +25,7 @@ public class RemoteMessageServiceStub implements RemoteMessageService {
         try {
             remoteMessageService.publishMessage(sessionKey, message);
         } catch (Exception e) {
-            log.warn("websocket 功能未开启或服务未找到");
+            log.warn("推送功能未开启或服务未找到");
         }
     }
 
@@ -39,7 +39,7 @@ public class RemoteMessageServiceStub implements RemoteMessageService {
         try {
             remoteMessageService.publishAll(message);
         } catch (Exception e) {
-            log.warn("websocket 功能未开启或服务未找到");
+            log.warn("推送功能未开启或服务未找到");
         }
     }
 }
