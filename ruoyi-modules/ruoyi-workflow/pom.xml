@@ -133,6 +133,12 @@
             <groupId>org.dromara</groupId>
             <artifactId>ruoyi-api-workflow</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.15.0</version>
+        </dependency>
     </dependencies>
 
     <build>
