@@ -52,7 +52,6 @@
         <!-- OSS 配置 -->
         <aws.sdk.version>2.25.15</aws.sdk.version>
         <aws.crt.version>0.29.13</aws.crt.version>
-        <okhttp.version>4.10.0</okhttp.version>
 
         <!-- SMS 配置 -->
         <sms4j.version>3.3.2</sms4j.version>
@@ -312,12 +311,6 @@
                 <groupId>org.apache.skywalking</groupId>
                 <artifactId>apm-toolkit-trace</artifactId>
                 <version>${skywalking-toolkit.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.squareup.okhttp3</groupId>
-                <artifactId>okhttp</artifactId>
-                <version>${okhttp.version}</version>
             </dependency>
 
             <!--  AWS SDK for Java 2.x  -->
