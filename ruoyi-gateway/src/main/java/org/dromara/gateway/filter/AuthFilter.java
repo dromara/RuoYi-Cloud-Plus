@@ -8,6 +8,7 @@ import cn.dev33.satoken.router.SaRouter;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.dev33.satoken.util.SaResult;
 import org.dromara.common.core.constant.HttpStatus;
+import org.dromara.common.core.exception.SseException;
 import org.dromara.common.core.utils.SpringUtils;
 import org.dromara.common.core.utils.StringUtils;
 import org.dromara.common.satoken.utils.LoginHelper;
@@ -39,11 +40,19 @@ public class AuthFilter {
                 SaRouter.match("/**")
                     .notMatch(ignoreWhite.getWhites())
                     .check(r -> {
+                        ServerHttpRequest request = SaReactorSyncHolder.getContext().getRequest();
                         // 检查是否登录 是否有token
-                        StpUtil.checkLogin();
+                        try {
+                            StpUtil.checkLogin();
+                        } catch (NotLoginException e) {
+                            if (request.getURI().getPath().contains("sse")) {
+                                throw new SseException(e.getMessage(), e.getCode());
+                            } else {
+                                throw e;
+                            }
+                        }
 
                         // 检查 header 与 param 里的 clientid 与 token 里的是否一致
-                        ServerHttpRequest request = SaReactorSyncHolder.getContext().getRequest();
                         String headerCid = request.getHeaders().getFirst(LoginHelper.CLIENT_KEY);
                         String paramCid = request.getQueryParams().getFirst(LoginHelper.CLIENT_KEY);
                         String clientId = StpUtil.getExtra(LoginHelper.CLIENT_KEY).toString();

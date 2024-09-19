@@ -19,7 +19,7 @@
 
         <dependency>
             <groupId>org.dromara</groupId>
-            <artifactId>ruoyi-common-core</artifactId>
+            <artifactId>ruoyi-common-json</artifactId>
         </dependency>
 
         <!-- SpringBoot Web容器 -->
