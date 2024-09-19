@@ -28,9 +28,9 @@
         <swagger.core.version>2.2.22</swagger.core.version>
         <springdoc.version>2.6.0</springdoc.version>
         <therapi-javadoc.version>0.15.0</therapi-javadoc.version>
-        <easyexcel.version>4.0.2</easyexcel.version>
+        <easyexcel.version>4.0.3</easyexcel.version>
         <hutool.version>5.8.31</hutool.version>
-        <redisson.version>3.34.1</redisson.version>
+        <redisson.version>3.36.0</redisson.version>
         <lock4j.version>2.2.7</lock4j.version>
         <snailjob.version>1.1.2</snailjob.version>
         <satoken.version>1.39.0</satoken.version>
