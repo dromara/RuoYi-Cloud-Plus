@@ -55,7 +55,7 @@
         <!-- SMS 配置 -->
         <sms4j.version>3.3.3</sms4j.version>
         <!-- 面向运行时的D-ORM依赖 -->
-        <anyline.version>8.7.2-20240808</anyline.version>
+        <anyline.version>8.7.2-20240930</anyline.version>
         <!-- 工作流配置 -->
         <flowable.version>7.0.1</flowable.version>
         <!-- mq配置 -->
