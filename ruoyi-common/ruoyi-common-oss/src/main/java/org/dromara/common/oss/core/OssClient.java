@@ -83,8 +83,8 @@ public class OssClient {
             StaticCredentialsProvider credentialsProvider = StaticCredentialsProvider.create(
                 AwsBasicCredentials.create(properties.getAccessKey(), properties.getSecretKey()));
 
-            //MinIO 使用 HTTPS 限制使用域名访问，站点填域名。需要启用路径样式访问
-            boolean isStyle = !StringUtils.containsAny(properties.getEndpoint(), OssConstant.CLOUD_SERVICE);
+            //使用对象存储服务时要求明确配置访问样式（路径样式或虚拟托管样式）。需要启用路径样式访问
+            boolean isStyle = true;
 
             //创建AWS基于 CRT 的 S3 客户端
             this.client = S3AsyncClient.crtBuilder()
@@ -178,7 +178,9 @@ public class OssClient {
                             .key(key)
                             .contentMD5(StringUtils.isNotEmpty(md5Digest) ? md5Digest : null)
                             .contentType(contentType)
-                            .acl(getAccessPolicy().getObjectCannedACL())
+                            // 用于设置对象的访问控制列表（ACL）。不同云厂商对ACL的支持和实现方式有所不同，
+                            // 因此根据具体的云服务提供商，你可能需要进行不同的配置（自行开启，阿里云有acl权限配置，腾讯云没有acl权限配置）
+                            //.acl(getAccessPolicy().getObjectCannedACL())
                             .build())
                     .addTransferListener(LoggingTransferListener.create())
                     .source(filePath).build());
@@ -224,7 +226,9 @@ public class OssClient {
                         y -> y.bucket(properties.getBucketName())
                             .key(key)
                             .contentType(contentType)
-                            .acl(getAccessPolicy().getObjectCannedACL())
+                            // 用于设置对象的访问控制列表（ACL）。不同云厂商对ACL的支持和实现方式有所不同，
+                            // 因此根据具体的云服务提供商，你可能需要进行不同的配置（自行开启，阿里云有acl权限配置，腾讯云没有acl权限配置）
+                            //.acl(getAccessPolicy().getObjectCannedACL())
                             .build())
                     .build());
 
