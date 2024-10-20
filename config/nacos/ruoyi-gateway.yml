@@ -1,12 +1,5 @@
 # 安全配置
 security:
-  # 防止XSS攻击
-  xss:
-    enabled: true
-    excludeUrls:
-      - /system/notice
-      - /workflow/model/save
-      - /workflow/model/editModelXml
   # 不校验白名单
   ignore:
     whites:

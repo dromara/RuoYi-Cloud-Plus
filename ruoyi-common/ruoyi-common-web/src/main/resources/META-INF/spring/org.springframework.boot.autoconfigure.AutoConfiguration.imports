@@ -1,3 +1,4 @@
+org.dromara.common.web.config.FilterConfig
 org.dromara.common.web.config.I18nConfig
 org.dromara.common.web.config.UndertowConfig
 org.dromara.common.web.config.ResourcesConfig

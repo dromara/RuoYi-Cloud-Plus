@@ -1,9 +1,8 @@
-package org.dromara.gateway.config.properties;
+package org.dromara.common.web.config.properties;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
-import org.springframework.context.annotation.Configuration;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,12 +10,11 @@ import java.util.List;
 /**
  * XSS跨站脚本配置
  *
- * @author ruoyi
+ * @author Lion Li
  */
 @Data
-@Configuration
 @RefreshScope
-@ConfigurationProperties(prefix = "security.xss")
+@ConfigurationProperties(prefix = "xss")
 public class XssProperties {
 
     /**
