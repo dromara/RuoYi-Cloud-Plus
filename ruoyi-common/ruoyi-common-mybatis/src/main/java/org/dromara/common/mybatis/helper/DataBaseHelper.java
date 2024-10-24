@@ -62,8 +62,8 @@ public class DataBaseHelper {
             // charindex(',100,' , ',0,100,101,') <> 0
             return "charindex(',%s,' , ','+%s+',') <> 0".formatted(var, var2);
         } else if (dataBasyType == DataBaseType.POSTGRE_SQL) {
-            // (select position(',100,' in ',0,100,101,')) <> 0
-            return "(select position(',%s,' in ','||%s||',')) <> 0".formatted(var, var2);
+            // (select strpos(',0,100,101,' , ',100,')) <> 0
+            return "(select strpos(','||%s||',' , ',%s,')) <> 0".formatted(var2, var);
         } else if (dataBasyType == DataBaseType.ORACLE) {
             // instr(',0,100,101,' , ',100,') <> 0
             return "instr(','||%s||',' , ',%s,') <> 0".formatted(var2, var);
