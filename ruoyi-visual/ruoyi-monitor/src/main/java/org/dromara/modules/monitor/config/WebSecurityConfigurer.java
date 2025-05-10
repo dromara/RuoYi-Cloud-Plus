@@ -28,18 +28,19 @@ public class WebSecurityConfigurer {
     }
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity httpSecurity, MvcRequestMatcher.Builder mvc) throws Exception {
         SavedRequestAwareAuthenticationSuccessHandler successHandler = new SavedRequestAwareAuthenticationSuccessHandler();
         successHandler.setTargetUrlParameter("redirectTo");
         successHandler.setDefaultTargetUrl(adminContextPath + "/");
-
+    
         return httpSecurity
-            .headers((header) ->
+            .headers((header) -> 
+                // Consider removing this line or documenting why frame options are disabled
                 header.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
             .authorizeHttpRequests((authorize) ->
                 authorize.requestMatchers(
-                        new AntPathRequestMatcher(adminContextPath + "/assets/**"),
-                        new AntPathRequestMatcher(adminContextPath + "/login")
+                        mvc.pattern(adminContextPath + "/assets/**"),
+                        mvc.pattern(adminContextPath + "/login")
                     ).permitAll()
                     .anyRequest().authenticated())
             .formLogin((formLogin) ->
@@ -47,8 +48,9 @@ public class WebSecurityConfigurer {
             .logout((logout) ->
                 logout.logoutUrl(adminContextPath + "/logout"))
             .httpBasic(Customizer.withDefaults())
+            // Consider removing this line to enable CSRF protection
             .csrf(AbstractHttpConfigurer::disable)
             .build();
-    }
+    }    
 
 }
