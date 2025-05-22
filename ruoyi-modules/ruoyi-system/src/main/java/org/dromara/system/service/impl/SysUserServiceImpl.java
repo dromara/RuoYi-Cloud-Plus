@@ -53,6 +53,15 @@ public class SysUserServiceImpl implements ISysUserService {
     private final SysUserRoleMapper userRoleMapper;
     private final SysUserPostMapper userPostMapper;
 
+    /**
+     * 根据筛选条件分页获取用户列表。
+     * 此方法会查询用户基本信息，但不包含用户的角色或岗位详情。
+     * 支持通过用户名、状态、手机号等多种条件进行筛选。
+     *
+     * @param user 包含筛选条件的用户业务对象。例如，可以设置userName进行模糊查询，设置status进行精确匹配。
+     * @param pageQuery 分页参数对象，包含页码、每页数量以及排序字段和顺序。
+     * @return 封装了用户视图对象列表的分页结果对象 (TableDataInfo<SysUserVo>)。如果查询无结果，则列表为空。
+     */
     @Override
     public TableDataInfo<SysUserVo> selectPageUserList(SysUserBo user, PageQuery pageQuery) {
         Page<SysUserVo> page = baseMapper.selectPageUserList(pageQuery.build(), this.buildQueryWrapper(user));
@@ -60,10 +69,12 @@ public class SysUserServiceImpl implements ISysUserService {
     }
 
     /**
-     * 根据条件分页查询用户列表
+     * 根据查询条件导出的用户列表。
+     * 此方法用于构建用户数据的导出功能，它会根据提供的筛选条件查询用户数据，并转换为特定的导出视图对象。
+     * 不进行分页，返回满足条件的所有用户数据。
      *
-     * @param user 用户信息
-     * @return 用户信息集合信息
+     * @param user 包含筛选条件的用户业务对象。可用于指定需要导出的用户范围，例如部门、状态等。
+     * @return 用户导出视图对象列表 (List<SysUserExportVo>)。如果无满足条件的用户，则返回空列表。
      */
     @Override
     public List<SysUserExportVo> selectUserExportList(SysUserBo user) {
@@ -94,10 +105,13 @@ public class SysUserServiceImpl implements ISysUserService {
     }
 
     /**
-     * 根据条件分页查询已分配用户角色列表
+     * 根据条件分页查询已分配指定角色的用户列表。
+     * 主要用于角色管理模块，查看哪些用户已经被赋予了某个特定角色。
+     * 支持通过用户名、状态、手机号等条件进一步筛选已分配的用户。
      *
-     * @param user 用户信息
-     * @return 用户信息集合信息
+     * @param user 包含筛选条件的用户业务对象。必须设置roleId以指定查询哪个角色的已分配用户。
+     * @param pageQuery 分页参数对象，定义了查询的页码、每页条数等。
+     * @return 封装了已分配用户视图对象列表的分页结果 (TableDataInfo<SysUserVo>)。
      */
     @Override
     public TableDataInfo<SysUserVo> selectAllocatedList(SysUserBo user, PageQuery pageQuery) {
@@ -113,10 +127,14 @@ public class SysUserServiceImpl implements ISysUserService {
     }
 
     /**
-     * 根据条件分页查询未分配用户角色列表
+     * 根据条件分页查询未分配指定角色的用户列表。
+     * 主要用于角色管理模块，当需要给某个角色分配用户时，从此列表选择用户。
+     * 会排除掉已经分配了该角色的用户。
+     * 支持通过用户名、手机号等条件进行筛选。
      *
-     * @param user 用户信息
-     * @return 用户信息集合信息
+     * @param user 包含筛选条件的用户业务对象。必须设置roleId以指定查询哪个角色的未分配用户。
+     * @param pageQuery 分页参数对象，定义了查询的页码、每页条数等。
+     * @return 封装了未分配用户视图对象列表的分页结果 (TableDataInfo<SysUserVo>)。
      */
     @Override
     public TableDataInfo<SysUserVo> selectUnallocatedList(SysUserBo user, PageQuery pageQuery) {
@@ -133,10 +151,11 @@ public class SysUserServiceImpl implements ISysUserService {
     }
 
     /**
-     * 通过用户名查询用户
+     * 通过用户名精确查询用户信息。
+     * 此方法主要用于登录验证、用户信息获取等场景。
      *
-     * @param userName 用户名
-     * @return 用户对象信息
+     * @param userName 要查询的用户名。
+     * @return 匹配的用户视图对象 (SysUserVo)。如果用户不存在，则返回null。
      */
     @Override
     public SysUserVo selectUserByUserName(String userName) {
@@ -144,10 +163,11 @@ public class SysUserServiceImpl implements ISysUserService {
     }
 
     /**
-     * 通过手机号查询用户
+     * 通过手机号码精确查询用户信息。
+     * 可用于通过手机号登录、找回密码或检查手机号是否已被注册等场景。
      *
-     * @param phonenumber 手机号
-     * @return 用户对象信息
+     * @param phonenumber 要查询的手机号码。
+     * @return 匹配的用户视图对象 (SysUserVo)。如果用户不存在，则返回null。
      */
     @Override
     public SysUserVo selectUserByPhonenumber(String phonenumber) {
@@ -155,10 +175,11 @@ public class SysUserServiceImpl implements ISysUserService {
     }
 
     /**
-     * 通过用户ID查询用户
+     * 通过用户ID查询用户详细信息。
+     * 除了用户基本信息外，此方法还会额外查询并填充用户的角色信息。
      *
-     * @param userId 用户ID
-     * @return 用户对象信息
+     * @param userId 要查询的用户ID。
+     * @return 包含用户基本信息和角色信息的用户视图对象 (SysUserVo)。如果用户不存在，则返回null。
      */
     @Override
     public SysUserVo selectUserById(Long userId) {
@@ -171,11 +192,13 @@ public class SysUserServiceImpl implements ISysUserService {
     }
 
     /**
-     * 通过用户ID串查询用户
+     * 根据用户ID列表和可选的部门ID查询用户列表。
+     * 此方法用于批量获取指定用户的基本信息（用户ID、用户名、昵称、邮箱、手机号）。
+     * 只查询状态为正常的用户。
      *
-     * @param userIds 用户ID串
-     * @param deptId  部门id
-     * @return 用户列表信息
+     * @param userIds 用户ID列表。如果列表为空或null，则可能返回空结果或查询所有用户（取决于具体实现）。
+     * @param deptId 可选的部门ID。如果提供，则只在这些用户ID中筛选属于该部门的用户。
+     * @return 符合条件的用户视图对象列表 (List<SysUserVo>)。
      */
     @Override
     public List<SysUserVo> selectUserByIds(List<Long> userIds, Long deptId) {
@@ -186,10 +209,11 @@ public class SysUserServiceImpl implements ISysUserService {
     }
 
     /**
-     * 查询用户所属角色组
+     * 根据用户ID查询该用户所属的所有角色名称，并以逗号分隔的字符串形式返回。
+     * 例如，如果用户属于“管理员”和“普通用户”两个角色，则返回 "管理员,普通用户"。
      *
-     * @param userId 用户ID
-     * @return 结果
+     * @param userId 用户ID。
+     * @return 用户所属角色名称的字符串，角色名之间用逗号分隔。如果用户没有分配任何角色，则返回空字符串。
      */
     @Override
     public String selectUserRoleGroup(Long userId) {
@@ -201,10 +225,11 @@ public class SysUserServiceImpl implements ISysUserService {
     }
 
     /**
-     * 查询用户所属岗位组
+     * 根据用户ID查询该用户所属的所有岗位名称，并以逗号分隔的字符串形式返回。
+     * 例如，如果用户属于“项目经理”和“开发工程师”两个岗位，则返回 "项目经理,开发工程师"。
      *
-     * @param userId 用户ID
-     * @return 结果
+     * @param userId 用户ID。
+     * @return 用户所属岗位名称的字符串，岗位名之间用逗号分隔。如果用户没有分配任何岗位，则返回空字符串。
      */
     @Override
     public String selectUserPostGroup(Long userId) {
@@ -216,10 +241,14 @@ public class SysUserServiceImpl implements ISysUserService {
     }
 
     /**
-     * 校验用户名称是否唯一
+     * 校验用户名是否唯一。
+     * 在新增或修改用户信息时使用，确保用户名的唯一性。
+     * 如果是修改操作，会排除用户自身再进行校验。
      *
-     * @param user 用户信息
-     * @return 结果
+     * @param user 包含用户名和可选用户ID的用户业务对象。
+     *             - userName: 需要校验的用户名。
+     *             - userId: (可选) 如果是修改用户，则传入用户ID，校验时会排除此用户。
+     * @return 如果用户名唯一，则返回true；否则返回false。
      */
     @Override
     public boolean checkUserNameUnique(SysUserBo user) {
@@ -230,9 +259,14 @@ public class SysUserServiceImpl implements ISysUserService {
     }
 
     /**
-     * 校验手机号码是否唯一
+     * 校验手机号码是否唯一。
+     * 在新增或修改用户信息时使用，确保手机号码的唯一性。
+     * 如果是修改操作，会排除用户自身再进行校验。
      *
-     * @param user 用户信息
+     * @param user 包含手机号码和可选用户ID的用户业务对象。
+     *             - phonenumber: 需要校验的手机号码。
+     *             - userId: (可选) 如果是修改用户，则传入用户ID，校验时会排除此用户。
+     * @return 如果手机号码唯一，则返回true；否则返回false。
      */
     @Override
     public boolean checkPhoneUnique(SysUserBo user) {
@@ -243,9 +277,14 @@ public class SysUserServiceImpl implements ISysUserService {
     }
 
     /**
-     * 校验email是否唯一
+     * 校验邮箱地址是否唯一。
+     * 在新增或修改用户信息时使用，确保邮箱地址的唯一性。
+     * 如果是修改操作，会排除用户自身再进行校验。
      *
-     * @param user 用户信息
+     * @param user 包含邮箱地址和可选用户ID的用户业务对象。
+     *             - email: 需要校验的邮箱地址。
+     *             - userId: (可选) 如果是修改用户，则传入用户ID，校验时会排除此用户。
+     * @return 如果邮箱地址唯一，则返回true；否则返回false。
      */
     @Override
     public boolean checkEmailUnique(SysUserBo user) {
@@ -256,9 +295,11 @@ public class SysUserServiceImpl implements ISysUserService {
     }
 
     /**
-     * 校验用户是否允许操作
+     * 校验是否允许对指定用户进行操作。
+     * 主要用于防止对超级管理员账户执行某些敏感操作（如删除、修改状态等）。
      *
-     * @param userId 用户ID
+     * @param userId 要检查的用户ID。
+     * @throws ServiceException 如果不允许操作（例如，试图操作超级管理员），则抛出此异常。
      */
     @Override
     public void checkUserAllowed(Long userId) {
@@ -268,9 +309,12 @@ public class SysUserServiceImpl implements ISysUserService {
     }
 
     /**
-     * 校验用户是否有数据权限
+     * 校验当前登录用户是否具有访问指定用户数据的权限。
+     * 如果当前用户是超级管理员，则拥有所有权限。
+     * 否则，会检查数据范围权限，确保当前用户有权访问目标用户ID的数据。
      *
-     * @param userId 用户id
+     * @param userId 目标用户ID，即要检查数据权限的用户。
+     * @throws ServiceException 如果没有权限访问该用户数据，则抛出此异常。
      */
     @Override
     public void checkUserDataScope(Long userId) {
@@ -286,10 +330,12 @@ public class SysUserServiceImpl implements ISysUserService {
     }
 
     /**
-     * 新增保存用户信息
+     * 新增用户信息，并建立用户与岗位、角色的关联关系。
+     * 此方法是事务性的，如果任何一步失败，整个操作将回滚。
      *
-     * @param user 用户信息
-     * @return 结果
+     * @param user 待新增的用户业务对象，包含用户基本信息、岗位ID列表和角色ID列表。
+     *             用户的密码应在传入前进行加密处理。
+     * @return 返回数据库插入操作影响的行数，通常为1表示成功。
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -306,10 +352,13 @@ public class SysUserServiceImpl implements ISysUserService {
     }
 
     /**
-     * 注册用户信息
+     * 注册新用户。
+     * 通常用于系统开放注册的场景。
+     * 创建者和更新者ID默认设置为0。
      *
-     * @param user 用户信息
-     * @return 结果
+     * @param user 待注册的用户业务对象，包含用户基本信息。密码应已加密。
+     * @param tenantId 租户ID，标识用户所属的租户。
+     * @return 如果用户成功插入数据库，则返回true；否则返回false。
      */
     @Override
     public boolean registerUser(SysUserBo user, String tenantId) {
@@ -321,10 +370,14 @@ public class SysUserServiceImpl implements ISysUserService {
     }
 
     /**
-     * 修改保存用户信息
+     * 修改用户信息，并更新用户与岗位、角色的关联关系。
+     * 此方法是事务性的，会先清除旧的关联关系，然后添加新的关联关系。
+     * 会清除用户昵称相关的缓存 (CacheNames.SYS_NICKNAME)。
      *
-     * @param user 用户信息
-     * @return 结果
+     * @param user 待修改的用户业务对象，包含用户ID、需要更新的基本信息、岗位ID列表和角色ID列表。
+     *             不允许通过此方法修改密码。
+     * @return 返回数据库更新操作影响的行数。
+     * @throws ServiceException 如果更新失败（例如，影响行数为0），则抛出此异常。
      */
     @Override
     @CacheEvict(cacheNames = CacheNames.SYS_NICKNAME, key = "#user.userId")
@@ -344,10 +397,12 @@ public class SysUserServiceImpl implements ISysUserService {
     }
 
     /**
-     * 用户授权角色
+     * 为用户授权角色。
+     * 此方法会先清除用户已有的所有角色关联，然后添加指定的角色关联。
+     * 操作是事务性的。
      *
-     * @param userId  用户ID
-     * @param roleIds 角色组
+     * @param userId  要授权的用户ID。
+     * @param roleIds 要授予用户的角色ID数组。如果为null或空数组，则相当于清空用户所有角色。
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -356,11 +411,11 @@ public class SysUserServiceImpl implements ISysUserService {
     }
 
     /**
-     * 修改用户状态
+     * 修改用户账户状态（例如，启用或禁用账户）。
      *
-     * @param userId 用户ID
-     * @param status 帐号状态
-     * @return 结果
+     * @param userId 要修改状态的用户ID。
+     * @param status 目标账户状态标识字符串（通常来自预定义的常量，如 "0" 代表正常, "1" 代表停用）。
+     * @return 返回数据库更新操作影响的行数。
      */
     @Override
     public int updateUserStatus(Long userId, String status) {
@@ -371,10 +426,13 @@ public class SysUserServiceImpl implements ISysUserService {
     }
 
     /**
-     * 修改用户基本信息
+     * 修改用户个人基本信息。
+     * 此方法用于用户自行修改其昵称、手机号、邮箱、性别等信息。
+     * 会清除用户昵称相关的缓存 (CacheNames.SYS_NICKNAME)。
      *
-     * @param user 用户信息
-     * @return 结果
+     * @param user 包含用户ID及待更新的个人信息的用户业务对象。
+     *             只有非null的字段才会被更新。
+     * @return 返回数据库更新操作影响的行数。
      */
     @CacheEvict(cacheNames = CacheNames.SYS_NICKNAME, key = "#user.userId")
     @Override
@@ -389,11 +447,11 @@ public class SysUserServiceImpl implements ISysUserService {
     }
 
     /**
-     * 修改用户头像
+     * 修改用户头像。
      *
-     * @param userId 用户ID
-     * @param avatar 头像地址
-     * @return 结果
+     * @param userId 要修改头像的用户ID。
+     * @param avatar 新头像的资源ID或标识（具体含义取决于系统中头像的管理方式，通常为文件ID）。
+     * @return 如果更新成功（影响行数大于0），则返回true；否则返回false。
      */
     @Override
     public boolean updateUserAvatar(Long userId, Long avatar) {
@@ -404,11 +462,12 @@ public class SysUserServiceImpl implements ISysUserService {
     }
 
     /**
-     * 重置用户密码
+     * 重置用户密码。
+     * 通常由管理员操作，为用户设置新的密码。
      *
-     * @param userId   用户ID
-     * @param password 密码
-     * @return 结果
+     * @param userId   要重置密码的用户ID。
+     * @param password 经过加密处理的新密码。
+     * @return 返回数据库更新操作影响的行数。
      */
     @Override
     public int resetUserPwd(Long userId, String password) {
@@ -487,10 +546,13 @@ public class SysUserServiceImpl implements ISysUserService {
     }
 
     /**
-     * 通过用户ID删除用户
+     * 通过用户ID删除用户。
+     * 此操作会一并删除用户与角色、用户与岗位的关联数据。
+     * 操作是事务性的。
      *
-     * @param userId 用户ID
-     * @return 结果
+     * @param userId 要删除的用户ID。
+     * @return 返回数据库删除操作影响的行数。
+     * @throws ServiceException 如果删除失败（例如，影响行数为0），则抛出此异常。
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -508,10 +570,14 @@ public class SysUserServiceImpl implements ISysUserService {
     }
 
     /**
-     * 批量删除用户信息
+     * 批量删除用户信息。
+     * 在执行删除前，会对每个用户进行权限校验（是否允许操作、是否有数据权限）。
+     * 此操作会一并删除用户与角色、用户与岗位的关联数据。
+     * 操作是事务性的。
      *
-     * @param userIds 需要删除的用户ID
-     * @return 结果
+     * @param userIds 需要删除的用户ID数组。
+     * @return 返回数据库批量删除操作影响的总行数。
+     * @throws ServiceException 如果删除过程中任何用户校验失败或数据库操作失败，则抛出此异常。
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -534,10 +600,11 @@ public class SysUserServiceImpl implements ISysUserService {
     }
 
     /**
-     * 通过部门id查询当前部门所有用户
+     * 根据部门ID查询该部门下的所有用户信息。
+     * 返回的用户列表按用户ID升序排列。
      *
-     * @param deptId 部门ID
-     * @return 用户信息集合信息
+     * @param deptId 部门ID。
+     * @return 属于该部门的用户视图对象列表 (List<SysUserVo>)。如果部门不存在或部门下无用户，则返回空列表。
      */
     @Override
     public List<SysUserVo> selectUserListByDept(Long deptId) {
@@ -547,6 +614,12 @@ public class SysUserServiceImpl implements ISysUserService {
         return baseMapper.selectVoList(lqw);
     }
 
+    /**
+     * 根据角色ID列表查询所有拥有这些角色的用户ID。
+     *
+     * @param roleIds 角色ID列表。
+     * @return 拥有指定角色的用户ID列表 (List<Long>)。如果没有任何用户拥有这些角色，则返回空列表。
+     */
     @Override
     public List<Long> selectUserIdsByRoleIds(List<Long> roleIds) {
         List<SysUserRole> userRoles = userRoleMapper.selectList(
@@ -555,10 +628,11 @@ public class SysUserServiceImpl implements ISysUserService {
     }
 
     /**
-     * 通过用户ID查询用户账户
+     * 通过用户ID查询用户账户名（登录名）。
+     * 结果会被缓存 (CacheNames.SYS_USER_NAME)。
      *
-     * @param userId 用户ID
-     * @return 用户账户
+     * @param userId 用户ID。
+     * @return 用户账户名。如果用户不存在，可能返回null或空字符串，具体取决于ObjectUtils.notNullGetter的行为。
      */
     @Cacheable(cacheNames = CacheNames.SYS_USER_NAME, key = "#userId")
     @Override
@@ -569,10 +643,11 @@ public class SysUserServiceImpl implements ISysUserService {
     }
 
     /**
-     * 通过用户ID查询用户昵称
+     * 通过用户ID查询用户昵称。
+     * 结果会被缓存 (CacheNames.SYS_NICKNAME)。
      *
-     * @param userId 用户ID
-     * @return 用户昵称
+     * @param userId 用户ID。
+     * @return 用户昵称。如果用户不存在或昵称为空，可能返回null或空字符串，具体取决于ObjectUtils.notNullGetter的行为。
      */
     @Override
     @Cacheable(cacheNames = CacheNames.SYS_NICKNAME, key = "#userId")
@@ -582,6 +657,14 @@ public class SysUserServiceImpl implements ISysUserService {
         return ObjectUtils.notNullGetter(sysUser, SysUser::getNickName);
     }
 
+    /**
+     * 根据用户ID字符串（逗号分隔）查询对应的用户昵称字符串（逗号分隔）。
+     * 会调用 {@link #selectNicknameById(Long)} 方法获取每个用户的昵称，该方法带有缓存。
+     *
+     * @param userIds 逗号分隔的用户ID字符串。例如 "1,2,3"。
+     * @return 逗号分隔的用户昵称字符串。如果某个用户ID无效或用户昵称为空，则该昵称不会包含在结果中。
+     *         例如，如果ID为1的用户昵称为"张三"，ID为2的昵称为空，ID为3的昵称为"李四"，则返回 "张三,李四"。
+     */
     @Override
     public String selectNicknameByIds(String userIds) {
         List<String> list = new ArrayList<>();
@@ -595,10 +678,10 @@ public class SysUserServiceImpl implements ISysUserService {
     }
 
     /**
-     * 通过用户ID查询用户手机号
+     * 通过用户ID查询用户手机号码。
      *
-     * @param userId 用户id
-     * @return 用户手机号
+     * @param userId 用户ID。
+     * @return 用户手机号码。如果用户不存在或手机号码为空，可能返回null或空字符串，具体取决于ObjectUtils.notNullGetter的行为。
      */
     @Override
     public String selectPhonenumberById(Long userId) {
@@ -608,10 +691,10 @@ public class SysUserServiceImpl implements ISysUserService {
     }
 
     /**
-     * 通过用户ID查询用户邮箱
+     * 通过用户ID查询用户邮箱地址。
      *
-     * @param userId 用户id
-     * @return 用户邮箱
+     * @param userId 用户ID。
+     * @return 用户邮箱地址。如果用户不存在或邮箱地址为空，可能返回null或空字符串，具体取决于ObjectUtils.notNullGetter的行为。
      */
     @Override
     public String selectEmailById(Long userId) {
