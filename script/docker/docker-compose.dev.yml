@@ -1,0 +1,39 @@
+services:
+  redis:
+    container_name: redis
+    ports:
+      - 6379:6379
+    image: redis:7.4-alpine
+    command: redis-server --requirepass "ruoyi123"
+  mysql:
+    image: mysql:8.0.42
+    container_name: mysql
+    environment:
+      TZ: Asia/Shanghai
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3306:3306"
+    command:
+      --character-set-server=utf8mb4
+      --collation-server=utf8mb4_general_ci
+      --explicit_defaults_for_timestamp=true
+      --lower_case_table_names=1
+  postgres:
+    image: postgres:14.2
+    container_name: postgres
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: postgres
+    ports:
+      - "5432:5432"
+  rabbitmq:
+    container_name: rabbitmq
+    build:
+      context: ./rabbitmq
+    environment:
+      RABBITMQ_DEFAULT_USER: ruoyi
+      RABBITMQ_DEFAULT_PASS: ruoyi123
+    ports:
+      - "15672:15672"
+      - "5672:5672"

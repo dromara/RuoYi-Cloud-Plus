@@ -46,3 +46,6 @@ nbdist/
 !*/build/*.xml
 
 .flattened-pom.xml
+
+plus-doc/
+assets/
