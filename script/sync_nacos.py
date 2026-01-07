@@ -110,11 +110,9 @@ def publish_config(base_url, data_id, group, content, namespace_id, config_type,
 def main():
     parser = argparse.ArgumentParser(description="Nacos 批量匹配导入工具 (根据API返回查找本地文件)")
 
-    # 必需参数：只剩文件夹路径了
     parser.add_argument("--dir", required=True, default="./config" help="包含配置文件的本地目录路径")
+    parser.add_argument("--host", required=True, default="http://127.0.0.1:8848", help="Nacos 地址")
 
-    # 可选参数
-    parser.add_argument("--host", default="http://10.10.7.100:8848", help="Nacos 地址")
     parser.add_argument("--namespace", default="dev", help="Namespace ID (默认 public)")
     parser.add_argument("-u", "--username", default="nacos", help="用户名")
     parser.add_argument("-p", "--password", default="nacos", help="密码")
