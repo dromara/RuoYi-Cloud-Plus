@@ -777,6 +777,54 @@ LoginHelper.getLoginUser()
 - ✅ 编写单元测试
 - ✅ 注意安全加密
 
+## 前端同步
+
+当后端 API 变更时，前端需要同步更新。请参考前端项目中的同步指南：
+
+**前端同步指南**:
+- `dragonboat-frontend/.claude/skills/ry-frontend-sync.md` - 后端变更时前端同步
+- `dragonboat-frontend/.claude/skills/ry-frontend-workflow.md` - 前端开发工作流
+
+### 后端 API 变更时的前端同步清单
+
+| 后端变更 | 前端同步操作 |
+|---------|-------------|
+| 新增 CRUD 功能 | 创建 API types、API 方法、页面组件 |
+| 修改接口路径 | 更新 API 调用路径 |
+| 修改请求参数 | 更新 API 方法和调用代码 |
+| 修改返回结构 | 更新 types 定义和组件代码 |
+| 删除接口 | 移除相关 API 代码 |
+| 新增权限标识 | 前端无需变更（后端控制） |
+| 字段脱敏 | 前端无需变更（后端已处理） |
+
+### 前后端分支对应
+
+| 任务类型 | 后端分支 | 前端分支 |
+|---------|---------|---------|
+| 新功能 | feat/DB-101 | feat/FE-101 |
+| Bug 修复 | fix/DB-205 | fix/FE-205 |
+| 重构 | refactor/DB-301 | refactor/FE-301 |
+
+### PR 关联
+
+创建后端 PR 时，在描述中添加前端同步需求：
+
+```markdown
+## 前端同步任务
+- [ ] 更新 API types 定义
+- [ ] 更新 API 方法
+- [ ] 更新页面组件
+- [ ] 联调测试验证
+```
+
+创建前端 PR 时，在描述中注明依赖关系：
+
+```markdown
+## 依赖说明
+- 依赖后端 PR: dragonboat-backend#XXX
+- 依赖后端版本: v2.x.x
+```
+
 ## 集成说明
 
 此 skill 与以下组件集成:
