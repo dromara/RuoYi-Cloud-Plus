@@ -195,7 +195,10 @@ public class FlwInstanceServiceImpl implements IFlwInstanceService {
         }
         // 发送事件
         processDeleteHandler(flowInstances);
-        return insService.remove(StreamUtils.toList(flowInstances, FlowInstance::getId));
+        List<Long> instanceIds = StreamUtils.toList(flowInstances, FlowInstance::getId);
+        // 删除抄送任务关联的用户记录
+        deleteCopyTaskUsers(instanceIds);
+        return insService.remove(instanceIds);
     }
 
     /**
@@ -214,8 +217,11 @@ public class FlwInstanceServiceImpl implements IFlwInstanceService {
         }
         // 发送事件
         processDeleteHandler(flowInstances);
+        List<Long> validInstanceIds = StreamUtils.toList(flowInstances, FlowInstance::getId);
+        // 删除抄送任务关联的用户记录
+        deleteCopyTaskUsers(validInstanceIds);
         // 删除实例
-        return insService.remove(instanceIds);
+        return insService.remove(validInstanceIds);
     }
 
     /**
@@ -234,14 +240,54 @@ public class FlwInstanceServiceImpl implements IFlwInstanceService {
         }
         // 发送事件
         processDeleteHandler(flowInstances);
-        List<FlowTask> flowTaskList = flwTaskService.selectByInstIds(instanceIds);
-        if (CollUtil.isNotEmpty(flowTaskList)) {
-            FlowEngine.userService().deleteByTaskIds(StreamUtils.toList(flowTaskList, FlowTask::getId));
-        }
-        FlowEngine.taskService().deleteByInsIds(instanceIds);
-        FlowEngine.hisTaskService().deleteByInsIds(instanceIds);
-        FlowEngine.insService().removeByIds(instanceIds);
+        List<Long> validInstanceIds = StreamUtils.toList(flowInstances, FlowInstance::getId);
+        List<FlowTask> flowTaskList = flwTaskService.selectByInstIds(validInstanceIds);
+        List<Long> taskIds = new ArrayList<>(StreamUtils.toList(flowTaskList, FlowTask::getId));
+        taskIds.addAll(selectCopyTaskIds(validInstanceIds));
+        deleteTaskUsers(taskIds);
+        FlowEngine.taskService().deleteByInsIds(validInstanceIds);
+        FlowEngine.hisTaskService().deleteByInsIds(validInstanceIds);
+        FlowEngine.insService().removeByIds(validInstanceIds);
         return true;
+    }
+
+    /**
+     * 查询流程实例下的抄送任务id
+     *
+     * @param instanceIds 流程实例id
+     * @return 抄送任务id
+     */
+    private List<Long> selectCopyTaskIds(List<Long> instanceIds) {
+        if (CollUtil.isEmpty(instanceIds)) {
+            return Collections.emptyList();
+        }
+        List<FlowHisTask> copyTaskList = flowHisTaskMapper.selectList(
+            new LambdaQueryWrapper<>(FlowHisTask.class)
+                .select(FlowHisTask::getTaskId)
+                .eq(FlowHisTask::getFlowStatus, TaskStatusEnum.COPY.getStatus())
+                .in(FlowHisTask::getInstanceId, instanceIds)
+        );
+        return StreamUtils.toList(copyTaskList, FlowHisTask::getTaskId);
+    }
+
+    /**
+     * 删除抄送任务关联的用户记录
+     *
+     * @param instanceIds 流程实例id
+     */
+    private void deleteCopyTaskUsers(List<Long> instanceIds) {
+        deleteTaskUsers(selectCopyTaskIds(instanceIds));
+    }
+
+    /**
+     * 删除任务关联的用户记录
+     *
+     * @param taskIds 任务id
+     */
+    private void deleteTaskUsers(List<Long> taskIds) {
+        if (CollUtil.isNotEmpty(taskIds)) {
+            FlowEngine.userService().deleteByTaskIds(taskIds);
+        }
     }
 
 
