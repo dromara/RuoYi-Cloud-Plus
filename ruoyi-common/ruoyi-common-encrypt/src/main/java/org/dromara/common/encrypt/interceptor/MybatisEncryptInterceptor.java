@@ -13,8 +13,7 @@ import java.util.Properties;
 /**
  * 入参加密拦截器
  *
- * @author 老马
- * @version 4.6.0
+ * @author Lion Li
  */
 @Intercepts({@Signature(
     type = ParameterHandler.class,
@@ -26,6 +25,13 @@ public class MybatisEncryptInterceptor implements Interceptor {
 
     private final EncryptedFieldProcessor encryptedFieldProcessor;
 
+    /**
+     * 加密 MyBatis 入参中的加密字段，并在执行后恢复原始值。
+     *
+     * @param invocation 拦截调用信息
+     * @return MyBatis 执行结果
+     * @throws Throwable 拦截处理异常
+     */
     @Override
     public Object intercept(Invocation invocation) throws Throwable {
         List<EncryptedFieldProcessor.FieldSnapshot> snapshots = List.of();
@@ -45,11 +51,22 @@ public class MybatisEncryptInterceptor implements Interceptor {
         }
     }
 
+    /**
+     * 包装 MyBatis 目标对象。
+     *
+     * @param target 目标对象
+     * @return 包装后的对象
+     */
     @Override
     public Object plugin(Object target) {
         return Plugin.wrap(target, this);
     }
 
+    /**
+     * 设置插件属性。
+     *
+     * @param properties 插件属性
+     */
     @Override
     public void setProperties(Properties properties) {
     }
