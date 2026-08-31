@@ -105,17 +105,13 @@ public class TokenController {
      * @return 结果
      */
     @GetMapping("/binding/{source}")
-    public R<String> authBinding(@PathVariable("source") String source,
-                                 @RequestParam String domain) {
+    public R<String> authBinding(@PathVariable("source") String source) {
         SocialLoginConfigProperties obj = socialProperties.getType().get(source);
         if (ObjectUtil.isNull(obj)) {
             return R.fail(source + "平台账号暂不支持");
         }
         AuthRequest authRequest = SocialUtils.getAuthRequest(source, socialProperties);
-        Map<String, String> map = new HashMap<>();
-        map.put("domain", domain);
-        map.put("state", AuthStateUtils.createState());
-        String authorizeUrl = authRequest.authorize(Base64.encode(JsonUtils.toJsonString(map), StandardCharsets.UTF_8));
+        String authorizeUrl = authRequest.authorize(AuthStateUtils.createState());
         return R.data(authorizeUrl);
     }
 
@@ -155,7 +151,7 @@ public class TokenController {
     /**
      * 登出方法
      */
-    @PostMapping("logout")
+    @PostMapping("/logout")
     public R<Void> logout() {
         sysLoginService.logout();
         return R.ok();
@@ -165,7 +161,7 @@ public class TokenController {
      * 用户注册
      */
     @ApiEncrypt
-    @PostMapping("register")
+    @PostMapping("/register")
     public R<Void> register(@RequestBody RegisterBody registerBody) {
         if (!remoteConfigService.selectRegisterEnabled()) {
             return R.fail("当前系统没有开启注册功能！");
