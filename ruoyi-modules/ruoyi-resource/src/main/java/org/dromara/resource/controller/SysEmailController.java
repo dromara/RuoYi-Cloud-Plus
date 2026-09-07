@@ -70,7 +70,7 @@ public class SysEmailController extends BaseController {
                 .send();
             RedisUtils.setCacheObject(key, code, Duration.ofMinutes(Constants.CAPTCHA_EXPIRATION));
         } catch (Exception e) {
-            log.error("验证码短信发送异常 => {}", e.getMessage());
+            log.error("验证码邮件发送异常 => {}", e.getMessage());
             throw new ServiceException(e.getMessage());
         }
     }
