@@ -91,7 +91,6 @@ public class SysDeptServiceImpl implements ISysDeptService {
     private LambdaQueryWrapper<SysDept> buildQueryWrapper(SysDeptBo bo) {
         Map<String, Object> params = bo.getParams();
         LambdaQueryBuilder<SysDept> builder = QueryBuilder.lambda(SysDept.class)
-            .eq(SysDept::getDelFlag, SystemConstants.NORMAL)
             .eqIfPresent(SysDept::getDeptId, bo.getDeptId())
             .eqIfPresent(SysDept::getParentId, bo.getParentId())
             .likeIfText(SysDept::getDeptName, bo.getDeptName())

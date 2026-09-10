@@ -191,7 +191,6 @@ public class FlwCategoryServiceImpl implements IFlwCategoryService, CategoryServ
 
     private LambdaQueryWrapper<FlowCategory> buildQueryWrapper(FlowCategoryBo bo) {
         return QueryBuilder.lambda(FlowCategory.class)
-            .eq(FlowCategory::getDelFlag, SystemConstants.NORMAL)
             .eqIfPresent(FlowCategory::getCategoryId, bo.getCategoryId())
             .eqIfPresent(FlowCategory::getParentId, bo.getParentId())
             .likeIfText(FlowCategory::getCategoryName, bo.getCategoryName())
