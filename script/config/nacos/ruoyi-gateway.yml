@@ -25,10 +25,10 @@ spring:
       requestLog: true
       # Gateway MVC 转发使用的 HttpClient5 连接池配置
       httpclient:
-        # 总最大连接数
-        max-conn-total: 1000
-        # 单个下游路由最大连接数，SSE 长连接较多时需按并发量调整
-        max-conn-per-route: 500
+        # 总最大连接数，需小于 server.jetty.threads.max 并为普通请求预留容量
+        max-conn-total: 10000
+        # 单个下游路由最大连接数，需高于 SSE 长连接数并为同服务普通请求预留容量
+        max-conn-per-route: 8000
         # 连接池满时等待可用连接的时间
         connection-request-timeout: 3s
         # SSE 场景通常不设置响应超时，避免长连接被网关主动断开
