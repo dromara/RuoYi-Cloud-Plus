@@ -25,7 +25,7 @@
         <spring-boot-admin.version>4.1.1</spring-boot-admin.version>
         <spring-ai.version>2.0.1</spring-ai.version>
         <springdoc.version>3.1.1</springdoc.version>
-        <swagger.core.version>2.2.47</swagger.core.version>
+        <swagger.core.version>2.2.55</swagger.core.version>
 
         <!-- 数据访问与持久化相关依赖版本 -->
         <mybatis.version>3.5.19</mybatis.version>
