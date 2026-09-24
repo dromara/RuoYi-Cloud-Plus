@@ -2,7 +2,9 @@ package org.dromara.common.core.domain.model;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+
+import java.io.Serial;
+import java.io.Serializable;
 
 /**
  * 用户登录对象
@@ -10,8 +12,10 @@ import lombok.NoArgsConstructor;
  * @author Lion Li
  */
 @Data
-@NoArgsConstructor
-public class LoginBody {
+public class LoginBody implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 1L;
 
     /**
      * 客户端id

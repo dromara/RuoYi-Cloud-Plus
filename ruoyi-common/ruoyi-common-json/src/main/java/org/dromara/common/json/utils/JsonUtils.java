@@ -187,7 +187,8 @@ public class JsonUtils {
      * @return true = 合法 JSON，false = 非法或空
      */
     public static boolean isJson(String str) {
-        return readTreeQuietly(str) != null;
+        JsonNode node = readTreeQuietly(str);
+        return node != null && (node.isObject() || node.isArray());
     }
 
     /**
@@ -208,10 +209,19 @@ public class JsonUtils {
      * @return true = JSON 数组
      */
     public static boolean isJsonArray(String str) {
+        if (StringUtils.isBlank(str)) {
+            return false;
+        }
         JsonNode node = readTreeQuietly(str);
         return node != null && node.isArray();
     }
 
+    /**
+     * 安静读取 JSON 树，解析失败时返回 null。
+     *
+     * @param str JSON 字符串
+     * @return JSON 节点，解析失败或空字符串时返回 null
+     */
     private static JsonNode readTreeQuietly(String str) {
         if (StringUtils.isBlank(str)) {
             return null;

@@ -1,6 +1,8 @@
 package org.dromara.common.core.utils.ip;
 
 import cn.hutool.core.io.resource.ResourceUtil;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.dromara.common.core.exception.ServiceException;
 import org.dromara.common.core.utils.StringUtils;
@@ -19,6 +21,7 @@ import java.time.Duration;
  * @author 秋辞未寒
  */
 @Slf4j
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class RegionUtils {
 
     // 默认IPv4地址库文件路径

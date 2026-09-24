@@ -279,9 +279,11 @@ public class ServletUtils extends JakartaServletUtil {
     public static String getClientIP(HttpServletRequest request, String... otherHeaderNames) {
         String[] headers = {"X-Forwarded-For", "X-Real-IP", "Proxy-Client-IP", "WL-Proxy-Client-IP", "HTTP_CLIENT_IP", "HTTP_X_FORWARDED_FOR"};
         if (ArrayUtil.isNotEmpty(otherHeaderNames)) {
-            headers = ArrayUtil.addAll(headers, otherHeaderNames);
+            headers = ArrayUtil.addAll(otherHeaderNames, headers);
         }
-        return JakartaServletUtil.getClientIP(request, headers);
+
+        String ip = getClientIPByHeader(request, headers);
+        return StringUtils.strip(ip, "[]");
     }
 
     /**
