@@ -43,16 +43,6 @@ public class ThreadUtils {
     }
 
     /**
-     * 批量执行任务
-     *
-     * @deprecated 使用 {@link #virtualInvokeAll(Runnable...)}
-     */
-    @Deprecated
-    public static void virtualSubmit(Runnable... runnableList) {
-        virtualInvokeAll(runnableList);
-    }
-
-    /**
      * 批量执行有返回值的任务
      *
      * @param supplierList 任务列表

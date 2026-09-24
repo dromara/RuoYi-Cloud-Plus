@@ -74,6 +74,7 @@ class SaTokenFunctionTest {
 
     /**
      * 验证当前登录对象的菜单和角色权限直接来自会话快照，并对空权限集合返回可修改空列表。
+     * 历史冒号格式与当前分隔符格式的登录ID均应命中会话快照。
      */
     @Test
     @DisplayName("读取当前会话权限快照")
@@ -94,6 +95,10 @@ class SaTokenFunctionTest {
             assertEquals(Set.of("system:user:list", "system:user:add"), Set.copyOf(menus));
             assertEquals(List.of(), roles);
             roles.add("temporary");
+
+            assertEquals(Set.of("system:user:list", "system:user:add"),
+                Set.copyOf(permission.getPermissionList("sys_user-7", "login")));
+            assertEquals(List.of(), permission.getRoleList("sys_user-7", "login"));
         }
     }
 
@@ -113,8 +118,9 @@ class SaTokenFunctionTest {
             SaPermissionImpl permission = new SaPermissionImpl();
 
             assertEquals(List.of("system:dept:list"), permission.getPermissionList("sys_user:9", "login"));
+            assertEquals(List.of("system:dept:list"), permission.getPermissionList("sys_user-9", "login"));
             assertThrows(ServiceException.class, () -> permission.getPermissionList("invalid", "login"));
-            verify(service).getMenuPermission(9L);
+            verify(service, times(2)).getMenuPermission(9L);
         }
     }
 
