@@ -3,13 +3,11 @@ package org.dromara.gateway.filter;
 import cn.dev33.satoken.exception.NotLoginException;
 import cn.dev33.satoken.exception.NotPermissionException;
 import cn.dev33.satoken.filter.SaServletFilter;
-import cn.dev33.satoken.filter.SaTokenContextFilterForJakartaServlet;
 import cn.dev33.satoken.httpauth.basic.SaHttpBasicUtil;
 import cn.dev33.satoken.router.SaRouter;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.dev33.satoken.util.SaResult;
 import cn.dev33.satoken.util.SaTokenConsts;
-import jakarta.servlet.DispatcherType;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.dromara.common.core.constant.HttpStatus;
@@ -19,12 +17,9 @@ import org.dromara.common.core.utils.SpringUtils;
 import org.dromara.common.core.utils.StringUtils;
 import org.dromara.common.satoken.utils.LoginHelper;
 import org.dromara.gateway.config.properties.IgnoreWhiteProperties;
-import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.Ordered;
 
-import java.util.EnumSet;
 import java.util.List;
 
 /**
@@ -41,25 +36,6 @@ public class AuthFilter {
 
     public AuthFilter(IgnoreWhiteProperties ignoreWhite) {
         this.ignoreWhite = ignoreWhite;
-    }
-
-    /**
-     * 重新注册 Sa-Token 上下文过滤器，使其覆盖网关 SSE/WebSocket 异步分发。
-     *
-     * @param filter Sa-Token 官方上下文过滤器
-     * @return 过滤器注册配置
-     */
-    @Bean
-    public FilterRegistrationBean<SaTokenContextFilterForJakartaServlet> saTokenContextFilterRegistration(
-        SaTokenContextFilterForJakartaServlet filter) {
-        FilterRegistrationBean<SaTokenContextFilterForJakartaServlet> registration = new FilterRegistrationBean<>();
-        registration.setFilter(filter);
-        registration.setName("saTokenContextFilterForServlet");
-        registration.addUrlPatterns("/*");
-        registration.setDispatcherTypes(EnumSet.of(DispatcherType.REQUEST, DispatcherType.ASYNC, DispatcherType.ERROR));
-        registration.setAsyncSupported(true);
-        registration.setOrder(Ordered.HIGHEST_PRECEDENCE);
-        return registration;
     }
 
     /**
