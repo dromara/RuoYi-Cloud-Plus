@@ -183,7 +183,7 @@ public class FlowTaskVo implements Serializable {
     /**
      * 抄送对象 ID 集合
      * <p>
-     * 根据扩展属性中 CopySettingEnum 类型的数据生成，存储需要抄送的对象 ID
+     * 根据节点配置中的抄送办理人生成。
      */
     private List<FlowCopyVo> copyList;
 

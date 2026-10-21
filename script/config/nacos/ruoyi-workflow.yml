@@ -36,6 +36,8 @@ warm-flow:
   node-tooltip: true
   # 默认Authorization，如果有多个token，用逗号分隔
   token-name: ${sa-token.token-name},clientid
+  # 启用定时启动和事件引擎的后台扫描线程
+  timer-enabled: true
 
 # LiteFlow 业务规则编排
 liteflow:

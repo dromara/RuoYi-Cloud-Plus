@@ -21,7 +21,9 @@ import org.dromara.common.mybatis.core.query.QueryBuilder;
 import org.dromara.common.satoken.utils.LoginHelper;
 import org.dromara.warm.flow.core.FlowEngine;
 import org.dromara.warm.flow.core.constant.ExceptionCons;
-import org.dromara.warm.flow.core.dto.FlowParams;
+import org.dromara.warm.flow.core.workflow.command.RevokeCommand;
+import org.dromara.warm.flow.core.workflow.command.TerminateCommand;
+import org.dromara.warm.flow.core.workflow.context.OperatorContext;
 import org.dromara.warm.flow.core.entity.Definition;
 import org.dromara.warm.flow.core.entity.Instance;
 import org.dromara.warm.flow.core.entity.Task;
@@ -36,7 +38,7 @@ import org.dromara.warm.flow.orm.entity.FlowTask;
 import org.dromara.warm.flow.orm.mapper.FlowHisTaskMapper;
 import org.dromara.warm.flow.orm.mapper.FlowInstanceMapper;
 import org.dromara.workflow.common.ConditionalOnEnable;
-import org.dromara.workflow.common.enums.TaskStatusEnum;
+import org.dromara.warm.flow.core.enums.TaskStatus;
 import org.dromara.workflow.domain.FlowInstanceBizExt;
 import org.dromara.workflow.domain.bo.FlowCancelBo;
 import org.dromara.workflow.domain.bo.FlowInstanceBo;
@@ -259,13 +261,14 @@ public class FlwInstanceServiceImpl implements IFlwInstanceService {
         }
         String message = bo.getMessage();
         BusinessStatusEnum.checkCancelStatus(instance.getFlowStatus());
-        FlowParams flowParams = FlowParams.build()
-            .message(message)
-            .flowStatus(BusinessStatusEnum.CANCEL.getStatus())
-            .hisStatus(BusinessStatusEnum.CANCEL.getStatus())
-            .handler(userIdStr)
-            .ignore(true);
-        taskService.revoke(instance.getId(), flowParams);
+        RevokeCommand command = new RevokeCommand();
+        command.setOperator(new OperatorContext(userIdStr));
+        command.getOperator().setIgnore(true);
+        command.setInstanceId(instance.getId());
+        command.setMessage(message);
+        command.setFlowStatus(BusinessStatusEnum.CANCEL.getStatus());
+        command.setTaskStatus(BusinessStatusEnum.CANCEL.getStatus());
+        FlowEngine.workflow().revoke(command);
         return true;
     }
 
@@ -307,7 +310,7 @@ public class FlwInstanceServiceImpl implements IFlwInstanceService {
             Map<Long, List<User>> taskUserMap = StreamUtils.groupByKey(associatedUsers, User::getAssociated);
 
             for (FlowHisTaskVo vo : runningTaskVos) {
-                vo.setFlowStatus(TaskStatusEnum.WAITING.getStatus());
+                vo.setFlowStatus(TaskStatus.PENDING.getKey());
                 vo.setUpdateTime(null);
                 vo.setRunDuration(null);
 
@@ -438,12 +441,14 @@ public class FlwInstanceServiceImpl implements IFlwInstanceService {
         if (instance != null) {
             BusinessStatusEnum.checkInvalidStatus(instance.getFlowStatus());
         }
-        FlowParams flowParams = FlowParams.build()
-            .message(bo.getComment())
-            .flowStatus(BusinessStatusEnum.INVALID.getStatus())
-            .hisStatus(TaskStatusEnum.INVALID.getStatus())
-            .ignore(true);
-        taskService.terminationByInsId(bo.getId(), flowParams);
+        TerminateCommand command = new TerminateCommand();
+        command.setOperator(new OperatorContext(LoginHelper.getUserIdStr()));
+        command.getOperator().setIgnore(true);
+        command.setInstanceId(bo.getId());
+        command.setMessage(bo.getComment());
+        command.setFlowStatus(BusinessStatusEnum.INVALID.getStatus());
+        command.setTaskStatus(TaskStatus.INVALID.getKey());
+        FlowEngine.workflow().terminate(command);
         return true;
     }
 }

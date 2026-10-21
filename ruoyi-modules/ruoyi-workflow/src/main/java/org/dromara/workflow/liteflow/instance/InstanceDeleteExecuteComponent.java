@@ -13,7 +13,7 @@ import org.dromara.warm.flow.orm.entity.FlowTask;
 import org.dromara.warm.flow.orm.mapper.FlowHisTaskMapper;
 import org.dromara.warm.flow.orm.mapper.FlowTaskMapper;
 import org.dromara.workflow.common.ConditionalOnEnable;
-import org.dromara.workflow.common.enums.TaskStatusEnum;
+import org.dromara.warm.flow.core.enums.TaskStatus;
 import org.dromara.workflow.domain.context.InstanceDeleteContext;
 
 import java.util.List;
@@ -61,13 +61,13 @@ public class InstanceDeleteExecuteComponent extends NodeComponent {
     private void deleteCopyUsers(List<Long> instanceIds) {
         List<FlowHisTask> copyTasks = flowHisTaskMapper.selectList(QueryBuilder.lambda(FlowHisTask.class)
             .in(FlowHisTask::getInstanceId, instanceIds)
-            .eq(FlowHisTask::getFlowStatus, TaskStatusEnum.COPY.getStatus())
+            .eq(FlowHisTask::getFlowStatus, TaskStatus.COPY.getKey())
             .build());
         if (CollUtil.isEmpty(copyTasks)) {
             return;
         }
         List<Long> copyTaskIds = copyTasks.stream()
-            .map(FlowHisTask::getTaskId)
+            .map(FlowHisTask::getId)
             .filter(Objects::nonNull)
             .distinct()
             .toList();
