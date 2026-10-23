@@ -1,7 +1,8 @@
--- Warm Flow 2.1.0 schema and stored-state migration.
 -- ============================================================
 -- Warm-Flow 2.1.0 MySQL 增量升级脚本
--- 适用：从 2.0.1（或更早）升级到 2.1.0。
+-- 适用：从 6.0.0 存量库升级到 6.1.0；全新建库使用 script/sql/ry-cloud.sql 和 ry-workflow.sql。
+-- 启动已开启 warm-flow.timer-enabled 的 2.1.0 工作流服务之前，按顺序执行本脚本。
+-- 完成后刷新字典缓存，使新的工作流状态文案生效。
 -- ============================================================
 
 -- ---- 原 2.0.2：节点配置列 ----
@@ -62,7 +63,7 @@ ALTER TABLE `flow_user`
 -- 兼容：全新表，旧流程数据无记录；事件能力默认关闭，未开启时不扫描本表。
 -- 回滚：DROP TABLE `flow_event_wait`；再 ALTER TABLE `flow_node` DROP COLUMN event_type, DROP COLUMN event_name,
 --       DROP COLUMN attached_to_node_code, DROP COLUMN interrupting（回滚前须确认无事件定义引用这些列）。
-CREATE TABLE `flow_event_wait`
+CREATE TABLE IF NOT EXISTS `flow_event_wait`
 (
     `id`               bigint       NOT NULL COMMENT '主键id',
     `tenant_id`        varchar(40)  DEFAULT NULL COMMENT '租户id',
@@ -188,3 +189,9 @@ INSERT INTO sys_dict_data VALUES (1761600000000000067, 12, '减签', 'remove_sig
 
 -- 3. 实例状态字典补 restart（引擎 FlowStatus 有，字典缺）
 INSERT INTO sys_dict_data VALUES (1761600000000000063, 8, '重启', 'restart', 'wf_business_status', '', 'info', 'N', 1761000000000000103, 1761100000000000001, sysdate(), NULL, NULL, '重启');
+
+-- 定时任务菜单与查询、手动补发按钮。重新执行后需重新分配角色权限。
+DELETE FROM sys_menu WHERE menu_id IN (1761400000000011901, 1761400000000011902, 1761400000000011903);
+insert into sys_menu values (1761400000000011901, '定时任务', 1761400000000011630, 3, 'timer', 'workflow/timer/index', '', 'N', 'N', 'C', '0', '0', 'workflow:eventWait:list', 'time', '', '', 1761000000000000103, 1761100000000000001, sysdate(), null, null, '定时任务与事件等待监控菜单');
+insert into sys_menu values (1761400000000011902, '定时任务查询', 1761400000000011901, 1, '#', '', '', 'N', 'Y', 'F', '0', '0', 'workflow:eventWait:query', '#', '', '', 1761000000000000103, 1761100000000000001, sysdate(), null, null, '');
+insert into sys_menu values (1761400000000011903, '定时任务手动补发', 1761400000000011901, 2, '#', '', '', 'N', 'Y', 'F', '0', '0', 'workflow:eventWait:trigger', '#', '', '', 1761000000000000103, 1761100000000000001, sysdate(), null, null, '');
