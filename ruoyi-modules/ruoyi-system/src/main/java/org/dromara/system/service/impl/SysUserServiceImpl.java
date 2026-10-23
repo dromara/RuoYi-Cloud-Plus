@@ -536,10 +536,10 @@ public class SysUserServiceImpl implements ISysUserService {
      */
     @Override
     public List<SysUserVo> selectUserListByDept(Long deptId) {
-        return userMapper.lambda()
+        return userMapper.selectUserList(userMapper.lambda()
             .eq(SysUser::getDeptId, deptId)
             .orderByAsc(SysUser::getUserId)
-            .voList();
+            .build());
     }
 
     @Override
