@@ -21,7 +21,7 @@
 
         <!-- Spring 生态依赖版本 -->
         <spring-boot.version>4.1.2</spring-boot.version>
-        <spring-cloud.version>2025.1.2</spring-cloud.version>
+        <spring-cloud.version>2025.1.4</spring-cloud.version>
         <spring-boot-admin.version>4.1.4</spring-boot-admin.version>
         <spring-ai.version>2.0.2</spring-ai.version>
         <springdoc.version>3.1.1</springdoc.version>
