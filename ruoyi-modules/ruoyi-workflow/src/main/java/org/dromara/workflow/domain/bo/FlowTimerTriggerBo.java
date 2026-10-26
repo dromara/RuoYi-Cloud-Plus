@@ -26,7 +26,7 @@ public class FlowTimerTriggerBo implements Serializable {
     private Long waitId;
 
     /**
-     * 业务主键，留空时自动生成雪花 ID
+     * 业务主键，留空时生成数字雪花 ID
      */
     private String businessId;
 
