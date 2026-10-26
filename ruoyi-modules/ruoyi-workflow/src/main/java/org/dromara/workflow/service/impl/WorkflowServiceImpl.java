@@ -2,12 +2,19 @@ package org.dromara.workflow.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.ObjectUtil;
+import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import lombok.RequiredArgsConstructor;
+import org.dromara.common.core.exception.ServiceException;
 import org.dromara.common.core.utils.StringUtils;
+import org.dromara.warm.flow.core.FlowEngine;
+import org.dromara.warm.flow.core.workflow.context.WorkflowContext;
 import org.dromara.warm.flow.orm.entity.FlowInstance;
 import org.dromara.workflow.api.domain.RemoteCompleteTask;
 import org.dromara.workflow.api.domain.RemoteStartProcess;
 import org.dromara.workflow.api.domain.RemoteStartProcessReturn;
+import org.dromara.workflow.api.domain.StartMessageEventDTO;
+import org.dromara.workflow.api.domain.StartTimerEventDTO;
+import org.dromara.workflow.api.domain.TriggerMessageEventDTO;
 import org.dromara.workflow.common.ConditionalOnEnable;
 import org.dromara.workflow.common.enums.MessageTypeEnum;
 import org.dromara.workflow.domain.FlowInstanceBizExt;
@@ -18,6 +25,7 @@ import org.dromara.workflow.service.IFlwInstanceService;
 import org.dromara.workflow.service.IFlwTaskService;
 import org.dromara.workflow.service.WorkflowService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
 import java.util.List;
@@ -162,5 +170,55 @@ public class WorkflowServiceImpl implements WorkflowService {
         taskBo.setVariables(startProcess.getVariables());
         taskBo.setHandler(startProcess.getHandler());
         return flwTaskService.completeTask(taskBo);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public Long startByMessageEvent(StartMessageEventDTO request) {
+        if (request == null) {
+            throw new ServiceException("消息启动参数不能为空");
+        }
+        return FlowEngine.insService().startByMessage(request.getBusinessId(), request.getFlowCode(),
+            request.getEventName(), request.getPayload(), eventContext(request.getHandler())).getId();
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public Long triggerMessageEvent(TriggerMessageEventDTO request) {
+        if (request == null) {
+            throw new ServiceException("消息事件参数不能为空");
+        }
+        return FlowEngine.insService().triggerMessage(request.getInstanceId(), request.getEventName(),
+            request.getPayload(), eventContext(request.getHandler())).getId();
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public Long startByTimerEvent(StartTimerEventDTO request) {
+        if (request == null) {
+            throw new ServiceException("定时启动参数不能为空");
+        }
+        String businessId = StringUtils.isNotBlank(request.getBusinessId())
+            ? request.getBusinessId().trim() : String.valueOf(IdWorker.getId());
+        return FlowEngine.insService().startByTimer(businessId, request.getDefinitionId(),
+            request.getNodeCode(), request.getPayload(), eventContext(request.getHandler())).getId();
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public boolean throwInstanceErrorEvent(Long instanceId, String errorCode, String errorMessage) {
+        return FlowEngine.insService().throwError(instanceId, errorCode, errorMessage);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public boolean throwTaskErrorEvent(Long taskId, String errorCode, String errorMessage) {
+        return FlowEngine.taskService().throwError(taskId, errorCode, errorMessage);
+    }
+
+    private WorkflowContext eventContext(String handler) {
+        WorkflowContext context = new WorkflowContext();
+        context.setHandler(StringUtils.isNotBlank(handler) ? handler : FlowEngine.getFlowConfig().getSystemHandler());
+        return context;
     }
 }

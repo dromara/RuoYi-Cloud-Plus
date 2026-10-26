@@ -4,6 +4,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.dromara.workflow.api.domain.RemoteCompleteTask;
 import org.dromara.workflow.api.domain.RemoteStartProcess;
 import org.dromara.workflow.api.domain.RemoteStartProcessReturn;
+import org.dromara.workflow.api.domain.StartMessageEventDTO;
+import org.dromara.workflow.api.domain.StartTimerEventDTO;
+import org.dromara.workflow.api.domain.TriggerMessageEventDTO;
 
 import java.util.List;
 import java.util.Map;
@@ -71,6 +74,36 @@ public class RemoteWorkflowServiceMock implements RemoteWorkflowService {
 
     @Override
     public boolean startCompleteTask(RemoteStartProcess startProcess) {
+        log.warn("服务调用异常 -> 降级处理");
+        return false;
+    }
+
+    @Override
+    public Long startByMessageEvent(StartMessageEventDTO request) {
+        log.warn("服务调用异常 -> 降级处理");
+        return null;
+    }
+
+    @Override
+    public Long triggerMessageEvent(TriggerMessageEventDTO request) {
+        log.warn("服务调用异常 -> 降级处理");
+        return null;
+    }
+
+    @Override
+    public Long startByTimerEvent(StartTimerEventDTO request) {
+        log.warn("服务调用异常 -> 降级处理");
+        return null;
+    }
+
+    @Override
+    public boolean throwInstanceErrorEvent(Long instanceId, String errorCode, String errorMessage) {
+        log.warn("服务调用异常 -> 降级处理");
+        return false;
+    }
+
+    @Override
+    public boolean throwTaskErrorEvent(Long taskId, String errorCode, String errorMessage) {
         log.warn("服务调用异常 -> 降级处理");
         return false;
     }

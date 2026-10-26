@@ -6,6 +6,9 @@ import org.dromara.workflow.api.RemoteWorkflowService;
 import org.dromara.workflow.api.domain.RemoteCompleteTask;
 import org.dromara.workflow.api.domain.RemoteStartProcess;
 import org.dromara.workflow.api.domain.RemoteStartProcessReturn;
+import org.dromara.workflow.api.domain.StartMessageEventDTO;
+import org.dromara.workflow.api.domain.StartTimerEventDTO;
+import org.dromara.workflow.api.domain.TriggerMessageEventDTO;
 import org.dromara.workflow.service.WorkflowService;
 
 import java.util.List;
@@ -85,6 +88,31 @@ public class RemoteWorkflowServiceImpl implements RemoteWorkflowService {
     @Override
     public boolean startCompleteTask(RemoteStartProcess startProcess) {
         return workflowService.startCompleteTask(startProcess);
+    }
+
+    @Override
+    public Long startByMessageEvent(StartMessageEventDTO request) {
+        return workflowService.startByMessageEvent(request);
+    }
+
+    @Override
+    public Long triggerMessageEvent(TriggerMessageEventDTO request) {
+        return workflowService.triggerMessageEvent(request);
+    }
+
+    @Override
+    public Long startByTimerEvent(StartTimerEventDTO request) {
+        return workflowService.startByTimerEvent(request);
+    }
+
+    @Override
+    public boolean throwInstanceErrorEvent(Long instanceId, String errorCode, String errorMessage) {
+        return workflowService.throwInstanceErrorEvent(instanceId, errorCode, errorMessage);
+    }
+
+    @Override
+    public boolean throwTaskErrorEvent(Long taskId, String errorCode, String errorMessage) {
+        return workflowService.throwTaskErrorEvent(taskId, errorCode, errorMessage);
     }
 
 }
