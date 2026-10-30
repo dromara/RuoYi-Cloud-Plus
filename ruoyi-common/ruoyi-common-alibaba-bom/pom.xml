@@ -17,7 +17,7 @@
         <revision>6.0.0</revision>
         <spring-cloud-alibaba.version>2025.1.0.0</spring-cloud-alibaba.version>
         <seata.version>2.6.0</seata.version>
-        <nacos.client.version>3.2.3</nacos.client.version>
+        <nacos.client.version>3.3.0</nacos.client.version>
         <dubbo.version>3.3.6</dubbo.version>
         <dubbo-extensions.version>3.3.1</dubbo-extensions.version>
     </properties>

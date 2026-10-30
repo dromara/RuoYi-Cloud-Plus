@@ -25,7 +25,7 @@ services:
     network_mode: "host"
 
   nacos:
-    image: nacos/nacos-server:v3.2.3
+    image: nacos/nacos-server:v3.3.0
     container_name: nacos
     ports:
       - "8848:8848"
