@@ -192,11 +192,11 @@ public class TestLeaveServiceImpl implements ITestLeaveService {
     /**
      * 总体流程监听(例如: 草稿，撤销，退回，作废，终止，已完成等)
      * 正常使用只需#processEvent.flowCode=='leave1'
-     * 示例为了方便则使用startsWith匹配了全部示例key
+     * 兼容演示流程 demo_ 与原请假流程 leave 前缀。
      *
      * @param processEvent 参数
      */
-    @EventListener(condition = "#processEvent.flowCode.startsWith('leave')")
+    @EventListener(condition = "#processEvent.flowCode.startsWith('demo') || #processEvent.flowCode.startsWith('leave')")
     public void processHandler(ProcessEvent processEvent) {
         log.info("当前任务执行了{}", processEvent.toString());
         Long leaveId = parseLeaveId(processEvent.getBusinessId());
@@ -241,7 +241,7 @@ public class TestLeaveServiceImpl implements ITestLeaveService {
      *
      * @param processTaskEvent 参数
      */
-    @EventListener(condition = "#processTaskEvent.flowCode.startsWith('leave')")
+    @EventListener(condition = "#processTaskEvent.flowCode.startsWith('demo') || #processTaskEvent.flowCode.startsWith('leave')")
     public void processTaskHandler(ProcessTaskEvent processTaskEvent) {
         log.info("当前任务创建了{}", processTaskEvent.toString());
     }
@@ -249,11 +249,11 @@ public class TestLeaveServiceImpl implements ITestLeaveService {
     /**
      * 监听删除流程事件
      * 正常使用只需#processDeleteEvent.flowCode=='leave1'
-     * 示例为了方便则使用startsWith匹配了全部示例key
+     * 兼容演示流程 demo_ 与原请假流程 leave 前缀。
      *
      * @param processDeleteEvent 参数
      */
-    @EventListener(condition = "#processDeleteEvent.flowCode.startsWith('leave')")
+    @EventListener(condition = "#processDeleteEvent.flowCode.startsWith('demo') || #processDeleteEvent.flowCode.startsWith('leave')")
     public void processDeleteHandler(ProcessDeleteEvent processDeleteEvent) {
         log.info("监听删除流程事件，当前任务执行了{}", processDeleteEvent.toString());
         Long leaveId = parseLeaveId(processDeleteEvent.getBusinessId());
