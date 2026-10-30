@@ -37,7 +37,7 @@ import java.util.Map;
 @Validated
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/workflow/eventWait")
+@RequestMapping("/eventWait")
 public class FlwEventWaitController extends BaseController {
 
     private final IFlwEventWaitService flwEventWaitService;
