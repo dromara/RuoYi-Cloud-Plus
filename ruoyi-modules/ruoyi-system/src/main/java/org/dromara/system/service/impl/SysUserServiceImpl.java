@@ -547,8 +547,50 @@ public class SysUserServiceImpl implements ISysUserService {
         if (CollUtil.isEmpty(roleIds)) {
             return List.of();
         }
-        List<SysUserRole> userRoles = userRoleMapper.lambda().in(SysUserRole::getRoleId, roleIds).list();
-        return StreamUtils.toList(userRoles, SysUserRole::getUserId);
+        List<SysUserRole> userRoles = userRoleMapper.lambda()
+            .select(SysUserRole::getUserId)
+            .in(SysUserRole::getRoleId, roleIds)
+            .list();
+        Set<Long> userIds = StreamUtils.toSet(userRoles, SysUserRole::getUserId);
+        return new ArrayList<>(userIds);
+    }
+
+    /**
+     * 通过部门ID查询正常状态的用户ID。
+     *
+     * @param deptIds 部门ids
+     * @return 用户ids
+     */
+    @Override
+    public List<Long> selectUserIdsByDeptIds(Collection<Long> deptIds) {
+        if (CollUtil.isEmpty(deptIds)) {
+            return List.of();
+        }
+        List<SysUser> users = userMapper.lambda()
+            .select(SysUser::getUserId)
+            .eq(SysUser::getStatus, SystemConstants.NORMAL)
+            .in(SysUser::getDeptId, deptIds)
+            .list();
+        return StreamUtils.toList(users, SysUser::getUserId);
+    }
+
+    /**
+     * 通过岗位ID查询用户ID。
+     *
+     * @param postIds 岗位ids
+     * @return 用户ids
+     */
+    @Override
+    public List<Long> selectUserIdsByPostIds(Collection<Long> postIds) {
+        if (CollUtil.isEmpty(postIds)) {
+            return List.of();
+        }
+        List<SysUserPost> userPosts = userPostMapper.lambda()
+            .select(SysUserPost::getUserId)
+            .in(SysUserPost::getPostId, postIds)
+            .list();
+        Set<Long> userIds = StreamUtils.toSet(userPosts, SysUserPost::getUserId);
+        return new ArrayList<>(userIds);
     }
 
     /**

@@ -23,16 +23,12 @@ import org.dromara.system.api.model.PostDTO;
 import org.dromara.system.api.model.RoleDTO;
 import org.dromara.system.api.model.XcxLoginUser;
 import org.dromara.system.domain.SysUser;
-import org.dromara.system.domain.SysUserPost;
-import org.dromara.system.domain.SysUserRole;
 import org.dromara.system.domain.bo.SysUserBo;
 import org.dromara.system.domain.vo.SysDeptVo;
 import org.dromara.system.domain.vo.SysPostVo;
 import org.dromara.system.domain.vo.SysRoleVo;
 import org.dromara.system.domain.vo.SysUserVo;
 import org.dromara.system.mapper.SysUserMapper;
-import org.dromara.system.mapper.SysUserPostMapper;
-import org.dromara.system.mapper.SysUserRoleMapper;
 import org.dromara.system.service.*;
 import org.springframework.stereotype.Service;
 
@@ -56,8 +52,6 @@ public class RemoteUserServiceImpl implements RemoteUserService {
     private final ISysDeptService deptService;
     private final ISysPostService postService;
     private final SysUserMapper userMapper;
-    private final SysUserRoleMapper userRoleMapper;
-    private final SysUserPostMapper userPostMapper;
 
     /**
      * 通过用户名查询用户信息
@@ -335,19 +329,7 @@ public class RemoteUserServiceImpl implements RemoteUserService {
      */
     @Override
     public List<RemoteUserVo> selectUsersByRoleIds(Collection<Long> roleIds) {
-        if (CollUtil.isEmpty(roleIds)) {
-            return List.of();
-        }
-
-        // 通过角色ID获取用户角色信息
-        List<SysUserRole> userRoles = userRoleMapper.lambda()
-            .in(SysUserRole::getRoleId, roleIds)
-            .list();
-
-        // 获取用户ID列表
-        Set<Long> userIds = StreamUtils.toSet(userRoles, SysUserRole::getUserId);
-
-        return selectListByIds(new ArrayList<>(userIds));
+        return selectListByIds(selectUserIdsByRoleIds(roleIds));
     }
 
     /**
@@ -361,12 +343,23 @@ public class RemoteUserServiceImpl implements RemoteUserService {
         if (CollUtil.isEmpty(deptIds)) {
             return List.of();
         }
-        List<SysUserVo> list = userMapper.lambda()
+        List<SysUser> list = userMapper.lambda()
             .select(SysUser::getUserId, SysUser::getUserName, SysUser::getNickName, SysUser::getEmail, SysUser::getPhoneNumber)
             .eq(SysUser::getStatus, SystemConstants.NORMAL)
             .in(SysUser::getDeptId, deptIds)
-            .voList();
+            .list();
         return BeanUtil.copyToList(list, RemoteUserVo.class);
+    }
+
+    /**
+     * 通过部门ID查询用户ID
+     *
+     * @param deptIds 部门ids
+     * @return 用户ids
+     */
+    @Override
+    public List<Long> selectUserIdsByDeptIds(Collection<Long> deptIds) {
+        return userService.selectUserIdsByDeptIds(deptIds);
     }
 
     /**
@@ -377,19 +370,18 @@ public class RemoteUserServiceImpl implements RemoteUserService {
      */
     @Override
     public List<RemoteUserVo> selectUsersByPostIds(Collection<Long> postIds) {
-        if (CollUtil.isEmpty(postIds)) {
-            return List.of();
-        }
+        return selectListByIds(selectUserIdsByPostIds(postIds));
+    }
 
-        // 通过岗位ID获取用户岗位信息
-        List<SysUserPost> userPosts = userPostMapper.lambda()
-            .in(SysUserPost::getPostId, postIds)
-            .list();
-
-        // 获取用户ID列表
-        Set<Long> userIds = StreamUtils.toSet(userPosts, SysUserPost::getUserId);
-
-        return selectListByIds(new ArrayList<>(userIds));
+    /**
+     * 通过岗位ID查询用户ID
+     *
+     * @param postIds 岗位ids
+     * @return 用户ids
+     */
+    @Override
+    public List<Long> selectUserIdsByPostIds(Collection<Long> postIds) {
+        return userService.selectUserIdsByPostIds(postIds);
     }
 
     /**
