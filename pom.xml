@@ -73,7 +73,7 @@
         <!-- 面向运行时的D-ORM依赖 -->
         <anyline.version>17.7.6-20261020</anyline.version>
         <!-- 工作流配置 -->
-        <warm-flow.version>2.1.0</warm-flow.version>
+        <warm-flow.version>2.1.1</warm-flow.version>
         <liteflow.version>2.16.3.1</liteflow.version>
         <!-- mqtt客户端 -->
         <mica-mqtt.version>2.6.12</mica-mqtt.version>
