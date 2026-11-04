@@ -56,11 +56,11 @@
             <artifactId>ruoyi-common-security</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.dromara.warm</groupId>
+            <groupId>io.github.sgs98</groupId>
             <artifactId>warm-flow-mybatis-plus-sb4-starter</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.dromara.warm</groupId>
+            <groupId>io.github.sgs98</groupId>
             <artifactId>warm-flow-plugin-ui-sb-web</artifactId>
         </dependency>
 

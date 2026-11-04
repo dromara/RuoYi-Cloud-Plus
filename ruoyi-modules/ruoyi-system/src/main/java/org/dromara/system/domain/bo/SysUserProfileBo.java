@@ -7,8 +7,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.dromara.common.core.constant.RegexConstants;
 import org.dromara.common.core.xss.Xss;
-import org.dromara.common.sensitive.annotation.Sensitive;
-import org.dromara.common.sensitive.core.SensitiveStrategy;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -38,7 +36,6 @@ public class SysUserProfileBo implements Serializable {
     /**
      * 用户邮箱
      */
-    @Sensitive(strategy = SensitiveStrategy.EMAIL)
     @Email(message = "邮箱格式不正确")
     @Size(min = 0, max = 50, message = "邮箱长度不能超过{max}个字符")
     private String email;
@@ -46,7 +43,6 @@ public class SysUserProfileBo implements Serializable {
     /**
      * 手机号码
      */
-    @Sensitive(strategy = SensitiveStrategy.PHONE)
     @Pattern(regexp = RegexConstants.MOBILE, message = "手机号格式不正确")
     private String phoneNumber;
 

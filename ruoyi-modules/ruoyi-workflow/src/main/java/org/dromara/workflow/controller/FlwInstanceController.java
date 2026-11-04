@@ -162,7 +162,17 @@ public class FlwInstanceController extends BaseController {
     }
 
     /**
-     * 获取流程变量
+     * 根据流程实例 ID、业务 ID 或两者查询流程进度。
+     */
+    @GetMapping("/flowHisTaskList")
+    @SaCheckPermission("workflow:instance:query")
+    public R<Map<String, Object>> flowHisTaskList(@RequestParam(required = false) Long instanceId,
+                                                    @RequestParam(required = false) String businessId) {
+        return R.ok(flwInstanceService.flowHisTaskList(instanceId, businessId));
+    }
+
+    /**
+     * 获取流程变量。
      *
      * @param instanceId 流程实例id
      */

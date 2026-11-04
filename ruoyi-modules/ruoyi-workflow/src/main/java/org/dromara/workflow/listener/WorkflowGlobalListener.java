@@ -1,29 +1,25 @@
 package org.dromara.workflow.listener;
 
 import cn.hutool.core.collection.CollUtil;
-import cn.hutool.core.convert.Convert;
 import cn.hutool.core.lang.TypeReference;
 import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.dubbo.config.annotation.DubboReference;
 import org.dromara.common.core.enums.BusinessStatusEnum;
 import org.dromara.common.core.utils.SpringUtils;
-import org.dromara.common.core.utils.StreamUtils;
 import org.dromara.common.core.utils.StringUtils;
-import org.dromara.system.api.RemoteUserService;
 import org.dromara.warm.flow.core.FlowEngine;
-import org.dromara.warm.flow.core.dto.FlowParams;
+import org.dromara.warm.flow.core.workflow.context.WorkflowContext;
 import org.dromara.warm.flow.core.entity.Definition;
 import org.dromara.warm.flow.core.entity.Instance;
 import org.dromara.warm.flow.core.entity.Task;
-import org.dromara.warm.flow.core.listener.GlobalListener;
-import org.dromara.warm.flow.core.listener.ListenerVariable;
+import org.dromara.warm.flow.core.spi.GlobalListener;
+import org.dromara.warm.flow.core.spi.ListenerVariable;
 import org.dromara.workflow.common.ConditionalOnEnable;
 import org.dromara.workflow.common.constant.FlowConstant;
-import org.dromara.workflow.common.enums.TaskStatusEnum;
+import org.dromara.warm.flow.core.enums.TaskStatus;
 import org.dromara.workflow.domain.bo.FlowCopyBo;
 import org.dromara.workflow.domain.vo.NodeExtVo;
 import org.dromara.workflow.event.WorkflowCopyEvent;
@@ -58,9 +54,6 @@ public class WorkflowGlobalListener implements GlobalListener {
     private final IFlwCommonService flwCommonService;
     private final IFlwNodeExtService nodeExtService;
 
-    @DubboReference
-    private RemoteUserService remoteUserService;
-
     /**
      * 创建监听器，任务创建时执行
      *
@@ -85,20 +78,6 @@ public class WorkflowGlobalListener implements GlobalListener {
                 variable = new HashMap<>();
             }
             NodeExtVo nodeExt = nodeExtService.parseNodeExt(ext, variable);
-            Set<String> copyList = nodeExt.getCopySettings();
-            if (CollUtil.isNotEmpty(copyList)) {
-                List<Long> userIds = StreamUtils.toList(copyList, Convert::toLong);
-                Map<Long, String> nickNameMap = remoteUserService.selectUserNicksByIds(userIds);
-                List<FlowCopyBo> list = StreamUtils.toList(copyList, x -> {
-                    FlowCopyBo bo = new FlowCopyBo();
-                    Long id = Convert.toLong(x);
-                    bo.setUserId(id);
-                    bo.setNickName(nickNameMap.getOrDefault(id, StringUtils.EMPTY));
-                    return bo;
-                });
-                // 节点配置仅作为默认值，保留本次办理显式提交的抄送人或空名单。
-                variable.putIfAbsent(FlowConstant.FLOW_COPY_LIST, list);
-            }
             if (CollUtil.isNotEmpty(nodeExt.getVariables())) {
                 variable.putAll(nodeExt.getVariables());
             }
@@ -114,19 +93,19 @@ public class WorkflowGlobalListener implements GlobalListener {
     public void assignment(ListenerVariable listenerVariable) {
         Map<String, Object> variable = listenerVariable.getVariable();
         List<Task> nextTasks = listenerVariable.getNextTasks();
-        FlowParams flowParams = listenerVariable.getFlowParams();
+        WorkflowContext workflowContext = listenerVariable.getContext();
         Definition definition = listenerVariable.getDefinition();
         Instance instance = listenerVariable.getInstance();
         String applyNodeCode = flwCommonService.applyNodeCode(definition.getId());
-        String hisStatus = flowParams != null ? flowParams.getHisStatus() : null;
+        String hisStatus = workflowContext != null ? workflowContext.getTaskStatus() : null;
 
         for (Task flowTask : nextTasks) {
             String nodeCode = flowTask.getNodeCode();
 
             // 处理办理或退回时指定办理人的情况
-            if (TaskStatusEnum.PASS.getStatus().equals(hisStatus)) {
+            if (TaskStatus.PASS.getKey().equals(hisStatus)) {
                 processTaskPermission(variable, flowTask, hisStatus);
-            } else if (TaskStatusEnum.BACK.getStatus().equals(hisStatus)) {
+            } else if (TaskStatus.BACK.getKey().equals(hisStatus)) {
                 processTaskPermission(variable, flowTask, hisStatus);
             }
 
@@ -167,7 +146,7 @@ public class WorkflowGlobalListener implements GlobalListener {
         String[] userIdArray = userIds.split(StringUtils.SEPARATOR);
         if (userIdArray.length > 0) {
             flowTask.setPermissionList(List.of(userIdArray));
-            if (TaskStatusEnum.PASS.getStatus().equals(taskStatus)) {
+            if (TaskStatus.PASS.getKey().equals(taskStatus)) {
                 // 办理指定人变量只消费一次；驳回指定人变量需要保留给后续重复驳回。
                 variable.remove(nodeKey);
                 FlowEngine.insService().removeVariables(flowTask.getInstanceId(), nodeKey);
@@ -187,16 +166,16 @@ public class WorkflowGlobalListener implements GlobalListener {
         Task task = listenerVariable.getTask();
         List<Task> nextTasks = listenerVariable.getNextTasks();
         Map<String, Object> params = new HashMap<>();
-        FlowParams flowParams = listenerVariable.getFlowParams();
+        WorkflowContext workflowContext = listenerVariable.getContext();
         Map<String, Object> variable = new HashMap<>();
-        if (ObjectUtil.isNotNull(flowParams)) {
+        if (ObjectUtil.isNotNull(workflowContext)) {
             // 历史任务扩展(通常为附件)
-            params.put("hisTaskExt", flowParams.getHisTaskExt());
+            params.put("hisTaskExt", workflowContext.getExt());
             // 办理人
-            params.put("handler", flowParams.getHandler());
+            params.put("handler", workflowContext.getHandler());
             // 办理意见
-            params.put("message", flowParams.getMessage());
-            variable = flowParams.getVariable();
+            params.put("message", workflowContext.getMessage());
+            variable = workflowContext.getVariables();
         }
         //申请人提交事件
         Boolean submit = MapUtil.getBool(variable, FlowConstant.SUBMIT);
@@ -228,11 +207,12 @@ public class WorkflowGlobalListener implements GlobalListener {
                 flowProcessEventHandler.processTaskHandler(definition.getFlowCode(), instance, nextTask, params);
             }
         }
-        if (ObjectUtil.isNull(flowParams)) {
+        if (ObjectUtil.isNull(workflowContext)) {
             return;
         }
         // 只有办理或者退回的时候才执行消息通知和抄送
-        if (!TaskStatusEnum.isPassOrBack(flowParams.getHisStatus())) {
+        if (!TaskStatus.PASS.getKey().equals(workflowContext.getTaskStatus())
+            && !TaskStatus.BACK.getKey().equals(workflowContext.getTaskStatus())) {
             return;
         }
         if (ObjectUtil.isNull(variable)) {
@@ -247,7 +227,7 @@ public class WorkflowGlobalListener implements GlobalListener {
         if (variable.containsKey(FlowConstant.MESSAGE_TYPE)) {
             List<String> messageType = MapUtil.get(variable, FlowConstant.MESSAGE_TYPE, new TypeReference<>() {});
             String notice = MapUtil.getStr(variable, FlowConstant.MESSAGE_NOTICE);
-            if (shouldSendTaskMessage(flowParams, definition, nextTasks)) {
+            if (shouldSendTaskMessage(workflowContext, definition, nextTasks)) {
                 SpringUtils.context().publishEvent(new WorkflowTaskMessageEvent(definition.getFlowName(), instance.getId(), messageType, notice));
             }
         }
@@ -259,8 +239,8 @@ public class WorkflowGlobalListener implements GlobalListener {
         );
     }
 
-    private boolean shouldSendTaskMessage(FlowParams flowParams, Definition definition, List<Task> nextTasks) {
-        if (flowParams == null || !TaskStatusEnum.BACK.getStatus().equals(flowParams.getHisStatus())) {
+    private boolean shouldSendTaskMessage(WorkflowContext workflowContext, Definition definition, List<Task> nextTasks) {
+        if (workflowContext == null || !TaskStatus.BACK.getKey().equals(workflowContext.getTaskStatus())) {
             return true;
         }
         if (CollUtil.isEmpty(nextTasks) || nextTasks.size() != 1) {

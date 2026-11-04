@@ -9,7 +9,7 @@
 [![Star](https://gitcode.com/dromara/RuoYi-Cloud-Plus/star/badge.svg)](https://gitcode.com/dromara/RuoYi-Cloud-Plus)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](https://gitee.com/dromara/RuoYi-Cloud-Plus/blob/6.X/LICENSE)
 <br>
-[![RuoYi-Cloud-Plus](https://img.shields.io/badge/RuoYi_Cloud_Plus-6.0.0-success.svg)](https://gitee.com/dromara/RuoYi-Cloud-Plus)
+[![RuoYi-Cloud-Plus](https://img.shields.io/badge/RuoYi_Cloud_Plus-6.1.0-success.svg)](https://gitee.com/dromara/RuoYi-Cloud-Plus)
 [![Spring Boot](https://img.shields.io/badge/Spring%20Boot-4.1-blue.svg)]()
 [![JDK-21](https://img.shields.io/badge/JDK-21-green.svg)]()
 [![JDK-25](https://img.shields.io/badge/JDK-25-green.svg)]()

@@ -63,7 +63,7 @@ public class FlowHisTaskVo implements Serializable {
     /**
      * 协作方式(1审批 2转办 3委派 4会签 5票签 6加签 7减签)
      */
-    private Integer cooperateType;
+    private String cooperateType;
 
     /**
      * 协作方式(1审批 2转办 3委派 4会签 5票签 6加签 7减签)
@@ -243,7 +243,7 @@ public class FlowHisTaskVo implements Serializable {
     /**
      * 设置协作方式，并通过协作方式获取名称
      */
-    public void setCooperateType(Integer cooperateType) {
+    public void setCooperateType(String cooperateType) {
         this.cooperateType = cooperateType;
         this.cooperateTypeName = CooperateType.getValueByKey(cooperateType);
     }

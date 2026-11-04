@@ -266,4 +266,20 @@ public interface ISysUserService {
      */
     List<Long> selectUserIdsByRoleIds(Collection<Long> roleIds);
 
+    /**
+     * 通过部门ID查询用户ID
+     *
+     * @param deptIds 部门ids
+     * @return 用户ids
+     */
+    List<Long> selectUserIdsByDeptIds(Collection<Long> deptIds);
+
+    /**
+     * 通过岗位ID查询用户ID
+     *
+     * @param postIds 岗位ids
+     * @return 用户ids
+     */
+    List<Long> selectUserIdsByPostIds(Collection<Long> postIds);
+
 }

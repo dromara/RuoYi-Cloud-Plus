@@ -3,6 +3,9 @@ package org.dromara.workflow.api;
 import org.dromara.workflow.api.domain.RemoteCompleteTask;
 import org.dromara.workflow.api.domain.RemoteStartProcess;
 import org.dromara.workflow.api.domain.RemoteStartProcessReturn;
+import org.dromara.workflow.api.domain.StartMessageEventDTO;
+import org.dromara.workflow.api.domain.StartTimerEventDTO;
+import org.dromara.workflow.api.domain.TriggerMessageEventDTO;
 
 import java.util.List;
 import java.util.Map;
@@ -95,5 +98,20 @@ public interface RemoteWorkflowService {
      * @return 结果
      */
     boolean startCompleteTask(RemoteStartProcess startProcess);
+
+    /** 按消息启动事件创建流程实例。 */
+    Long startByMessageEvent(StartMessageEventDTO request);
+
+    /** 触发流程实例中等待的消息事件。 */
+    Long triggerMessageEvent(TriggerMessageEventDTO request);
+
+    /** 手动触发定时启动事件。 */
+    Long startByTimerEvent(StartTimerEventDTO request);
+
+    /** 处理流程实例的错误事件。 */
+    boolean throwInstanceErrorEvent(Long instanceId, String errorCode, String errorMessage);
+
+    /** 处理待办任务的错误事件。 */
+    boolean throwTaskErrorEvent(Long taskId, String errorCode, String errorMessage);
 
 }

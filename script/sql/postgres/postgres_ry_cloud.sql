@@ -360,7 +360,7 @@ insert into sys_menu values(1761400000000000109, '在线用户', 176140000000000
 insert into sys_menu values(1761400000000000113, '缓存监控', 1761400000000000002, 5, 'cache', 'monitor/cache/index', '', 'N', 'Y', 'C', '0', '0', 'monitor:cache:list', 'redis', '', '', 1761000000000000103, 1761100000000000001, now(), null, null, '缓存监控菜单');
 insert into sys_menu values(1761400000000000110, 'SnailJob控制台', 1761400000000000002, 2, 'http://localhost:8800/snail-job', '', '', 'Y', 'Y', 'C', '0', '0', 'monitor:job:list', 'job', '', '', 1761000000000000103, 1761100000000000001, now(), null, null, 'SJ定时任务菜单');
 insert into sys_menu values(1761400000000000121, 'AI控制台', 1761400000000000002, 7, 'http://localhost:8900/snail-ai', '', '', 'Y', 'Y', 'C', '0', '0', 'monitor:snailai:list', 'checkbox', '', '', 1761000000000000103, 1761100000000000001, now(), null, null, 'AI控制台菜单');
-insert into sys_menu values(1761400000000000112, 'Nacos控制台', 1761400000000000002, 4, 'http://localhost:8848/nacos', '', '', 'Y', 'Y', 'C', '0', '0', 'monitor:nacos:list', 'nacos', '', '', 1761000000000000103, 1761100000000000001, now(), null, null, '服务治理菜单');
+insert into sys_menu values(1761400000000000112, 'Nacos控制台', 1761400000000000002, 4, 'http://localhost:18080', '', '', 'Y', 'Y', 'C', '0', '0', 'monitor:nacos:list', 'nacos', '', '', 1761000000000000103, 1761100000000000001, now(), null, null, '服务治理菜单');
 insert into sys_menu values(1761400000000000114, 'Admin控制台', 1761400000000000002, 5, 'http://localhost:9100/login', '', '', 'Y', 'Y', 'C', '0', '0', 'monitor:server:list', 'server', '', '', 1761000000000000103, 1761100000000000001, now(), null, null, '服务监控菜单');
 insert into sys_menu values(1761400000000000115, '代码生成', 1761400000000000003, 2, 'gen', 'tool/gen/index', '', 'N', 'Y', 'C', '0', '0', 'tool:gen:list', 'code', '', '', 1761000000000000103, 1761100000000000001, now(), null, null, '代码生成菜单');
 insert into sys_menu values(1761400000000000123, '客户端管理', 1761400000000000001, 11, 'client', 'system/client/index', '', 'N', 'Y', 'C', '0', '0', 'system:client:list', 'international', '', '', 1761000000000000103, 1761100000000000001, now(), null, null, '客户端管理菜单');
@@ -518,6 +518,11 @@ INSERT INTO sys_menu VALUES (1761400000000011803, '流程spel表达式定义新�
 INSERT INTO sys_menu VALUES (1761400000000011804, '流程spel表达式定义修改', 1761400000000011801, 3, '#', '', NULL, 'N', 'Y', 'F', '0', '0', 'workflow:spel:edit', '#', '', '', 1761000000000000103, 1761100000000000001, now(), NULL, NULL, '');
 INSERT INTO sys_menu VALUES (1761400000000011805, '流程spel表达式定义删除', 1761400000000011801, 4, '#', '', NULL, 'N', 'Y', 'F', '0', '0', 'workflow:spel:remove', '#', '', '', 1761000000000000103, 1761100000000000001, now(), NULL, NULL, '');
 INSERT INTO sys_menu VALUES (1761400000000011806, '流程spel表达式定义导出', 1761400000000011801, 5, '#', '', NULL, 'N', 'Y', 'F', '0', '0', 'workflow:spel:export', '#', '', '', 1761000000000000103, 1761100000000000001, now(), NULL, NULL, '');
+
+-- 定时任务（事件等待记录）菜单与按钮
+INSERT INTO sys_menu VALUES (1761400000000011901, '定时任务', 1761400000000011630, 3, 'timer', 'workflow/timer/index', '', 'N', 'N', 'C', '0', '0', 'workflow:eventWait:list', 'time', '', '', 1761000000000000103, 1761100000000000001, now(), NULL, NULL, '定时任务与事件等待监控菜单');
+INSERT INTO sys_menu VALUES (1761400000000011902, '定时任务查询', 1761400000000011901, 1, '#', '', NULL, 'N', 'Y', 'F', '0', '0', 'workflow:eventWait:query', '#', '', '', 1761000000000000103, 1761100000000000001, now(), NULL, NULL, '');
+INSERT INTO sys_menu VALUES (1761400000000011903, '定时任务手动补发', 1761400000000011901, 2, '#', '', NULL, 'N', 'Y', 'F', '0', '0', 'workflow:eventWait:trigger', '#', '', '', 1761000000000000103, 1761100000000000001, now(), NULL, NULL, '');
 
 INSERT INTO sys_menu VALUES (1761400000000011638, '请假申请', 1761400000000000005, 1, 'leave', 'workflow/leave/index', '', 'N', 'Y', 'C', '0', '0', 'workflow:leave:list', '#', '', '', 1761000000000000103, 1761100000000000001, now(), NULL, NULL, '请假申请菜单');
 INSERT INTO sys_menu VALUES (1761400000000011639, '请假申请查询', 1761400000000011638, 1, '#', '', '', 'N', 'Y', 'F', '0', '0', 'workflow:leave:query', '#', '', '', 1761000000000000103, 1761100000000000001, now(), NULL, NULL, '');
@@ -908,18 +913,19 @@ INSERT INTO sys_dict_data VALUES (1761600000000000044, 6, '已退回', 'back', '
 INSERT INTO sys_dict_data VALUES (1761600000000000045, 7, '已终止', 'termination', 'wf_business_status', '', 'danger', 'N', 1761000000000000103, 1761100000000000001, now(), NULL, NULL, '已终止');
 INSERT INTO sys_dict_data VALUES (1761600000000000046, 1, '自定义表单', 'static', 'wf_form_type', '', 'success', 'N', 1761000000000000103, 1761100000000000001, now(), NULL, NULL, '自定义表单');
 INSERT INTO sys_dict_data VALUES (1761600000000000047, 2, '动态表单', 'dynamic', 'wf_form_type', '', 'primary', 'N', 1761000000000000103, 1761100000000000001, now(), NULL, NULL, '动态表单');
-INSERT INTO sys_dict_data VALUES (1761600000000000048, 1, '撤销', 'cancel', 'wf_task_status', '', 'danger', 'N', 1761000000000000103, 1761100000000000001, now(), NULL, NULL, '撤销');
+INSERT INTO sys_dict_data VALUES (1761600000000000063, 8, '重启', 'restart', 'wf_business_status', '', 'info', 'N', 1761000000000000103, 1761100000000000001, now(), NULL, NULL, '重启');
+INSERT INTO sys_dict_data VALUES (1761600000000000060, 1, '待审批', 'pending', 'wf_task_status', '', 'primary', 'N', 1761000000000000103, 1761100000000000001, now(), NULL, NULL, '待审批');
 INSERT INTO sys_dict_data VALUES (1761600000000000049, 2, '通过', 'pass', 'wf_task_status', '', 'success', 'N', 1761000000000000103, 1761100000000000001, now(), NULL, NULL, '通过');
-INSERT INTO sys_dict_data VALUES (1761600000000000050, 3, '待审核', 'waiting', 'wf_task_status', '', 'primary', 'N', 1761000000000000103, 1761100000000000001, now(), NULL, NULL, '待审核');
-INSERT INTO sys_dict_data VALUES (1761600000000000051, 4, '作废', 'invalid', 'wf_task_status', '', 'danger', 'N', 1761000000000000103, 1761100000000000001, now(), NULL, NULL, '作废');
+INSERT INTO sys_dict_data VALUES (1761600000000000061, 3, '自动审批', 'auto_pass', 'wf_task_status', '', 'success', 'N', 1761000000000000103, 1761100000000000001, now(), NULL, NULL, '自动审批');
+INSERT INTO sys_dict_data VALUES (1761600000000000056, 4, '抄送', 'copy', 'wf_task_status', '', 'primary', 'N', 1761000000000000103, 1761100000000000001, now(), NULL, NULL, '抄送');
 INSERT INTO sys_dict_data VALUES (1761600000000000052, 5, '退回', 'back', 'wf_task_status', '', 'danger', 'N', 1761000000000000103, 1761100000000000001, now(), NULL, NULL, '退回');
-INSERT INTO sys_dict_data VALUES (1761600000000000053, 6, '终止', 'termination', 'wf_task_status', '', 'danger', 'N', 1761000000000000103, 1761100000000000001, now(), NULL, NULL, '终止');
-INSERT INTO sys_dict_data VALUES (1761600000000000054, 7, '转办', 'transfer', 'wf_task_status', '', 'primary', 'N', 1761000000000000103, 1761100000000000001, now(), NULL, NULL, '转办');
-INSERT INTO sys_dict_data VALUES (1761600000000000055, 8, '委托', 'depute', 'wf_task_status', '', 'primary', 'N', 1761000000000000103, 1761100000000000001, now(), NULL, NULL, '委托');
-INSERT INTO sys_dict_data VALUES (1761600000000000056, 9, '抄送', 'copy', 'wf_task_status', '', 'primary', 'N', 1761000000000000103, 1761100000000000001, now(), NULL, NULL, '抄送');
-INSERT INTO sys_dict_data VALUES (1761600000000000057, 10, '加签', 'sign', 'wf_task_status', '', 'primary', 'N', 1761000000000000103, 1761100000000000001, now(), NULL, NULL, '加签');
-INSERT INTO sys_dict_data VALUES (1761600000000000058, 11, '减签', 'sign_off', 'wf_task_status', '', 'danger', 'N', 1761000000000000103, 1761100000000000001, now(), NULL, NULL, '减签');
-INSERT INTO sys_dict_data VALUES (1761600000000000059, 11, '超时', 'timeout', 'wf_task_status', '', 'danger', 'N', 1761000000000000103, 1761100000000000001, now(), NULL, NULL, '超时');
+INSERT INTO sys_dict_data VALUES (1761600000000000062, 6, '拿回', 'take_back', 'wf_task_status', '', 'warning', 'N', 1761000000000000103, 1761100000000000001, now(), NULL, NULL, '拿回');
+INSERT INTO sys_dict_data VALUES (1761600000000000051, 7, '失效', 'invalid', 'wf_task_status', '', 'danger', 'N', 1761000000000000103, 1761100000000000001, now(), NULL, NULL, '失效');
+INSERT INTO sys_dict_data VALUES (1761600000000000048, 8, '撤销', 'cancel', 'wf_task_status', '', 'danger', 'N', 1761000000000000103, 1761100000000000001, now(), NULL, NULL, '撤销');
+INSERT INTO sys_dict_data VALUES (1761600000000000064, 9, '转办', 'transfer', 'wf_task_status', '', 'warning', 'N', 1761000000000000103, 1761100000000000001, now(), NULL, NULL, '转办');
+INSERT INTO sys_dict_data VALUES (1761600000000000065, 10, '委派', 'delegate', 'wf_task_status', '', 'warning', 'N', 1761000000000000103, 1761100000000000001, now(), NULL, NULL, '委派');
+INSERT INTO sys_dict_data VALUES (1761600000000000066, 11, '加签', 'add_signer', 'wf_task_status', '', 'warning', 'N', 1761000000000000103, 1761100000000000001, now(), NULL, NULL, '加签');
+INSERT INTO sys_dict_data VALUES (1761600000000000067, 12, '减签', 'remove_signer', 'wf_task_status', '', 'warning', 'N', 1761000000000000103, 1761100000000000001, now(), NULL, NULL, '减签');
 
 
 
