@@ -5,6 +5,7 @@ import cn.hutool.core.convert.Convert;
 import com.yomahub.liteflow.annotation.LiteflowComponent;
 import com.yomahub.liteflow.core.NodeComponent;
 import lombok.RequiredArgsConstructor;
+import org.dromara.common.core.utils.StreamUtils;
 import org.dromara.common.core.utils.StringUtils;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.dromara.system.api.RemoteUserService;
@@ -42,7 +43,7 @@ public class TaskOpNotifyComponent extends NodeComponent {
             userIdList.add(Convert.toLong(bo.getUserId()));
         }
         if (CollUtil.isNotEmpty(bo.getUserIds())) {
-            userIdList.addAll(bo.getUserIds().stream().map(Convert::toLong).toList());
+            userIdList.addAll(StreamUtils.toList(bo.getUserIds(), Convert::toLong));
         }
         if (CollUtil.isEmpty(userIdList)) {
             return;
