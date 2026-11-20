@@ -22,6 +22,11 @@ public class RemoteFile implements Serializable {
     private Long ossId;
 
     /**
+     * 对象存储文件名
+     */
+    private String fileName;
+
+    /**
      * 文件名称
      */
     private String name;

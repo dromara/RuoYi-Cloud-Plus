@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.dromara.common.core.utils.StringUtils;
 import org.dromara.resource.api.domain.RemoteFile;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -34,6 +35,18 @@ public class RemoteFileServiceMock implements RemoteFileService {
      */
     @Override
     public List<RemoteFile> selectByIds(String ossIds) {
+        log.warn("服务调用异常 -> 降级处理");
+        return List.of();
+    }
+
+    @Override
+    public RemoteFile selectById(Long ossId) {
+        log.warn("服务调用异常 -> 降级处理");
+        return null;
+    }
+
+    @Override
+    public List<RemoteFile> selectListByIds(Collection<Long> ossIds) {
         log.warn("服务调用异常 -> 降级处理");
         return List.of();
     }

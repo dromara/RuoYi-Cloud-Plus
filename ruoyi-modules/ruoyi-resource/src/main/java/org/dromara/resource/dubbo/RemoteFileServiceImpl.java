@@ -20,6 +20,7 @@ import org.dromara.resource.service.ISysOssService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -56,5 +57,21 @@ public class RemoteFileServiceImpl implements RemoteFileService {
     public List<RemoteFile> selectByIds(String ossIds) {
         List<SysOssVo> sysOssVos = sysOssService.listByIds(StringUtils.splitTo(ossIds, Convert::toLong));
         return MapstructUtils.convert(sysOssVos, RemoteFile.class);
+    }
+
+    @Override
+    public RemoteFile selectById(Long ossId) {
+        if (ossId == null) {
+            return null;
+        }
+        return MapstructUtils.convert(sysOssService.getById(ossId), RemoteFile.class);
+    }
+
+    @Override
+    public List<RemoteFile> selectListByIds(Collection<Long> ossIds) {
+        if (ossIds == null || ossIds.isEmpty()) {
+            return List.of();
+        }
+        return MapstructUtils.convert(sysOssService.listByIds(ossIds), RemoteFile.class);
     }
 }

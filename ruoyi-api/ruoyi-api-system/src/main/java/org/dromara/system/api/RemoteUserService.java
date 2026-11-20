@@ -178,4 +178,28 @@ public interface RemoteUserService {
      */
     Map<Long, String> selectUserNicksByIds(Collection<Long> userIds);
 
+    /**
+     * 根据账号查询用户，包含停用用户。
+     *
+     * @param userName 用户账号
+     * @return 用户信息
+     */
+    RemoteUserVo selectByUserName(String userName);
+
+    /**
+     * 根据手机号查询用户，包含停用用户。
+     *
+     * @param phoneNumber 手机号
+     * @return 用户信息
+     */
+    RemoteUserVo selectByPhoneNumber(String phoneNumber);
+
+    /**
+     * 批量查询用户账号。
+     *
+     * @param userIds 用户 ID 集合
+     * @return 用户 ID 与账号的映射
+     */
+    Map<Long, String> selectUserNamesByIds(Collection<Long> userIds);
+
 }

@@ -44,4 +44,36 @@ public interface RemoteDeptService {
      */
     Map<Long, String> selectDeptNamesByIds(Collection<Long> deptIds);
 
+    /**
+     * 根据 ID 查询部门。
+     *
+     * @param deptId 部门 ID
+     * @return 部门信息
+     */
+    RemoteDeptVo selectById(Long deptId);
+
+    /**
+     * 根据 ID 集合查询数据权限范围内的部门。
+     *
+     * @param deptIds 部门 ID 集合
+     * @return 部门列表
+     */
+    List<RemoteDeptVo> selectListByIds(Collection<Long> deptIds);
+
+    /**
+     * 查询正常状态的子部门 ID，不包含自身。
+     *
+     * @param deptId 部门 ID
+     * @return 数据权限范围内的子部门 ID
+     */
+    List<Long> selectChildDeptIds(Long deptId);
+
+    /**
+     * 查询本部门及正常状态的子部门 ID。
+     *
+     * @param deptId 部门 ID
+     * @return 数据权限范围内的部门 ID
+     */
+    List<Long> selectDeptAndChildIds(Long deptId);
+
 }

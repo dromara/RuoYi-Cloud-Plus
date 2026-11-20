@@ -88,4 +88,54 @@ public class RemoteDeptServiceImpl implements RemoteDeptService {
         return StreamUtils.toMap(list, SysDept::getDeptId, SysDept::getDeptName);
     }
 
+    @Override
+    public RemoteDeptVo selectById(Long deptId) {
+        if (deptId == null) {
+            return null;
+        }
+        return BeanUtil.copyProperties(deptService.selectDeptById(deptId), RemoteDeptVo.class);
+    }
+
+    @Override
+    public List<RemoteDeptVo> selectListByIds(Collection<Long> deptIds) {
+        if (CollUtil.isEmpty(deptIds)) {
+            return List.of();
+        }
+        List<SysDeptVo> list = deptMapper.selectDeptList(deptMapper.lambda()
+            .select(SysDept::getDeptId, SysDept::getDeptName, SysDept::getParentId,
+                SysDept::getAncestors, SysDept::getDeptCategory)
+            .in(SysDept::getDeptId, deptIds)
+            .build());
+        return BeanUtil.copyToList(list, RemoteDeptVo.class);
+    }
+
+    @Override
+    public List<Long> selectChildDeptIds(Long deptId) {
+        if (deptId == null) {
+            return List.of();
+        }
+        List<SysDeptVo> list = deptMapper.selectDeptList(deptMapper.lambda()
+            .select(SysDept::getDeptId)
+            .eq(SysDept::getStatus, SystemConstants.NORMAL)
+            .findInSet(deptId, SysDept::getAncestors)
+            .orderByAsc(SysDept::getAncestors, SysDept::getParentId, SysDept::getOrderNum, SysDept::getDeptId)
+            .build());
+        return StreamUtils.toList(list, SysDeptVo::getDeptId);
+    }
+
+    @Override
+    public List<Long> selectDeptAndChildIds(Long deptId) {
+        if (deptId == null) {
+            return List.of();
+        }
+        List<SysDeptVo> list = deptMapper.selectDeptList(deptMapper.lambda()
+            .select(SysDept::getDeptId)
+            .eq(SysDept::getStatus, SystemConstants.NORMAL)
+            .and(query -> query.eq(SysDept::getDeptId, deptId)
+                .or().findInSet(deptId, SysDept::getAncestors))
+            .orderByAsc(SysDept::getAncestors, SysDept::getParentId, SysDept::getOrderNum, SysDept::getDeptId)
+            .build());
+        return StreamUtils.toList(list, SysDeptVo::getDeptId);
+    }
+
 }

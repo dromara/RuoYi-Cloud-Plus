@@ -402,4 +402,32 @@ public class RemoteUserServiceImpl implements RemoteUserService {
         return StreamUtils.toMap(list, SysUser::getUserId, SysUser::getNickName);
     }
 
+    @Override
+    public RemoteUserVo selectByUserName(String userName) {
+        if (StringUtils.isBlank(userName)) {
+            return null;
+        }
+        return BeanUtil.copyProperties(userService.selectUserByUserName(userName), RemoteUserVo.class);
+    }
+
+    @Override
+    public RemoteUserVo selectByPhoneNumber(String phoneNumber) {
+        if (StringUtils.isBlank(phoneNumber)) {
+            return null;
+        }
+        return BeanUtil.copyProperties(userService.selectUserByPhoneNumber(phoneNumber), RemoteUserVo.class);
+    }
+
+    @Override
+    public Map<Long, String> selectUserNamesByIds(Collection<Long> userIds) {
+        if (CollUtil.isEmpty(userIds)) {
+            return Map.of();
+        }
+        List<SysUser> list = userMapper.lambda()
+            .select(SysUser::getUserId, SysUser::getUserName)
+            .in(SysUser::getUserId, userIds)
+            .list();
+        return StreamUtils.toMap(list, SysUser::getUserId, SysUser::getUserName);
+    }
+
 }
