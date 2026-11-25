@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.RequiredArgsConstructor;
 import org.dromara.common.core.enums.PushSourceEnum;
 import org.dromara.common.core.enums.PushTypeEnum;
+import org.dromara.common.core.exception.ServiceException;
 import org.dromara.common.core.utils.StringUtils;
 import org.dromara.common.json.utils.JsonUtils;
 import org.dromara.common.mybatis.utils.IdGeneratorUtil;
@@ -98,7 +99,7 @@ public class SysMessageServiceImpl implements ISysMessageService {
      */
     @Override
     public PushPayloadDTO storeUsers(List<Long> userIds, PushPayloadDTO payload) {
-        return storeMessage(userIds, payload);
+        return CollUtil.isEmpty(userIds) ? payload : storeMessage(userIds, payload);
     }
 
     /**
@@ -114,7 +115,9 @@ public class SysMessageServiceImpl implements ISysMessageService {
             return payload;
         }
         SysMessage message = buildMessage(userIds, payload);
-        messageMapper.insert(message);
+        if (messageMapper.insert(message) == 0) {
+            throw new ServiceException("消息保存失败");
+        }
         payload.setMessageId(message.getMessageId());
         return payload;
     }

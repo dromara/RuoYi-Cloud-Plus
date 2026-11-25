@@ -66,10 +66,6 @@ public class LogEventListener {
             getBlock(loginInfoEvent.getMessage());
         // 打印信息到日志
         log.info(s, loginInfoEvent.getArgs());
-        // 获取客户端操作系统
-        String os = userAgent.getOs().getName();
-        // 获取客户端浏览器
-        String browser = userAgent.getBrowser().getName();
         // 封装对象
         RemoteLoginInfoBo loginInfo = new RemoteLoginInfoBo();
         loginInfo.setUserName(loginInfoEvent.getUsername());
@@ -79,8 +75,10 @@ public class LogEventListener {
         }
         loginInfo.setIpaddr(ip);
         loginInfo.setLoginLocation(address);
-        loginInfo.setBrowser(browser);
-        loginInfo.setOs(os);
+        if (userAgent != null) {
+            loginInfo.setBrowser(userAgent.getBrowser().getName());
+            loginInfo.setOs(userAgent.getOs().getName());
+        }
         loginInfo.setMsg(loginInfoEvent.getMessage());
         // 日志状态
         if (StringUtils.equalsAny(loginInfoEvent.getStatus(), Constants.LOGIN_SUCCESS, Constants.LOGOUT, Constants.REGISTER)) {

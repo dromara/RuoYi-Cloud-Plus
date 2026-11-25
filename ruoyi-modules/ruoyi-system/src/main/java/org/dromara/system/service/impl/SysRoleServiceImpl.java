@@ -295,7 +295,9 @@ public class SysRoleServiceImpl implements ISysRoleService {
     public int insertRole(SysRoleBo bo) {
         SysRole role = MapstructUtils.convert(bo, SysRole.class);
         // 新增角色信息
-        roleMapper.insert(role);
+        if (roleMapper.insert(role) == 0) {
+            return 0;
+        }
         bo.setRoleId(role.getRoleId());
         return insertRoleMenu(bo);
     }
@@ -330,7 +332,9 @@ public class SysRoleServiceImpl implements ISysRoleService {
     public int updateRolePermission(SysRoleBo bo) {
         SysRole role = MapstructUtils.convert(bo, SysRole.class);
         // 更新权限相关配置字段（数据范围、树联动）。
-        roleMapper.updateById(role);
+        if (roleMapper.updateById(role) == 0) {
+            return 0;
+        }
         // 先清理旧菜单权限，再重建。
         roleMenuMapper.lambda().eq(SysRoleMenu::getRoleId, role.getRoleId()).delete();
         insertRoleMenu(bo);
@@ -373,7 +377,10 @@ public class SysRoleServiceImpl implements ISysRoleService {
             list.add(rm);
         }
         if (CollUtil.isNotEmpty(list)) {
-            rows = roleMenuMapper.insertBatch(list) ? list.size() : 0;
+            if (!roleMenuMapper.insertBatch(list)) {
+                throw new ServiceException("保存角色菜单关联失败");
+            }
+            rows = list.size();
         }
         return rows;
     }
@@ -394,7 +401,10 @@ public class SysRoleServiceImpl implements ISysRoleService {
             list.add(rd);
         }
         if (CollUtil.isNotEmpty(list)) {
-            rows = roleDeptMapper.insertBatch(list) ? list.size() : 0;
+            if (!roleDeptMapper.insertBatch(list)) {
+                throw new ServiceException("保存角色部门关联失败");
+            }
+            rows = list.size();
         }
         return rows;
     }
@@ -471,6 +481,9 @@ public class SysRoleServiceImpl implements ISysRoleService {
      */
     @Override
     public int deleteAuthUsers(Long roleId, Long[] userIds) {
+        if (userIds == null || userIds.length == 0) {
+            return 0;
+        }
         List<Long> ids = List.of(userIds);
         if (ids.contains(LoginHelper.getUserId())) {
             throw new ServiceException("不允许修改当前用户角色!");
@@ -494,8 +507,9 @@ public class SysRoleServiceImpl implements ISysRoleService {
      */
     @Override
     public int insertAuthUsers(Long roleId, Long[] userIds) {
-        // 新增用户与角色管理
-        int rows = 1;
+        if (userIds == null || userIds.length == 0) {
+            return 0;
+        }
         List<Long> ids = List.of(userIds);
         if (ids.contains(LoginHelper.getUserId())) {
             throw new ServiceException("不允许修改当前用户角色!");
@@ -506,13 +520,12 @@ public class SysRoleServiceImpl implements ISysRoleService {
             ur.setRoleId(roleId);
             return ur;
         });
-        if (CollUtil.isNotEmpty(list)) {
-            rows = userRoleMapper.insertBatch(list) ? list.size() : 0;
+        if (!userRoleMapper.insertBatch(list)) {
+            return 0;
         }
-        if (rows > 0) {
-            SpringUtils.context().publishEvent(OnlineUserCleanEvent.byUsers(ids));
-        }
-        return rows;
+        SpringUtils.context().publishEvent(OnlineUserCleanEvent.byUsers(ids));
+
+        return list.size();
     }
 
     /**

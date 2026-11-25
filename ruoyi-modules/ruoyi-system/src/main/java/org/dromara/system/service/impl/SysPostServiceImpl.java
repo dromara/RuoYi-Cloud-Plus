@@ -22,6 +22,7 @@ import org.dromara.system.mapper.SysUserPostMapper;
 import org.dromara.system.service.ISysPostService;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -210,7 +211,7 @@ public class SysPostServiceImpl implements ISysPostService {
      */
     @Override
     public int deletePostById(Long postId) {
-        return postMapper.deleteById(postId);
+        return deletePostByIds(Collections.singletonList(postId));
     }
 
     /**

@@ -51,8 +51,10 @@ public class UserLoginSuccessListener {
         SysUserOnline userOnline = new SysUserOnline();
         userOnline.setIpaddr(ip);
         userOnline.setLoginLocation(AddressUtils.getRealAddressByIP(ip));
-        userOnline.setBrowser(userAgent.getBrowser().getName());
-        userOnline.setOs(userAgent.getOs().getName());
+        if (userAgent != null) {
+            userOnline.setBrowser(userAgent.getBrowser().getName());
+            userOnline.setOs(userAgent.getOs().getName());
+        }
         userOnline.setLoginTime(System.currentTimeMillis());
         userOnline.setTokenId(tokenValue);
         userOnline.setUserName(username);

@@ -79,6 +79,8 @@ public class SysLoginInfoServiceImpl implements ISysLoginInfoService {
         return QueryBuilder.lambda(SysLoginInfo.class)
             .likeIfText(SysLoginInfo::getIpaddr, loginInfo.getIpaddr())
             .eqIfText(SysLoginInfo::getStatus, loginInfo.getStatus())
+            .eqIfText(SysLoginInfo::getClientKey, loginInfo.getClientKey())
+            .eqIfText(SysLoginInfo::getDeviceType, loginInfo.getDeviceType())
             .likeIfText(SysLoginInfo::getUserName, loginInfo.getUserName())
             .betweenParams(SysLoginInfo::getLoginTime, params, "beginTime", "endTime")
             .build();

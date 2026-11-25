@@ -1,6 +1,7 @@
 package org.dromara.resource.dubbo;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.collection.CollUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboService;
@@ -41,6 +42,9 @@ public class RemoteMessageServiceImpl implements RemoteMessageService {
 
     @Override
     public void publishMessagePayload(List<Long> userIds, RemotePushPayLoad payload) {
+        if (CollUtil.isEmpty(userIds)) {
+            return;
+        }
         PushPayloadDTO pushPayload = BeanUtil.copyProperties(payload, PushPayloadDTO.class);
         PushHelper.publishMessage(userIds, sysMessageService.storeUsers(userIds, pushPayload));
     }
