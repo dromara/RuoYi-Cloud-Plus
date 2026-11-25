@@ -19,7 +19,6 @@ import org.dromara.system.service.ISysDeptService;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Excel 部门转换处理
@@ -29,39 +28,42 @@ import java.util.concurrent.TimeUnit;
 @RequiredArgsConstructor
 public class DeptExcelConverter implements Converter<Long> {
 
-    private static final String CACHE_KEY = "dept:excel";
-
     /**
-     * Caffeine 缓存：key=CACHE_KEY，value=[idToName, nameToId]，5分钟过期
+     * 按工作簿配置实例复用部门映射，配置实例释放后缓存可回收。
      */
-    private static final Cache<String, DeptMaps> DEPT_CACHE = Caffeine.newBuilder()
-        .expireAfterWrite(30, TimeUnit.SECONDS)
+    private static final Cache<GlobalConfiguration, DeptMaps> DEPT_CACHE = Caffeine.newBuilder()
+        .weakKeys()
         .build();
 
-    private DeptMaps getDeptMaps() {
-        ISysDeptService deptService = SpringUtils.getBean(ISysDeptService.class);
-        return DEPT_CACHE.get(CACHE_KEY, k -> {
-            Map<String, Tree<Long>> deptPathToTreeMap = buildDeptPathMap(deptService);
-            Map<Long, String> idToName = new HashMap<>();
-            Map<String, Long> nameToId = new HashMap<>();
-            deptPathToTreeMap.forEach((name, treeNode) -> {
-                Long deptId = treeNode.getId();
-                idToName.put(deptId, name);
-                nameToId.put(name, deptId);
-            });
-            return new DeptMaps(idToName, nameToId);
-        });
+    /**
+     * 获取部门导入导出映射缓存。
+     *
+     * @return 部门 ID 与部门路径名称互转映射
+     */
+    private DeptMaps getDeptMaps(GlobalConfiguration configuration) {
+        if (configuration == null) {
+            return loadDeptMaps();
+        }
+        return DEPT_CACHE.get(configuration, key -> loadDeptMaps());
     }
 
     /**
-     * 构建部门路径 → 树节点映射，供 Converter 和 Options 共用
+     * 根据当前部门树构建导入和导出使用的双向映射。
      */
-    private Map<String, Tree<Long>> buildDeptPathMap(ISysDeptService deptService) {
-        return TreeBuildUtils.buildTreeNodeMap(
+    private DeptMaps loadDeptMaps() {
+        ISysDeptService deptService = SpringUtils.getBean(ISysDeptService.class);
+        Map<String, Tree<Long>> departments = TreeBuildUtils.buildTreeNodeMap(
             deptService.selectDeptTreeList(new SysDeptBo()),
             "/",
             Tree::getName
         );
+        Map<Long, String> idToName = new HashMap<>();
+        Map<String, Long> nameToId = new HashMap<>();
+        departments.forEach((name, node) -> {
+            idToName.put(node.getId(), name);
+            nameToId.put(name, node.getId());
+        });
+        return new DeptMaps(idToName, nameToId);
     }
 
     /**
@@ -89,7 +91,7 @@ public class DeptExcelConverter implements Converter<Long> {
         if (StringUtils.isBlank(deptName)) {
             return null;
         }
-        Long deptId = getDeptMaps().nameToId().get(deptName);
+        Long deptId = getDeptMaps(globalConfiguration).nameToId().get(deptName);
         if (deptId == null) {
             throw new ServiceException("部门不存在：" + deptName);
         }
@@ -104,7 +106,7 @@ public class DeptExcelConverter implements Converter<Long> {
         if (value == null) {
             return new WriteCellData<>("");
         }
-        String deptName = getDeptMaps().idToName().getOrDefault(value, "");
+        String deptName = getDeptMaps(globalConfiguration).idToName().getOrDefault(value, "");
         return new WriteCellData<>(deptName);
     }
 
