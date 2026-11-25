@@ -21,18 +21,26 @@ import java.util.List;
 @Slf4j
 public class CellMergeStrategy extends AbstractMergeStrategy implements SheetWriteHandler {
 
-    private final List<CellRangeAddress> cellList;
+    /**
+     * 合并单元格区域集合。
+     */
+    private List<CellRangeAddress> cellList;
+    private final CellMergeHandler handler;
+    private final List<?> rows;
 
     public CellMergeStrategy(List<CellRangeAddress> cellList) {
         this.cellList = cellList;
+        this.handler = null;
+        this.rows = List.of();
     }
 
     public CellMergeStrategy(List<?> list, boolean hasTitle) {
-        this.cellList = CellMergeHandler.of(hasTitle).handle(list);
+        this(list, hasTitle, 1);
     }
 
     public CellMergeStrategy(List<?> list, boolean hasTitle, int rowIndex) {
-        this.cellList = CellMergeHandler.of(hasTitle, rowIndex).handle(list);
+        this.handler = CellMergeHandler.of(hasTitle, rowIndex);
+        this.rows = list;
     }
 
     @Override
@@ -52,6 +60,10 @@ public class CellMergeStrategy extends AbstractMergeStrategy implements SheetWri
 
     @Override
     public void afterSheetCreate(final WriteWorkbookHolder writeWorkbookHolder, final WriteSheetHolder writeSheetHolder) {
+        if (handler != null) {
+            var head = writeSheetHolder.excelWriteHeadProperty();
+            cellList = head.getHeadClazz() == null ? handler.handle(rows) : handler.handle(rows, head);
+        }
         if (CollUtil.isEmpty(cellList)) {
             return;
         }
