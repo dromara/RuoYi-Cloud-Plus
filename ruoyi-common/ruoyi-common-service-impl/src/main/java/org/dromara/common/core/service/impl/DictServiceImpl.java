@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 /**
@@ -48,8 +49,8 @@ public class DictServiceImpl implements DictService {
             return StringUtils.EMPTY;
         }
         Map<String, String> map = StreamUtils.toMap(datas, RemoteDictDataVo::getDictValue, RemoteDictDataVo::getDictLabel);
-        if (StringUtils.containsAny(dictValue, separator)) {
-            return Arrays.stream(dictValue.split(separator))
+        if (StringUtils.isNotEmpty(separator) && StringUtils.contains(dictValue, separator)) {
+            return Arrays.stream(dictValue.split(Pattern.quote(separator)))
                 .map(v -> map.getOrDefault(v, StringUtils.EMPTY))
                 .collect(Collectors.joining(separator));
         } else {
@@ -76,8 +77,8 @@ public class DictServiceImpl implements DictService {
             return StringUtils.EMPTY;
         }
         Map<String, String> map = StreamUtils.toMap(datas, RemoteDictDataVo::getDictLabel, RemoteDictDataVo::getDictValue);
-        if (StringUtils.containsAny(dictLabel, separator)) {
-            return Arrays.stream(dictLabel.split(separator))
+        if (StringUtils.isNotEmpty(separator) && StringUtils.contains(dictLabel, separator)) {
+            return Arrays.stream(dictLabel.split(Pattern.quote(separator)))
                 .map(l -> map.getOrDefault(l, StringUtils.EMPTY))
                 .collect(Collectors.joining(separator));
         } else {
