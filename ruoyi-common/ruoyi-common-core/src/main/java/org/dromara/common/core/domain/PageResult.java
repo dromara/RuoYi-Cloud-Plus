@@ -66,7 +66,7 @@ public class PageResult<T> implements Serializable {
      * 构建表格分页数据对象
      */
     public static <T> PageResult<T> build() {
-        return new PageResult<>();
+        return build(Collections.emptyList());
     }
 
     private static <T> Collection<T> emptyIfNull(Collection<T> list) {
