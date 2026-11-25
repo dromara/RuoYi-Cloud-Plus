@@ -4,6 +4,9 @@ import org.springframework.boot.EnvironmentPostProcessor;
 import org.springframework.boot.SpringApplication;
 import org.springframework.core.Ordered;
 import org.springframework.core.env.ConfigurableEnvironment;
+import org.springframework.core.env.MapPropertySource;
+
+import java.util.Map;
 
 /**
  * 健康检查配置注入
@@ -14,8 +17,8 @@ public class ActuatorEnvironmentPostProcessor implements EnvironmentPostProcesso
 
     @Override
     public void postProcessEnvironment(ConfigurableEnvironment environment, SpringApplication application) {
-        String enable = environment.getProperty("easy-es.enable", "false");
-        System.setProperty("management.health.elasticsearch.enabled", enable);
+        environment.getPropertySources().addLast(new MapPropertySource("easyEsHealthDefaults",
+            Map.of("management.health.elasticsearch.enabled", "${easy-es.enable:false}")));
     }
 
     @Override
