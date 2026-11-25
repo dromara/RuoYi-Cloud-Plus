@@ -68,11 +68,16 @@ public class SnailJobConfig {
 
     private void registerLogging() {
         LoggerContext lc = (LoggerContext) LoggerFactory.getILoggerFactory();
-        SnailLogbackAppender<ILoggingEvent> ca = new SnailLogbackAppender<>();
-        ca.setName("snail_log_appender");
-        ca.start();
         Logger rootLogger = lc.getLogger(Logger.ROOT_LOGGER_NAME);
-        rootLogger.addAppender(ca);
+        synchronized (rootLogger) {
+            if (rootLogger.getAppender("snail_log_appender") == null) {
+                SnailLogbackAppender<ILoggingEvent> appender = new SnailLogbackAppender<>();
+                appender.setContext(lc);
+                appender.setName("snail_log_appender");
+                appender.start();
+                rootLogger.addAppender(appender);
+            }
+        }
     }
 
 }
