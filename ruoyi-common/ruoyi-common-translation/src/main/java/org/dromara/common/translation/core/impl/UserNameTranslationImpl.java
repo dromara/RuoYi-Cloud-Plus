@@ -38,6 +38,9 @@ public class UserNameTranslationImpl implements TranslationInterface<String> {
      */
     @Override
     public String translation(Object key, String other) {
+        if (key instanceof String ids && ids.contains(",")) {
+            return translationBatch(Set.of(key), other).get(key);
+        }
         Long userId = Convert.toLong(key);
         String username = CacheUtils.get(CacheNames.SYS_USER_NAME, userId);
         if (StringUtils.isNotBlank(username)) {

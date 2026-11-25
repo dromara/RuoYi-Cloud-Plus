@@ -11,7 +11,10 @@ import org.dromara.common.translation.constant.TransConstant;
 import org.dromara.common.translation.core.TranslationInterface;
 import org.dromara.system.api.RemoteUserService;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * 用户昵称翻译实现
@@ -64,30 +67,7 @@ public class NicknameTranslationImpl implements TranslationInterface<String> {
      */
     @Override
     public Map<Object, String> translationBatch(Set<Object> keys, String other) {
-        Set<Long> userIds = collectLongIds(keys);
-        if (userIds.isEmpty()) {
-            return Map.of();
-        }
-        Map<Long, String> userNames = remoteUserService.selectUserNicksByIds(userIds);
-        Map<Object, String> result = new LinkedHashMap<>(keys.size());
-        for (Object key : keys) {
-            result.put(key, buildValue(key, userNames));
-        }
-        return result;
-    }
-
-    /**
-     * 根据原始键构建用户昵称翻译值。
-     *
-     * @param source    原始键
-     * @param userNames 用户 ID 与用户昵称映射
-     * @return 用户昵称
-     */
-    private String buildValue(Object source, Map<Long, String> userNames) {
-        if (source instanceof String ids) {
-            return joinMappedValues(ids, userNames::get);
-        }
-        return source == null ? null : userNames.get(Convert.toLong(source));
+        return translateLongOrStringKeys(keys, remoteUserService::selectUserNicksByIds);
     }
 
 }
