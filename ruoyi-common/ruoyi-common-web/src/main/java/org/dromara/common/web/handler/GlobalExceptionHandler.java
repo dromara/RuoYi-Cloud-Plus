@@ -6,6 +6,7 @@ import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.http.HttpStatus;
 import jakarta.servlet.ServletException;
+import org.dromara.common.core.utils.SpringUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
@@ -215,7 +216,9 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(IOException.class)
     public void handleIoException(IOException e, HttpServletRequest request) {
         String requestURI = request.getRequestURI();
-        if (requestURI.contains("/resource/message")) {
+        String path = SpringUtils.getProperty("message.path");
+        String ssePath = path == null ? "/resource/message" : path;
+        if (requestURI.equals(request.getContextPath() + ssePath)) {
             // sse 经常性连接中断 例如关闭浏览器 直接屏蔽
             return;
         }

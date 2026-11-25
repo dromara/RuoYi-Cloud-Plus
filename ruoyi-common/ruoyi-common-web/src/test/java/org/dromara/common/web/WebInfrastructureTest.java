@@ -48,6 +48,32 @@ import static org.mockito.Mockito.when;
 @DisplayName("common-web 基础设施单元测试")
 class WebInfrastructureTest {
 
+    @Test
+    void shouldHandleIoFailureWithoutConfiguredSsePath() {
+        try (var spring = org.mockito.Mockito.mockStatic(cn.hutool.extra.spring.SpringUtil.class)) {
+            var request = new MockHttpServletRequest("GET", "/orders");
+            new GlobalExceptionHandler().handleIoException(new java.io.IOException("closed"), request);
+        }
+    }
+
+    @Test
+    void shouldLogIoFailureOnUnrelatedPathWithSsePrefix() {
+        var logger = (Logger) LoggerFactory.getLogger(GlobalExceptionHandler.class);
+        var events = new ListAppender<ILoggingEvent>();
+        events.start();
+        logger.addAppender(events);
+        try (var spring = org.mockito.Mockito.mockStatic(cn.hutool.extra.spring.SpringUtil.class)) {
+            spring.when(() -> cn.hutool.extra.spring.SpringUtil.getProperty("message.path")).thenReturn("/events");
+            var request = new MockHttpServletRequest("GET", "/shop/events-history");
+            request.setContextPath("/shop");
+            new GlobalExceptionHandler().handleIoException(new java.io.IOException("closed"), request);
+            assertTrue(events.list.stream().anyMatch(event -> event.getFormattedMessage().contains("/shop/events-history")));
+        } finally {
+            logger.detachAppender(events);
+            events.stop();
+        }
+    }
+
     /**
      * 验证 XSS 过滤器跳过只读、排除路径与网关前缀排除请求，并包装需要清洗的写请求。
      */
