@@ -56,7 +56,7 @@ public class SysDictTypeServiceImpl implements ISysDictTypeService {
     }
 
     /**
-     * 根据条件分页查询字典类型
+     * 根据条件查询字典类型
      *
      * @param dictType 字典类型信息
      * @return 字典类型集合信息
@@ -67,6 +67,12 @@ public class SysDictTypeServiceImpl implements ISysDictTypeService {
         return dictTypeMapper.selectVoList(lqw);
     }
 
+    /**
+     * 构造字典类型列表查询条件。
+     *
+     * @param bo 字典类型筛选条件
+     * @return 包含字典名称、字典类型筛选条件和字典ID升序排序的查询包装器
+     */
     private LambdaQueryWrapper<SysDictType> buildQueryWrapper(SysDictTypeBo bo) {
         Map<String, Object> params = bo.getParams();
         return QueryBuilder.lambda(SysDictType.class)
