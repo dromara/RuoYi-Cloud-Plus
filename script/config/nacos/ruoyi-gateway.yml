@@ -79,6 +79,10 @@ spring:
                 - Path=/snail-ai/**
               filters:
                 - StripPrefix=1
+            - id: ruoyi-ai-chat
+              uri: lb://ruoyi-ai
+              predicates:
+                - Path=/snail-chat/**,/api/snail/chat/**
             # workflow服务
             - id: ruoyi-workflow
               uri: lb://ruoyi-workflow
