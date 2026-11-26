@@ -22,6 +22,40 @@ import static org.mockito.Mockito.*;
 class SysOssConfigServiceImplTest {
 
     @Test
+    void configInsertPublishesThePersistedConfigurationOnlyOnSuccess() {
+        var mapper = mock(SysOssConfigMapper.class);
+        var input = new SysOssConfigBo();
+        var row = new SysOssConfig();
+        row.setOssConfigId(42L);
+        var persisted = new SysOssConfig();
+        persisted.setConfigKey("archive");
+        persisted.setOssConfigId(42L);
+        when(mapper.insert(row)).thenReturn(0, 1);
+        when(mapper.selectById(42L)).thenReturn(persisted);
+        var context = mock(ApplicationContext.class);
+        try (var beans = mockStatic(SpringUtil.class)) {
+            beans.when(() -> SpringUtil.getBean(io.github.linpeilie.Converter.class))
+                .thenReturn(mock(io.github.linpeilie.Converter.class));
+            beans.when(() -> SpringUtil.getBean(tools.jackson.databind.json.JsonMapper.class))
+                .thenReturn(tools.jackson.databind.json.JsonMapper.builder().build());
+            MapstructUtils.convert((SysOssConfigBo) null, SysOssConfig.class);
+            org.dromara.common.json.utils.JsonUtils.getJsonMapper();
+            try (var mapping = mockStatic(MapstructUtils.class); var spring = mockStatic(SpringUtils.class)) {
+                mapping.when(() -> MapstructUtils.convert(input, SysOssConfig.class)).thenReturn(row);
+                spring.when(SpringUtils::context).thenReturn(context);
+                var service = new SysOssConfigServiceImpl(mapper);
+
+                org.junit.jupiter.api.Assertions.assertFalse(service.insertByBo(input));
+                verifyNoInteractions(context);
+                org.junit.jupiter.api.Assertions.assertTrue(service.insertByBo(input));
+                var saved = ArgumentCaptor.forClass(OssConfigChangeEvent.class);
+                verify(context).publishEvent(saved.capture());
+                org.junit.jupiter.api.Assertions.assertEquals("archive", saved.getValue().configKey());
+            }
+        }
+    }
+
+    @Test
     void enablingConfigurationPublishesItsKeyAsTheNewDefault() {
         var mapper = mock(SysOssConfigMapper.class, RETURNS_DEEP_STUBS);
         var chain = mapper.lambda();
