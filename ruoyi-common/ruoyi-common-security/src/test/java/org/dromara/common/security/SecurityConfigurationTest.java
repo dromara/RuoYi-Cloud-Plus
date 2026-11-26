@@ -68,7 +68,8 @@ class SecurityConfigurationTest {
     @DisplayName("创建 actuator 鉴权过滤器")
     void shouldCreateActuatorFilterWithMetadataCredentials() {
         // getProperty 继承自 hutool SpringUtil，需在声明类上拦截静态方法
-        try (var spring = mockStatic(SpringUtil.class)) {
+        try (var spring = mockStatic(SpringUtil.class);
+             var basic = mockStatic(cn.dev33.satoken.httpauth.basic.SaHttpBasicUtil.class)) {
             spring.when(() -> SpringUtil.getProperty("spring.cloud.nacos.discovery.metadata.username"))
                 .thenReturn("nacos");
             spring.when(() -> SpringUtil.getProperty("spring.cloud.nacos.discovery.metadata.userpassword"))
@@ -79,6 +80,8 @@ class SecurityConfigurationTest {
 
             assertEquals(List.of("/actuator", "/actuator/**"), filter.includeList);
             assertEquals(List.of(), filter.excludeList);
+            filter.auth.run(null);
+            basic.verify(() -> cn.dev33.satoken.httpauth.basic.SaHttpBasicUtil.check("nacos:secret"));
             SaResult result = assertDoesNotThrow(() -> (SaResult) filter.error.run(new RuntimeException("boom")));
             assertEquals(HttpStatus.UNAUTHORIZED, result.getCode());
             assertEquals("boom", result.getMsg());
