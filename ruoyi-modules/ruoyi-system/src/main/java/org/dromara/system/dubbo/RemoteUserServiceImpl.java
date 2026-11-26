@@ -54,7 +54,7 @@ public class RemoteUserServiceImpl implements RemoteUserService {
     private final SysUserMapper userMapper;
 
     /**
-     * 通过用户名查询用户信息
+     * 查询用户名完全匹配且未停用的用户。
      *
      * @param username 用户名
      * @return 结果
@@ -62,7 +62,8 @@ public class RemoteUserServiceImpl implements RemoteUserService {
     @Override
     public LoginUser getUserInfo(String username) throws UserException {
         SysUserVo sysUser = userMapper.lambda().eq(SysUser::getUserName, username).voOne();
-        if (ObjectUtil.isNull(sysUser)) {
+        // 数据库排序规则可能将不同的用户名判为相等，登录要求用户名精确匹配。
+        if (ObjectUtil.isNull(sysUser) || !StringUtils.equals(username, sysUser.getUserName())) {
             throw new UserException("user.not.exists", username);
         }
         if (UserStatus.DISABLE.getCode().equals(sysUser.getStatus())) {

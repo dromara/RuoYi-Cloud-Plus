@@ -58,7 +58,7 @@ public class PasswordAuthStrategy implements IAuthStrategy {
             validateCaptcha(username, code, uuid);
         }
         LoginUser loginUser = remoteUserService.getUserInfo(username);
-        loginService.checkLogin(LoginType.PASSWORD, username, () -> !BCrypt.checkpw(password, loginUser.getPassword()));
+        loginService.checkLogin(LoginType.PASSWORD, loginUser.getUsername(), () -> !BCrypt.checkpw(password, loginUser.getPassword()));
         loginUser.setClientKey(client.getClientKey());
         loginUser.setDeviceType(client.getDeviceType());
         SaLoginParameter model = IAuthStrategy.buildLoginParameter(client);
