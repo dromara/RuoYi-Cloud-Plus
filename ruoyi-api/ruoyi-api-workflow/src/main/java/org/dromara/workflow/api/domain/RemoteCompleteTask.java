@@ -61,6 +61,15 @@ public class RemoteCompleteTask implements Serializable {
     private Map<String, Object> variables;
 
     /**
+     * Retains a writable copy of the supplied workflow variables.
+     *
+     * @param variables workflow variables
+     */
+    public void setVariables(Map<String, Object> variables) {
+        this.variables = variables == null ? null : new HashMap<>(variables);
+    }
+
+    /**
      * 扩展变量(此处为逗号分隔的ossId)
      */
     private String ext;

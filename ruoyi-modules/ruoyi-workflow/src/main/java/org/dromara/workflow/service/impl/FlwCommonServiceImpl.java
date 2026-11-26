@@ -137,7 +137,11 @@ public class FlwCommonServiceImpl implements IFlwCommonService {
                     );
                     remoteMessageService.publishMessagePayload(userIds, payload);
                 }
-                case EMAIL_MESSAGE -> remoteMailService.send(emails, subject, message);
+                case EMAIL_MESSAGE -> {
+                    if (!emails.isEmpty()) {
+                        remoteMailService.send(emails, subject, message);
+                    }
+                }
                 case SMS_MESSAGE -> {
 //                        LinkedHashMap<String, String> map = new LinkedHashMap<>(1);
 //                        // 根据具体短信服务商参数用法传参

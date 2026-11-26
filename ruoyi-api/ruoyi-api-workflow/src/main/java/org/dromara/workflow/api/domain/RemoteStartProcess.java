@@ -42,6 +42,15 @@ public class RemoteStartProcess implements Serializable {
     private Map<String, Object> variables;
 
     /**
+     * Retains a writable copy of the supplied workflow variables.
+     *
+     * @param variables workflow variables
+     */
+    public void setVariables(Map<String, Object> variables) {
+        this.variables = variables == null ? null : new HashMap<>(variables);
+    }
+
+    /**
      * 流程业务扩展信息
      */
     private RemoteFlowInstanceBizExt bizExt;

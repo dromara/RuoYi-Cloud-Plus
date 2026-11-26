@@ -64,6 +64,15 @@ public class CompleteTaskBo implements Serializable {
     private Map<String, Object> variables;
 
     /**
+     * Retains a writable copy of the supplied workflow variables.
+     *
+     * @param variables workflow variables
+     */
+    public void setVariables(Map<String, Object> variables) {
+        this.variables = variables == null ? null : new HashMap<>(variables);
+    }
+
+    /**
      * 弹窗选择的办理人
      */
     private Map<String, Object> assigneeMap;

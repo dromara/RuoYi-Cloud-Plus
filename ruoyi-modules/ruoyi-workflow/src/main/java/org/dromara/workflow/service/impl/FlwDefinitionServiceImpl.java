@@ -193,7 +193,7 @@ public class FlwDefinitionServiceImpl implements IFlwDefinitionService {
             }
         }
         try {
-            defService.removeDef(ids);
+            defService.removeDef(new ArrayList<>(ids));
         } catch (ServiceException e) {
             throw e;
         } catch (Exception e) {

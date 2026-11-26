@@ -290,8 +290,7 @@ public class FlwTaskServiceImpl implements IFlwTaskService {
         command.setExt(bo.getFileId());
         command.setFlowStatus(applyNodeCode.equals(bo.getNodeCode()) ? FlowStatus.BACK.getKey() : FlowStatus.WAITING.getKey());
         command.setTaskStatus(TaskStatus.BACK.getKey());
-        FlowEngine.workflow().reject(command);
-        return true;
+        return FlowEngine.workflow().reject(command).isSuccess();
     }
 
     /**
@@ -450,8 +449,7 @@ public class FlwTaskServiceImpl implements IFlwTaskService {
         command.setMessage(bo.getComment());
         command.setFlowStatus(BusinessStatusEnum.TERMINATION.getStatus());
         command.setTaskStatus(TaskStatus.INVALID.getKey());
-        FlowEngine.workflow().terminate(command);
-        return true;
+        return FlowEngine.workflow().terminate(command).isSuccess();
     }
 
     /**
