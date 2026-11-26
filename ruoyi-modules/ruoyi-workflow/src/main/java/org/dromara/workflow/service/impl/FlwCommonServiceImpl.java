@@ -117,6 +117,7 @@ public class FlwCommonServiceImpl implements IFlwCommonService {
         String emails = StringUtils.joinComma(emailSet);
 
         Runnable[] sendTasks = messageType.stream()
+            .distinct()
             .map(code -> (Runnable) () -> sendMessageByType(code, message, subject, path, userIds, emails, userList.size()))
             .toArray(Runnable[]::new);
         ThreadUtils.virtualInvokeAll(sendTasks);

@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.MybatisConfiguration;
 import com.baomidou.mybatisplus.core.MybatisSqlSessionFactoryBuilder;
 import org.apache.ibatis.mapping.Environment;
 import org.dromara.common.core.constant.CacheNames;
-import org.dromara.system.service.ISysDataScopeService;
+import org.dromara.system.api.RemoteDataScopeService;
 import org.dromara.system.service.ISysUserService;
 import org.dromara.system.service.impl.SysUserServiceImpl;
 import org.dromara.system.domain.SysUser;
@@ -15,7 +15,7 @@ import cn.hutool.extra.spring.SpringUtil;
 import org.junit.jupiter.api.Test;
 import static org.mockito.Mockito.*;
 import org.dromara.system.service.ISysMenuService;
-import org.dromara.system.service.impl.SysDataScopeServiceImpl;
+import org.dromara.system.dubbo.RemoteDataScopeServiceImpl;
 import org.dromara.system.service.impl.SysMenuServiceImpl;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -40,6 +40,46 @@ import java.util.UUID;
 import static org.junit.jupiter.api.Assertions.*;
 
 class SystemMapperIntegrationTest {
+    @Test
+    void routeUniquenessAllowsOwnMenuAndButtonsButRejectsCaseOnlyCollisions() throws Exception {
+        var source = new DriverManagerDataSource("jdbc:h2:mem:" + UUID.randomUUID(), "sa", "");
+        try (var connection = source.getConnection(); var beans = mockStatic(SpringUtil.class);
+             var mapping = mockStatic(MapstructUtils.class)) {
+            var db = new JdbcTemplate(source);
+            db.execute("""
+                create table sys_menu(menu_id bigint primary key,parent_id bigint,menu_name varchar,order_num int,
+                path varchar,component varchar,query_param varchar,is_frame varchar,is_cache varchar,menu_type varchar,
+                visible varchar,status varchar,perms varchar,icon varchar,active_menu varchar,ext varchar,remark varchar,
+                create_dept bigint,create_by bigint,create_time timestamp,update_by bigint,update_time timestamp)
+                """);
+            db.update("insert into sys_menu(menu_id,parent_id,path,menu_type) values(1,20,'invoice','C')");
+            var config = new MybatisConfiguration();
+            config.setEnvironment(new Environment("menu", new SpringManagedTransactionFactory(), source));
+            config.addMapper(SysMenuMapper.class);
+            var sessions = new SqlSessionTemplate(new MybatisSqlSessionFactoryBuilder().build(config));
+            var service = new SysMenuServiceImpl(sessions.getMapper(SysMenuMapper.class), mock(), mock());
+            var form = new org.dromara.system.domain.bo.SysMenuBo();
+            var menu = new org.dromara.system.domain.SysMenu();
+            mapping.when(() -> MapstructUtils.convert(form, org.dromara.system.domain.SysMenu.class)).thenReturn(menu);
+            menu.setMenuId(1L);
+            menu.setParentId(20L);
+            menu.setPath("invoice");
+            menu.setMenuType("C");
+            assertTrue(service.checkRouteConfigUnique(form));
+            menu.setMenuId(null);
+            assertFalse(service.checkRouteConfigUnique(form));
+            menu.setMenuType("F");
+            assertTrue(service.checkRouteConfigUnique(form));
+            menu.setMenuType("C");
+            menu.setPath("INVOICE");
+            assertFalse(service.checkRouteConfigUnique(form));
+            menu.setParentId(30L);
+            assertFalse(service.checkRouteConfigUnique(form));
+            menu.setPath("reports");
+            assertTrue(service.checkRouteConfigUnique(form));
+        }
+    }
+
     @TestConfiguration(proxyBeanMethods = false)
     @EnableTransactionManagement
     @EnableCaching
@@ -146,11 +186,11 @@ class SystemMapperIntegrationTest {
             context.register(Infrastructure.class);
             context.registerBean(SysMenuServiceImpl.class, () -> new SysMenuServiceImpl(sessions.getMapper(SysMenuMapper.class),
                 sessions.getMapper(SysRoleMapper.class), sessions.getMapper(SysRoleMenuMapper.class)));
-            context.registerBean(SysDataScopeServiceImpl.class, () -> new SysDataScopeServiceImpl(
+            context.registerBean(RemoteDataScopeServiceImpl.class, () -> new RemoteDataScopeServiceImpl(
                 sessions.getMapper(SysRoleDeptMapper.class), sessions.getMapper(SysDeptMapper.class)));
             context.refresh();
 
-            var scopes = context.getBean(ISysDataScopeService.class);
+            var scopes = context.getBean(RemoteDataScopeService.class);
             assertEquals("21", scopes.getRoleCustom(11L));
             jdbc.update("update sys_role_dept set dept_id = 31 where role_id = 11");
             assertEquals("21", scopes.getRoleCustom(11L));
