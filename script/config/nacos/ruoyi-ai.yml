@@ -3,8 +3,9 @@ snail-ai:
   enabled: true
   # ==================== Server 连接 ====================
   # Server 端 gRPC 地址（即 ruoyi-snailai-server 的 snail-ai.server.grpc-port）
-  server-host: 127.0.0.1
-  server-port: 18888
+  server:
+    host: 127.0.0.1
+    port: 18888
   # ==================== 客户端配置 ====================
   # 应用 ID（在 Server「应用管理」页面创建后获取）
   app-id: 1
